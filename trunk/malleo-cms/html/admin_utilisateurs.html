@@ -1,0 +1,181 @@
+<script type="text/javascript" src="js/affichage.js"></script>
+<h1 class="admin">{L_MANAGE_USERS}</h1>
+<p>{L_EXPLAIN_MANAGE_USERS}</p>
+
+
+<div class="center"><a href="javascript:;" onclick="afficher_masquer('options_recherche');">{L_AFFICHER_OPTIONS}</a></div>
+<div id="options_recherche" style="display:none;">
+	<h2>{L_SEARCH_OPTIONS}</h2>
+	<div class="bloc_admin" class="left">
+		<table cellpadding="1" cellspacing="1" width="80%" class="standard left">
+		<!--  Recherche pseudo -->				
+		<form name="recherche_pseudo" action="" method="post" />
+		<tr>
+			<td class="row1">{L_RECHERCHE_PSEUDO}: </td>
+			<td class="row2"><input type="text" name="param" value="" size="20" /></td>
+			<td class="row3" width="10"><input type="hidden" name="chercher" value="pseudo" /><input type="submit" name="recherche" value="{L_CHERCHER}" /></td>
+		</tr>
+		</form>
+		
+		<!--  Recherche email -->
+		<form name="recherche_email" action="" method="post" />
+		<tr>
+			<td class="row1">{L_RECHERCHE_EMAIL}: </td>
+			<td class="row2"><input type="text" name="param" value="" size="20" /></td>
+			<td class="row3"><input type="hidden" name="chercher" value="email" /><input type="submit" name="recherche" value="{L_CHERCHER}" /></td>
+		</tr>
+		</form>
+		
+		<!--  Recherche style -->
+		<form name="recherche_style" action="" method="post" />
+		<tr>
+			<td class="row1">{L_RECHERCHE_STYLE}: </td>
+			<td class="row2"><input type="text" name="param" value="" size="20" /></td>
+			<td class="row3"><input type="hidden" name="chercher" value="style" /><input type="submit" name="recherche" value="{L_CHERCHER}" /></td>
+		</tr>
+		</form>
+		
+		<!--  Recherche + messages  -->
+		<form name="recherche_message_plus" action="" method="post" />
+		<tr>
+			<td class="row1">{L_RECHERCHE_PLUS_MSGS}: </td>
+			<td class="row2"><input type="text" name="param" value="" size="20" /></td>
+			<td class="row3"><input type="hidden" name="chercher" value="plus_msgs" /><input type="submit" name="recherche" value="{L_CHERCHER}" /></td>
+		</tr>
+		</form>			
+		
+		<!--  Recherche - messages  -->
+		<form name="recherche_message_moins" action="" method="post" />
+		<tr>
+			<td class="row1">{L_RECHERCHE_MOINS_MSGS}: </td>
+			<td class="row2"><input type="text" name="param" value="" size="20" /></td>
+			<td class="row3"><input type="hidden" name="chercher" value="moins_msgs" /><input type="submit" name="recherche" value="{L_CHERCHER}" /></td>
+		</tr>
+		</form>	
+		
+		<!--  Recherche + points  -->
+		<form name="recherche_points_plus" action="" method="post" />
+		<tr>
+			<td class="row1">{L_RECHERCHE_PLUS_POINTS}: </td>
+			<td class="row2"><input type="text" name="param" value="" size="20" /></td>
+			<td class="row3"><input type="hidden" name="chercher" value="plus_points" /><input type="submit" name="recherche" value="{L_CHERCHER}" /></td>
+		</tr>
+		</form>			
+		
+		<!--  Recherche - points  -->
+		<form name="recherche_points_moins" action="" method="post" />
+		<tr>
+			<td class="row1">{L_RECHERCHE_MOINS_POINTS}: </td>
+			<td class="row2"><input type="text" name="param" value="" size="20" /></td>
+			<td class="row3"><input type="hidden" name="chercher" value="moins_points" /><input type="submit" name="recherche" value="{L_CHERCHER}" /></td>
+		</tr>
+		</form>			
+		
+		<!--  Recherche non actives  -->
+		<form name="recherche_non_actives" action="" method="post" />
+		<tr>
+			<td class="row1" colspan="2">{L_RECHERCHE_NON_ACTIVES}: </td>
+			<td class="row3"><input type="hidden" name="chercher" value="non_actives" /><input type="submit" name="recherche" value="{L_CHERCHER}" /></td>
+		</tr>
+		</form>
+
+		<!--  Recherche bannis  -->
+		<form name="recherche_non_actives" action="" method="post" />
+		<tr>
+			<td class="row1" colspan="2">{L_RECHERCHE_BANNIS}: </td>
+			<td class="row3"><input type="hidden" name="chercher" value="bannis" /><input type="submit" name="recherche" value="{L_CHERCHER}" /></td>
+		</tr>
+		</form>			
+		</table>
+	</div>
+</div>
+
+<h2>{L_LISTE_USERS}</h2>
+<p>
+<!-- BEGIN lettre -->
+<a href="{lettre.LIEN}">{lettre.LETTRE}</a>&nbsp;&nbsp;
+<!-- END lettre -->
+</p>
+<!-- BEGIN AUCUN_RESULTAT -->
+<div class="bloc_admin">
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th>&nbsp;</th>
+	</tr>
+	<tr>
+		<td class="row1" align="center" nowrap="nowrap">{L_AUCUN_RESULTAT}</td>
+	</tr>
+	</table>
+</div>
+<!-- END AUCUN_RESULTAT -->
+<!-- BEGIN reponses -->
+<div class="bloc_admin">
+	<form name="liste_users" id="liste_users" method="post" action="" >
+	<table width="100%">
+	<tr>
+		<td width="150" valign="top" align="center" nowrap="nowrap">
+			<table cellpadding="1" cellspacing="1" width="100%" class="standard">
+			<tr>
+				<th  colspan="2">&nbsp;</th>
+			</tr>
+			<!-- BEGIN ligne -->
+			<tr>
+				<td height="30" class="row1"><input type="checkbox" name="id[]" value="{reponses.ligne.ID}" {reponses.ligne.DISABLED} /> 
+					{reponses.ligne.PSEUDO}</td>
+				<td height="30" class="row1" width="10">
+					<a href="{reponses.ligne.S_EDITER}"><img src="{I_EDITER}" /></a>
+				</td>
+			</tr>
+			<!-- END ligne -->
+			</table>
+			<a href="javascript:;" onclick="cocher_checkbox('liste_users');">{L_COCHER}</a> / <a href="javascript:;" onclick="decocher_checkbox('liste_users');">{L_DECOCHER}</a>
+		</td><td valign="top">
+			<div id="overflow" style="height:100%;">
+			<table cellpadding="1" cellspacing="1" width="100%" class="standard">
+			<tr>
+				<!-- BEGIN CHAMPS -->
+				<th nowrap="nowrap">{reponses.CHAMPS.TITRE_CHAMPS}</th>
+				<!-- END CHAMPS -->
+			</tr>
+			<!-- BEGIN ligne -->
+			<tr>
+				<!-- BEGIN col -->
+				<td height="30" class="row1" nowrap="nowrap" align="center">{reponses.ligne.col.CASE}</td>
+				<!-- END col -->
+			</tr>
+			<!-- END ligne -->
+			</table>
+			<br />
+			</div>
+		</td>
+	</tr>
+	</table>
+	<div class="pagination">{PAGINATION}</div>
+</div>
+<!-- END reponses -->
+<br />
+
+<h2>{L_EFFECTUER_ACTION}</h2>
+<div class="bloc_admin">
+	<table cellpadding="1" cellspacing="1" width="40%" valign="middle" align="left">
+	<tr>
+		<td width="100">
+			<select name="action">
+				<option>{L_SELECT}</option>
+				<option value="activer">{L_ACTIVER}</option>
+				<option value="desactiver">{L_DESACTIVER}</option>
+				<option value="theme">{L_THEME_DEFAUT}</option>
+				<!-- BEGIN liste_groupes -->
+				<option value="add_groupe_{liste_groupes.ID_GROUPE}">{liste_groupes.NOM_GROUPE}</option>
+				<!-- END liste_groupes -->
+				<option value="retablir">{L_RETABLIR}</option>
+				<option value="bannir">{L_BANNIR}</option>
+				<option value="supprimer">{L_SUPPRIMER}</option>
+			</select>
+			</td>
+		<td><input type="submit" name="traiter" value="{L_TRAITER}" /></td>
+	</tr>
+	</table>
+	</form>
+</div>
+<br clear="all">

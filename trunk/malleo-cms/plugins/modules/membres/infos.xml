@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<module>
+	<libelle>Liste des Membres</libelle>
+	<version>1.0</version>
+	<auteur>SP</auteur>
+	<site_auteur>http://www.malleo-cms.com</site_auteur>
+	<check_version>http://www.malleo-cms.com/versions/membres.txt</check_version>
+	<install>
+			<requete>INSERT INTO `a_config` (`data`, `valeur`) VALUES
+('membres_nbre_cols', '2'),
+('membres_nbre_fpp', '12'),
+('membres_order', 'pseudo ASC');</requete>
+<requete>INSERT INTO `a_modelisation_tables` (`nom_champs`, `type_saisie`, `lang`, `param`, `page`) VALUES
+('membres_nbre_cols', 'text', 'Q_MEMBRES_NBRE_COLONNES', '10', 'Membres'),
+('membres_nbre_fpp', 'text', 'Q_MEMBRES_NBRE_FICHES_PAR_PAGE', '10', 'Membres'),
+('membres_order', 'select', 'Q_MEMBRES_ORDRE_MEMBRES', 'lister_affichage_membres', 'Membres');</requete>
+	</install>
+</module>

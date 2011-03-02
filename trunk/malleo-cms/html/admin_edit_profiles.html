@@ -1,0 +1,25 @@
+<h1 class="admin">{L_EDIT_PROFILE}</h1>
+<p>{L_EXPLAIN_EDIT_PROFILE}</p>
+
+<h2>{L_PROFILE_OF}</h2>
+<div class="bloc_admin">
+	<form name="edit_user" method="post" action="" >
+	<table cellpadding="1" cellspacing="1" width="100%" class="standard">
+	<tr>
+		<th>{L_PARAM}</th>
+		<th>{L_VALEUR}</th>
+	</tr>
+	<!-- BEGIN ligne -->
+	<tr>
+		<td class="row1">{ligne.TITRE_CHAMPS}</td>
+		<td class="row2" nowrap="nowrap">{ligne.CASE}</td>
+	</tr>
+	<!-- END ligne -->
+	<tr>
+		<td colspan="2" align="center"><input type="submit" name="modifier" value="{L_MODIFIER}" />
+		<input type="hidden" name="action" value="modifier" /></td>
+	</tr>
+	</table>
+	</form>
+	<div class="left"><form name="retour" method="post" action="{S_RETOUR}"><input type="submit" name="retour" value="<<" /></form></div>
+</div>

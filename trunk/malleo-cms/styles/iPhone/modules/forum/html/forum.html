@@ -1,0 +1,49 @@
+<!-- BEGIN sous_forum -->
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th>{L_SOUS_FORUMS}</th>
+		<th width="50">{L_TOPICS}</th>
+		<th width="300">{L_TOPICS_RECENTS}</th>
+	</tr>
+	<tr>
+		<td class="row1 abstop" colspan="2">
+			<table class="abstop" width="100%" cellspacing="0" cellpadding="0">
+				<!-- BEGIN forum -->
+				<tr>
+					<td class="row1 middle" width="50"><img src="{sous_forum.forum.ICONE}" alt="{sous_forum.forum.TITRE}" /></td>
+					<td class="row1 absmiddle"><a href="{sous_forum.forum.URL}">{sous_forum.forum.TITRE}</a></td>
+					<td class="row1 middle" width="75">{sous_forum.forum.NBRE_TOPICS}</td>
+				</tr>
+				<!-- END forum -->
+			</table>
+		</td>
+		<td class="row1 top">
+			<!-- BEGIN recents -->
+			&bull;  <a href="{sous_forum.recents.LIEN_TOPIC}" class="groupe">{sous_forum.recents.TITRE_TOPIC}<span>{L_LE} {sous_forum.recents.DATE}</span></a> {L_PAR} {sous_forum.recents.AUTEUR}<br />
+			<!-- END recents -->
+		</td>
+	</tr>
+</table>
+</div>
+<!-- END sous_forum -->
+{LISTE_ANNONCES}
+<!-- BEGIN nouveau -->
+<a href="{S_NOUVEAU}" title="{L_NOUVEAU}"><img src="{I_NOUVEAU}" alt="{L_NOUVEAU}" /></a>
+<!-- END nouveau -->
+<div class="pagination">{PAGINATION}</div>
+{LISTE_TOPICS}
+<div class="pagination">{PAGINATION}</div>
+<!-- BEGIN nouveau -->
+<a href="{S_NOUVEAU}" title="{L_NOUVEAU}"><img src="{I_NOUVEAU}" alt="{L_NOUVEAU}" /></a>
+<!-- END nouveau -->
+<!-- BEGIN fusionner -->
+<a href="{S_FUSIONNER}" title="{L_FUSIONNER}"><img src="{I_FUSIONNER}" alt="{L_FUSIONNER}" /></a>
+<!-- END fusionner -->
+<!-- BEGIN verrouiller -->
+<a href="{S_VERROUILLER}" title="{L_VERROUILLER}"><img src="{I_VERROUILLER}" alt="{L_VERROUILLER}" /></a>
+<!-- END verrouiller -->
+<!-- BEGIN deverrouiller -->
+<a href="{S_DEVERROUILLER}" title="{L_DEVERROUILLER}"><img src="{I_DEVERROUILLER}" alt="{L_DEVERROUILLER}" /></a>
+<!-- END deverrouiller -->
+<br />

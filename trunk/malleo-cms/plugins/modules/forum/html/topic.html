@@ -1,0 +1,116 @@
+<script type="text/javascript" src="js/affichage.js"></script>
+<table width="100%">
+<tr>
+	<td width="40%">
+		<!-- BEGIN nouveau -->
+		<a href="{S_NOUVEAU}" title="{L_NOUVEAU}"><img src="{I_NOUVEAU}" alt="{L_NOUVEAU}" /></a>
+		<!-- END nouveau -->
+	</td><td>
+		<div class="pagination">{PAGINATION}</div>
+	</td></tr>
+</table>
+<div class="bloc">
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+		<tr>
+			<th width="120">{L_AUTEUR}</th>
+			<th colspan="2">{L_MESSAGE}</th>
+		</tr>
+		<!-- BEGIN liste_topics -->
+		<tr>
+			<td class="row1 center abstop" rowspan="3">
+				{liste_topics.AUTEUR}<br />
+				{liste_topics.RANG}<br />
+				<img src="{liste_topics.AVATAR}" alt="" /><br />
+				<div class="left">
+				<!-- BEGIN infos_user -->
+				<b>{liste_topics.infos_user.LANG}:</b> {liste_topics.infos_user.INFO}<br />
+				<!-- END infos_user -->
+				</div>
+			</td>
+			<td class="row1 left absmiddle" height="20" width="800">
+				<a href="{liste_topics.S_POST}" name="{liste_topics.ID_POST}"><img src="{I_DETAILS}" alt="post_{liste_topics.ID_POST}" /></a>
+				{liste_topics.DATE}
+			</td>
+			<td class="row1 middle" height="20" width="80">
+			<!-- BEGIN editer_post -->
+				<a href="{liste_topics.S_EDITER}" title="{L_EDITER}"><img src="{I_EDITER}" alt="{L_EDITER}" /></a>
+			<!-- END editer_post -->
+			<!-- BEGIN effacer_post -->
+				<a href="{liste_topics.S_EFFACER}" title="{L_SUPPRIMER}" onclick="return confirmLink('{L_CONFIRM_DELETE_POST}',this,'');"><img src="{I_EFFACER}" alt="{L_SUPPRIMER}" /></a>
+			<!-- END effacer_post -->
+			</td>
+		</tr>
+		<tr>
+			<td class="row1 abstop" colspan="2" valign="top" height="150">{liste_topics.TEXTE}</td>
+		</tr>	
+		<tr>
+			<td class="row1 abstop right" colspan="2" height="20">{liste_topics.SIGNATURE}</td>
+		</tr>
+		<tr>
+			<td class="row3" colspan="3" height="5"></td>
+		</tr>
+		<!-- END liste_topics -->
+	</table>
+</div>
+<div class="pagination">{PAGINATION}</div><br />
+<div class="left">
+	<!-- BEGIN nouveau -->
+	<a href="{S_NOUVEAU}" title="{L_NOUVEAU}"><img src="{I_NOUVEAU}" alt="{L_NOUVEAU}" /></a>
+	<!-- END nouveau -->
+	<!-- BEGIN repondre -->
+	<a href="{S_REPONDRE}" title="{L_REPONDRE}"><img src="{I_REPONDRE}" alt="{L_REPONDRE}" /></a>
+	<a href="javascript:void('');" title="{L_REPONDRE}" onclick="afficher_masquer('reponse_rapide');"><img src="{I_REPONSE_RAPIDE}" alt="{L_REPONDRE}" /></a>
+	<!-- END repondre -->
+	<!-- BEGIN suivre -->
+	<a href="{S_SUIVRE}" title="{L_SUIVRE}"><img src="{I_SUIVRE}" alt="{L_SUIVRE}" /></a>
+	<!-- END suivre -->
+	<!-- BEGIN resilier -->
+	<a href="{S_RESILIER}" title="{L_RESILIER}"><img src="{I_RESILIER}" alt="{L_RESILIER}" /></a>
+	<!-- END resilier -->
+	<!-- BEGIN favoris_add -->
+	<a href="{S_FAVORIS_ADD}" title="{L_FAVORIS_ADD}"><img src="{I_FAVORIS_ADD}" alt="{L_FAVORIS_ADD}" /></a>
+	<!-- END favoris_add -->
+	<!-- BEGIN favoris_del -->
+	<a href="{S_FAVORIS_DEL}" title="{L_FAVORIS_DEL}"><img src="{I_FAVORIS_DEL}" alt="{L_FAVORIS_DEL}" /></a>
+	<!-- END favoris_del -->
+</div>
+<div class="right">
+	<!-- BEGIN verrouiller -->
+	<a href="{S_VERROUILLER}" title="{L_VERROUILLER}"><img src="{I_VERROUILLER}" alt="{L_VERROUILLER}" /></a>&nbsp;
+	<!-- END verrouiller -->
+	<!-- BEGIN deverrouiller -->
+	<a href="{S_DEVERROUILLER}" title="{L_DEVERROUILLER}"><img src="{I_DEVERROUILLER}" alt="{L_DEVERROUILLER}" /></a>&nbsp;
+	<!-- END deverrouiller -->
+	<!-- BEGIN supprimer -->
+	<a href="{S_SUPPRIMER}" title="{L_SUPPRIMER}" onclick="return confirmLink('{L_CONFIRM_DELETE_TOPIC}',this,'');" ><img src="{I_SUPPRIMER}" alt="{L_SUPPRIMER}" /></a>&nbsp;
+	<!-- END supprimer -->
+	<!-- BEGIN deplacer -->
+	<a href="{S_DEPLACER}" title="{L_DEPLACER}"><img src="{I_DEPLACER}" alt="{L_DEPLACER}" /></a>&nbsp;
+	<!-- END deplacer -->
+	<!-- BEGIN diviser -->
+	<a href="{S_DIVISER}" title="{L_DIVISER}"><img src="{I_DIVISER}" alt="{L_DIVISER}" /></a>&nbsp;
+	<!-- END diviser -->
+</div>
+<!-- BEGIN repondre -->
+<div id="reponse_rapide" style="display:none;width:600px;">
+<form name="saisie_text" method="post" action="">
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<td class="row1 right">
+			{WYSIWYG}
+			<textarea id="post" name="post" style="width:590px;height:200px;"></textarea>
+			<input type="button" value="abc" onmousedown="toggleEditor('post');" />	
+		</td>
+	</tr>
+</table>
+</div>
+<div class="center">
+	<input type="hidden" name="id_topic" value="{ID_TOPIC}" />
+	<input type="hidden" name="mode" value="Enregistrer" />
+	<input type="submit" name="save" value="{L_POSTER}" />
+</div>
+</form>
+</div>
+<!-- END repondre -->
+<br />

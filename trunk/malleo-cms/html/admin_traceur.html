@@ -1,0 +1,163 @@
+<h1 class="admin">{L_ADMIN_TRACEUR}</h1>
+<p>{L_ADMIN_TRACEUR_EXPLAIN}</p>
+<ul>
+	<li><a href="{U_15_DERNIERES}">{L_15_DERNIERES_MINUTES}</a></li>
+	<li><a href="{U_CHERCHER_PSEUDO}">{L_CHERCHER_PSEUDO}</a></li>
+	<li><a href="{U_PAGES_POPULAIRES}">{L_PAGES_POPULAIRES}</a></li>
+	<li><a href="{U_PURGE_ACTIVITES}">{L_PURGE_ACTIVITE}</a></li>
+</ul>
+<!-- BEGIN erreur_saisie -->
+<div class="admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" width="80%" align="center">
+		<tr>
+			<td class="rowAlerte center" height="20"><b>{ALERTE_TRACEUR_DESACTIVE}</b></td>
+		</tr>
+	</table>
+</div>
+<br />
+<!-- END erreur_saisie -->
+<!-- BEGIN chercher_pseudo -->
+<h2>{L_CHERCHER_PSEUDO}</h2>
+<p>{L_CHERCHER_PSEUDO_EXPLAIN}</p>
+<form name="form_chercher_pseudo" method="post">
+<div class="bloc_admin" style="width:60%;">
+	<table class="standard" width="100%">
+	<tr>
+		<th colspan="2">{L_PSEUDO}</th>
+	</tr>
+	<tr>
+		<td class="row1 center"><input type="text" name="pseudo" value="" size="50" /></td>
+		<td class="row2 center">
+			<input type="hidden" name="mode" value="chercher_pseudo" />
+			<input type="submit" name="chercher_pseudo" value="{L_CHERCHER}" /></td>
+	</tr>		
+	</table>
+</div>
+</form>
+<!-- END chercher_pseudo -->
+<!-- BEGIN liste_pseudos -->
+<div class="bloc_admin">
+	<table class="standard" width="100%">
+	<tr>
+		<th>{L_PSEUDOS_CORRESPONDANT}</th>
+		<th width="120">{L_PAGES_CONSULTEES}</th>
+	</tr>
+	<!-- BEGIN aucun_pseudo -->
+	<tr>
+		<td colspan="2" class="row1 center">{L_AUCUN_PSEUDO}</td>
+	</tr>		
+	<!-- END aucun_pseudo -->
+	<!-- BEGIN pseudos -->
+	<tr>
+		<td class="{liste_pseudos.pseudos.CLASS} left">{liste_pseudos.pseudos.PSEUDO}</td>
+		<td class="{liste_pseudos.pseudos.CLASS} right"><a href="{liste_pseudos.pseudos.SUIVRE_PSEUDO}">{liste_pseudos.pseudos.NBRE_PAGES}</a></td>
+	</tr>		
+	<!-- END pseudos -->
+	</table>
+</div>
+<!-- END liste_pseudos -->
+
+<!-- BEGIN purge -->
+<h2>{L_SUPPRESSION_LOGS}</h2>
+<div class="bloc_admin">
+	<table class="standard" width="100%">
+	<tr>
+		<th colspan="3">{L_NBRE_ENREGISTREMENTS}</th>
+	</tr>
+	<tr>
+		<td class="row1 left">{L_DEUX_MOIS}</td>
+		<td class="row1 right">{DEUX_MOIS}</td>
+		<td class="row2 center"><a href="{U_DEUX_MOIS}"><img src="{I_SUPPR}" alt="{L_EFFACER}" /></a></td>
+	</tr>
+	<tr>
+		<td class="row1 left">{L_UN_MOIS}</td>
+		<td class="row1 right">{UN_MOIS}</td>
+		<td class="row2 center"><a href="{U_UN_MOIS}"><img src="{I_SUPPR}" alt="{L_EFFACER}" /></a></td>
+	</tr>
+	<tr>
+		<td class="row1 left">{L_MOIS}</td>
+		<td class="row1 right">{MOIS}</td>
+		<td class="row2 center"><a href="{U_MOIS}"><img src="{I_SUPPR}" alt="{L_EFFACER}" /></a></td>
+	</tr>	
+	</table>
+</div>
+<!-- END purge -->
+
+<!-- BEGIN activite_de -->
+<h2>{ACTIVITE_DE}</h2>
+<!-- END activite_de -->
+
+<!-- BEGIN activite -->
+<div class="bloc_admin">
+	<table class="standard" width="100%">
+	<tr>
+		<th>{L_AVANT}</th>
+		<th width="200">{L_INTERVALLE}</th>
+		<th>{L_APRES}</th>
+	</tr>
+	<tr>
+		<td class="row1 center"><a href="{U_AVANT}">{AVANT}</a></td>
+		<td class="row1 center">
+			<form name="form_intervalle" method="post">
+			<select name="intervalle">
+				<option value="900" {SELECT_900}>{L_15_MINUTES}</option>
+				<option value="1800" {SELECT_1800}>{L_30_MINUTES}</option>
+				<option value="3600" {SELECT_3600}>{L_1_HEURE}</option>
+				<option value="43200" {SELECT_43200}>{L_12_HEURE}</option>
+				<option value="86400" {SELECT_86400}>{L_24_HEURE}</option>			
+			</select>
+			<input type="submit" name="enregistrer" value="{L_ENREGISTRER}" />
+			</form>
+		</td>
+		<td class="row1 center"><a href="{U_APRES}">{APRES}</a></td>
+	</tr>
+	</table>
+</div>
+<h3 class="center">{PERIODE_AFFICHEE}</h3>
+<br />
+<div class="bloc_admin">
+	<table class="standard" width="100%">
+	<tr>
+		<th>{L_PSEUDO}</th>
+		<th>{L_LIBELLE_PAGE}</th>
+		<th width="280">{L_URL_PAGE}</th>
+		<th width="70">{L_DATE}</th>
+	</tr>
+	<!-- BEGIN aucune_activite -->
+	<tr>
+		<td class="row1 center" colspan="4">{L_AUCUNE_ACTIVITE}</td>
+	</tr>		
+	<!-- END aucune_activite -->
+	<!-- BEGIN liste_activites -->
+	<tr>
+		<td class="{activite.liste_activites.CLASS} center">{activite.liste_activites.PSEUDO}</td>
+		<td class="{activite.liste_activites.CLASS}">{activite.liste_activites.LIBELLE_PAGE}</td>
+		<td class="{activite.liste_activites.CLASS}"><a href="{activite.liste_activites.URL_PAGE}" title="{activite.liste_activites.URL_PAGE}">{activite.liste_activites.URL_PAGE_COURT}</a></td>
+		<td class="{activite.liste_activites.CLASS}">{activite.liste_activites.DATE}</td>
+	</tr>		
+	<!-- END liste_activites -->
+	</table>
+</div>
+<!-- END activite -->
+<!-- BEGIN liste_pages -->
+<div class="bloc_admin">
+	<table class="standard" width="100%">
+	<tr>
+		<th colspan="2">{L_PAGES_CONSULTEES}</th>
+		<th width="40">{L_NBRE_FOIS}</th>
+	</tr>
+	<!-- BEGIN aucune_page -->
+	<tr>
+		<td colspan="3" class="row1 center">{L_AUCUNE_PAGE}</td>
+	</tr>		
+	<!-- END aucune_page -->
+	<!-- BEGIN pages -->
+	<tr>
+		<td class="{liste_pages.pages.CLASS} left">{liste_pages.pages.LIBELLE_PAGE}</td>
+		<td class="{liste_pages.pages.CLASS} left"><a href="{liste_pages.pages.URL_PAGE}">{liste_pages.pages.URL_PAGE_COURT}</a></td>
+		<td class="{liste_pages.pages.CLASS} right">{liste_pages.pages.NBRE_PAGES}</td>
+	</tr>		
+	<!-- END pages -->
+	</table>
+</div>
+<!-- END liste_pages -->

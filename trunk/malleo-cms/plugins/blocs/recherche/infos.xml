@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<module>
+	<libelle>Recherche</libelle>
+	<version>1.0</version>
+	<auteur>SP</auteur>
+	<site_auteur>http://www.malleo-cms.com</site_auteur>
+	<check_version>http://www.malleo-cms.com/versions/bloc_recherche.txt</check_version>
+	<install></install>
+</module>

@@ -1,0 +1,25 @@
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th width="5">#</th>
+		<th>{L_TITRE}</th>
+		<th width="50">{L_CPT}</th>
+	</tr>
+	<!-- BEGIN aucune_page -->
+	<tr>
+		<td class="row1 center" colspan="4">{L_AUCUNE_PAGE}</td>
+	</tr>
+	<!-- END aucune_page -->
+	<!-- BEGIN liste_pages -->	
+	<tr>
+
+		<td class="row1 center"><a href="{liste_pages.URL_PAGE_VERSION}"> {liste_pages.VERSION} </a></td>
+		<td class="row1">
+		<a href="{liste_pages.URL_PAGE}">&bull; {liste_pages.TITRE} </a><br />
+		{liste_pages.DATE}</td>
+		<td class="row1 center">{liste_pages.CPT}</td>
+	</tr>
+	<!-- END liste_pages -->	
+</table>
+</div>
+<div class="pagination">{PAGINATION}</div>

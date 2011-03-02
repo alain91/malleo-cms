@@ -1,0 +1,5 @@
+/* BlueLight */
+.wysiwygSkinBlueLight .mceToolbar .mceToolbarStart span, .wysiwygSkinBlueLight .mceButton, .wysiwygSkinBlueLight .mceSplitButton, .wysiwygSkinBlueLight .mceSeparator, .wysiwygSkinBlueLight .mceSplitButton span.mceOpen, .wysiwygSkinBlueLight .mceListBox .mceOpen {background-image:url(img/button_bg_BlueLight.png)}
+.wysiwygSkinBlueLight table, .wysiwygSkinBlueLight .mceMenuItemTitle a {background:#eee}
+.wysiwygSkinBlueLight .mceListBox .mceText {background:#FFF}
+.wysiwygSkinBlueLight .mceExternalToolbar, .wysiwygSkinBlueLight .mceListBox .mceText, .wysiwygSkinBlueLight div.mceMenu, .wysiwygSkinBlueLight table.mceLayout, .wysiwygSkinBlueLight .mceMenuItemTitle a, .wysiwygSkinBlueLight table.mceLayout tr.mceFirst td, .wysiwygSkinBlueLight table.mceLayout, .wysiwygSkinBlueLight .mceMenuItemTitle a, .wysiwygSkinBlueLight table.mceLayout tr.mceLast td, .wysiwygSkinBlueLight .mceIframeContainer {border-color: #bbb}

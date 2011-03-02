@@ -1,0 +1,36 @@
+<!-- BEGIN liste_cats -->
+<h2><a href="{liste_cats.URL_CAT}">{liste_cats.TITRE_CAT}</a></h2>
+<p>{liste_cats.DESC_CAT}</p>
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th width="50%">{L_FORUMS}</th>
+		<th width="50">{L_TOPICS}</th>
+		<th width="300">{L_TOPICS_RECENTS}</th>
+	</tr>
+	<tr>
+		<td class="row1 abstop" colspan="2">
+			<!-- BEGIN liste_forums -->
+			<table width="100%" cellspacing="0" cellpadding="0">
+			<tr>
+				<td width="20"><a href="{liste_cats.liste_forums.LIEN_FORUM}"><img src="{liste_cats.liste_forums.ICONE_FORUM}" alt="{liste_cats.liste_forums.NOM_FORUM}" /></a></td>
+				<td><a href="{liste_cats.liste_forums.LIEN_FORUM}" class="link1">{liste_cats.liste_forums.NOM_FORUM}</a><br />
+				<!-- BEGIN sousforums -->
+				{liste_cats.liste_forums.sousforums.VIRGULE}&nbsp;<a href="{liste_cats.liste_forums.sousforums.LIEN_FORUM}">{liste_cats.liste_forums.sousforums.NOM_FORUM}</a>
+				<!-- END sousforums -->
+				</td>
+				<td class="middle" width="50">{liste_cats.liste_forums.NBRE_TOPICS}</td>
+			</tr>
+
+			</table>
+			<!-- END liste_forums -->
+		</td>
+		<td class="row1 abstop">
+			<!-- BEGIN recents -->
+			&bull;  <a href="{liste_cats.recents.LIEN_TOPIC}" title="{L_PAR} {liste_cats.recents.AUTEUR} {L_LE} {liste_cats.recents.DATE}">{liste_cats.recents.TITRE_TOPIC}</a><br />
+			<!-- END recents -->
+		</td>
+	</tr>
+	</table>
+</div>
+<!-- END liste_cats -->

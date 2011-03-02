@@ -1,0 +1,34 @@
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th colspan="2">{L_TOPICS}</th>
+		<th width="150">{L_AUTEUR}</th>
+		<th width="150">{L_REPONSES}</th>
+	</tr>
+	<!-- BEGIN aucun_topic -->
+	<tr>
+		<td class="row1 center" colspan="4">{L_AUCUN_TOPIC}</td>
+	</tr>
+	<!-- END aucun_topic -->
+	<!-- BEGIN liste_topics -->
+	<tr>
+		<td class="{liste_topics.CLASS} left" width="20">
+			<img src="{liste_topics.TOPIC_LU}" alt="{liste_topics.TOPIC_LU_LIBELLE}" title="{liste_topics.TOPIC_LU_LIBELLE}" />
+		</td>
+		<td class="{liste_topics.CLASS} left">
+			<a href="{liste_topics.LIEN_TOPIC}" class="link1"><img src="{liste_topics.TOPIC_ABONNE}" alt="{liste_topics.TOPIC_ABONNE_LIBELLE}" title="{liste_topics.TOPIC_ABONNE_LIBELLE}" align="left" />{liste_topics.TITRE_TOPIC}</a><br />
+			{L_REPONSES}: {liste_topics.REPONSES} &middot; {L_LECTURES}: {liste_topics.LECTURES}
+		</td>	
+		<td class="{liste_topics.CLASS} left">{liste_topics.AUTEUR}<br />
+			{L_LE} {liste_topics.DATE_TOPIC}
+		</td>
+		<td class="{liste_topics.CLASS} abstop">
+			<!-- BEGIN reponse -->
+			<a href="{liste_topics.LIEN_REPONSE}" class="link2">{L_VOIR_REPONSE}</a> {liste_topics.AUTEUR_REPONSE}<br />
+			{L_LE} {liste_topics.DATE_REPONSE}
+			<!-- END reponse -->
+		</td>
+	</tr>
+	<!-- END liste_topics -->
+</table>
+</div>

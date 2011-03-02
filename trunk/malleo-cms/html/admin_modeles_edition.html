@@ -1,0 +1,63 @@
+ <h1 class="admin">{L_CREATE_MODEL}: {TITRE_MODELE}</h1>
+ <p>{L_EXPLAIN_CREATE_MODEL}</p>
+ 
+<link rel="stylesheet" href="{STYLE_PATH}/dragable-boxes.css" type="text/css">
+<script type="text/javascript" src="js/affichage.js"></script>
+<script type="text/javascript" src="js/dragable-boxes.js">
+/************************************************************************************************************
+(C) www.dhtmlgoodies.com, January 2006
+
+This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.	
+
+Version:	1.0	: January 16th - 2006
+
+Terms of use:
+You are free to use this script as long as the copyright message is kept intact. However, you may not
+redistribute, sell or repost it without our permission.
+
+Thank you!
+
+www.dhtmlgoodies.com
+Alf Magne Kalleland
+************************************************************************************************************
+SP : 
+Merci à Batalf pour ce code simple, puissant et libre d'utilisation, c'est rare de nos jours
+************************************************************************************************************/		
+</script>
+<div class="bloc_admin">
+	<p>{L_AJOUTER_BLOCS} <select name="bloc" onChange="AppelBloc(this.value);">{LISTE_BLOCS}</select>
+		{L_AJOUTER_BLOCS_HTML} <select name="blochtml" onChange="AppelBloc(this.value);">{LISTE_BLOCS_HTML}</select>
+	</p>
+	<div id="mainContainer">
+		<div id="floatingBoxParentContainer">
+			{MAP}
+		</div>
+	</div>
+	<form name="edition_modele" method="post" action="{URL_SUBMIT}">
+	<div class="center">
+		<input type="hidden" name="id_modele" id="id_modele" value="{ID_MODELE}" />
+		<div id="debug"></div>
+		<input type="button" name="retour" value="<<" onClick="history.back();" /> <input type="button" name="etape3" value="{L_ENREGISTRER}" onClick="SauverMAP();" /> 
+		</div>
+	</form>
+	<script type="text/javascript">
+		var numberOfColumns = {NBRE_ZONES};	// Number of columns for dragable boxes	
+		var Load_Ajax_List = new Array('{LOAD_AJAX_LIST}');
+		var noModule = 0;
+		
+		function createDefaultBoxes()
+		{
+			<!-- BEGIN liste_blocs -->
+			// contenu = ('{liste_blocs.ID}' == 'module') ? '{L_MODULE}':'<div id="bloc_{liste_blocs.ID}"></div>';
+			createBox('{liste_blocs.ID}', '{liste_blocs.TITRE}', '{liste_blocs.CONTENU}',{liste_blocs.POSITION});		
+			<!-- END liste_blocs -->
+			hideHeaderOptionsForStaticBoxes(id_module);
+
+			for(noModule=0;noModule<Load_Ajax_List.length ;noModule++)
+			{
+				Goto('admin.php', 'POST' , 'IRQ=nouveau_modele&RequeteAjax='+Load_Ajax_List[noModule], 3,  'bloc_'+Load_Ajax_List[noModule]);
+			}
+		}
+		AddObserver(window, "load", initDragableBoxesScript);
+	</script>
+</div>

@@ -1,0 +1,43 @@
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th colspan="2">{L_SUJET}</th>
+		<th>{L_LECTURES}</th>
+		<th>{L_REPONSES}</th>
+		<th>{L_MESSAGE}</th>
+		<th>{L_ALLER_A}</th>
+	</tr>
+	<!-- BEGIN aucun_resultat -->
+	<tr>
+		<td class="row1 center" colspan="6">{L_AUCUN_RESULTAT}</td>
+	</tr>
+	<!-- END aucun_resultat -->
+	<!-- BEGIN liste_resultats -->
+	<tr>
+		<td class="{liste_resultats.CLASS} center" width="20">
+			<!-- BEGIN icon_new -->
+			<img src="{I_ICON_NEW}" alt="{L_NOUVEAU_SUJET}" title="{L_NOUVEAU_SUJET}" /> 
+			<!-- END icon_new -->
+			<!-- BEGIN icon_lu -->
+			<img src="{I_ICON_LU}" alt="{L_SUJET_LU}" title="{L_SUJET_LU}" /> 
+			<!-- END icon_lu -->		
+		</td>
+		<td class="{liste_resultats.CLASS}">
+			<a href="{liste_resultats.LIEN_TOPIC}" class="link1"><img src="{liste_resultats.TOPIC_ABONNE}" alt="{liste_resultats.TOPIC_ABONNE_LIBELLE}" title="{liste_resultats.TOPIC_ABONNE_LIBELLE}" align="left" />{liste_resultats.TOPIC}</a><br />
+			<i>{L_DANS} <a href="{liste_resultats.LIEN_FORUM}">{liste_resultats.FORUM}</a> {L_LE} {liste_resultats.DATE} {L_PAR} {liste_resultats.AUTEUR}</i>
+		</td>
+		<td class="{liste_resultats.CLASS} center" width="20">{liste_resultats.NBRE_LECTURES}</td>
+		<td class="{liste_resultats.CLASS} center" width="20">{liste_resultats.NBRE_REPONSES}</td>
+		<td class="{liste_resultats.CLASS}" width="100" nowrap="nowrap">		
+			<a href="{liste_resultats.S_PREMIER}" class="navlink">{L_PREMIER}</a>
+			<!-- BEGIN dernier -->
+			<a href="{liste_resultats.S_DERNIER}" class="navlink">{L_DERNIER}</a>
+			<!-- END dernier -->
+		</td>	
+		<td class="{liste_resultats.CLASS}" width="100" nowrap="nowrap">
+		<div class="pagination" style="text-align:left;">{liste_resultats.PAGINATION}</div></td>
+	</tr>
+	<!-- END liste_resultats -->
+</table>
+</div>
+<div class="pagination">{PAGINATION}</div>
