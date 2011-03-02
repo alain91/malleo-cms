@@ -1,0 +1,39 @@
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th>{L_ID}</th>
+		<th>{L_PSEUDO}</th>
+		<th>{L_RANG}</th>
+		<th>{L_ECRIRE}</th>
+		<th>{L_GESTION}</th>
+	</tr>
+	<!-- BEGIN contacts -->
+	<tr>
+		<td class="row1 center" width="20">{contacts.ID}</td>
+		<td class="row2">{contacts.PSEUDO}</td>
+		<td class="row2 center" width="100">{contacts.RANG}</td>
+		<td class="row1 center" width="100">
+			<a href="{contacts.ECRIRE_MP}"><img src="{I_MP}" alt="{L_ECRIRE}" /></a>
+			<a href="{contacts.ECRIRE_MAIL}"><img src="{I_MAIL}" alt="{L_ECRIRE}" /></a>	
+		</td>
+		<td class="row3 center" width="20">
+			<a href="{contacts.S_SUPPR}"><img src="{I_DELETE}" alt="{L_DELETE}" title="{L_DELETE}" /></a>
+		</td>
+	</tr>
+	<!-- END contacts -->
+	<!-- BEGIN aucun_contacts -->
+	<tr>
+		<td class="row1 center" colspan="5">{L_AUCUN_CONTACT}</td>
+	</tr>
+	<!-- END aucun_contacts -->
+</table>
+</div>
+<div class="left">
+	<form name="ajouter_pseudo" action="" method="post">
+	<input type="text" name="pseudo" id="membre" value="{L_TAPER_ICI}" onKeyUp="ListerUsers(this.value);" onclick="if(this.value=='{L_TAPER_ICI}')this.value='';" autocomplete="off" />&nbsp;<input type="submit" name="ajouter" value="{L_AJOUTER}" />
+	<div id="listing_membres"></div>
+	<input type="hidden" name="action" value="ajouter" />
+	</form>
+</div>
+<input type="hidden" name="temp_liste" id="temp_liste" value="" />
+<script language="Javascript" type="text/javascript" src="js/requete_ajax.js" /></script>

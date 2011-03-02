@@ -1,0 +1,72 @@
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th width="100">{L_DATE}</th>
+		<th width="100">{L_AUTEUR}</th>
+		<th>{L_TITRE}</th>
+		<th width="50">{L_VERSION}</th>
+		<th width="100">{L_GESTION}</th>
+	</tr>
+	<!-- BEGIN aucune_page -->
+	<tr>
+		<td class="row1 center" colspan="4">{L_AUCUNE_PAGE}</td>
+	</tr>
+	<!-- END aucune_page -->
+	<!-- BEGIN liste_pages -->	
+	<tr>
+		<td class="row1 center">{liste_pages.DATE}</td>
+		<td class="row1 center">{liste_pages.AUTEUR}</td>
+		<td class="row1">{liste_pages.TITRE}</td>
+		<td class="row1 center"><a href="{liste_pages.URL_PAGE_VERSION}"> {liste_pages.VERSION} </a></td>
+		<td class="row1 center">
+		<!-- BEGIN moderer -->
+			<a href="{liste_pages.S_RESTAURER}" title="{L_RESTAURER}"><img src="{I_RESTAURER}" alt="{L_RESTAURER}" /></a>
+			<a href="{liste_pages.S_SUPPRIMER}" title="{L_SUPPRIMER}"><img src="{I_SUPPRIMER}" alt="{L_SUPPRIMER}" /></a>
+		<!-- END moderer -->
+		<!-- BEGIN nomoderer -->
+		__
+		<!-- END nomoderer -->
+		</td>
+	</tr>
+	<!-- END liste_pages -->	
+</table>
+</div>
+
+<div class="pagination">{PAGINATION}</div>
+{L_PAGE_CPT_VUE}
+<br />
+<!-- BEGIN options_wiki -->
+<h2>{L_OPTIONS}</h2>
+<form name="options_wiki" action="" method="post">
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th colspan="2">&nbsp;</th>
+	</tr>
+	<!-- BEGIN verrouiller -->
+	<tr>
+		<td class="row1">{L_VERROUILLER}</td>
+		<td class="row2 center">
+			<input type="radio" name="verrouiller" value="1" {S_VERROUILLER_OUI} />{L_OUI}
+			<input type="radio" name="verrouiller" value="0" {S_VERROUILLER_NON}/>{L_NON}	
+		</td>
+	</tr>
+	<!-- END verrouiller -->
+	<!-- BEGIN terminer -->
+	<tr>
+		<td class="row1">{L_TERMINER}</td>
+		<td class="row2 center">
+			<input type="radio" name="terminer" value="1" {S_TERMINER_OUI} />{L_OUI}
+			<input type="radio" name="terminer" value="0" {S_TERMINER_NON}/>{L_NON}
+		</td>
+	</tr>
+	<!-- END terminer -->
+</table>
+</div>
+<input type="hidden" name="mode" value="historique" />
+<input type="hidden" name="t" value="{TAG}" />
+<input type="hidden" name="jeton" value="{JETON}" />
+<div align="center"><input type="submit" name="enregistrer" value="{L_ENREGISTRER}" /></div>
+</form>
+<br />
+<!-- END options_wiki -->

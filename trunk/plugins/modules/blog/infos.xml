@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<module>
+	<libelle>Mon Blog</libelle>
+	<version>1.0</version>
+	<auteur>SP</auteur>
+	<site_auteur>http://www.malleo-cms.com</site_auteur>
+	<check_version>http://www.malleo-cms.com/versions/blog.txt</check_version>
+	<install>
+		<requete>CREATE TABLE `a_mod_blog_billets` (
+		  `id_billet` int(11) unsigned NOT NULL auto_increment,
+		  `titre_billet` varchar(150) NOT NULL default '',
+		  `billet` text NOT NULL,
+		  `auteur` varchar(30) NOT NULL default '',
+		  `date_redaction` int(11) unsigned NOT NULL default '0',
+		  `date_parution` int(11) unsigned default NULL,
+		  `nbre_coms` int(11) unsigned NOT NULL default '0',
+		  `nbre_vues` int(11) unsigned NOT NULL default '0',
+		  `id_cat` int(11) unsigned default NULL,
+		  `tags` varchar(255) default NULL,
+		  PRIMARY KEY  (`id_billet`),
+		  FULLTEXT KEY `tags` (`tags`),
+		  FULLTEXT KEY `billet` (`billet`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</requete>
+		<requete>CREATE TABLE `a_mod_blog_cats` (
+		  `id_cat` int(11) unsigned NOT NULL auto_increment,
+		  `module` varchar(30) NOT NULL default 'blog',
+		  `titre_cat` varchar(50) NOT NULL default '',
+		  `image_cat` varchar(100) NOT NULL default '',
+		  `nbre_billets` tinyint(4) unsigned NOT NULL default '0',
+		  `ordre` int(5) unsigned NOT NULL default '999',
+		  PRIMARY KEY  (`id_cat`),
+		  KEY `module` (`module`,`titre_cat`))
+		   ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</requete>
+		<requete>INSERT INTO `a_mod_blog_cats` (`id_cat`, `module`, `titre_cat`, `image_cat`, `nbre_billets`, `ordre`) VALUES
+		(1, 'blog', 'Categorie test', 'Globe-2.png', 0, 1);</requete>
+		<requete>CREATE TABLE `a_mod_blog_coms` (
+		  `id_com` int(11) unsigned NOT NULL auto_increment,
+		  `id_billet` int(11) unsigned NOT NULL default '0',
+		  `user_id` int(11) unsigned NOT NULL default '0',
+		  `date` int(11) unsigned NOT NULL default '0',
+		  `msg` text NOT NULL,
+		  `email` varchar(100) default NULL,
+		  `pseudo` varchar(30) default NULL,
+		  `site` varchar(250) default NULL,
+		  `prevenu` binary(1) NOT NULL default '0',
+		  PRIMARY KEY  (`id_com`),
+		  FULLTEXT KEY `msg` (`msg`)
+		) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</requete>
+		<requete>INSERT INTO `a_config` (`data`, `valeur`) VALUES
+		('blog_bpp', '6'),
+		('blog_ok_coms', '1'),
+		('blog_sens', 'DESC'),
+		('cache_duree_blog_cat','3600');</requete>
+		<requete>INSERT INTO `a_modelisation_tables` (`nom_champs`, `type_saisie`, `lang`, `param`, `page`) VALUES
+		('blog_bpp', 'text', 'L_BILLETS_PAR_PAGE', '10', 'Blog'),
+		('blog_ok_coms', 'bool', 'L_AUTORISER_COMS', 'possibilites_bool', 'Blog'),
+		('blog_sens', 'select', 'L_SENS_AFFICHAGE', 'lister_sens', 'Blog'),
+		('cache_duree_blog_cat', 'text', 'Q_CACHE_DUREE_BLOGS_CATS', '10', 'Config_Cache');</requete>
+	</install>
+</module>

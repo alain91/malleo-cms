@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<module>
+<libelle>Profil public</libelle>
+<version>1.0</version>
+<auteur>SP</auteur>
+<site_auteur>http://www.malleo-cms.com</site_auteur>
+<check_version>http://www.malleo-cms.com/versions/profil.txt</check_version>
+<install>
+	<requete>INSERT INTO `a_config` (`data`, `valeur`) VALUES
+('avatar_taille_max', '20000'),
+('avatar_largeur_max', '150'),
+('avatar_hauteur_max', '150'),
+('avatar_taille_rep', '51200');</requete>
+	<requete>INSERT INTO `a_modelisation_tables` (`nom_champs`, `type_saisie`, `lang`, `param`, `page`) VALUES
+('avatar_taille_max', 'text', 'L_POIDS_MAX_PROFIL', '10', 'Profil'),
+('avatar_largeur_max', 'text', 'L_LARGEUR_MAX_PROFIL', '10', 'Profil'),
+('avatar_hauteur_max', 'text', 'L_HAUTEUR_MAX_PROFIL', '10', 'Profil'),
+('avatar_taille_rep', 'text', 'L_TAILLE_REP_PROFIL', '10', 'Profil');</requete>
+	<requete>CREATE TABLE `a_mod_profil_modeles` (
+  `id_cat` int(11) unsigned NOT NULL auto_increment,
+  `titre_cat` varchar(255) NOT NULL default '',
+  `modele` text,
+  `ordre` int(5) unsigned NOT NULL default '999',
+  PRIMARY KEY  (`id_cat`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</requete>
+	<requete>INSERT INTO `a_mod_profil_modeles` (`titre_cat`, `modele`, `ordre`) VALUES
+('Citation', '[quote]\r \n[/quote]', 999);</requete>
+	<requete>CREATE TABLE `a_mod_profil_users` (
+  `user_id` int(11) unsigned  NOT NULL default '0',
+  `id_cat` int(11) unsigned  NOT NULL default '0',
+  `texte` text,
+  PRIMARY KEY  (`user_id`,`id_cat`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</requete>
+</install>
+</module>

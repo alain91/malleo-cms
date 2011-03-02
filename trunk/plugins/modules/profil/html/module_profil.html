@@ -1,0 +1,81 @@
+<script type="text/javascript" src="librairies/lightbox/prototype.js"></script><script type="text/javascript" src="librairies/lightbox/scriptaculous.js?load=effects,builder"></script><script type="text/javascript" src="librairies/lightbox/lightbox.js"></script><link rel="stylesheet" href="librairies/lightbox/css/lightbox.css" type="text/css" media="screen" />
+<script type="text/javascript" src="js/affichage.js"></script>
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th colspan="2">{PSEUDO}</th>
+	</tr>
+	<tr>
+		<td class="row1 center" width="200">
+			<img src="{AVATAR}" alt="" /><br />
+			{RANG}<br />
+			<br />{L_CONTACT}:
+				<a href="{S_MAIL}" alt="{L_SEND_MAIL}"><img src="{I_MAIL}" class="absmiddle" alt="" /></a>
+				<a href="{S_MP}" alt="{L_SEND_MP}"><img src="{I_MP}" class="absmiddle" alt="" /></a><br />
+			<!-- BEGIN yahoo -->
+			<img src="{I_YAHOO}">{L_YAHOO}: <img src="{S_YAHOO}" class="absmiddle" alt="" ></a><br />
+			<!-- END yahoo -->
+			<!-- BEGIN gtalk -->
+			<img src="{I_GTALK}">{L_GTALK}: <img src="{S_GTALK}" class="absmiddle" alt="" /></a><br />
+			<!-- END gtalk -->
+			<!-- BEGIN msn -->
+			<img src="{I_MSN}">{L_MSN} : <img src="{S_MSN}" class="absmiddle" alt="" /></a><br />
+			<!-- END msn -->
+			<!-- BEGIN icq -->
+			<img src="{I_ICQ}">{L_ICQ}  : <img src="{S_ICQ}" class="absmiddle" alt="" /></a><br />
+			<!-- END icq -->
+		</td>
+		<td class="row1 abstop">
+			<!-- BEGIN droit_edition -->
+			<a href="{S_EDIT_CONFIG}" title="{L_EDIT_PROFIL}"><img src="{I_EDITER}" style="float:right;" alt="{L_EDIT_PROFIL}" /></a>
+			<!-- END droit_edition -->
+			{L_MEMBER_SINCE}: <b>{DATE_MEMBER}</b><br />
+			{L_LAST_VISITE}: <b>{LAST_VISITE}</b><br />		
+			{L_DATE_NAISSANCE}: <b>{DATE_NAISSANCE}</b><br />
+			{L_SEXE}: <b>{SEXE}</b><br />
+			{L_ETAT_CIVIL} : <b>{ETAT_CIVIL}</b><br />
+			{L_LOCALISATION} : <b>{LOCALISATION}</b><br />
+
+			{L_MESSAGES}: <b>{MESSAGES}</b><br />
+			{L_POINTS}: <b>{POINTS}</b><br />
+			{L_LANGUE}: {LANGUE}<br />
+			<!-- BEGIN site_web -->
+			{L_SITE_WEB}: <b>{SITE_WEB}</b><br />
+			<!-- END site_web -->
+		</td>
+	</tr>
+	</table>
+</div>
+<br />
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th>{L_SIGNATURE}</th>
+	</tr>
+	<tr>
+		<td class="row1">
+		<!-- BEGIN droit_edition -->
+		<a href="{S_EDIT_CONFIG}" title="{L_EDIT_PROFIL}"><img src="{I_EDITER}" style="float:right;" alt="{L_EDIT_PROFIL}" /></a>
+		<!-- END droit_edition -->
+		{SIGNATURE}</td>
+	</tr>
+</table>
+</div>
+<br />
+<!-- BEGIN categories_profil -->
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th>{categories_profil.CATEGORIE}</th>
+	</tr>
+	<tr>
+		<td class="row1">
+		<!-- BEGIN droit_edition -->
+		<a href="{categories_profil.S_EDIT_CAT}" title="{L_EDIT_PROFILE}"><img src="{I_EDITER}" style="float:right;" alt="{L_EDIT_PROFILE}" /></a>
+		<!-- END droit_edition -->
+		{categories_profil.TEXTE}</td>
+	</tr>
+</table>
+</div>
+<br />
+<!-- END categories_profil -->

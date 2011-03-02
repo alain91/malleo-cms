@@ -1,0 +1,132 @@
+<h1 class="admin">{L_GENERAL_LIENS_ADMIN}</h1>
+<p>{L_GENERAL_LIENS_ADMIN_EXP}</p>
+
+<table width="100%">
+<tr>
+	<td>
+	
+		<h2>{L_CONFIGURATION}</h2>
+		<div class="bloc_admin">
+			<form name="gerer_liens" action="" method="post">
+			<table cellpadding="1" cellspacing="1" width="100%" class="standard">
+			<tr>
+				<th colspan="2" align="center">{L_CONFIGURATION}</th>
+			</tr>
+			<tr> 
+				<td class="row1" width="62%">{L_NBRE_LIENS}</td>
+				<td class="row2" width="38%"> 
+					<input type="text" name="liens_nbre_liens" size="4" value="{NBRE_LIENS}" />
+				</td>
+			</tr>
+			<tr> 
+				<td class="row1" width="38%">{L_ALEATOIRE}</td>
+				<td class="row2" width="62%"> 
+					{L_YES}<input type="radio" name="liens_aleatoire" value="1" {ALEA_YES}>
+					{L_NO}<input type="radio" name="liens_aleatoire" value="0" {ALEA_NO}>
+				</td>
+			</tr>
+			<tr>
+				<td class="row1" width="38%">{L_SCROLL}</td>
+				<td class="row2" width="62%"> 
+					{L_YES}<input type="radio" name="liens_scroll" value="1" {SCROLL_YES}>
+					{L_NO}<input type="radio" name="liens_scroll" value="0" {SCROLL_NO}>
+				</td>
+			</tr>
+			<tr> 
+				<td colspan="2" align="center">{S_HIDDEN_FIELDS} 
+					<input type="submit" name="submit" value="{L_ENREGISTRER}" />
+					<input type="hidden" name="action" value="enregistrer" />
+				</td>
+			</tr>
+			</table>
+			</form>
+		</div>
+		
+</td><td>
+
+
+		<h2>{L_AJOUTER_LIEN}</h2>
+		
+		<!-- BEGIN erreur_saisie -->
+		<div class="admin">
+			<table cellpadding="1" cellspacing="1" class="Alerte" width="80%" align="center">
+				<tr>
+					<td class="rowAlerte center" height="20"><b>{ALERTE_ERREUR_SAISIE}</b></td>
+				</tr>
+			</table>
+		</div>
+		<br />
+		<!-- END erreur_saisie -->
+		
+		<div class="bloc_admin">
+			<form action="" method="post" name="soumettre_liens">
+			<table cellpadding="1" cellspacing="1" width="100%" class="standard">
+			<tr>
+				<th colspan="2" align="center">{L_AJOUTER_LIEN}</th>
+			</tr>
+			<tr> 
+				<td class="row1">{L_TITRE}</td>
+				<td class="row2" width="20%"> 
+					<input type="text" name="titre" size="30" value="{TITRE}" />
+				</td>
+			</tr>
+			<tr> 
+				<td class="row1">{L_URL_LIEN}</td>
+				<td class="row2"> 
+					<input type="text" name="url" size="30" value="{LIEN}" />
+				</td>
+			</tr>
+			<tr> 
+				<td class="row1">{L_IMG_LIEN}</td>
+				<td class="row2"> 
+					<input type="text" name="image" size="30" value="{IMAGE}" />
+					<center>{APERCU_IMAGE}</center>
+				</td>
+			</tr>
+			<tr> 
+				<td colspan="2" align="center">
+					<input type="submit" name="submit" value="{L_ENREGISTRER}" class="mainoption" />
+					{HIDDEN}
+				</td>
+			</tr>
+			</table>
+			</form>
+		</div>
+
+</td>
+</tr>
+</table>
+
+<h2>{L_LISTE_LIENS}</h2>
+<div class="bloc_admin">
+	<table cellpadding="1" cellspacing="1" width="100%" class="standard">
+	<tr>
+		<th>{L_T_TITRE}</th>
+		<th>{L_T_IMAGE}</th>
+		<th colspan="2">{L_GERER}</th>
+	</tr>
+	<!-- BEGIN liens -->
+	  <tr>
+		<td class="row1 left">{liens.TITRE}<br />{liens.LIEN}</td>
+		<td class="row2 center">{liens.IMAGE}</td>
+		<td class="row2"  width="40">
+			<!-- BEGIN monter -->
+			<a href="{liens.MONTER}" title="{L_UP}"><img src="{I_UP}" alt="{L_UP}" align="left" /></a>
+			<!-- END monter -->
+			<!-- BEGIN descendre -->
+			<a href="{liens.DESCENDRE}" title="{L_DOWN}"><img src="{I_DOWN}" alt="{L_DOWN}" align="right" /></a>
+			<!-- END descendre -->
+		</td>
+		<td class="row2 center" nowrap="nowrap"  width="40">
+			<a href="{liens.EDITER}" title="{L_EDIT}"><img src="{I_EDIT}" alt="{L_EDIT}" /></a>
+			<a href="{liens.SUPPR}" title="{L_DELETE}"><img src="{I_SUPP}" alt="{L_DELETE}" /></a>
+		</td>
+	  </tr>
+	  <!-- END liens -->
+	  <!-- BEGIN no_liens -->
+	  <tr>
+		<td class="row1 center" colspan="3">{L_NO_LIENS}</td>
+	  </tr>
+	  <!-- END no_liens -->
+	</table>
+</div>

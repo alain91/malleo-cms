@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<module>
+<libelle>Messagerie Interne</libelle>
+<version>1.0</version>
+<auteur>SP</auteur>
+<site_auteur>http://www.malleo-cms.com</site_auteur>
+<check_version>http://www.malleo-cms.com/versions/messagerie.txt</check_version>
+<install>
+	<requete>ALTER TABLE `a_users` 
+	ADD `messagerie_copie_mail` binary(1) NOT NULL default '1',
+	ADD `messagerie_accepter_mp` binary(1) NOT NULL default '1',
+	ADD `messagerie_accepter_mail` binary(1) NOT NULL default '1',
+	ADD `messagerie_absent_site` binary(1) NOT NULL default '0',
+	ADD `messagerie_absent_site_msg` text;</requete>
+	<requete>CREATE TABLE `a_mod_messagerie` (
+  `id_mp` int(11) unsigned NOT NULL auto_increment,
+  `userid_from` int(11) unsigned NOT NULL default '0',
+  `sujet` varchar(255) NOT NULL default '',
+  `message` text NOT NULL,
+  `date` int(11) unsigned NOT NULL default '0',
+  `destinataires` varchar(250) NOT NULL default '',
+  `sujet_initial` int(11) unsigned default NULL,
+  PRIMARY KEY  (`id_mp`),
+  FULLTEXT KEY `message` (`message`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</requete>
+	<requete>CREATE TABLE `a_mod_messagerie_contacts` (
+  `user_id` int(11) unsigned NOT NULL default '0',
+  `id_contact` int(11) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`user_id`,`id_contact`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</requete>
+	<requete>CREATE TABLE `a_mod_messagerie_etat` (
+  `id_mp` int(11) unsigned NOT NULL default '0',
+  `userid_dest` int(11) unsigned NOT NULL default '0',
+  `etat` tinyint(1) unsigned NOT NULL default '0',
+  `cat` tinyint(4) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id_mp`,`userid_dest`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</requete>
+</install>
+</module>
