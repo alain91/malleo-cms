@@ -1,0 +1,48 @@
+<script type="text/javascript" src="js/affichage.js"></script>
+<div class="bloc">
+	<table cellpadding="1" cellspacing="1" width="100%" class="standard">
+	<tr>
+		<th>{L_TITRE}</th>
+		<th width="100">{L_AUTEUR}</th>
+		<th width="50">{L_CPT}</th>
+		<th width="100">{L_DATE}</th>
+		<th colspan="2">{L_GERER}</th>
+	</tr>
+	<!-- BEGIN aucune_page -->
+	<tr>
+		<td class="row1 center" colspan="6">{L_AUCUNE_PAGE}</td>
+	</tr>
+	<!-- END aucune_page -->
+	<!-- BEGIN liste -->	
+	<tr>
+		<td class="row1"><a href="{liste.URL_PAGE}">{liste.TITRE_LONG}</a></td>
+		<td class="row1 center">{liste.AUTEUR}</td>
+		<td class="row1 center">{liste.CPT}</td>
+		<td class="row1 center">{liste.DATE}</td>
+		<td class="row2" width="40">
+			<!-- BEGIN monter -->
+			<a href="{liste.S_UP}"><img src="{I_UP}" alt="{L_UP}" align="left" /></a>
+			<!-- END monter -->
+			<!-- BEGIN descendre -->
+			<a href="{liste.S_DOWN}"><img src="{I_DOWN}" alt="{L_DOWN}" align="right" /></a>
+			<!-- END descendre -->
+		</td>
+		<td class="row2 right" width="40">
+			<!-- BEGIN editer -->
+			<a href="{liste.S_EDITER}"><img src="{I_EDITER}" title="{L_EDITER}" alt="{L_EDITER}" /></a>
+			<!-- END editer -->
+			<!-- BEGIN supprimer -->
+			<a href="{liste.S_SUPPRIMER}" onclick="return confirmLink('{L_CONFIRM_DELETE_PAGE}',this,'');"><img src="{I_SUPPRIMER}" title="{L_SUPPRIMER}" alt="{L_SUPPRIMER}" /></a>
+			<!-- END supprimer -->
+		</td>
+	</tr>
+	<!-- END liste -->	
+	</table>
+</div>
+<div class="pagination">{PAGINATION}</div>
+<!-- BEGIN ecrire -->
+<a href="{S_NOUVEAU}"><img src="{I_NOUVEAU}" alt="{L_NOUVEAU}" /></a>
+<!-- END ecrire -->
+<h2>{L_MENU}</h2>
+{MENU}
+<br />
