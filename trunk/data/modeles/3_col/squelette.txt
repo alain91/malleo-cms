@@ -1,0 +1,7 @@
+<table width="100%">
+<tr>
+<td valign="top" width="15%">BLOC</td>
+<td valign="top" width="70%">BLOC</td>
+<td valign="top" width="15%">BLOC</td>
+</tr>
+</table>
