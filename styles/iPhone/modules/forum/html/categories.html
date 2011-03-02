@@ -1,0 +1,23 @@
+<!-- BEGIN liste_cats -->
+<h2><a href="{liste_cats.URL_CAT}">{liste_cats.TITRE_CAT}</a></h2>
+<p>{liste_cats.DESC_CAT}</p>
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th colspan="2">{L_FORUMS}</th>
+	</tr>
+	<!-- BEGIN liste_forums -->
+	<tr>
+		<td class="row1" width="10"><a href="{liste_cats.liste_forums.LIEN_FORUM}"><img src="{liste_cats.liste_forums.ICONE_FORUM}" alt="{liste_cats.liste_forums.NOM_FORUM}" /></a></td>
+		<td class="row1"><a href="{liste_cats.liste_forums.LIEN_FORUM}" class="link1">{liste_cats.liste_forums.NOM_FORUM}</a><br />
+		<!-- BEGIN sousforums -->
+		{liste_cats.liste_forums.sousforums.VIRGULE}&nbsp;<a href="{liste_cats.liste_forums.sousforums.LIEN_FORUM}">{liste_cats.liste_forums.sousforums.NOM_FORUM}</a>
+		<!-- END sousforums -->
+		<br />{L_TOPICS}: {liste_cats.liste_forums.NBRE_TOPICS}
+		</td>
+	</tr>
+	<!-- END liste_forums -->
+	</table>
+</div>
+<!-- END liste_cats -->
+<br />
