@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{TITRE_PAGE}</title>
+	<script type="text/javascript" src="../../librairies/tiny_mce/tiny_mce_popup.js"></script>
+	<script type="text/javascript" src="../../librairies/tiny_mce/plugins/emotions/js/emotions.js"></script>
+	<link href="../../librairies/tiny_mce/themes/advanced/skins/default/dialog.css" rel="stylesheet" type="text/css" />
+	<base target="_self" />
+</head>
+<body style="display: none">
+	<div align="center">
+		<div class="title">{TITRE_PAGE}:<br /><br /></div>
+
+		<table cellpadding="1" cellspacing="1" border="0" cellspacing="0" cellpadding="4">
+		<!-- BEGIN ligne -->
+		  <tr>
+			<!-- BEGIN colonne -->
+			<td><a href="javascript:EmotionsDialog.insert('{ligne.colonne.IMAGE}','{ligne.colonne.TITRE}');"><img src="../../{ligne.colonne.IMAGE}" border="0" alt="{ligne.colonne.TITRE}" title="{ligne.colonne.TITRE}" /></a></td>
+			<!-- END colonne -->
+		 </tr>
+		 <!-- END ligne -->
+		</table>
+	</div>
+</body>
+</html>

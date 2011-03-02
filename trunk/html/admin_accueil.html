@@ -1,0 +1,146 @@
+<h1 class="admin">{L_ADMIN_ACCUEIL}</h1>
+<p>{L_ADMIN_ACCUEIL_EXPLAIN}</p>
+
+<!-- BEGIN alerte_digicode -->
+<div class="admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" width="80%" align="center">
+		<tr>
+			<td class="rowAlerte center" height="20"><b>{L_CHANGER_MDP_DIGICODE}</b></td>
+		</tr>
+	</table>
+</div>
+<br />
+<!-- END alerte_digicode -->
+<!-- BEGIN alerte_version_malleo -->
+<div class="admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" width="80%" align="center">
+		<tr>
+			<td class="rowAlerte center" height="20"><b>{NOUVELLE_VERSION_CMS_MALLEO}</b></td>
+		</tr>
+	</table>
+</div>
+<br />
+<!-- END alerte_version_malleo -->
+
+<table width="100%">
+<tr>
+<td width="50%" valign="top">
+
+<!-- colonne de gauche -->
+
+	<h2>{L_COMPOSANTS_MALLEO}</h2>
+	<div class="bloc_admin">
+		<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+		<tr>
+			<th colspan="2">{L_VERSIONS}</th>
+		</tr>
+		<tr>
+			<td class="row1 right">{L_VERSION_CMS}</td>
+			<td class="row2">{VERSION_ACTUELLE_CMS}</td>
+		</tr>
+		<tr>
+			<td class="row1 right">{L_VERSION_APACHE}</td>
+			<td class="row2">{VERSION_APACHE}</td>
+		</tr>
+		<tr>
+			<td class="row1 right">{L_VERSION_PHP}</td>
+			<td class="row2">{VERSION_PHP}</td>
+		</tr>
+		<tr>
+			<td class="row1 right">{L_VERSION_MYSQL}</td>
+			<td class="row2">{VERSION_MYSQL}</td>
+		</tr>
+		</table>
+	</div>
+	<br />
+	<div class="bloc_admin">
+		<table cellpadding="1" cellspacing="1" class="standard left" width="100%">
+		<tr>
+			<th class="center">{L_MODULES}</th>
+			<th class="center">{L_VERSION_ACTUELLE}</th>
+			<th class="center">{L_VERSION_OFFICIELLE}</th>
+		</tr>
+		<!-- BEGIN liste_modules -->
+		<tr>
+			<td class="row1">{liste_modules.TITRE_MODULE}</td>
+			<td class="row2 center">{liste_modules.VERSION_ACTUELLE}
+			<!-- BEGIN update -->
+			<a href="{liste_modules.U_LIEN_UPGRADE}"><img src="{I_REFRESH}" alt="update" /></a>
+			<!-- END update -->
+			</td>
+			<td class="row3 center"><a href="{liste_modules.SITE}" title="{liste_modules.AUTEUR}">{liste_modules.VERSION_OFFICIELLE}</a></td>
+		</tr>
+		<!-- END liste_modules -->
+		</table>
+	</div>
+	
+</td><td valign="top">
+
+
+<!-- colonne de droite -->
+	<h2>{L_EQUIPE}</h2>
+	<div class="bloc_admin">
+		<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+		<tr>
+			<th colspan="2">{L_FONDATEURS}</th>
+		</tr>
+		<!-- BEGIN fondateurs -->
+		<tr>
+			<td class="row1 right" width="40%">{fondateurs.PSEUDO}</td>
+			<td class="row2">{fondateurs.DATE_VISITE}</td>
+		</tr>
+		<!-- END fondateurs -->
+		<!-- BEGIN aucun_fondateur -->
+		<tr>
+			<td class="row1 center" colspan="2">{L_AUCUN_FONDATEUR}</td>
+		</tr>
+		<!-- END aucun_fondateur -->
+		</table>
+	</div>
+	<br />
+	<div class="bloc_admin">
+		<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+		<tr>
+			<th colspan="2">{L_ADMINS}</th>
+		</tr>
+		<!-- BEGIN admins -->
+		<tr>
+			<td class="row1 right" width="40%">{admins.PSEUDO}</td>
+			<td class="row2">{admins.DATE_VISITE}</td>
+		</tr>
+		<!-- END admins -->
+		<!-- BEGIN aucun_administrateur -->
+		<tr>
+			<td class="row1 center" colspan="2">{L_AUCUN_ADMIN}</td>
+		</tr>
+		<!-- END aucun_administrateur -->
+		</table>
+	</div>
+	<br />
+	<h2>{L_BLOC_NOTES}</h2>
+	<div class="bloc_admin">
+		<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+		<tr>
+			<th>&nbsp;</th>
+		</tr>
+		<tr>
+			<td class="row2">
+			<!-- BEGIN afficher_notes -->
+			<a href="{U_EDIT_BLOC_NOTES}"><img src="{I_EDIT}" align="right" /></a>
+				{NOTES_FORMATEES}
+			<!-- END afficher_notes -->	
+			<!-- BEGIN afficher_saisie -->
+			<div class="center">
+				<form name="saisie_notes" method="post" action="">
+				<textarea name="blocnotes" style="width:98%;height:200px;">{NOTES}</textarea><br />
+				<input type="submit" name="enregistrer_notes" value="{L_ENREGISTRER}" />
+				</form>
+			</div>			
+			<!-- END afficher_saisie -->	
+			</td>
+		</tr>
+		</table>
+	</div>
+</td>
+</tr>
+</table>
