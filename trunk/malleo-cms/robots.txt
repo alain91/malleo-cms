@@ -1,9 +1,0 @@
-User-agent: *
-Disallow: /admin
-Disallow: /login.php
-Disallow: /register.php
-Disallow: /admin/
-Disallow: /cgi/
-Disallow: /cgi-bin/
-Disallow: /librairies/
-Disallow: /styles/

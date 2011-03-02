@@ -1,6 +1,0 @@
-<table width="100%">
-<tr>
-<td valign="top" width="20%">BLOC</td>
-<td valign="top" width="80%">BLOC</td>
-</tr>
-</table>
