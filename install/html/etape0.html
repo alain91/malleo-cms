@@ -1,0 +1,20 @@
+<p>{L_EXPLICATION_LICENCE}
+<br />
+<br />
+<a href="?etape=0&langue=fr">{L_VERSION_FR}</a> | <a href="?etape=0&langue=en">{L_VERSION_EN}</a>
+</p>
+
+
+<form name="form_installation" method="post" action="?etape=1">
+	<div class="bloc left" style="width:80%">
+		<table class="standard" width="100%">
+		<tr>
+			<td><div style="overflow:auto;z-index:-10;height:300px;background:#FFF;">{LICENCE}</div></td>
+		</tr>
+		<tr>
+			<td class="row2"><input type="checkbox" name="validation" onClick="if(this.checked){ document.form_installation.etape_suivante.disabled = false;}else if(this.checked ==false){document.form_installation.etape_suivante.disabled =true;} " />{L_CHECK}</td>
+		</tr>
+		</table>		
+	</div>
+	<div class="center"><input type="submit" name="etape_suivante" value="{L_LIBELLE_ETAPE1} >>" disabled onClick="" /></div>
+</form>
