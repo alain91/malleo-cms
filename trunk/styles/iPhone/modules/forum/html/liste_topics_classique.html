@@ -1,0 +1,27 @@
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th>{L_TOPICS}</th>
+	</tr>
+	<!-- BEGIN aucun_topic -->
+	<tr>
+		<td class="row1 center">{L_AUCUN_TOPIC}</td>
+	</tr>
+	<!-- END aucun_topic -->
+	<!-- BEGIN liste_topics -->
+	<tr>
+		<td class="{liste_topics.CLASS} left">
+			<a href="{liste_topics.LIEN_TOPIC}" class="link1">{liste_topics.TITRE_TOPIC}
+			<img src="{liste_topics.TOPIC_ABONNE}" alt="{liste_topics.TOPIC_ABONNE_LIBELLE}" title="{liste_topics.TOPIC_ABONNE_LIBELLE}" align="right" />
+			<img src="{liste_topics.TOPIC_LU}" alt="{liste_topics.TOPIC_LU_LIBELLE}" title="{liste_topics.TOPIC_LU_LIBELLE}"  align="right" /></a><br /><br />
+			{liste_topics.AUTEUR} {L_LE} {liste_topics.DATE_TOPIC}<br />
+			{L_REPONSES}: {liste_topics.REPONSES} &middot; {L_LECTURES}: {liste_topics.LECTURES}<br />
+			<!-- BEGIN reponse -->
+			<a href="{liste_topics.LIEN_REPONSE}" class="link2">{L_VOIR_REPONSE}</a> {liste_topics.AUTEUR_REPONSE} {L_LE} {liste_topics.DATE_REPONSE}<br />
+			<!-- END reponse -->
+		</td>
+	</tr>
+	<tr><td class="row3 left"></td></tr>
+	<!-- END liste_topics -->
+</table>
+</div>

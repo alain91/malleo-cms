@@ -1,0 +1,86 @@
+<!-- BEGIN erreur_saisie -->
+<div class="admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" width="80%" align="center">
+		<tr>
+			<td class="rowAlerte center" height="20"><b>{ALERTE_ERREUR_SAISIE}</b></td>
+		</tr>
+	</table>
+</div>
+<br />
+<!-- END erreur_saisie -->
+<form name="envoyer_mp" action="" method="post">
+<div class="bloc">
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th>{L_REMPLISSEZ_CHAMPS}</th>
+	</tr>
+	<tr>
+		<td class="row1">{L_A}: <input type="hidden" name="a" id="a" value="{A}" /><span id="liste">{A}</span></td>
+	</tr>
+	<tr>
+		<td class="row1">{L_CHERCHER_PSEUDO}</td>
+	</tr>
+	<tr>
+		<td class="row1 nowrap">
+		<input type="text" name="chercher" id="membre" value="{A}" maxlength="30" style="width:50%;" onkeyup="ListerUsers(this.value);" autocomplete="off" />&nbsp;<input type="button" name="ajouter" value="{L_AJOUTER}" onclick="AjouterUser();" />
+		<div id="listing_membres"></div></td>
+	</tr>
+	<tr>
+		<td class="row1">{L_SUJET}</td>
+	</tr>
+	<tr>
+		<td class="row1"><input type="text" name="sujet" value="{SUJET}" maxlength="255" style="width:100%;" /></td>
+	</tr>
+	<tr>
+		<td class="row1">{L_ALERTE_ENTETE} <br />
+		{L_ENTETE_EMAIL} {WYSIWYG}
+		<textarea name="message" style="width:100%;"></textarea></td>
+	</tr>
+	</table>
+	<input type="hidden" name="action" value="{HIDDEN}" />
+</div>
+<div class="center"><input type="submit" name="envoyer" value="{L_ENVOYER}" /></div>
+</form>
+<script language="Javascript" type="text/javascript">
+	var liste_users =  new Array();
+	if ("{A}"!='') liste_users[0] = "{A}";
+	
+	if (document.getElementById) {	
+		var id_liste = document.getElementById('liste');
+		var id_a = document.getElementById('a');
+		var membre = document.getElementById('membre');
+	}else if (document.layers) {	
+		var id_liste = document.liste;
+		var id_a = document.a;
+		var membre = document.membre;
+	}else {							
+		var id_liste = document.all.liste;	
+		var id_a = document.all.a;
+		var membre = document.all.membre;
+	}
+	
+	function AjouterUser(data){
+		user = (data == undefined)? membre.value: data;
+		liste_users[liste_users.length] = user;
+		lister_users();
+	}
+	
+	function lister_users(){
+		text=text_id='';
+		for(var no=0;no<liste_users.length;no++){
+			if (liste_users[no]!=''){
+				text += liste_users[no]+'<a href="javascript:void(0);" onclick="DeleteUser('+no+');"><img src="{I_DELETE}" alt="" /></a> ';
+				coma = (text_id!='')?',':'';
+				text_id += coma+liste_users[no];
+			}
+		}
+		id_liste.innerHTML = text;
+		id_a.value = text_id;
+	}
+	function DeleteUser(id){
+		liste_users[id] = '';
+		lister_users();
+	}
+</script>
+<input type="hidden" name="temp_liste" id="temp_liste" value="" />
+<script language="Javascript" type="text/javascript" src="js/requete_ajax.js" /></script>
