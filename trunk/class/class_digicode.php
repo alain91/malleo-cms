@@ -232,8 +232,7 @@ class digicode extends image
 		$ch = @opendir($this->url_cache);
 		while ($fichier = @readdir($ch))
 		{
-			if ($fichier != '.' && $fichier != '..' 
-				&& $fichier != '.htaccess' && !is_dir($this->url_cache.$fichier))
+			if ($fichier[0] != "." && $fichier != '.htaccess' && !is_dir($this->url_cache.$fichier))
 			{
 				@unlink($this->url_cache.$fichier);
 			}

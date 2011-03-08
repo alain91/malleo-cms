@@ -188,7 +188,7 @@ $ch = @opendir($chemin_icones);
 while ($icone = @readdir($ch))
 {
 	$ext = pathinfo($icone);
-	if ($icone != "." && $icone != ".." && in_array($ext['extension'],$ext_ok)) {
+	if ($icone[0] != '.' && in_array($ext['extension'],$ext_ok)) {
 		$icone_par_defaut = ($icone_par_defaut == '')? (($edit_icone != '')?$edit_icone:$icone):$icone_par_defaut;
 		$selected = ($edit_icone == $icone)?' selected':'';
 		$liste_icones .= "\n ".'<option value="'.$icone.'"'.$selected.'>'.ereg_replace('.'.$ext['extension'],'',$icone).'</option>';

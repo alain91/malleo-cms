@@ -1,0 +1,48 @@
+<table width="100%">
+<tr>
+	<td width="200" align="left" valign="top" nowrap="nowrap">
+		<a href="index.php" class="link3">{L_ACCUEIL}</a><br />
+		<a href="index.php?etape=1" class="link3">{L_LIBELLE_ETAPE1}</a><br />
+		<a href="index.php?etape=2" class="link3">{L_LIBELLE_ETAPE2}</a><br />
+		<a href="index.php?etape=3" class="link3">{L_LIBELLE_ETAPE3}</a><br />
+		<a href="index.php?etape=4" class="link3">{L_LIBELLE_ETAPE4}</a><br />
+		<a href="index.php?etape=5" class="link3">{L_LIBELLE_ETAPE5}</a><br />
+		<a href="index.php?etape=6" class="link3">{L_LIBELLE_ETAPE6}</a><br />
+		{L_LIBELLE_ETAPE7}<br />
+	</td>
+	<td align="left">
+		<form name="form_installation" method="post" action="">
+		<div class="bloc">
+			<table class="standard" width="100%">
+			<tr>
+				<td class="row1" align="left">
+					{L_EXPLAIN_MODULES}<br />
+					<br />
+					<b>{L_MODULES}</b>:<br />
+					<ul>
+					<!-- BEGIN liste_modules -->
+						<li>
+							<input type="radio" name="module" value="{liste_modules.MODULE}"
+							<!-- BEGIN non_acceptable -->
+							disabled 
+							<!-- END non_acceptable -->
+							<!-- BEGIN checked -->
+							checked="checked" 
+							<!-- END checked -->
+							/> 
+							{liste_modules.MODULE}</li>
+					<!-- END liste_modules -->
+					</ul>
+				</td>
+			</tr>
+			</table>
+		</div>
+		<div class="center"><input type="submit" name="module_defaut" value="{L_DEFINIR_DEFAUT}" {DISABLED_DEFAULT} /></div>
+		</form>
+		<br />
+		<form name="form_installation" method="post" action="?etape=8">
+			<div class="center"><input type="submit" name="etape_suivante" value="{L_LIBELLE_ETAPE8} >>" {DISABLED_ETAPE_SUIVANTE} /></div>
+		</form>
+	</td>
+</tr>
+</table>

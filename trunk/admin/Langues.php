@@ -90,7 +90,7 @@ function scanne_zones(){
 	$ch = @opendir($chemin);
 	while ($fichier = @readdir($ch))
 	{
-		if ($fichier != "." && $fichier != ".." && ereg('lang_',$fichier))
+		if (substr($fichier,0,1) != "." && ereg('lang_',$fichier))
 		{
 			update_fichier_langue($chemin.$fichier);
 		}
@@ -103,7 +103,7 @@ function scanne_zones(){
 	$ch = @opendir($chemin);
 	while ($fichier = @readdir($ch))
 	{
-		if ($fichier != "." && $fichier != ".." && file_exists($chemin.$fichier.'/lang_'.$code_langue.'.php'))
+		if (substr($fichier,0,1) != "." && file_exists($chemin.$fichier.'/lang_'.$code_langue.'.php'))
 		{
 			update_fichier_langue($chemin.$fichier.'/lang_'.$code_langue.'.php');
 		}
@@ -116,7 +116,7 @@ function scanne_zones(){
 	$ch = @opendir($chemin);
 	while ($fichier = @readdir($ch))
 	{
-		if ($fichier != "." && $fichier != ".." && file_exists($chemin.$fichier.'/lang_'.$code_langue.'.php'))
+		if (substr($fichier,0,1) != "." && file_exists($chemin.$fichier.'/lang_'.$code_langue.'.php'))
 		{
 			update_fichier_langue($chemin.$fichier.'/lang_'.$code_langue.'.php');
 		}
@@ -130,7 +130,7 @@ $options = '';
 $ch = @opendir($chemin);
 while ($fichier = @readdir($ch))
 {
-	if ($fichier != "." && $fichier != ".." && is_dir($chemin.$fichier))
+	if ($fichier[0] != '.' && is_dir($chemin.$fichier))
 	{
 		$options .= "\n".'<option>'.$fichier.'</option>';
 	}

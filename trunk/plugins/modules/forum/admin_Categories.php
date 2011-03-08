@@ -194,8 +194,9 @@ $ch = @opendir($chemin_icones);
 while ($icone = @readdir($ch))
 {
 	$ext = pathinfo($icone);
-	if ($icone != "." && $icone != ".." 
-		&& array_key_exists('extension',$ext) && in_array($ext['extension'],$ext_ok)) {
+	if ($icone[0] != '.'
+		&& array_key_exists('extension',$ext)
+		&& in_array($ext['extension'],$ext_ok)) {
 		if ($image_par_defaut == '') $image_par_defaut = $icone;
 		$select_icone[] = array($icone,ereg_replace('.'.$ext['extension'],'',$icone));
 	}

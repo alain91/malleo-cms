@@ -108,7 +108,7 @@ $ch = @opendir(PATH_SMILEYS);
 while ($sm = @readdir($ch))
 {
 	$extension = pathinfo(strtolower(PATH_SMILEYS.$sm));
-	if ($sm != "." && $sm != ".." && in_array($extension['extension'],$format_autorises) 
+	if ($sm[0] != '.' && in_array($extension['extension'],$format_autorises) 
 			&& !in_array($sm,$sm_installes)){
 		if ($image_defaut=='') $image_defaut = PATH_SMILEYS.$sm;
 		$select_image .= "\n".'<option value="'.$sm.'">'.$sm.'</option>';
