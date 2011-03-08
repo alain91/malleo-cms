@@ -176,7 +176,8 @@ class session
 		$ch = @opendir($this->path_cache);
 		while ($file = @readdir($ch))
 		{
-			if (!is_dir($this->path_cache.$file)
+			if ($file[0] != '.'
+				&& !is_dir($this->path_cache.$file)
 				&& $file!='.htaccess' 
 				&& (filemtime($this->path_cache.$file)<($this->time - 3600))
 				&& is_writable($this->path_cache.$file)){

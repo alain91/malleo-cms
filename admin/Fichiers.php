@@ -60,7 +60,7 @@ function dirsize($dir)
 	$ch = @opendir($dir);
 	while ($file = @readdir($ch))
 	{
-		if ($file != '.' && $file != '..' & $file != '.htaccess') {
+		if (substr($file,0,1) != "." && $file != '.htaccess') {
 			if (is_dir($dir.$file)){
 				$size += dirsize($dir.$file.'/');
 			}else{
@@ -252,7 +252,7 @@ switch ($action)
 		$ch = @opendir($show_path);
 		while ($file = @readdir($ch))
 		{
-			if ($file != '.' && $file != '..' && is_dir($show_path.$file)) {
+			if ($file[0] != '.' && is_dir($show_path.$file)) {
 				$tpl->assign_block_vars('arbo.liste_dossiers', array(
 					'CLASS'				=> $classd = ($classd!='row1')?'row1':'row2',
 					'ICONE_FICHIER'		=> iconefile($show_path.$file),

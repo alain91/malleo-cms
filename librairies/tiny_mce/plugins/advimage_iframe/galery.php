@@ -115,7 +115,7 @@ function maketable($dirname) {
 	$handle = opendir($dirname);
 	$file_lista[]=array();
 	while ($file = readdir($handle)) {
-	 if (($file != '.') && ($file != '..')) {
+	 if ($file[0] != '.') {
 			$file_lista[]=$file;
 	 }
 	};

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<module>
+<libelle>Module des Petites Annonces</libelle>
+<version>0.1</version>
+<auteur>alain91</auteur>
+<site_auteur>http://www.malleo-cms.com</site_auteur>
+<check_version>http://www.malleo-cms.com/annonces.txt</check_version>
+<install>
+	<requete>metter vos requetes SQL ici pour l'intallation</requete>
+</install>
+<update>
+	<version></version>
+	<requete></requete>
+</update>
+</module>

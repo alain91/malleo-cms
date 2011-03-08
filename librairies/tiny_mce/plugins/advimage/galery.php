@@ -118,7 +118,7 @@ while ($file = readdir($handle)) {
 	// Extension du fichier en cours
 	$ext = pathinfo($file);
 	$ext = (array_key_exists('extension',$ext))? strtolower($ext['extension']):'';
-	if (($file != '.') && ($file != '..') && !is_dir($file) && $file!='.htaccess' 
+	if ($file[0] != '.' && !is_dir($file) && $file!='.htaccess' 
 		&& in_array($ext,$image->ext_ok) && ($file != 'index.html') ) {
 		$file_lista[]=$file;
 	}
