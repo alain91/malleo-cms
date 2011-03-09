@@ -25,7 +25,7 @@ $id_version = 0;
 
 global $root;
 
-require_once(CITATIONS_PATH.'/class_controller.php');
+require_once($root.'/class/class_controller.php');
 
 class controller_citations extends Controller
 {
