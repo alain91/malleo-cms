@@ -56,11 +56,4 @@ class controller_citations extends Controller
 $controller = new controller_citations();
 $controller->init();
 $controller->run();
-
-/*
-include_once($root.'class/class_posting.php');
-$post = new posting();
-$post->module=$module;
-*/
-
 ?>

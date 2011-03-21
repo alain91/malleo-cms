@@ -21,7 +21,7 @@ defined('PROTECT') OR die("Tentative de Hacking");
 global $prefixe,$lang;
 
 // Listing des tables
-define('TABLE_CITATIONS_BILLETS', $prefixe.'mod_citations_billets');
+define('TABLE_CITATIONS', $prefixe.'mod_citations');
 
 // Fichier des Classes du Module
 global $citations;
