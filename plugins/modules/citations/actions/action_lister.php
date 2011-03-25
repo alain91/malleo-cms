@@ -5,7 +5,7 @@ defined('CITATIONS_PATH') OR die("Tentative de Hacking");
 
 global $root;
 
-require_once($root.'/class/class_action.php');
+require_once(dirname(__FILE__).'/class_action.php');
 
 class action_lister extends Action
 {
