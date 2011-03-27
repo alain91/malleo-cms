@@ -1,11 +1,4 @@
 <div class="bloc">
-	<!-- BEGIN liste -->
-	<div style="border:1px solid black;margin:5px;padding:5px">
-		<p style="text-align:center">{liste.CONTENU}</p>
-		<p style="text-align:center"><strong>{liste.AUTEUR}</strong></p>
-	</div>
-	<!-- END liste -->
-
 	<!-- BEGIN description -->
 		{description.TEXT}
 		<hr style="margin-top:15px;" />
@@ -37,22 +30,22 @@
 	<!-- END sub_cats -->
 
 	<!-- BEGIN quotes -->
-	<div>
+	<div style="border:1px solid black">
 		<div>
 			<div style="float:left;">{quotes.DATE} - #{quotes.ID}</div>
 			<div style="float:right;">
 	<!-- BEGIN edit -->
-			<a href="edit"><img src="edit.png" alt="{quotes.edit.L_EDIT}" title="{quotes.edit.L_EDIT}" class="valign_middle" /></a>
+			<a href="edit"><img src="{I_EDITER}" alt="{quotes.edit.L_EDIT}" title="{quotes.edit.L_EDIT}" class="valign_middle" /></a>
 	<!-- END edit -->
 	<!-- BEGIN delete -->
-			<a href="delete" onclick="javascript:return Confirm();"><img src="delete.png" alt="{quotes.delete.L_DELETE}" title="{quotes.delete.L_DELETE}" class="valign_middle" /></a>
+			<a href="delete" onclick="javascript:return Confirm();"><img src="{I_DELETE}" alt="{quotes.delete.L_DELETE}" title="{quotes.delete.L_DELETE}" class="valign_middle" /></a>
 	<!-- END delete -->
 			&nbsp;</div>
 		</div>
 		<div style="clear:both; text-align:center; padding:5px">
-			{quotes.CONTENTS}
+			{quotes.CONTENU}
 			<br />
-			<strong>{quotes.AUTHOR}</strong>
+			<strong>{quotes.AUTEUR}</strong>
 		</div>
 	</div>
 	<!-- END quotes -->

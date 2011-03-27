@@ -16,16 +16,16 @@
 |  SVP lisez Licence_CeCILL_V2-fr.txt
 |------------------------------------------------------------------------------------------------------------
 */
-defined('PROTECT') OR die("Tentative de Hacking");
-
-global $prefixe,$lang;
+defined('CITATIONS_PATH') OR die("Tentative de Hacking");
 
 // Listing des tables
+global $prefixe;
 define('TABLE_CITATIONS', $prefixe.'mod_citations');
 
 // Fichier des Classes du Module
+require_once(CITATIONS_PATH.'/class_citations.php');
+
 global $citations;
-require_once(dirname(__FILE__).'/class_citations.php');
 $citations = new Citations();
 
 // Chargement des fichiers de langue si il y'en a

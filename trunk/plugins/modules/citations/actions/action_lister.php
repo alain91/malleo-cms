@@ -1,11 +1,5 @@
 <?php
-
-defined('PROTECT') OR die("Tentative de Hacking");
 defined('CITATIONS_PATH') OR die("Tentative de Hacking");
-
-global $root;
-
-require_once(dirname(__FILE__).'/class_action.php');
 
 class action_lister extends Action
 {
@@ -29,10 +23,19 @@ class action_lister extends Action
 					'LIEN'		=> formate_url('mode=editer',true))
 			);
 		}
+		
+		$tpl->assign_vars(array(
+			'I_EDITER' => $img['editer'],
+			'I_DELETE' => $img['effacer'],
+			));
 
-		$tpl->assign_block_vars('liste', array('CONTENU'=>'contenu1', 'AUTEUR' => "auteur1"));
-		$tpl->assign_block_vars('liste', array('CONTENU'=>'contenu2', 'AUTEUR' => "auteur2"));
+		$tpl->assign_block_vars('quotes', array('ID' => 1, 'DATE' => Date("j, n, Y"), 'CONTENU'=>'contenu1', 'AUTEUR' => "auteur1"));
+		$tpl->assign_block_vars('quotes.edit', array('L_EDIT' => 'Editer'));
+		$tpl->assign_block_vars('quotes.delete', array('L_DELETE' => 'Supprimer'));
 
+		$tpl->assign_block_vars('quotes', array('ID' => 2, 'DATE' => Date("j, n, Y"), 'CONTENU'=>'contenu2', 'AUTEUR' => "auteur2"));
+		$tpl->assign_block_vars('quotes.edit', array('L_EDIT' => 'Editer'));
+		$tpl->assign_block_vars('quotes.delete', array('L_DELETE' => 'Supprimer'));
 		return;
 		/*
 		$tpl->assign_block_vars('liste_vide', array('CONTENU'=>htmlentities('Aucun élément')));	
@@ -125,17 +128,6 @@ class action_lister extends Action
 										IGNORE_AND_CONTINUE_BROWSING_IF_A_CATEGORY_DOES_NOT_MATCH)
 			));
 		
-		$c_contrib = ! $quotes->cats->access_ok($category_id, QUOTES_CREATE_ACCESS|QUOTES_WRITE_ACCESS)
-							&& $quotes->cats->access_ok($category_id, QUOTES_CONTRIB_ACCESS);
-		$Template->assign_vars(array(
-			'C_CONTRIBUTION' 					=> $c_contrib,
-			'L_CONTRIBUTION'					=> $quotes->lang_get('contribution_legend'),
-			'L_CONTRIBUTION_NOTICE' 			=> $quotes->lang_get('contribution_notice'),
-			'L_CONTRIBUTION_COUNTERPART' 		=> $quotes->lang_get('contribution_counterpart'),
-			'L_CONTRIBUTION_COUNTERPART_EXPLAIN' => $quotes->lang_get('contribution_counterpart_explain'),
-			'CONTRIBUTION_COUNTERPART_EDITOR' 	=> display_editor('counterpart'),
-			'C_APPROVED'						=> TRUE
-			));
 
 		if ($nbr_quotes > 0)
 		{

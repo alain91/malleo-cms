@@ -10,7 +10,8 @@ $regles[1] = array(
 	'ecrire'		=> 0,
 	'proteger'		=> 0,
 	'moderer'		=> 0,
-	'supprimer'		=> 0
+	'supprimer'		=> 0,
+	'poster'		=> 0
 );
 // MEMBRES 
 $regles[2] = array(
@@ -19,7 +20,8 @@ $regles[2] = array(
 	'ecrire'		=> 0,
 	'proteger'		=> 0,
 	'moderer'		=> 0,
-	'supprimer'		=> 0
+	'supprimer'		=> 0,
+	'poster'		=> 0
 );
 
 // ADMINS
@@ -29,6 +31,7 @@ $regles[3] = array(
 	'ecrire'		=> 1,
 	'proteger'		=> 1,
 	'moderer'		=> 1,
-	'supprimer'		=> 1
+	'supprimer'		=> 1,
+	'poster'		=> 1
 );
 ?>

@@ -75,11 +75,18 @@ class Template extends phpbb_template
 		
 		$match=array();
 		preg_match_all('#\{([a-z0-9\-_]*?)\}#is',$code,$match);
-		$values = array_intersect(array_keys($lang),$match[1]);
-		foreach ($values as $value){
-			$this->assign_var($value, $lang[$value]);
+		foreach($match[1] as $clef){
+			if (isset($lang[$clef]) && !$this->var_defined($clef))
+			{
+				$this->assign_var($clef,$lang[$clef]);
+			}
 		}
 		return parent::compile($code, $do_not_echo, $retvar);
+	}
+	
+	function var_defined($name)
+	{
+		return isset($this->_tpldata['.'][0][$name]) ? true : false; 
 	}
 	
 	function make_filename($filename)
