@@ -8,6 +8,8 @@
 |------------------------------------------------------------------------------------------------------------
 |  Author: Stephane RAJALU
 |  Copyright (c) 2008-2009, Stephane RAJALU All Rights Reserved
+|
+|  modifié par alain91
 |------------------------------------------------------------------------------------------------------------
 |  License: Distributed under the CECILL V2 License
 |  This program is distributed in the hope that it will be useful - WITHOUT 
@@ -447,10 +449,14 @@ class droits{
 		}else{
 			// Regle etablie
 			if (array_key_exists($noeud,$user['rules'][$module])){
-				return $user['rules'][$module][$noeud][$fonction];
+				return (empty($user['rules'][$module][$noeud][$fonction])
+					? false
+					: $user['rules'][$module][$noeud][$fonction]);
 			}else{
 				// Regle par defaut
-				return $user['rules'][$module][0][$fonction];
+				return (empty($user['rules'][$module][0][$fonction])
+					? false
+					: $user['rules'][$module][0][$fonction]);
 			}
 		}
 	}

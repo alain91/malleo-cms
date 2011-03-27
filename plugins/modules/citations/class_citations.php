@@ -17,6 +17,62 @@
 | SVP lisez Licence_CeCILL_V2-fr.txt
 |------------------------------------------------------------------------------------------------------------
 */
+
+class Action
+{
+	function __construct()
+	{}
+	
+	function Action()
+	{}
+	
+	function init()
+	{}
+	
+	function run()
+	{}
+}
+class Controller
+{
+	function __construct()
+	{}
+	
+	function Controller()
+	{}
+	
+	function init()
+	{}
+	
+	function dispatch()
+	{
+		$actions = $this->getActions();
+		
+		$mode = null;
+		if (isset($_GET['mode']) ||isset($_POST['mode']))
+		{
+			$mode = (isset($_POST['mode']))?$_POST['mode']:$_GET['mode'];
+		}
+		
+		$filename = null;
+		if( in_array($mode, array_keys($actions)) )
+		{
+			$filename = $actions[$mode];
+		}
+		else
+		{
+			$filename = $actions['index'];
+		}
+
+		require_once($filename.'.php');
+		$class = basename($filename);
+		$action = new $class;
+		$action->run();
+	}
+	
+	function getActions()
+	{}
+
+}
 class Citations
 {
 	var $_texte;
@@ -155,7 +211,8 @@ class Citations
 	
 	//
 	// Supprime la citation demandée
-	function supprimer_citation(id){
+	function supprimer_citation($id)
+	{
 		global $c,$module;
 		$sql = 'DELETE FROM '.TABLE_CITATIONS.' WHERE id_citation='.$id;
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
@@ -164,7 +221,8 @@ class Citations
 	
 	//
 	// Renvoie les informations
-	function infos_citation($id){
+	function infos_citation($id)
+	{
 		global $c,$module;
 		$sql = 'SELECT texte, auteur, date
 				FROM '.TABLE_CITATIONS.' as c

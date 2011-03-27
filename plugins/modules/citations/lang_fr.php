@@ -6,8 +6,8 @@ $lang['L_ALLF'] = "Tous les fichiers";
 $lang['L_ADDC'] = "";
 $lang['L_ADDF'] = "";
 $lang['L_ALLF'] = "";
-$lang['L_TITRE'] = "titre collone 1 tableau";
-$lang['L_DESC'] = "titre collone 2 tableau";
+$lang['L_TITRE'] = "titre colonne 1 tableau";
+$lang['L_DESC'] = "titre colonne 2 tableau";
 //etc   vous pouvez en  rajouter
 
 $erreur[2100] = 'Vous n\'avez pas l\'autorisation d\'&eacute;crire une page';

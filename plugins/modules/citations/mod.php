@@ -23,18 +23,14 @@ define('CITATIONS_PATH', dirname(__FILE__));
 
 $id_version = 0;
 
-global $root;
-
-require_once(dirname(__FILE__).'/class_controller.php');
+require_once(CITATIONS_PATH.'/prerequis.php');
 
 class controller_citations extends Controller
 {
 	function init()
 	{
 		global $droits,$module;
-		
-		require_once(CITATIONS_PATH.'/prerequis.php');
-		// Autorisations
+				// Autorisations
 		if (!$droits->check($module,0,'voir'))
 		{
 			error404(1000);
@@ -55,5 +51,5 @@ class controller_citations extends Controller
 
 $controller = new controller_citations();
 $controller->init();
-$controller->run();
+$controller->dispatch();
 ?>
