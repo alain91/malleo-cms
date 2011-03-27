@@ -45,18 +45,19 @@ class Controller
 	
 	function dispatch()
 	{
+		$code = 'action';
 		$actions = $this->getActions();
 		
-		$mode = null;
-		if (isset($_GET['mode']) ||isset($_POST['mode']))
+		$action = null;
+		if (isset($_GET[$code]) OR isset($_POST[$code]))
 		{
-			$mode = (isset($_POST['mode']))?$_POST['mode']:$_GET['mode'];
+			$action = (isset($_POST[$code]))?$_POST[$code]:$_GET[$code];
 		}
 		
 		$filename = null;
-		if( in_array($mode, array_keys($actions)) )
+		if( in_array($action, array_keys($actions)) )
 		{
-			$filename = $actions[$mode];
+			$filename = $actions[$action];
 		}
 		else
 		{

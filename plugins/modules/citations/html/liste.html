@@ -4,41 +4,16 @@
 		<hr style="margin-top:15px;" />
 	<!-- END description -->
 	
-	<!-- BEGIN sub_cats -->
-	<!-- BEGIN row -->
-	<!-- BEGIN list_cats -->
-				<div style="float:left;width:{sub_cats.row.list_cats.WIDTH}%;text-align:center;margin:10px 0px;">
-	<!-- BEGIN image -->
-						<a href="{sub_cats.row.list_cats.image.U_CAT}" title="{sub_cats.row.list_cats.image.IMG_NAME}"><img src="{sub_cats.row.list_cats.image.SRC}" alt="{sub_cats.row.list_cats.image.IMG_NAME}" /></a>
-						<br />
-	<!-- END image -->
-					<a href="{sub_cats.row.list_cats.U_CAT}">{sub_cats.row.list_cats.NAME}</a>
-					
-	<!-- BEGIN c_admin -->
-					<a href="{sub_cats.row.list_cats.U_ADMIN_CAT}">
-						<img class="valign_middle" src="edit.png" alt="" />
-					</a>
-	<!-- END c_admin -->
-					<div class="text_small">
-						{row.list_cats.NUM_ITEMS}
-					</div>
-				</div>
-	<!-- END list_cats -->
-			<div class="spacer">&nbsp;</div>
-	<!-- END row -->
-		<hr style="margin-bottom:5px;" />
-	<!-- END sub_cats -->
-
 	<!-- BEGIN quotes -->
 	<div style="border:1px solid black">
 		<div>
 			<div style="float:left;">{quotes.DATE} - #{quotes.ID}</div>
 			<div style="float:right;">
 	<!-- BEGIN edit -->
-			<a href="edit"><img src="{I_EDITER}" alt="{quotes.edit.L_EDIT}" title="{quotes.edit.L_EDIT}" class="valign_middle" /></a>
+			<a href="{quotes.edit.U_EDIT}"><img src="{I_EDITER}" alt="{quotes.edit.L_EDIT}" title="{quotes.edit.L_EDIT}" /></a>
 	<!-- END edit -->
 	<!-- BEGIN delete -->
-			<a href="delete" onclick="javascript:return Confirm();"><img src="{I_DELETE}" alt="{quotes.delete.L_DELETE}" title="{quotes.delete.L_DELETE}" class="valign_middle" /></a>
+			<a href="{quotes.delete.U_DELETE}" onclick="javascript:return Confirm();"><img src="{I_DELETE}" alt="{quotes.delete.L_DELETE}" title="{quotes.delete.L_DELETE}" /></a>
 	<!-- END delete -->
 			&nbsp;</div>
 		</div>
