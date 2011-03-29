@@ -45,29 +45,21 @@ class Controller
 	
 	function dispatch()
 	{
-		$code = 'action';
 		$actions = $this->getActions();
 		
-		$action = null;
-		if (isset($_GET[$code]) OR isset($_POST[$code]))
-		{
-			$action = (isset($_POST[$code]))?$_POST[$code]:$_GET[$code];
-		}
-		
-		$filename = null;
-		if( in_array($action, array_keys($actions)) )
-		{
-			$filename = $actions[$action];
-		}
-		else
-		{
-			$filename = $actions['index'];
-		}
+		$code = 'action';
+		$action = !empty($_REQUEST[$code]) ? $_REQUEST[$code] : 'index';
+		$filename = !empty($actions[$action]) ? $actions[$action] : null;
 
-		require_once($filename.'.php');
-		$class = basename($filename);
-		$action = new $class;
-		$action->run();
+		if (!empty($filename))
+		{
+			require_once($filename.'.php');
+			$class = basename($filename);
+			$action = new $class;
+			$action->run();
+			return;
+		}
+		header('index.php');
 	}
 	
 	function getActions()
