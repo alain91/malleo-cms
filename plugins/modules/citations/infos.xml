@@ -3,7 +3,7 @@
 <libelle>Citations</libelle>
 <version>0.1</version>
 <auteur>alain91</auteur>
-<site_auteur>http://localhost/malleo/plugins/modules</site_auteur>
+<site_auteur>http://localhost/malleo</site_auteur>
 <check_version>http://localhost/malleo/versions/citations.txt</check_version>
 <install>
 	<requete>
@@ -19,6 +19,21 @@ CREATE TABLE IF NOT EXISTS `a_mod_citations_billets` (
   `approved` tinyint(1) unsigned NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `timestamp` (`timestamp`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 ;
+	</requete>
+	<requete>
+DROP TABLE IF EXISTS `a_mod_citations_cats`;
+	</requete>
+	<requete>
+CREATE TABLE `a_mod_citations_cats` (
+		  `id_cat` int(11) unsigned NOT NULL auto_increment,
+		  `module` varchar(30) NOT NULL default 'blog',
+		  `titre_cat` varchar(50) NOT NULL default '',
+		  `image_cat` varchar(100) NOT NULL default '',
+		  `nbre_billets` tinyint(4) unsigned NOT NULL default '0',
+		  `ordre` int(5) unsigned NOT NULL default '999',
+		  PRIMARY KEY  (`id_cat`),
+		  KEY `module` (`module`,`titre_cat`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 ;
 	</requete>
 	<requete>
@@ -42,21 +57,4 @@ INSERT INTO `a_modelisation_tables` (`nom_champs`, `type_saisie`, `lang`, `param
 	('cache_duree_citations_cat', 'text', 'Q_CACHE_DUREE_BLOGS_CATS', '10', 'Config_Cache');
 	</requete>
 </install>
-<update>
-	<version>0.2</version>	
-	<step id_version="0.2">
-		<requete>
-	INSERT INTO `a_config` (`data`, `valeur`) VALUES
-		('citations_bpp', '6'),
-		('citations_cat_cols', '1'),
-		('cache_duree_citations_cat','3600');
-		</requete>
-		<requete>
-	INSERT INTO `a_modelisation_tables` (`nom_champs`, `type_saisie`, `lang`, `param`, `page`) VALUES
-		('citations_bpp', 'text', 'L_BILLETS_PAR_PAGE', '10', 'Citations'),
-		('citations_cat_cols', 'text', 'L_CAT_COLS', '10', 'Citations'),
-		('cache_duree_citations_cat', 'text', 'Q_CACHE_DUREE_BLOGS_CATS', '10', 'Config_Cache');
-		</requete>
-	</step>
-</update>
 </module>
