@@ -3,8 +3,8 @@
 <libelle>Citations</libelle>
 <version>0.1</version>
 <auteur>alain91</auteur>
-<site_auteur>http://www.malleo-cms.com</site_auteur>
-<check_version>http://www.malleo-cms.com/citations.txt</check_version>
+<site_auteur>http://localhost/malleo/plugins/modules</site_auteur>
+<check_version>http://localhost/malleo/versions/citations.txt</check_version>
 <install>
 	<requete>
 DROP TABLE IF EXISTS `a_mod_citations_billets`;
@@ -29,9 +29,34 @@ INSERT INTO `a_mod_citations_billets` (`id`, `contents`, `author`, `user_id`, `t
 (4, 'Je suis venu, j''ai vu et j''ai vaincu', 'Jules César', 1, 1227376747, 1),
 (5, 'Je vous promets du sang et des larmes', 'Winston Churchill', 1, 1227376771, 1);	
 	</requete>
+	<requete>
+INSERT INTO `a_config` (`data`, `valeur`) VALUES
+	('citations_bpp', '6'),
+	('citations_cat_cols', '1'),
+	('cache_duree_citations_cat','3600');
+	</requete>
+	<requete>
+INSERT INTO `a_modelisation_tables` (`nom_champs`, `type_saisie`, `lang`, `param`, `page`) VALUES
+	('citations_bpp', 'text', 'L_BILLETS_PAR_PAGE', '10', 'Citations'),
+	('citations_cat_cols', 'text', 'L_CAT_COLS', '10', 'Citations'),
+	('cache_duree_citations_cat', 'text', 'Q_CACHE_DUREE_BLOGS_CATS', '10', 'Config_Cache');
+	</requete>
 </install>
 <update>
-	<version></version>
-	<requete></requete>
+	<version>0.2</version>	
+	<step id_version="0.2">
+		<requete>
+	INSERT INTO `a_config` (`data`, `valeur`) VALUES
+		('citations_bpp', '6'),
+		('citations_cat_cols', '1'),
+		('cache_duree_citations_cat','3600');
+		</requete>
+		<requete>
+	INSERT INTO `a_modelisation_tables` (`nom_champs`, `type_saisie`, `lang`, `param`, `page`) VALUES
+		('citations_bpp', 'text', 'L_BILLETS_PAR_PAGE', '10', 'Citations'),
+		('citations_cat_cols', 'text', 'L_CAT_COLS', '10', 'Citations'),
+		('cache_duree_citations_cat', 'text', 'Q_CACHE_DUREE_BLOGS_CATS', '10', 'Config_Cache');
+		</requete>
+	</step>
 </update>
 </module>
