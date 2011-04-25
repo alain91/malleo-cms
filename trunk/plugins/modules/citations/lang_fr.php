@@ -6,14 +6,14 @@ $lang['L_MENU_CITATIONS'] = 'Citations';
 $lang['L_MENU_CITATIONS_CONFIGURATION'] = 'Configuration';
 $lang['L_MENU_CITATIONS_CATEGORIES'] = 'Cat&eacute;gories';
 
-$lang['L_CATEGORY'] = 'Catégories';
-$lang['L_ALLF'] = "Tous les fichiers";
-$lang['L_ADDC'] = "";
-$lang['L_ADDF'] = "";
-$lang['L_ALLF'] = "";
-$lang['L_TITRE'] = "titre colonne 1 tableau";
-$lang['L_DESC'] = "titre colonne 2 tableau";
-//etc   vous pouvez en  rajouter
+$lang['L_BILLETS_PAR_PAGE'] = 'Nombre de billets par page';
+$lang['L_CAT_COLS'] = 'Nombre de colonne d\'affichage des catégories';
+
+$lang['L_AJOUTER_CAT'] = 'Ajouter une cat&eacute;gorie';
+$lang['L_TITRE'] = 'Titre';
+$lang['L_IMAGE'] = 'Image';
+$lang['L_MODULE'] = 'Module';
+$lang['L_TOUT_REMPLIR'] = 'Merci de mettre au moins un titre';
 
 $erreur[2100] = 'Vous n\'avez pas l\'autorisation d\'&eacute;crire une page';
 $erreur[2101] = 'Vous n\'avez pas l\'autorisation de supprimer une page';

@@ -16,14 +16,15 @@
 |  SVP lisez Licence_CeCILL_V2-fr.txt
 |------------------------------------------------------------------------------------------------------------
 */
-defined('CITATIONS_PATH') OR die("Tentative de Hacking");
+defined('PROTECT') OR die("Tentative de Hacking");
 
 // Listing des tables
 global $prefixe;
-define('TABLE_CITATIONS', $prefixe.'mod_citations');
+define('TABLE_CITATIONS', $prefixe.'mod_citations_billets');
+define('TABLE_CITATIONS_CATS', $prefixe.'mod_citations_cats');
 
 // Fichier des Classes du Module
-require_once(CITATIONS_PATH.'/class_citations.php');
+require_once(dirname(__FILE__).'/class_citations.php');
 
 global $citations;
 $citations = new Citations();
