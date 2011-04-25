@@ -49,5 +49,6 @@ $lang['Q_CACHE_WHOISONLINE'] = 'Donn&eacute;e: WhoIsOnline: Listing des utilisat
 $lang['Q_CACHE_WHOISONLINE_GROUPES'] = 'Donn&eacute;e: WhoIsOnline: Listing des groupes';
 $lang['Q_CACHE_DUREE_FORUMS'] = 'Donn&eacute;e: Forum: Listing des forums de chaque module forum';
 $lang['Q_CACHE_DUREE_BLOGS_CATS'] = 'Donn&eacute;e: Blog: Listing des cat&eacute;gories de chaque blog';
+$lang['L_CACHE_DUREE_CITATIONS_CATS'] = 'Donn&eacute;e: Citations: Listing des cat&eacute;gories de chaque citation';
 
 ?>
