@@ -1,6 +1,11 @@
 <?php
 
 $lang['R_pages_supprimer'] = 'Supprimer';
+
+$lang['L_MENU_CITATIONS'] = 'Citations';
+$lang['L_MENU_CITATIONS_CONFIGURATION'] = 'Configuration';
+$lang['L_MENU_CITATIONS_CATEGORIES'] = 'Cat&eacute;gories';
+
 $lang['L_CATEGORY'] = 'Catégories';
 $lang['L_ALLF'] = "Tous les fichiers";
 $lang['L_ADDC'] = "";
