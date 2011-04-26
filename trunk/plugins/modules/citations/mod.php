@@ -30,11 +30,7 @@ class controller_citations extends Controller
 	function init()
 	{
 		global $droits,$module;
-				// Autorisations
-		if (!$droits->check($module,0,'voir'))
-		{
-			error404(1000);
-		}
+		// DO NOTHING
 	}
 	
 	function getActions()
@@ -44,12 +40,15 @@ class controller_citations extends Controller
         return array(
             'index' 	=> $path.'action_lister',
             'editer'	=> $path.'action_editer',
-            'voir'		=> $path.'action_voir',
+            'supprimer'	=> $path.'action_supprimer',
         );
 	}
 }
 
+$citations->texte = 'toto\'titi"';
+$ctations->auteur = 'auteur';
+var_dump($citations->modifier(1)); exit;
+
 $controller = new controller_citations();
-$controller->init();
 $controller->dispatch();
 ?>

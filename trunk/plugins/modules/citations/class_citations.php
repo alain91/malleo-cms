@@ -21,10 +21,14 @@
 class Action
 {
 	function __construct()
-	{}
+	{
+		$this->init();
+	}
 	
 	function Action()
-	{}
+	{
+		self::__construct();
+	}
 	
 	function init()
 	{}
@@ -35,10 +39,14 @@ class Action
 class Controller
 {
 	function __construct()
-	{}
+	{
+		$this->init();
+	}
 	
 	function Controller()
-	{}
+	{
+		self::__construct();
+	}
 	
 	function init()
 	{}
@@ -68,9 +76,9 @@ class Controller
 }
 class Citations
 {
-	var $_texte;
-	var $_auteur;
-	var $_date;
+	var $texte;
+	var $auteur;
+	var $date;
 	
 	function clean()
 	{
@@ -90,8 +98,8 @@ class Citations
 		$limit = empty($cf->config['pages_nbre_pages_listing']) ? 20 : $cf->config['pages_nbre_pages_listing'];
 			
 		$sql = 'SELECT c.id_citation,c.texte, c.auteur, c.date, u.user_id, u.pseudo
-				FROM '.TABLE_CITATIONS.' as c LEFT JOIN '.TABLE_USERS.' as u
-				ON (c.user_id=u.user_id)
+				FROM '.TABLE_CITATIONS.' as c
+				LEFT JOIN '.TABLE_USERS.' as u ON (c.user_id=u.user_id)
 				ORDER BY c.date DESC
 				LIMIT '.$start.','.$limit;
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
@@ -133,20 +141,22 @@ class Citations
 	}
 	
 	//
-	// Renvoie le nombre de pages web dans ce module
-	function get_nbre_citations()
+	// Renvoie le nombre de citations
+	function get_nbre()
 	{
 		global $c;
+		
 		$sql = 'SELECT COUNT(1) AS NB FROM '.TABLE_CITATIONS;
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
-		var_dump($resultat); exit;
-		return $c->sql_numrows($resultat);
+		$row = $c->sql_fetchrow($resultat);
+		return (int)$row['NB'];
 	}
 	
 	//
 	// AFFICHE les champs de saisie/edition
 	function saisie_texte($id_page=null){
 		global $tpl,$lang;
+		
 		// Init var
 		$this->titre_long = $this->titre_court = $this->texte = $this->hidden = '';
 		$mode = 'nouveau_enregistrer';
@@ -165,10 +175,12 @@ class Citations
 	}
 	
 	//
-	// Enregistre en base la page
-	function enregistrer_page(){
+	// Insere une nouvelle citation
+	function inserer()
+	{
 		global $c,$module,$user,$root;
-		$sql = 'INSERT INTO '.TABLE_PAGES.' (module, user_id, date, titre_court, titre_long, texte) 
+		
+		$sql = 'INSERT INTO '.TABLE_CITATIONS.' (module, user_id, date, titre_court, titre_long, texte) 
 				VALUES 	(
 				\''.	$module.'\',
 				'.		$user['user_id'].',
@@ -185,51 +197,54 @@ class Citations
 	}
 	
 	//
-	// Enregistrement des modifications apportées à la page
-	function enregistrer_modification_page(){
+	// Modifie une citation
+	function modifier($id)
+	{
 		global $c,$module,$root;
-		$sql = 'UPDATE '.TABLE_PAGES.' SET 
-					titre_court=\''.	$this->titre_court.'\',
-					titre_long=\''.		$this->titre_long.'\',
-					texte=\''.			$this->texte.'\' 
-				WHERE id_page='.		$this->id_page.'
-				AND module=\''.			$module.'\'
+		
+		$sql = 'UPDATE '.TABLE_CITATIONS.' SET 
+					contents=\''.	$c->sql_escape($this->texte).'\',
+					author=\''.		$c->sql_escape($this->auteur).'\'
+				WHERE id='.$id.'
 				LIMIT 1';
+		var_dump($sql); exit;
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
-		// Enregistrement en local des images
-		require_once($root.'class/class_image.php');
-		$image = new image();
-		$image->copie_locale_images(str_replace("\'","''",$this->texte),'UPDATE '.TABLE_PAGES.' SET texte=\'%s\' WHERE id_page='.$this->id_page);
+		var_dump($resultat); exit;
 	}
 	
 	//
 	// Supprime la citation demandée
-	function supprimer_citation($id)
+	function supprimer($id)
 	{
-		global $c,$module;
+		global $c;
+		
 		$sql = 'DELETE FROM '.TABLE_CITATIONS.' WHERE id_citation='.$id;
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
+		var_dump($resultat); exit;
 		return true;
 	}
 	
 	//
 	// Renvoie les informations
-	function infos_citation($id)
+	function infos($id)
 	{
-		global $c,$module;
-		$sql = 'SELECT texte, auteur, date
+		global $c;
+		
+		$sql = 'SELECT c.*
 				FROM '.TABLE_CITATIONS.' as c
-				WHERE id_citation = '.$id;
+				WHERE id = '.$id.'
+				LIMIT 1';
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
-		if ($c->sql_numrows($resultat) > 0){
-			$row = $c->sql_fetchrow($resultat);
-			$this->_texte = $row['texte'];
-			$this->_auteur = $row['auteur'];
-			$this->_date = $row['date'];
+		$row = $c->sql_fetchrow($resultat);
+		if(!empty($row))
+		{
+			$this->texte 	= $row['contents'];
+			$this->auteur 	= $row['author'];
+			$this->date 	= $row['timestamp'];
 		}
+		return $this;
 	}
 	
 }
-
 
 ?>

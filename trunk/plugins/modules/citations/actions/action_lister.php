@@ -3,6 +3,17 @@ defined('CITATIONS_PATH') OR die("Tentative de Hacking");
 
 class action_lister extends Action
 {
+	function init()
+	{
+		global $droits,$module;
+		
+		if (!$droits->check($module,0,'voir'))
+		{
+			error404(518);
+			exit;
+		}
+	}
+	
 	function run()
 	{
 		global $session,$tpl,$droits,$module,$img,$lang;
@@ -15,7 +26,8 @@ class action_lister extends Action
 		$tpl->titre_navigateur = $module;
 		$tpl->titre_page = $module;
 
-		if ($droits->check($module,0,'poster')){
+		if ($droits->check($module,0,'poster'))
+		{
 			$tpl->options_page = array(
 					3=>array(
 					'ICONE'		=> $img['nouveau'],
