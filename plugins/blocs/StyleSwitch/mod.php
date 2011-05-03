@@ -45,7 +45,7 @@ if (isset($_POST['style']) && $user['user_id'] > 1)
 	$ch = @opendir($chemin);
 	while ($style = @readdir($ch))
 	{
-		if ($style[0] != '.' && is_dir($chemin.$style)) {
+		if ($style != '.' && $style != '..' && is_dir($chemin.$style)) {
 			$liste[] = $style;
 		}
 	}

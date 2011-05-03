@@ -123,6 +123,20 @@ class plugins
 			$this->get_liste_plugins(true);
 		}
 	}
+	
+	//
+	// Supprime le module dans la table plugins
+	function supprimer_plugin($plugin){
+		global $c;
+		$plugin = trim($plugin);
+		if (!empty($plugin))
+		{
+			$sql = 'DELETE FROM '.TABLE_PLUGINS.' WHERE plugin=\''.mysql_real_escape_string($plugin).'\' LIMIT 1';
+			$resultat=$c->sql_query($sql) OR message_die(E_ERROR,31,__FILE__,__LINE__,$sql);
+			return $resultat != false;
+		}
+		return false;
+	}
 }
 
 ?>

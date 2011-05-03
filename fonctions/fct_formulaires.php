@@ -40,7 +40,7 @@ function lister_styles()
 	$ch = @opendir($chemin);
 	while ($style = @readdir($ch))
 	{
-		if (substr($style,0,1) != "." && is_dir($chemin.$style)) {
+		if ($style != "." && $style != ".." && is_dir($chemin.$style)) {
 			$liste_styles[] = $style;
 		}
 	}
@@ -90,7 +90,7 @@ function lister_langues()
 	$ch = @opendir($chemin);
 	while ($lang = @readdir($ch))
 	{
-		if ($lang[0] != '.' && is_dir($chemin.$lang)) {
+		if ($lang != "." && $lang != ".." && is_dir($chemin.$lang)) {
 			$liste_langues[] = $lang;
 		}
 	}

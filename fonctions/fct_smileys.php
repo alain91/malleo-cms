@@ -23,6 +23,7 @@ if ( !defined('PROTECT') )
 	die("Tentative de Hacking");
 }
 // Rafraichir le cache pour voir le changement de nombre de colonnes
+global $nbre_cols;
 $nbre_cols = 6;
 
 // Chargement des smileys
@@ -36,6 +37,7 @@ function creer_cache_emotions(){
 	$cols=$lignes=0	;
 	while($row = $c->sql_fetchrow($resultat))
 	{
+		if (empty($nbre_cols)) $nbre_cols = 6;
 		if ($cols%$nbre_cols == 0){
 			$tpl->assign_block_vars('ligne', array());
 			$cols = 0;

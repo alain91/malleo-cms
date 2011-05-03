@@ -334,11 +334,6 @@ class sql_db
 
 		return $result;
 	}
-	
-	public function sql_escape($str)
-	{
-		return mysql_real_escape_string($str);
-	}
 
 } // class sql_db
 
