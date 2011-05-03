@@ -128,7 +128,7 @@ class modules
 		$ch = @opendir($chemin);
 		while ($module = @readdir($ch))
 		{
-			if (substr($module,0,1) != "." && is_dir($chemin.$module) && !in_array($module,$liste_modules_installes)) {
+			if ($module != "." && $module != ".." && is_dir($chemin.$module) && !in_array($module,$liste_modules_installes)) {
 				$liste_modules .= "\n ".'<option>'.$module.'</option>';
 			}
 		}
@@ -168,7 +168,7 @@ class modules
 		$ch = @opendir($chemin);
 		while ($style = @readdir($ch))
 		{
-			if ($style[0] != '.' && is_dir($chemin.$style)) {
+			if ($style != "." && $style != ".." && is_dir($chemin.$style)) {
 				$selected = ($SelectStyle == $style)?' selected="selected"':'';
 				$liste_styles .= "\n ".'<option'.$selected.'>'.$style.'</option>';
 			}

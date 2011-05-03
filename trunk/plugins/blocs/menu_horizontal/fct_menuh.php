@@ -58,8 +58,7 @@ function listes_pages_admin()
 	$dossier = @opendir($folder);
 	while ($Fichier = @readdir($dossier))
 	{
-		if (substr($Fichier,0,1) != "."
-			&& is_dir($folder.$Fichier)
+		if ($Fichier != "." && $Fichier != ".." && is_dir($folder.$Fichier)
 			&& array_key_exists($Fichier,$liste_plugins)
 			&& file_exists($folder.$Fichier.'/_admin_menu.php')) {
 				include_once($folder.$Fichier.'/_admin_menu.php');
@@ -71,8 +70,7 @@ function listes_pages_admin()
 	$dossier = @opendir($folder);
 	while ($Fichier = @readdir($dossier))
 	{
-		if ($Fichier[0] != '.'
-			&& is_dir($folder.$Fichier)
+		if ($Fichier != "." && $Fichier != ".." && is_dir($folder.$Fichier)
 			&& array_key_exists($Fichier,$liste_plugins)
 			&& file_exists($folder.$Fichier.'/_admin_menu.php')) {
 				include_once($folder.$Fichier.'/_admin_menu.php');

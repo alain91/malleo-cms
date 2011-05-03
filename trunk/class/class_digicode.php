@@ -166,6 +166,7 @@ class digicode extends image
 	//
 	// Verifie que le code saisi corresponde bien au code definis par les fondateurs
 	function verifier_code($vars){
+	var_dump(__line__,$this->retour); exit;
 		$this->purger_cache_digicode();
 		if (!isset($vars['code']) 
 			|| empty($vars['code']) 
@@ -232,7 +233,8 @@ class digicode extends image
 		$ch = @opendir($this->url_cache);
 		while ($fichier = @readdir($ch))
 		{
-			if ($fichier[0] != "." && $fichier != '.htaccess' && !is_dir($this->url_cache.$fichier))
+			if ($fichier != '.' && $fichier != '..' 
+				&& $fichier != '.htaccess' && !is_dir($this->url_cache.$fichier))
 			{
 				@unlink($this->url_cache.$fichier);
 			}

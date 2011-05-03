@@ -175,7 +175,7 @@ include_once($root.'fonctions/fct_formulaires.php');
 $ch = @opendir($dir_langues);
 while ($lg = @readdir($ch))
 {
-	if (substr($lg,0,1) != "."&& is_dir($dir_langues.$lg)) {
+	if ($lg != '.' && $lg != '..' && is_dir($dir_langues.$lg)) {
 		$tpl->assign_block_vars('liste_langues', array(
 			'ICONE'		=> 'data/flags/'.$lg.'.gif',
 			'LANG'		=> (array_key_exists('L_LANG_'.$lg,$lang))? $lang['L_LANG_'.$lg]:'',
@@ -191,7 +191,7 @@ while ($lg = @readdir($ch))
 $ch = @opendir($dir_styles);
 while ($style = @readdir($ch))
 {
-	if ($style[0] != "." && is_dir($dir_styles.$style)) {
+	if ($style != '.' && $style != '..' && is_dir($dir_styles.$style)) {
 		$tpl->assign_block_vars('liste_styles', array(
 			'ICONE'		=> $dir_styles.$style.'/apercu.jpg',
 			'LANG'		=> $style,

@@ -60,7 +60,7 @@ function dirsize($dir)
 	$ch = @opendir($dir);
 	while ($file = @readdir($ch))
 	{
-		if (substr($file,0,1) != "." && $file != '.htaccess') {
+		if ($file[0] != ".") {
 			if (is_dir($dir.$file)){
 				$size += dirsize($dir.$file.'/');
 			}else{

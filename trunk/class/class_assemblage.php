@@ -314,9 +314,8 @@ class Assemblage
 		message_die(E_ERROR,12,__FILE__,__LINE__);
 		while ($bloc = @readdir($ch))
 		{
-			if ($bloc[0] != '.'
-				&& is_dir($this->chemin_blocs.$bloc) && $bloc != 'menu_horizontal'
-				&& $bloc != 'html' && !in_array($bloc,$exclus))
+			if ($bloc != '.' && $bloc != '..' && is_dir($this->chemin_blocs.$bloc) 
+							&& $bloc != 'menu_horizontal'&& $bloc != 'html' && !in_array($bloc,$exclus))
 			{
 				if (!array_key_exists($bloc,$liste_plugins)){
 					$plugin->install_plugin($bloc,1);

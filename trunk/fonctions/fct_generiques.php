@@ -68,7 +68,7 @@ function load_style($style=null){
 		while ($style = @readdir($ch))
 		{
 			$ext = pathinfo($style);
-			if ($style[0] != '.' && is_dir($chemin.$style)) {
+			if ($style != "." && $style != ".." && is_dir($chemin.$style)) {
 				$style_name = $style;
 				break;
 			}
@@ -158,6 +158,7 @@ function load_images_bloc($bloc=false){
 //
 // Lit le contenu d'un fichier distant via fsockopen
 function fsockopen_file_get_contents($url){
+return('0.0');
 	if (!function_exists('fsockopen')) return false;
 
 	$parts = parse_url($url);
@@ -251,6 +252,11 @@ function error404($msg=false)
 
 function message_die($CodeErreur,$NumErreur, $err_file, $err_line, $sql = '')
 {
+	if (!(error_reporting() & $CodeErreur))
+	{
+        // This error code is not included in error_reporting
+        return false;
+    }
 	// On masque les erreur E_STRICT non graves
 	if (defined('E_STRICT') && $CodeErreur == E_STRICT) return false;
 	

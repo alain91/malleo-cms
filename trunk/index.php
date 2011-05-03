@@ -18,6 +18,7 @@
 | SVP lisez Licence_CeCILL_V2-fr.txt
 |------------------------------------------------------------------------------------------------------------
 */
+
 define('PROTECT',true);
 $root = './';
 require_once($root.'/chargement.php');

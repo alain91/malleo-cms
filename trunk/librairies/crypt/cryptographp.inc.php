@@ -116,7 +116,7 @@ $img = imagecreatetruecolor($cryptwidth,$cryptheight);
 if ($bgimg and is_dir($bgimg)) {
                     $dh  = opendir($bgimg);
                     while (false !== ($filename = readdir($dh))) 
-                          if($filename[0] != '.' && eregi(".[gif|jpg|png]$", $filename))  $files[] = $filename;
+                          if(eregi(".[gif|jpg|png]$", $filename))  $files[] = $filename;
                     closedir($dh);
                     $bgimg = $bgimg.'/'.$files[array_rand($files,1)];
                     }

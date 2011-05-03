@@ -57,7 +57,12 @@ if (isset($_GET['action']) || isset($_POST['action']))
 			header('location: '.$base_formate_url);	exit;
 			break;
 		case 'supprimer':
+			global $cache;
 			$mod->supprime_module($_GET['id_module']);
+			require_once($root.'class/class_plugins.php');
+			$plugin = new plugins($root);
+			$plugin->supprimer_plugin($_GET['plugin']);
+			//$cache->purger_cache();
 			header('location: '.$base_formate_url);	exit;
 			break;
 		case 'virtuel_ajouter':	
@@ -181,7 +186,7 @@ foreach($liste_mods as $key=>$val){
 			'STYLE'			=> ($v['style'] != null)?$v['style']:$lang['L_AUCUN_STYLE'],
 			'S_DROITS'		=> formate_url('admin.php?module=admin/Permissions.php&generer&defaut&noeuds='.$v['module']),
 			'S_EDIT'		=> formate_url('action='.$vedit.'&id_module='.$v['id_module'],true),
-			'S_SUPP'		=> formate_url('action=supprimer&id_module='.$v['id_module'],true)
+			'S_SUPP'		=> formate_url('action=supprimer&id_module='.$v['id_module'].'&plugin='.$v['module'],true)
 		));
 		if ($v['virtuel']==null)
 		{

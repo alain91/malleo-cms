@@ -27,7 +27,7 @@ unset ($hote, $utilisateur, $password, $base,$img, $style_path, $style_name,$cac
 		$c, $cf, $user,$users, $droits, $startime, $liste_plugins,$titre_page);
 		
 //Chargement du systeme d'installation
-if (!file_exists($root.'config/config.php') && file_exists($root.'install/') && !ereg('install/',$_SERVER['PHP_SELF'])) header('location: '.$root.'install/index.php');
+if (file_exists($root.'install/') && !ereg('install/',$_SERVER['PHP_SELF'])) header('location: '.$root.'install/index.php');
 		
 // Config
 include_once($root.'config/config.php');
