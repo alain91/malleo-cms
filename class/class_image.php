@@ -249,7 +249,7 @@ class image
 		$ch = @opendir($dir);
 		while ($image = @readdir($ch))
 		{
-			if ($image != '.' && $image != '..' & $image != '.htaccess') {
+			if (substr($image,0,1) != "." && $image != '.htaccess') {
 				if (is_dir($dir.$image)){
 					$size += $this->dirsize($dir.$image.'/');
 				}else{
@@ -448,7 +448,7 @@ class image
 		$ch = @opendir($dir);
 		while ($image = @readdir($ch))
 		{
-			if ($image != '.' && $image != '..' && in_array($this->extension($image),$this->ext_ok)) {
+			if ($image[0] != '.' && in_array($this->extension($image),$this->ext_ok)) {
 				$this->miniature_image($image,$dir);
 			}
 		}
