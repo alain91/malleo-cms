@@ -48,7 +48,7 @@ class session
 	//
 	// création d'une session pour un visiteur
 	function new_session(){
-		global $c,$cache,$session;
+		global $c,$cache;
 		// ------------------------------------------------------
 		// On verifie que cette IP n'est pas bannie
 		if (!$this->ip_bannie()) return false;
@@ -72,19 +72,18 @@ class session
 				$this->id_session = session_id();
 			}
 		}
-
+		
 		// ------------------------------------------------------
 		// Recherche de corélation id de session<->utilisateur
-		$id_recent = false;
+		$session = false;
 		foreach($this->liste_ip AS $ip => $sess){
 			// Session recente donc trouvee en cache
 			if($sess['id_session'] == $this->id_session){
-				$id_recent = $this->id_session;
+				$session = $this->id_session;
 				break;
 			}
 		}
-
-		if (true){
+		if ($session == false){
 			// Recherche directe en base
 			// La session existe en base  ?
 			$sql = 'SELECT id_session,user_id,date_lastvisite,user_ip 
@@ -101,7 +100,6 @@ class session
 		}
 		// ------------------------------------------------------
 		// Informations sur l'utilisateur
-		$session = $this;
 		$cache->files_cache['infos_user'] = array($this->path_cache.$this->id_session, 'global $session; return $session->infos_user();',$this->cf['cache_session_user']);
 		$this->info_user = $cache->appel_cache('infos_user');
 		return $this->info_user ;
@@ -136,7 +134,7 @@ class session
 		// Session zone admin
 		if (isset($_SESSION['digicode_TTL']))$_SESSION['digicode_TTL'] = 0;
 		// Session publique
-		$this->destroy_session(true);
+		$this->destroy_session(false);
 		// Création d'une session invite
 		if (!session_id()) session_start();
 		session_regenerate_id();
@@ -160,9 +158,8 @@ class session
 			if (!$c->sql_query($sql)) message_die(E_ERROR,4,__FILE__,__LINE__,$sql);
 		}
 		// en cache
-		$file = $this->path_cache.$this->id_session.'.php';
-		if (file_exists($file)){
-			unlink($file);
+		if (file_exists($this->path_cache.$this->id_session)){
+			unlink($this->path_cache.$this->id_session);
 		}
 		// chez le visiteur: le cookie
 		setcookie($this->cf['cookie_name'], null, ($this->time-3600)); // cookie malleo
@@ -179,7 +176,8 @@ class session
 		$ch = @opendir($this->path_cache);
 		while ($file = @readdir($ch))
 		{
-			if (!is_dir($this->path_cache.$file)
+			if ($file[0] != '.'
+				&& !is_dir($this->path_cache.$file)
 				&& $file!='.htaccess' 
 				&& (filemtime($this->path_cache.$file)<($this->time - 3600))
 				&& is_writable($this->path_cache.$file)){
