@@ -121,7 +121,7 @@ class cache
 		$ch = @opendir($chemin);
 		while ($fichier = @readdir($ch))
 		{
-			if ($fichier != '.' && $fichier != '..' && $fichier != '.htaccess' && !is_dir($chemin.$fichier))
+			if ($fichier[0] != '.' && !is_dir($chemin.$fichier))
 			{
 				switch($action){
 					case 'tester_effacer_fichiers': if (!$this->tester_effacer_fichiers($chemin.$fichier))return false;
@@ -141,7 +141,7 @@ class cache
 		$ch = @opendir($chemin);
 		while ($fichier = @readdir($ch))
 		{
-			if ($fichier != '.' && $fichier != '..' && is_dir($chemin.$fichier))
+			if ($fichier[0] != '.' && is_dir($chemin.$fichier))
 			{
 				$this->files[] = $chemin.$fichier;
 			}
