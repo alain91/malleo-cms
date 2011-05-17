@@ -231,11 +231,15 @@ function error404($msg=false)
 		include_once($root.'lang/'.$user['langue'].'/lang_error.php');
 	}
 	// SI un BUG survient avant le chargement des elements de base on tente de relancer le minimum
-	$msg = ($msg==false || !array_key_exists($msg,$erreur))?$lang['PAGE_NOT_FOUND']: $erreur[$msg];
+	$message = $lang['PAGE_NOT_FOUND'];
+	if (array_key_exists($msg,$erreur))
+		$message = $erreur[$msg];
+	elseif (is_string($msg))
+		$message = $msg;
 	if(!isset($session))$session->make_navlinks($msg,formate_url('',true));
 	$tpl->set_filenames(array('body' => $root.'html/error_404.html'));
 	$tpl->assign_vars(array(
-		'MSG'		=> $msg,
+		'MSG'		=> $message,
 		'L_RETOUR'	=> $lang['L_RETOUR']
 	));
 	$tpl->assign_block_vars('retour', array());
