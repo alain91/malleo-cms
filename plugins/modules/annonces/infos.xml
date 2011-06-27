@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<module>
+<libelle>Annonces</libelle>
+<version>0.1</version>
+<auteur>alain91</auteur>
+<site_auteur>http://localhost/malleoBase</site_auteur>
+<check_version>http://localhost/malleoBase/versions/annonces.txt</check_version>
+<install>
+	<requete>
+DROP TABLE IF EXISTS `a_mod_annonces`;
+	</requete>
+	<requete>
+CREATE TABLE IF NOT EXISTS `a_mod_annonces` (
+  `id` int(11) NOT NULL auto_increment,
+  `cat_id` int(11),
+  `title` varchar(63) NOT NULL default '',
+  `contents` text NOT NULL default '',
+  `picture` varchar(63) NOT NULL default '',
+  `id_creator` int(11) NOT NULL default 0,
+  `date_created` int(11) NOT NULL default 0,
+  `type` tinyint(4) NOT NULL default 0,
+  `price` FLOAT NOT NULL default 0.0,
+  `approved` tinyint(4) unsigned NOT NULL default 0,
+  `date_approved` int(11) NOT NULL default 0,
+  `id_updator` int(11) NOT NULL default 0,
+  `date_updated` int(11) NOT NULL default 0,
+  `links_flag` int(11) NOT NULL default 0,
+  `vid` int(11) NOT NULL DEFAULT 0,
+  `max_weeks` int(11),
+  PRIMARY KEY  (`id`)
+) AUTO_INCREMENT=1 ;
+	</requete>
+	<requete>
+DROP TABLE IF EXISTS `a_mod_annonces_cats`;
+	</requete>
+	<requete>
+CREATE TABLE `a_mod_annonces_cats` (
+		  `id_cat` int(11) unsigned NOT NULL auto_increment,
+		  `titre_cat` varchar(50) NOT NULL default '',
+		  `image_cat` varchar(100) NOT NULL default '',
+		  `ordre` int(11) unsigned NOT NULL default 999,
+		  PRIMARY KEY  (`id_cat`)
+) AUTO_INCREMENT=1 ;
+	</requete>
+	<requete>
+DELETE FROM `a_config` WHERE
+	`data` = 'annonces_bpp' OR
+	`data` = 'annonces_cat_cols' OR
+	`data` = 'cache_duree_annonces_cat';
+	</requete>
+	<requete>
+INSERT INTO `a_config` (`data`, `valeur`) VALUES
+	('annonces_bpp', 10),
+	('annonces_cat_cols', 1),
+	('cache_duree_annonces_cat', 3600);
+	</requete>
+	<requete>
+DELETE FROM `a_modelisation_tables` WHERE
+	`nom_champs` = 'annonces_bpp' OR
+	`nom_champs` = 'annonces_cat_cols' OR
+	`nom_champs` = 'cache_duree_annonces_cat' LIMIT 3;
+	</requete>
+	<requete>
+INSERT INTO `a_modelisation_tables` (`nom_champs`, `type_saisie`, `lang`, `param`, `page`) VALUES
+	('annonces_bpp', 'text', 'L_BILLETS_PAR_PAGE', 10, 'Annonces'),
+	('annonces_cat_cols', 'text', 'L_CAT_COLS', 10, 'Annonces'),
+	('cache_duree_annonces_cat', 'text', 'Q_CACHE_DUREE_ANNONCES_CATS', 10, 'Config_Cache');
+	</requete>
+</install>
+<delete>
+	<requete>
+DROP TABLE IF EXISTS `a_mod_annonces`;
+	</requete>
+	<requete>
+DROP TABLE IF EXISTS `a_mod_annonces_cats`;
+	</requete>
+	<requete>
+DELETE FROM `a_config` WHERE
+	`data` = 'annonces_bpp' OR
+	`data` = 'annonces_cat_cols' OR
+	`data` = 'cache_duree_annonces_cat' LIMIT 3;
+	</requete>
+	<requete>
+DELETE FROM `a_modelisation_tables` WHERE
+	`nom_champs` = 'annonces_bpp' OR
+	`nom_champs` = 'annonces_cat_cols' OR
+	`nom_champs` = 'cache_duree_annonces_cat' LIMIT 3;
+	</requete>
+	<requete>
+DELETE FROM `a_plugins` WHERE `plugin` = 'annonces' LIMIT 1;
+	</requete>
+</delete>
+</module>
