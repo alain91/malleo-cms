@@ -5,30 +5,41 @@
 		<hr style="margin-top:15px;" />
 	<!-- END description -->
 	
-	<!-- BEGIN quotes -->
+	<!-- BEGIN item -->
 	<div style="border:1px solid black">
 		<div>
-			<div style="float:left;">{quotes.DATE} - #{quotes.ID}</div>
+			<div style="float:left;">{item.DATE} - #{item.ID}</div>
 			<div style="float:right;">
 	<!-- BEGIN edit -->
-			<a href="{quotes.edit.U_EDIT}"><img src="{I_EDITER}" alt="{L_EDIT}" title="{L_EDIT}" /></a>
+			<a href="{item.edit.U_EDIT}"><img src="{I_EDITER}" alt="{L_EDITER}" title="{L_EDITER}" /></a>
 	<!-- END edit -->
 	<!-- BEGIN delete -->
-			<a href="{quotes.delete.U_DELETE}" onclick="return confirmLink('{L_CONFIRM_DELETE}',this,'');""><img src="{I_DELETE}" alt="{L_DELETE}" title="{L_DELETE}" /></a>
+			<a href="{item.delete.U_DELETE}" onclick="return confirmLink('{L_CONFIRM_DELETE}',this,'');""><img src="{I_DELETE}" alt="{L_DELETE}" title="{L_DELETE}" /></a>
 	<!-- END delete -->
 			&nbsp;</div>
 		</div>
 		<div style="clear:both; text-align:center; padding:5px">
-			{quotes.CONTENU}
+			{item.TITRE}
 			<br />
-			<strong>{quotes.AUTEUR}</strong>
+			{item.CONTENU}
+			<br />
+			<strong>{item.AUTEUR}</strong>
 		</div>
+	<!-- BEGIN login -->
+		LOGIN
+	<!-- END login -->
+	<!-- BEGIN pm -->
+		PM
+	<!-- END pm -->
+	<!-- BEGIN mail -->
+		MAIL
+	<!-- END mail -->
 	</div>
-	<!-- END quotes -->
+	<!-- END item -->
 
-	<!-- BEGIN no_items -->
+	<!-- BEGIN liste_vide -->
 		<div>
-			{no_items.L_NO_ITEMS}
+			{liste_vide.CONTENU}
 		</div>
-	<!-- END no_items -->
+	<!-- END liste_vide -->
 </div>

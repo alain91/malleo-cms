@@ -72,9 +72,9 @@ class action_editer extends Action
 			include_once($root.'fonctions/fct_'.$cf->config['wysiwyg_editor'].'.php');
 
 		$tpl->assign_vars(array(
-			'L_AUTEUR'	=> $lang['FORM_AUTEUR'],
+			'L_AUTEUR'		=> $lang['FORM_AUTEUR'],
 			'L_CATEGORIE'	=> $lang['FORM_CATEGORIE'],
-			'L_BILLET'	=> $lang['FORM_BILLET'],
+			'L_BILLET'		=> $lang['FORM_BILLET'],
 			'AUTEUR'	=> $annonces->auteur,
 			'BILLET'	=> $annonces->billet,
 			'ID'		=> $annonces->id,
