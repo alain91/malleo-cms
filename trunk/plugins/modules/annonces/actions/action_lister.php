@@ -20,6 +20,26 @@
 
 defined('ANNONCES_PATH') OR die("Tentative de Hacking");
 
+global $lang,$type_options,$sort_options,$mode_options;
+
+$type_options = array(0 => $lang['sa_group_all']);
+for ($i = 1; $i <= 9; $i++) {
+	if (!empty($lang['sa_group_'.$i]))
+		$type_options[$i] = $lang['sa_group_'.$i];
+	else
+		break;
+}
+
+$sort_options = array(
+	'title' => $lang['sa_sort_title'],
+	'date_created' => $lang['sa_sort_date'],
+	'price' => $lang['sa_sort_price']);
+$mode_options = array(
+	'asc' => $lang['sa_mode_asc'],
+	'desc' => $lang['sa_mode_desc']);
+
+$forgiven_tags = array('code', 'math', 'html');
+
 class action_lister extends Action
 {
 	function init()
@@ -35,7 +55,7 @@ class action_lister extends Action
 
 	function run()
 	{
-		global $tpl,$droits,$module;
+		global $tpl,$droits,$module,$img;
 
 		$tpl->set_filenames(array(
 			'annonces' => ANNONCES_PATH.'/html/liste.html',
@@ -60,64 +80,43 @@ class action_lister extends Action
 
 	function lister()
 	{
-		global $session,$tpl,$droits,$module,$img,$lang,$user;
-		
-		$items_per_page = $smallads->config_get('items_per_page', ITEMS_PER_PAGE);
-		$max_links      = $smallads->config_get('max_links', MAX_LINKS);
+		global $session,$tpl,$droits,$module,$img,$lang,$user,$jeton;
+		global $type_options,$sort_options,$mode_options;
 
 		$tpl->assign_vars(array(
-			'I_EDITER' 	=> $img['editer'],
-			'I_DELETE' 	=> $img['effacer'],
-			'L_EDIT' 	=> 'Editer',
-			'L_DELETE'	=> 'Supprimer',
-			'L_CONFIRM_DELETE' => 'Confirmer la suppression',
-			'C_LIST'         => $smallads->access_ok(LIST_ACCESS),
-			'C_DESCRIPTION'	 => FALSE,
-			'DESCRIPTION'	 => 'Champ description',
-			'THEME'			 => get_utheme(),
-			'LANG'			 => get_ulang(),
-			'C_NB_SMALLADS'	 => ($nbr_smallads > 0) ? 1 : 0,
-			'L_NO_SMALLADS'	 => $LANG['sa_no_smallads'],
-			'L_LIST_NOT_APPROVED'		=> $LANG['sa_list_not_approved'],
-			'L_PRICE'		 => $LANG['sa_db_price'],
-			'L_PRICE_UNIT'	 => $LANG['sa_price_unit'],
-			'C_ADD'			 => $c_add,
-			'URL_ADD'		 => $url_add,
-			'TARGET_ON_CHANGE_ORDER' => 'smallads.php?',
-			'PAGINATION'     => $Pagination->display('smallads' . url('.php?p=%d'.$qs), $nbr_smallads, 'p', $items_per_page, $max_links),
+			'L_DESCRIPTION'	=> 'Champ description',
+			'L_NO_SMALLADS'	=> $lang['sa_no_smallads'],
+			'L_PRICE'		=> $lang['sa_db_price'],
+			'L_PRICE_UNIT'	=> $lang['sa_price_unit'],
+			'I_EDITER' 		=> $img['editer'],
+			'I_DELETE' 		=> $img['effacer'],
+			'L_EDITER'		=> 'l_editer',
+			'L_DELETE'		=> 'l_delete',
+			'L_CONFIRM_DELETE'	=> 'l_confirm_delete',
+			'L_NOT_APPROVED' => $lang['sa_not_approved'],
 		));
 
-		$sort = !empty($_GET['sort']) ? $_GET['sort'] : '';
+		$sort = !empty($_GET['sort']) ? trim($_GET['sort']) : '';
 		if (empty($sort) || !array_key_exists($sort, $sort_options))
 		{
 			$sort = 'date_created';
 		}
 		
-		$mode = !empty($_GET['mode']) ? $_GET['sort'] : '';
+		$mode = !empty($_GET['mode']) ? trim($_GET['mode']) : '';
 		if (empty($mode) || !array_key_exists($mode, $mode_options))
 		{
 			$mode = 'desc';
 		}
 		
 		$type = !empty($_GET['type']) ? intval($_GET['type']) : 0;
-
-		$view_not_approved = retrieve(GET, 'ViewNotApproved', 0, TINTEGER);
-		$filter = array('(approved = 1)');
-		if ($view_not_approved)
-		{
-			if ($smallads->access_ok(DELETE_ACCESS))
-			{
-				$filter = array('(approved = 0)');
-			}
-		}
-		
+		$filter = null;
 		if (!empty($type))
 		{
-			$filter[] = '(type = '.intval($type).')'; 
+			$filter = 'type = '.(int)$type; 
 		}
 	
 		$annonces = Annonces::instance();
-		$rows = $annonces->recuperer_tous();
+		$rows = $annonces->recuperer_tous($sort, $mode, $filter);
 		if (empty($rows))
 		{
 			$tpl->assign_block_vars('liste_vide', array(
@@ -134,7 +133,7 @@ class action_lister extends Action
 	
 		foreach ($rows as $row)
 		{
-			$this->render_view($smallads, $row);
+			$this->render_view($annonces, $row);			
 		}
 		
 		foreach ($type_options as $k => $v)
@@ -144,19 +143,13 @@ class action_lister extends Action
 				'NAME' 		=> $v,
 				'CHECKED'	=> $checked,
 				'VALUE' 	=> $k));
-
-			if ($k == 0) continue; // don't display 'All' option if edit form
-			$tpl->assign_block_vars('type_options_edit',array(
-				'NAME' 		=> $v,
-				'SELECTED'	=> $smallads->selected($k, intval($row['type'])),
-				'VALUE' 	=> $k));
 		}
 		
 		foreach ($sort_options as $k => $v)
 		{
 			$tpl->assign_block_vars('sort_options',array(
 				'NAME' 		=> $v,
-				'SELECTED'	=> $smallads->selected($k, $sort),
+				'SELECTED'	=> $annonces->selected($k, $sort),
 				'VALUE' 	=> $k));
 		}
 
@@ -164,83 +157,44 @@ class action_lister extends Action
 		{
 			$tpl->assign_block_vars('mode_options',array(
 				'NAME' 		=> $v,
-				'SELECTED'	=> $smallads->selected($k, $mode),
+				'SELECTED'	=> $annonces->selected($k, $mode),
 				'VALUE' 	=> $k));
 		}
 	}
 	
-	function render_view($smallads, $row)
+	function render_view($annonces, $row)
 	{
-		global $Template, $User, $LANG, $type_options;
+		global $tpl,$user,$lang,$droits,$module,$jeton,$type_options;
 		
-		$user 		= $User->get_id();
-		$id_created = (int)$row['id_created'];
-		$c_edit 	= FALSE;
-		$url_edit	= '';
-		$c_delete	= FALSE;
-		$url_delete	= '';
-				
-		$v = $smallads->check_access(UPDATE_ACCESS, (OWN_CRUD_ACCESS|CONTRIB_ACCESS), $id_created);
-		if ($v)
-		{
-			$url_edit 	= url('.php?edit=' . $row['id']);
-			$c_edit 	= TRUE;
-		}
-		
-		$v = $smallads->check_access(DELETE_ACCESS, (OWN_CRUD_ACCESS|CONTRIB_ACCESS), $id_created);
-		if ($v)
-		{
-			$url_delete	= url('.php?delete=' . $row['id']);
-			$c_delete	= TRUE;
-		}
-
-		$is_user	= ((!empty($row['id_created']))
-							&& ($row['id_created'] > 0));
-
-		$is_pm 		= ((!empty($row['id_created']))
-							&& (intval($row['id_created']) != $user)
-							&& ($smallads->config_get('view_pm',0)));
-
-		$is_mail 	= ((!empty($row['user_mail']))
-							&& (!empty($row['user_show_mail']))
-							&& (!empty($row['id_created']))
-							&& (intval($row['id_created']) != $user)
-							&& ($smallads->config_get('view_mail',0)));
-		
-		if ($is_mail)
-		{
-			$mailto = $row['user_mail'];
-			$mailto .= "?subject=Petite annonce #".$row['id']." : ".$row['title'];
-			$mailto .= "&body=Bonjour,";
-		}
-		
-		$Template->assign_block_vars('item',array(
+		$tpl->assign_block_vars('item',array(
 			'ID' 		=> $row['id'],
-			'VID'		=> empty($row['vid']) ? '' : $row['vid'],
 			'TYPE'	 	=> $type_options[intval($row['type'])],
-			'TITLE' 	=> htmlentities($row['title']),
-			'CONTENTS' 	=> second_parse($row['contents']),
+			'TITRE' 	=> htmlentities($row['title']),
+			'CONTENU' 	=> htmlentities($row['contents']),
 			'PRICE'		=> $row['price'],
-			
-			'DB_CREATED' => (!empty($row['date_created'])) ? $LANG['sa_created'].gmdate_format('date_format', $row['date_created']) : '',
-			'DB_UPDATED' => (!empty($row['date_updated'])) ? $LANG['sa_updated'].gmdate_format('date_format', $row['date_updated']) : '',
-			'C_DB_APPROVED'	 => !empty($row['approved']) ? TRUE : FALSE,
-			'L_NOT_APPROVED' => $LANG['sa_not_approved'],
-
-			'C_EDIT' 	=> $c_edit,
-			'URL_EDIT'	=> $url_edit,
-			'C_DELETE'	=> $c_delete,
-			'URL_DELETE' => $url_delete,
-			'L_CONFIRM_DELETE' => $LANG['sa_confirm_delete'],
-			'URL_VIEW'	=> url('.php?id=' . $row['id']),
-		
-			'C_PICTURE'	 => !empty($row['picture']) ? TRUE : FALSE,
-			'PICTURE'	 => PATH_TO_ROOT.'/smallads/pics/'.$row['picture'],
-
-			'USER'		=> $is_user ? '<a href="'.PATH_TO_ROOT.'/member/member'. url('.php?id=' . $row['id_created'], '-' . $row['id_created'] . '.php') .'">'.$row['login'].'</a>' : '',
-			'USER_PM' 	=> $is_pm ? '&nbsp;: <a href="'.PATH_TO_ROOT.'/member/pm' . url('.php?pm=' . $row['id_created'], '-' . $row['id_created'] . '.php') . '"><img src="'.PATH_TO_ROOT.'/templates/' . get_utheme() . '/images/' . get_ulang() . '/pm.png" alt="pm" /></a>' : '',
-			'USER_MAIL' => $is_mail ? '&nbsp;<a href="mailto:' . $mailto . '"><img src="'.PATH_TO_ROOT.'/templates/' . get_utheme() . '/images/' . get_ulang() . '/email.png" alt="' . $row['user_mail']  . '" title="' . $row['user_mail']  . '" /></a>' : '',
+			'DATE_CREATED' => $row['date_created'],
+			'DATE_UPDATED' => $row['date_updated'],
+			'PICTURE'	 => $row['picture'],
 		));
+		
+		if ($droits->check($module,0,'ecrire')
+			|| ($row['id'] == $user['user_id']))
+		{
+			$tpl->assign_block_vars('item.edit', array(
+				'U_EDIT' => formate_url('action=editer&id='.$row['id'],true)
+			));
+		}
+		if ($droits->check($module,0,'supprimer')
+			|| ($row['id'] == $user['user_id']))
+		{
+			$tpl->assign_block_vars('item.delete', array(
+				'U_DELETE' => formate_url('action=supprimer&id='.$row['id'].'&jeton='.$jeton,true)
+			));
+		}
+			
+		$tpl->assign_block_vars('item.login',array());
+		$tpl->assign_block_vars('item.pm',array());
+		$tpl->assign_block_vars('item.mail',array());	
 	}
 
 }

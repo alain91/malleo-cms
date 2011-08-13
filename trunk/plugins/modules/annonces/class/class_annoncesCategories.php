@@ -20,14 +20,12 @@
 
 defined('PROTECT') OR die("Tentative de Hacking");
 
-class Annonces
+class AnnoncesCategories
 {
-	var $id;
 	var $id_cat;
-	var $billet;
-	var $auteur;
-	var $date_add;
-	var $date_upd;
+	var $title_cat;
+	var $picture_cat;
+	var $order;
 
 	private function __construct()
 	{
@@ -62,12 +60,12 @@ class Annonces
 			switch($key)
 			{
 				// Entier
-				case 'id':
 				case 'id_cat':
+				case 'order':
 					$this->$key = intval($val);break;
 				// Chaine de caracteres
-				case 'billet':
-				case 'auteur':
+				case 'title_cat':
+				case 'picture_cat':
 					$this->$key = $val;break;
 			}
 		}
@@ -81,7 +79,8 @@ class Annonces
 	{
 		global $c;
 
-		$sql = 'SELECT COUNT(1) AS NB FROM '.TABLE_ANNONCES;
+		$sql = 'SELECT COUNT(1) AS NB FROM '.TABLE_ANNONCES_CATS;
+
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		$row = $c->sql_fetchrow($resultat);
 		return (int)$row['NB'];
@@ -95,11 +94,11 @@ class Annonces
 	{
 		global $c,$user;
 
-		$sql = 'INSERT INTO '.TABLE_ANNONCES.' (id_creator, contents, date_created)
-				VALUES 	(
-				'.		intval($user['user_id']).',
-				\''.	Helper::sql_escape($this->billet).'\',
-				'.		time().')';
+		$sql = 'INSERT INTO '.TABLE_ANNONCES_CATS.'
+			SET title_cat = '.Helper::sql_escape($this->title_cat).',
+				picture_cat = '.Helper::sql_escape($this->picture_cat).',
+				`order` = '.intval($this->order);
+
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		$this->id = $c->sql_nextid($resultat);
 		return $this;
@@ -113,14 +112,14 @@ class Annonces
 	{
 		global $c,$module,$root;
 
-		if(empty($this->id))
+		if(empty($this->id_cat))
 			return false;
 
-		$sql = 'UPDATE '.TABLE_ANNONCES.' SET
-					contents=\''.	Helper::sql_escape($this->billet).'\',
-					author=\''.		Helper::sql_escape($this->auteur).'\',
-					date_upd='.	time() .'
-				WHERE id='.intval($this->id).'
+		$sql = 'UPDATE '.TABLE_ANNONCES_CATS.'
+			SET title_cat = '.Helper::sql_escape($this->title_cat).',
+				picture_cat = '.Helper::sql_escape($this->picture_cat).',
+				`order` = '.intval($this->order).'
+				WHERE id_cat='.intval($this->id_cat).'
 				LIMIT 1';
 
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
@@ -135,11 +134,11 @@ class Annonces
 	{
 		global $c;
 
-		if(empty($this->id))
+		if(empty($this->id_cat))
 			return false;
 
-		$sql = 'DELETE FROM '.TABLE_ANNONCES.'
-				WHERE id='.intval($this->id).'
+		$sql = 'DELETE FROM '.TABLE_ANNONCES_CATS.'
+				WHERE id_cat='.intval($this->id_cat).'
 				LIMIT 1';
 
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
@@ -154,23 +153,22 @@ class Annonces
 	{
 		global $c;
 
-		if(empty($this->id))
+		if(empty($this->id_cat))
 			return false;
 
 		$sql = 'SELECT c.*
-				FROM '.TABLE_ANNONCES.' as c
-				WHERE id = '.intval($this->id).'
+				FROM '.TABLE_ANNONCES_CATS.' as c
+				WHERE id_cat = '.intval($this->id_cat).'
 				LIMIT 1';
 
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		$row = $c->sql_fetchrow($resultat);
 		if(!empty($row))
 		{
-			$this->id 		= empty($row['id']) ? null : $row['id'];
-			$this->billet 	= empty($row['contents']) ? null : $row['contents'];
-			$this->auteur 	= empty($row['author']) ? null : $row['author'];
-			$this->date_add = empty($row['date_add']) ? null : $row['date_add'];
-			$this->date_upd = empty($row['date_upd']) ? null : $row['date_upd'];
+			$this->id_cat 		= empty($row['id_cat']) ? null : $row['id_cat'];
+			$this->title_cat 	= empty($row['title_cat']) ? null : $row['title_cat'];
+			$this->picture_cat 	= empty($row['picture_cat']) ? null : $row['picture_cat'];
+			$this->order 		= empty($row['order']) ? null : $row['order'];
 		}
 		return $this;
 	}
@@ -179,27 +177,23 @@ class Annonces
 	 * Recupere les infos de tous les enregistrements
 	 *
 	 */
-	function recuperer_tous($sort=null, $mode=null, $filter=null)
+	function recuperer_tous()
 	{
 		global $c;
 
 		$sql = 'SELECT a.*
-				FROM '.TABLE_ANNONCES.' as a';
-
-		if (!empty($filter))
-		{
-			$sql .= ' WHERE ('.$filter.')';
-		}
-		if (!empty($sort) AND !empty($mode))
-		{
-			$sql .= ' ORDER BY '.$sort.' '.$mode;
-		}
+				FROM '.TABLE_ANNONCES_CATS.' as a';
 
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		$rows = array();
 		while($row = $c->sql_fetchrow($resultat))
 		{
-			$rows[] = $row;
+			$item = new stdClass();
+			$item->id_cat = $row['id_cat'];
+			$item->title_cat = $row['title_cat'];
+			$item->picture_cat = $row['picture_cat'];
+			$item->order = $row['order'];
+			$rows[] = $item;
 		}
 		return $rows;
 	}

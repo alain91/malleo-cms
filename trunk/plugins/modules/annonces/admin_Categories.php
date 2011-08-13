@@ -67,7 +67,7 @@ if (isset($_POST['action']) || isset($_GET['action']))
 			$titre = $_POST['titre'];
 			$image = empty($_POST['image']) ? '' : $_POST['image'];
 			$id_module = $_POST['id_module'];
-			$sql = 'INSERT INTO '.TABLE_ANNONCES_CATS.' (titre_cat, image_cat) VALUES (
+			$sql = 'INSERT INTO '.TABLE_ANNONCES_CATS.' (title_cat, picture_cat) VALUES (
 				\''.Helper::sql_escape($titre).'\',
 				\''.Helper::sql_escape($image).'\')';
 			$resultat = $c->sql_query($sql) OR message_die(E_ERROR,510,__FILE__,__LINE__,$sql); 
@@ -79,8 +79,8 @@ if (isset($_POST['action']) || isset($_GET['action']))
 			$image = empty($_POST['image']) ? '' : $_POST['image'];
 			$id_cat = intval($_POST['id_cat']);
 			$sql = 'UPDATE '.TABLE_ANNONCES_CATS.' SET 
-					titre_cat=\''.Helper::sql_escape($titre).'\',
-					image_cat=\''.Helper::sql_escape($image).'\'
+					title_cat=\''.Helper::sql_escape($titre).'\',
+					picture_cat=\''.Helper::sql_escape($image).'\'
 					WHERE id_cat='.$id_cat;
 			$resultat = $c->sql_query($sql) OR message_die(E_ERROR,513,__FILE__,__LINE__,$sql); 
 			$cache->appel_cache('listing_blog_cat',true);
@@ -95,16 +95,16 @@ if (isset($_POST['action']) || isset($_GET['action']))
 			break;
 		case 'edit':
 			$id_cat = intval($_GET['id_cat']);
-			$sql = 'SELECT titre_cat, image_cat FROM '.TABLE_ANNONCES_CATS.' WHERE id_cat = '.$id_cat;
+			$sql = 'SELECT title_cat, picture_cat FROM '.TABLE_ANNONCES_CATS.' WHERE id_cat = '.$id_cat;
 			$resultat = $c->sql_query($sql) OR message_die(E_ERROR,512,__FILE__,__LINE__,$sql); 
 			$row = $c->sql_fetchrow($resultat);
 			$tpl->assign_vars(array(
 				'HIDDEN_ACTION'	=> 'editer',
 				'HIDDEN'		=> '<input type="hidden" name="id_cat" value="'.$id_cat.'" />',
-				'TITRE'			=> $row['titre_cat']
+				'TITRE'			=> $row['title_cat']
 			));
-			$titre = $row['titre_cat'];
-			$image = $row['image_cat'];
+			$titre = $row['title_cat'];
+			$image = $row['picture_cat'];
 	}
 }
 
@@ -113,9 +113,9 @@ $module_select = 'annonces';
 //
 // AFFICHAGE des Categories
 
-$sql = 'SELECT id_cat, titre_cat, image_cat, ordre 
+$sql = 'SELECT id_cat, title_cat, picture_cat, `order`
 		FROM '.TABLE_ANNONCES_CATS.' 
-		ORDER BY ordre ASC, titre_cat ASC';
+		ORDER BY `order` ASC, title_cat ASC';
 $resultat = $c->sql_query($sql) OR message_die(E_ERROR,509,__FILE__,__LINE__,$sql);
 $liste_cats = array();
 while($row = $c->sql_fetchrow($resultat))
@@ -139,8 +139,8 @@ while($row = $c->sql_fetchrow($resultat))
 		foreach ($liste_cats[$row['module']] as $k=>$v)
 		{
 			$tpl->assign_block_vars('liste_modules.ok.cat', array(
-				'TITRE'		=> $v['titre_cat'],
-				'IMAGE'		=> $chemin_icones.$v['image_cat'],
+				'TITRE'		=> $v['title_cat'],
+				'IMAGE'		=> $chemin_icones.$v['picture_cat'],
 				'S_UP'		=> formate_url('action=move&sens=up&id_cat='.$v['id_cat'],true),
 				'S_DOWN'	=> formate_url('action=move&sens=down&id_cat='.$v['id_cat'],true),
 				'S_EDIT'	=> formate_url('action=edit&id_cat='.$v['id_cat'],true),

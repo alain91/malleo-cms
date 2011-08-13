@@ -38,9 +38,10 @@ class controller_annonces extends Controller
 	function getActions()
 	{
         return array(
-            'index' 	=> 'actions/action_lister',
+            'index' 	=> 'actions/action_index',
             'editer'	=> 'actions/action_editer',
             'supprimer'	=> 'actions/action_supprimer',
+			'lister' 	=> 'actions/action_lister',
         );
 	}
 }
