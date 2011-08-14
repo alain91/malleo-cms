@@ -20,37 +20,41 @@
 
 defined('ANNONCES_PATH') OR die("Tentative de Hacking");
 
-global $lang,$type_options,$sort_options,$mode_options;
-
-$type_options = array(0 => $lang['sa_group_all']);
-for ($i = 1; $i <= 9; $i++) {
-	if (!empty($lang['sa_group_'.$i]))
-		$type_options[$i] = $lang['sa_group_'.$i];
-	else
-		break;
-}
-
-$sort_options = array(
-	'title' => $lang['sa_sort_title'],
-	'date_created' => $lang['sa_sort_date'],
-	'price' => $lang['sa_sort_price']);
-$mode_options = array(
-	'asc' => $lang['sa_mode_asc'],
-	'desc' => $lang['sa_mode_desc']);
-
-$forgiven_tags = array('code', 'math', 'html');
-
 class action_lister extends Action
 {
+	var $type_options;
+	var $sort_options;
+	var $mode_options;
+	var $forgiven_tags;
+	
 	function init()
 	{
-		global $droits,$module;
+		global $droits,$module,$lang;
 
 		if (!$droits->check($module,0,'voir'))
 		{
 			error404(518);
 			exit;
 		}
+
+		$this->type_options = array(0 => $lang['sa_group_all']);
+		for ($i = 1; $i <= 9; $i++) {
+			if (!empty($lang['sa_group_'.$i]))
+				$this->type_options[$i] = $lang['sa_group_'.$i];
+			else
+				break;
+		}
+
+		$this->sort_options = array(
+			'title' => $lang['sa_sort_title'],
+			'date_created' => $lang['sa_sort_date'],
+			'price' => $lang['sa_sort_price']);
+			
+		$this->mode_options = array(
+			'asc' => $lang['sa_mode_asc'],
+			'desc' => $lang['sa_mode_desc']);
+
+		$this->forgiven_tags = array('code', 'math', 'html');
 	}
 
 	function run()
@@ -81,7 +85,6 @@ class action_lister extends Action
 	function lister()
 	{
 		global $session,$tpl,$droits,$module,$img,$lang,$user,$jeton;
-		global $type_options,$sort_options,$mode_options;
 
 		$tpl->assign_vars(array(
 			'L_DESCRIPTION'	=> 'Champ description',
@@ -97,13 +100,13 @@ class action_lister extends Action
 		));
 
 		$sort = !empty($_GET['sort']) ? trim($_GET['sort']) : '';
-		if (empty($sort) || !array_key_exists($sort, $sort_options))
+		if (empty($sort) || !array_key_exists($sort, $this->sort_options))
 		{
-			$sort = 'date_created';
+			$sort = 'created_date';
 		}
 		
 		$mode = !empty($_GET['mode']) ? trim($_GET['mode']) : '';
-		if (empty($mode) || !array_key_exists($mode, $mode_options))
+		if (empty($mode) || !array_key_exists($mode, $this->mode_options))
 		{
 			$mode = 'desc';
 		}
@@ -136,7 +139,7 @@ class action_lister extends Action
 			$this->render_view($annonces, $row);			
 		}
 		
-		foreach ($type_options as $k => $v)
+		foreach ($this->type_options as $k => $v)
 		{
 			$checked  = ($k == $type) ? 'checked' : '';
 			$tpl->assign_block_vars('type_options',array(
@@ -145,7 +148,7 @@ class action_lister extends Action
 				'VALUE' 	=> $k));
 		}
 		
-		foreach ($sort_options as $k => $v)
+		foreach ($this->sort_options as $k => $v)
 		{
 			$tpl->assign_block_vars('sort_options',array(
 				'NAME' 		=> $v,
@@ -153,7 +156,7 @@ class action_lister extends Action
 				'VALUE' 	=> $k));
 		}
 
-		foreach ($mode_options as $k => $v)
+		foreach ($this->mode_options as $k => $v)
 		{
 			$tpl->assign_block_vars('mode_options',array(
 				'NAME' 		=> $v,
@@ -167,28 +170,28 @@ class action_lister extends Action
 		global $tpl,$user,$lang,$droits,$module,$jeton,$type_options;
 		
 		$tpl->assign_block_vars('item',array(
-			'ID' 		=> $row['id'],
-			'TYPE'	 	=> $type_options[intval($row['type'])],
-			'TITRE' 	=> htmlentities($row['title']),
-			'CONTENU' 	=> htmlentities($row['contents']),
-			'PRICE'		=> $row['price'],
-			'DATE_CREATED' => $row['date_created'],
-			'DATE_UPDATED' => $row['date_updated'],
-			'PICTURE'	 => $row['picture'],
+			'ID' 		=> $row->id,
+			'TYPE'	 	=> $this->type_options[intval($row->type)],
+			'TITRE' 	=> htmlentities($row->title),
+			'CONTENU' 	=> htmlentities($row->contents),
+			'PRICE'		=> $row->price,
+			'DATE_CREATED' => $row->created_date,
+			'DATE_UPDATED' => $row->updated_date,
+			'PICTURE'	 => $row->picture,
 		));
 		
 		if ($droits->check($module,0,'ecrire')
 			|| ($row['id'] == $user['user_id']))
 		{
 			$tpl->assign_block_vars('item.edit', array(
-				'U_EDIT' => formate_url('action=editer&id='.$row['id'],true)
+				'U_EDIT' => formate_url('action=editer&id='.(int)$row->id,true)
 			));
 		}
 		if ($droits->check($module,0,'supprimer')
 			|| ($row['id'] == $user['user_id']))
 		{
 			$tpl->assign_block_vars('item.delete', array(
-				'U_DELETE' => formate_url('action=supprimer&id='.$row['id'].'&jeton='.$jeton,true)
+				'U_DELETE' => formate_url('action=supprimer&id='.(int)$row->id.'&jeton='.$jeton,true)
 			));
 		}
 			

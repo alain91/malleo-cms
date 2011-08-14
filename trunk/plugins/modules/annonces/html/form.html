@@ -15,22 +15,28 @@
 		<th colspan="2">&nbsp;</th>
 	</tr>
 	<tr>
-		<td class="row1">{L_AUTEUR}:</td>
-		<td class="row2"><input type="text" name="auteur" value="{AUTEUR}" size="50" /></td>
+		<td class="row1">{L_ID}:</td>
+		<td class="row2"><input type="text" name="id" value="{ID}" size="50" /></td>
 	</tr>
-<!--
+	<tr>
+		<td class="row1">{L_TITRE}:</td>
+		<td class="row2"><input type="text" name="title" value="{TITRE}" size="50" /></td>
+	</tr>
 	<tr>
 		<td class="row1">{L_CATEGORIE}:</td>
 		<td class="row2"><select name="id_cat">{LISTE_CAT}</select></td>
 	</tr>
--->
 	<tr>
-		<td class="row1">{L_BILLET}:</td>
+		<td class="row1">{L_CONTENU}:</td>
 		<td class="row2">
 			{WYSIWYG}
-			<textarea id="billet" name="billet" rows="10" cols="40" style="width:100%">{BILLET}</textarea>
+			<textarea id="contents" name="contents" rows="10" cols="40" style="width:100%">{TITRE}</textarea>
 			<input type="button" value="abc" onmousedown="toggleEditor('billet');" />		
 		</td>
+	</tr>
+	<tr>
+		<td class="row1">{L_PICTURE}:</td>
+		<td class="row2"><input type="file" name="picture" /></td>
 	</tr>
 </table>
 </div>
