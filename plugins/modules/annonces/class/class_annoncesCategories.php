@@ -144,6 +144,26 @@ class AnnoncesCategories
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		return ($resultat != false);
 	}
+	
+	function fetchObject($query_id = 0)
+	{
+		global $c;
+		
+		if( !$query_id )
+		{
+			$query_id = $c->query_result;
+		}
+
+		if( $query_id )
+		{
+			$c->row[$query_id] = mysql_fetch_object($query_id);
+			return $c->row[$query_id];
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 	/**
 	 * Recupere les infos d'un enregistrement
@@ -162,13 +182,10 @@ class AnnoncesCategories
 				LIMIT 1';
 
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
-		$row = $c->sql_fetchrow($resultat);
-		if(!empty($row))
+		$row = $this->fetchObject($resultat);
+		if(!empty($row)) foreach ($row as $k => $v)
 		{
-			$this->id_cat 		= empty($row['id_cat']) ? null : $row['id_cat'];
-			$this->title_cat 	= empty($row['title_cat']) ? null : $row['title_cat'];
-			$this->picture_cat 	= empty($row['picture_cat']) ? null : $row['picture_cat'];
-			$this->order 		= empty($row['order']) ? null : $row['order'];
+			$this->{$k}	= $v;
 		}
 		return $this;
 	}
@@ -186,14 +203,9 @@ class AnnoncesCategories
 
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		$rows = array();
-		while($row = $c->sql_fetchrow($resultat))
+		while($row = $this->fetchObject($resultat))
 		{
-			$item = new stdClass();
-			$item->id_cat = $row['id_cat'];
-			$item->title_cat = $row['title_cat'];
-			$item->picture_cat = $row['picture_cat'];
-			$item->order = $row['order'];
-			$rows[] = $item;
+			$rows[] = $row;
 		}
 		return $rows;
 	}

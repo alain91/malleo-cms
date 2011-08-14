@@ -24,10 +24,18 @@ class Annonces
 {
 	var $id;
 	var $id_cat;
-	var $billet;
-	var $auteur;
-	var $date_add;
-	var $date_upd;
+	var $title;
+	var $contents;
+	var $picture;
+	var $created_by;
+	var $created_date;
+	var $type;
+	var $price;
+	var $approved_by;
+	var $approved_date;
+	var $updated_by;
+	var $updated_date;
+	var $max_weeks;
 
 	private function __construct()
 	{
@@ -64,11 +72,19 @@ class Annonces
 				// Entier
 				case 'id':
 				case 'id_cat':
+				case 'created_by':
+				case 'updated_by':
+				case 'approved_by':
+				case 'type':
+				case 'max_weeks':
 					$this->$key = intval($val);break;
 				// Chaine de caracteres
-				case 'billet':
-				case 'auteur':
+				case 'title':
+				case 'contents':
+				case 'picture':
 					$this->$key = $val;break;
+				case 'price':
+					$this->$key = (float)$val;break;
 			}
 		}
 	}
@@ -82,6 +98,7 @@ class Annonces
 		global $c;
 
 		$sql = 'SELECT COUNT(1) AS NB FROM '.TABLE_ANNONCES;
+		
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		$row = $c->sql_fetchrow($resultat);
 		return (int)$row['NB'];
@@ -94,12 +111,25 @@ class Annonces
 	function inserer()
 	{
 		global $c,$user;
+		
+		$time = time();
 
-		$sql = 'INSERT INTO '.TABLE_ANNONCES.' (id_creator, contents, date_created)
-				VALUES 	(
-				'.		intval($user['user_id']).',
-				\''.	Helper::sql_escape($this->billet).'\',
-				'.		time().')';
+		$sql = 'INSERT INTO '.TABLE_ANNONCES.'
+			SET id_cat = '.$this->id_cat.',
+				title = '.$this->title.',
+				contents = '.$this->contents.',
+				picture = '.$this->picture.',
+				created_by = '.$user['user_id'].',
+				created_date = '.$time.',';
+		if ($user['user_id']==1)
+		{
+			$sql .= 'approved_by = '.$user['user_id'].',
+				approved_date = '.$time.',';
+		}
+		$sql .= 'type = '.$this->type.',
+				price = '.$this->price.',
+				max_weeks = '.$this->max_weeks;
+				
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		$this->id = $c->sql_nextid($resultat);
 		return $this;
@@ -111,17 +141,28 @@ class Annonces
 	 */
 	function modifier()
 	{
-		global $c,$module,$root;
+		global $c,$module,$root,$user;
 
 		if(empty($this->id))
 			return false;
 
-		$sql = 'UPDATE '.TABLE_ANNONCES.' SET
-					contents=\''.	Helper::sql_escape($this->billet).'\',
-					author=\''.		Helper::sql_escape($this->auteur).'\',
-					date_upd='.	time() .'
-				WHERE id='.intval($this->id).'
-				LIMIT 1';
+		$time = time();
+
+		$sql = 'UPDATE '.TABLE_ANNONCES.'
+			SET id_cat = '.$this->id_cat.',
+				title = '.$this->title.',
+				contents = '.$this->contents.',
+				picture = '.$this->picture.',
+				updated_by = '.$user['user_id'].',
+				updated_date = '.$time.',';
+		if ($user['user_id']==1)
+		{
+			$sql .= 'approved_by = '.$user['user_id'].',
+				approved_date = '.$time.',';
+		}
+		$sql .= 'type = '.$this->type.',
+				price = '.$this->price.',
+				max_weeks = '.$this->max_weeks;
 
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		return $resultat;
@@ -145,6 +186,26 @@ class Annonces
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		return ($resultat != false);
 	}
+	
+	function fetchObject($query_id = 0)
+	{
+		global $c;
+		
+		if( !$query_id )
+		{
+			$query_id = $c->query_result;
+		}
+
+		if( $query_id )
+		{
+			$c->row[$query_id] = mysql_fetch_object($query_id);
+			return $c->row[$query_id];
+		}
+		else
+		{
+			return false;
+		}
+	}
 
 	/**
 	 * Recupere les infos d'un enregistrement
@@ -163,14 +224,10 @@ class Annonces
 				LIMIT 1';
 
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
-		$row = $c->sql_fetchrow($resultat);
-		if(!empty($row))
+		$row = $this->fetchObject($resultat);
+		if(!empty($row)) foreach ($row as $k => $v)
 		{
-			$this->id 		= empty($row['id']) ? null : $row['id'];
-			$this->billet 	= empty($row['contents']) ? null : $row['contents'];
-			$this->auteur 	= empty($row['author']) ? null : $row['author'];
-			$this->date_add = empty($row['date_add']) ? null : $row['date_add'];
-			$this->date_upd = empty($row['date_upd']) ? null : $row['date_upd'];
+			$this->{$k}	= $v;
 		}
 		return $this;
 	}
@@ -197,7 +254,7 @@ class Annonces
 
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		$rows = array();
-		while($row = $c->sql_fetchrow($resultat))
+		while($row = $this->fetchObject($resultat))
 		{
 			$rows[] = $row;
 		}

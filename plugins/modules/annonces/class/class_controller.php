@@ -65,7 +65,9 @@ class Controller
 	}
 	
 	function getActions()
-	{}
+	{
+		return array();
+	}
 
 }
 

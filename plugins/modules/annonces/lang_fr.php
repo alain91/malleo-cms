@@ -15,9 +15,11 @@ $lang['L_MODULE'] 			= 'Module';
 $lang['L_TOUT_REMPLIR'] 	= 'Merci de mettre au moins un titre';
 
 $lang['FORM_PAGE_TITRE'] 	= 'Edition msg citations';
+$lang['FORM_ID'] 			= 'ID';
 $lang['FORM_AUTEUR'] 		= 'Auteur';
 $lang['FORM_CATEGORIE'] 	= 'Catégorie';
-$lang['FORM_BILLET'] 		= 'Billet';
+$lang['FORM_TITRE'] 		= 'Titre';
+$lang['FORM_CONTENU'] 		= 'Contenu';
 $lang['FORM_SUBMIT'] 		= 'Envoyer';
 
 $lang['sa_config'] 			= 'Configuration des petites annonces';
