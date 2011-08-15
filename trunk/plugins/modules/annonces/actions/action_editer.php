@@ -77,11 +77,27 @@ class action_editer extends Action
 			'L_CATEGORIE' => $lang['FORM_CATEGORIE'],
 			'L_TITRE'	=> $lang['FORM_TITRE'],
 			'L_CONTENU'	=> $lang['FORM_CONTENU'],
+			'L_TYPE'	=> $lang['FORM_TYPE'],
+			'L_PRIX'	=> $lang['FORM_PRIX'],
+			'L_PICTURE'	=> $lang['FORM_PICTURE'],
 			'AUTEUR'	=> $annonces->created_by,
 			'TITRE'		=> $annonces->title,
 			'CONTENU'	=> $annonces->contents,
 			'ID'		=> $annonces->id,
+			'TYPE'		=> $annonces->type,
+			'PRIX'		=> $annonces->price,
 		));
+		
+		$model_categories = AnnoncesCategories::instance();
+		$categories = $model_categories->recuperer_tous();
+		foreach ($categories as $cat)
+		{
+			$tpl->assign_block_vars('cats',array(
+				'ID' => $cat->id_cat,
+				'NAME' => $cat->title_cat,
+				'SELECTED' => $model_categories->selected($cat->id_cat,$annonces->id_cat),
+			));
+		}
 
 		$titre_page = $lang['FORM_PAGE_TITRE'];
 

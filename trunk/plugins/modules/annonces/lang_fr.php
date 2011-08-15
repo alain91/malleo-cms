@@ -20,6 +20,9 @@ $lang['FORM_AUTEUR'] 		= 'Auteur';
 $lang['FORM_CATEGORIE'] 	= 'Catégorie';
 $lang['FORM_TITRE'] 		= 'Titre';
 $lang['FORM_CONTENU'] 		= 'Contenu';
+$lang['FORM_PRIX'] 			= 'Prix';
+$lang['FORM_TYPE'] 			= 'Type';
+$lang['FORM_PICTURE'] 		= 'Image';
 $lang['FORM_SUBMIT'] 		= 'Envoyer';
 
 $lang['sa_config'] 			= 'Configuration des petites annonces';

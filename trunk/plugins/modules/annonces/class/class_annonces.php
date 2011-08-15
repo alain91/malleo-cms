@@ -115,20 +115,20 @@ class Annonces
 		$time = time();
 
 		$sql = 'INSERT INTO '.TABLE_ANNONCES.'
-			SET id_cat = '.$this->id_cat.',
-				title = '.$this->title.',
-				contents = '.$this->contents.',
-				picture = '.$this->picture.',
-				created_by = '.$user['user_id'].',
+			SET id_cat = '.intval($this->id_cat).',
+				title = "'.Helper::sql_escape($this->title).'",
+				contents = "'.Helper::sql_escape($this->contents).'",
+				picture = "'.Helper::sql_escape($this->picture).'",
+				created_by = '.intval($user['user_id']).',
 				created_date = '.$time.',';
 		if ($user['user_id']==1)
 		{
-			$sql .= 'approved_by = '.$user['user_id'].',
+			$sql .= 'approved_by = '.intval($user['user_id']).',
 				approved_date = '.$time.',';
 		}
-		$sql .= 'type = '.$this->type.',
-				price = '.$this->price.',
-				max_weeks = '.$this->max_weeks;
+		$sql .= 'type = '.intval($this->type).',
+				price = '.(float)$this->price.',
+				max_weeks = '.intval($this->max_weeks);
 				
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		$this->id = $c->sql_nextid($resultat);
@@ -147,22 +147,24 @@ class Annonces
 			return false;
 
 		$time = time();
-
+		
 		$sql = 'UPDATE '.TABLE_ANNONCES.'
-			SET id_cat = '.$this->id_cat.',
-				title = '.$this->title.',
-				contents = '.$this->contents.',
-				picture = '.$this->picture.',
-				updated_by = '.$user['user_id'].',
+			SET id_cat = '.intval($this->id_cat).',
+				title = "'.Helper::sql_escape($this->title).'",
+				contents = "'.Helper::sql_escape($this->contents).'",
+				picture = "'.Helper::sql_escape($this->picture).'",
+				updated_by = '.intval($user['user_id']).',
 				updated_date = '.$time.',';
 		if ($user['user_id']==1)
 		{
-			$sql .= 'approved_by = '.$user['user_id'].',
+			$sql .= 'approved_by = '.intval($user['user_id']).',
 				approved_date = '.$time.',';
 		}
-		$sql .= 'type = '.$this->type.',
-				price = '.$this->price.',
-				max_weeks = '.$this->max_weeks;
+		$sql .= 'type = '.intval($this->type).',
+				price = '.(float)$this->price.',
+				max_weeks = '.intval($this->max_weeks).'
+				WHERE id = '.intval($this->id).'
+				LIMIT 1';
 
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		return $resultat;

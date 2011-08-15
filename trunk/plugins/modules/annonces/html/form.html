@@ -16,7 +16,7 @@
 	</tr>
 	<tr>
 		<td class="row1">{L_ID}:</td>
-		<td class="row2"><input type="text" name="id" value="{ID}" size="50" /></td>
+		<td class="row2"><input type="text" name="id" value="{ID}" size="10" /></td>
 	</tr>
 	<tr>
 		<td class="row1">{L_TITRE}:</td>
@@ -24,7 +24,12 @@
 	</tr>
 	<tr>
 		<td class="row1">{L_CATEGORIE}:</td>
-		<td class="row2"><select name="id_cat">{LISTE_CAT}</select></td>
+		<td class="row2"><select name="id_cat">
+		<!-- BEGIN cats -->
+		<option value="{cats.ID}" {cats.SELECTED}>{cats.NAME}</option>
+		<!-- END cats -->
+		</select>
+		</td>
 	</tr>
 	<tr>
 		<td class="row1">{L_CONTENU}:</td>
@@ -33,6 +38,10 @@
 			<textarea id="contents" name="contents" rows="10" cols="40" style="width:100%">{TITRE}</textarea>
 			<input type="button" value="abc" onmousedown="toggleEditor('billet');" />		
 		</td>
+	</tr>
+	<tr>
+		<td class="row1">{L_PRIX}:</td>
+		<td class="row2"><input type="text" name="price" value="{PRIX}" size="10" /></td>
 	</tr>
 	<tr>
 		<td class="row1">{L_PICTURE}:</td>
