@@ -98,7 +98,8 @@ class action_index extends Action
 		$tpl->assign_block_vars('item',array(
 			'ID' 		=> $row->id_cat,
 			'TITRE' 	=> htmlentities($row->title_cat),
-			'PICTURE'	 => $row->picture_cat,
+			'PICTURE'	=> $row->picture_cat,
+			'URL'		=> formate_url('action=lister&id_cat='.$row->id_cat,true)
 			));
 	}
 

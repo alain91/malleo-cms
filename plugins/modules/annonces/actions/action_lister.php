@@ -112,13 +112,18 @@ class action_lister extends Action
 		}
 		
 		$type = !empty($_GET['type']) ? intval($_GET['type']) : 0;
-		$filter = null;
+		$filter = '1';
 		if (!empty($type))
 		{
-			$filter = 'type = '.(int)$type; 
+			$filter .= ' AND type = '.(int)$type; 
 		}
 	
 		$annonces = Annonces::instance();
+		$id_cat = !empty($_GET['id_cat']) ? intval($_GET['id_cat']) : 0;
+		if (!empty($id_cat))
+		{
+			$filter .= ' AND id_cat = '.(int)$id_cat; 
+		}		
 		$rows = $annonces->recuperer_tous($sort, $mode, $filter);
 		if (empty($rows))
 		{
