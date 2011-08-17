@@ -10,6 +10,7 @@ $lang['L_CAT_COLS'] 		= 'Nombre de colonne d\'affichage des catégories';
 
 $lang['L_AJOUTER_CAT'] 		= 'Ajouter une cat&eacute;gorie';
 $lang['L_TITRE'] 			= 'Titre';
+$lang['L_DESCRIPTION'] 		= 'Description';
 $lang['L_IMAGE'] 			= 'Image';
 $lang['L_MODULE'] 			= 'Module';
 $lang['L_TOUT_REMPLIR'] 	= 'Merci de mettre au moins un titre';
