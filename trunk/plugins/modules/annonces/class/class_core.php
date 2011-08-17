@@ -48,7 +48,6 @@ class Core
 		foreach($search_list as $path)
 		{
 			$file = $path.'/class/class_'.$class.'.php';
-			$file = strtolower($file);
 			if (file_exists($file))
 			{
 				include_once($file);
