@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <module>
 <libelle>Annonces</libelle>
-<version>0.1</version>
+<version>0.2</version>
 <auteur>alain91</auteur>
 <site_auteur>http://localhost/malleoBase</site_auteur>
 <check_version>http://localhost/malleoBase/versions/annonces.txt</check_version>
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `a_mod_annonces` (
 	`id_cat` int(11) unsigned NOT NULL default 0,
 	`title` varchar(63) NOT NULL default '',
 	`contents` text NOT NULL default '',
-	`picture` varchar(127) NOT NULL default '',
+	`picture` varchar(63),
 	`created_by` int(11) unsigned NOT NULL default 0,
 	`created_date` int(11) unsigned NOT NULL default 0,
 	`type` tinyint(4) unsigned NOT NULL default 0,
@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `a_mod_annonces` (
 	`approved_date` int(11) unsigned NOT NULL default 0,
 	`updated_by` int(11) unsigned NOT NULL default 0,
 	`updated_date` int(11) unsigned NOT NULL default 0,
+	`start_date` int(11) unsigned NOT NULL default 0,
 	`max_weeks` int(11) unsigned NOT NULL default 0,
 	PRIMARY KEY  (`id`)
 ) AUTO_INCREMENT=1 ;
@@ -35,7 +36,8 @@ DROP TABLE IF EXISTS `a_mod_annonces_cats`;
 CREATE TABLE `a_mod_annonces_cats` (
 	`id_cat` int(11) unsigned NOT NULL auto_increment,
 	`title_cat` varchar(63) NOT NULL default '',
-	`picture_cat` varchar(127) NOT NULL default '',
+	`description_cat` varchar(255),	
+	`picture_cat` varchar(63),
 	`order` int(11) unsigned NOT NULL default 0,
 	PRIMARY KEY  (`id_cat`)
 ) AUTO_INCREMENT=1 ;

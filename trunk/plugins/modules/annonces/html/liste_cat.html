@@ -5,17 +5,18 @@
 	
 	<!-- BEGIN item -->
 	<a href="{item.URL}">
-	<div style="border:1px solid black;float:left">
-		{item.TITRE}<br />
-		{item.PICTURE}
+	<div style="border:1px solid black;float:left;width:{WIDTH};padding:5px">
+		<img src="data/icones_cat_annonces/{item.PICTURE}"/>
+		<p><strong>{item.TITRE}</strong></p>
+		<p>{item.DESCRIPTION}</p>
 	</div>
 	</a>
 	<!-- END item -->
 	<div style="clear:both"></div>
 	
 	<!-- BEGIN liste_vide -->
-		<div>
-		{liste_vide.CONTENU}
-		</div>
+	<div>
+	{liste_vide.CONTENU}
+	</div>
 	<!-- END liste_vide -->
 </div>

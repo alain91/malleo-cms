@@ -3,7 +3,7 @@
 
 <table width="100%">
 <tr>
-	<td width="350" class="abstop">
+	<td width="49%" class="abstop">
 	
 		<h2>{L_AJOUTER_CAT}</h2>
 		<!-- BEGIN erreur_saisie -->
@@ -25,7 +25,11 @@
 			<tr>
 				<td class="row1" width="80">{L_TITRE}</td>
 				<td class="row2"><input type="text" name="titre" value="{TITRE}" size="30" /></td>
-				<td class="row3" rowspan="3"><img src="data/icones_cat_blog/{ICONE_PAR_DEFAUT}" id="apercu" /></td>
+				<td class="row3" rowspan="4"><img src="data/icones_cat_blog/{ICONE_PAR_DEFAUT}" id="apercu" /></td>
+			</tr>
+			<tr>
+				<td class="row1">{L_DESCRIPTION}</td>
+				<td class="row2"><textarea name="description" rows="5" cols="30" />{DESCRIPTION}</textarea></td>
 			</tr>
 			<tr>
 				<td class="row1">{L_MODULE}</td>
@@ -51,7 +55,8 @@
 		}
 		</script>
 
-</td><td class="abstop">
+	</td>
+	<td class="abstop">
 
 		<!-- BEGIN liste_modules -->
 		<h2>{liste_modules.MODULE}</h2>

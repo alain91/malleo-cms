@@ -44,7 +44,8 @@ class action_index extends Action
 		));
 		
 		$tpl->assign_vars(array(
-			'DESCRIPTION'=>htmlentities('Description')
+			'DESCRIPTION'=>htmlentities('Description'),
+			'WIDTH'=>'23%',
 		));
 
 		// Titre de page
