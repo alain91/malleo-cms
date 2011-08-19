@@ -157,7 +157,7 @@ class Annonces
 				max_weeks = '.intval($this->max_weeks).'
 				WHERE id = '.intval($this->id).'
 				LIMIT 1';
-
+var_dump($sql);
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		return $resultat;
 	}
@@ -203,26 +203,6 @@ class Annonces
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		return ($resultat != false);
 	}
-	
-	function fetchObject($query_id = 0)
-	{
-		global $c;
-		
-		if( !$query_id )
-		{
-			$query_id = $c->query_result;
-		}
-
-		if( $query_id )
-		{
-			$c->row[$query_id] = mysql_fetch_object($query_id);
-			return $c->row[$query_id];
-		}
-		else
-		{
-			return false;
-		}
-	}
 
 	/**
 	 * Recupere les infos d'un enregistrement
@@ -241,12 +221,14 @@ class Annonces
 				LIMIT 1';
 
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
-		$row = $this->fetchObject($resultat);
-		if(!empty($row)) foreach ($row as $k => $v)
+		$row = $c->sql_fetchrow($resultat);
+		if(empty($row))
+			return false;
+		foreach ($row as $k => $v)
 		{
 			$this->{$k}	= $v;
 		}
-		return $this;
+		return true;
 	}
 
 	/**
@@ -271,25 +253,12 @@ class Annonces
 
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		$rows = array();
-		while($row = $this->fetchObject($resultat))
+		while($row = $c->sql_fetchrow($resultat))
 		{
 			$rows[] = $row;
 		}
 		return $rows;
 	}
 
-	/**
-	 * Renvoie l'attribut selected si valide
-	 *
-	 * @param name
-	 * @param value
-	 * @return attribut selected ou vide
-	 */
-	function selected($name, $value)
-	{
-		return ($name == $value) ? 'selected="selected"' : '';
-	}
-
 }
-
 ?>

@@ -35,15 +35,15 @@ class action_lister extends Action
 
 	function run()
 	{
-		global $tpl,$droits,$module,$img;
+		global $tpl,$droits,$module,$img,$lang;
 
 		$tpl->set_filenames(array(
 			'annonces' => ANNONCES_PATH.'/html/liste.html',
 		));
 
 		// Titre de page
-		$tpl->titre_navigateur = $module;
-		$tpl->titre_page = $module;
+		$tpl->titre_navigateur = $lang['L_TITRE_PAGE'];
+		$tpl->titre_page = $lang['L_TITRE_PAGE'];
 
 		if ($droits->check($module,0,'ecrire'))
 		{
@@ -73,7 +73,7 @@ class action_lister extends Action
 			'I_EDITER' 		=> $img['editer'],
 			'I_DELETE' 		=> $img['effacer'],
 			'TARGET_ON_CHANGE_ORDER' => $target,
-			'CHEMIN_ICONES' => 'data/icones_annonces/',
+			'DESCRIPTION'	=> 'Description',
 		));
 
 		$sort = !empty($_GET['sort']) ? trim($_GET['sort']) : '';
@@ -139,7 +139,7 @@ class action_lister extends Action
 		{
 			$tpl->assign_block_vars('liste.sort_options',array(
 				'NAME' 		=> $v,
-				'SELECTED'	=> $annonces->selected($k, $sort),
+				'SELECTED'	=> $this->selected($k, $sort),
 				'VALUE' 	=> $k));
 		}
 
@@ -147,7 +147,7 @@ class action_lister extends Action
 		{
 			$tpl->assign_block_vars('liste.mode_options',array(
 				'NAME' 		=> $v,
-				'SELECTED'	=> $annonces->selected($k, $mode),
+				'SELECTED'	=> $this->selected($k, $mode),
 				'VALUE' 	=> $k));
 		}
 
@@ -157,28 +157,28 @@ class action_lister extends Action
 	{
 		global $tpl,$user,$lang,$droits,$module,$jeton,$type_options;
 
-		$type = empty($row->type) ? '' : $this->type_options[intval($row->type)];
+		$type = empty($row['type']) ? '' : $this->type_options[intval($row['type'])];
 
 		$tpl->assign_block_vars('liste.item',array(
-			'ID' 		=> $row->id,
+			'ID' 		=> $row['id'],
 			'TYPE'	 	=> $type,
-			'TITRE' 	=> htmlentities($row->title),
-			'CONTENU' 	=> htmlentities($row->contents),
-			'PRIX'		=> $row->price,
-			'DATE_APPROBATION' => empty($row->approved_date)?'-':date('d/m/Y',$row->approved_date),
-			'IMAGE'	 	=> $row->picture,
+			'TITRE' 	=> htmlentities($row['title']),
+			'CONTENU' 	=> htmlentities($row['contents']),
+			'PRIX'		=> empty($row['price'])?'-':(int)$row['price'],
+			'DATE_APPROBATION' => empty($row['approved_date'])?'-':date('d/m/Y',$row['approved_date']),
+			'IMAGE'	 	=> $row['picture'],
 		));
 
 		if ($droits->check($module,0,'ecrire'))
 		{
 			$tpl->assign_block_vars('liste.item.edit', array(
-				'U_EDIT' => formate_url('action=editer&id='.(int)$row->id,true)
+				'U_EDIT' => formate_url('action=editer&id='.(int)$row['id'].'&jeton='.$jeton,true)
 			));
 		}
 		if ($droits->check($module,0,'supprimer'))
 		{
 			$tpl->assign_block_vars('liste.item.delete', array(
-				'U_DELETE' => formate_url('action=supprimer&id='.(int)$row->id.'&jeton='.$jeton,true)
+				'U_DELETE' => formate_url('action=supprimer&id='.(int)$row['id'].'&jeton='.$jeton,true)
 			));
 		}
 		if (empty($row->approved_by))

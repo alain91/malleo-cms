@@ -1,6 +1,8 @@
 <?php
 global $lang,$erreur;
 
+$lang['CHEMIN_ICONES'] 	= 'data/icones_annonces/';
+
 $lang['L_MENU_ANNONCES'] 				= 'Annonces';
 $lang['L_MENU_ANNONCES_CONFIGURATION'] 	= 'Configuration';
 $lang['L_MENU_ANNONCES_CATEGORIES'] 	= 'Cat&eacute;gories';
@@ -19,7 +21,7 @@ $lang['L_CREE'] 	= 'Créé le';
 $lang['L_MODIFIE'] 	= 'Modifié le';
 $lang['L_APPROUVE'] = 'Approuvé le';
 
-$lang['L_PAGE_TITRE'] 	= 'Edition d\'une annonce';
+$lang['L_TITRE_PAGE'] 	= 'Petites annonces';
 
 $lang['L_ID'] 			= 'ID';
 $lang['L_TITRE'] 		= 'Titre';

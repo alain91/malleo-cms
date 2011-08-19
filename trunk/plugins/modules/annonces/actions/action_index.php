@@ -35,7 +35,7 @@ class action_index extends Action
 
 	function run()
 	{
-		global $tpl,$droits,$module,$img;
+		global $tpl,$droits,$module,$img,$lang;
 
 		$tpl->set_filenames(array(
 			'annonces' => ANNONCES_PATH.'/html/liste_cat.html',
@@ -47,8 +47,8 @@ class action_index extends Action
 		));
 
 		// Titre de page
-		$tpl->titre_navigateur = $module;
-		$tpl->titre_page = $module;
+		$tpl->titre_navigateur = $lang['L_TITRE_PAGE'];
+		$tpl->titre_page = $lang['L_TITRE_PAGE'];
 
 		if ($droits->check($module,0,'poster'))
 		{
@@ -77,12 +77,6 @@ class action_index extends Action
 			));
 			return;
 		}
-
-		// Creation du jeton de securite
-		if (!session_id()) @session_start();
-		$jeton = md5(uniqid(rand(), TRUE));
-		$_SESSION['jeton'] = $jeton;
-		$_SESSION['jeton_timestamp'] = $session->time;
 	
 		foreach ($rows as $row)
 		{
@@ -95,10 +89,10 @@ class action_index extends Action
 		global $tpl,$user,$lang,$droits,$module,$jeton,$type_options;
 		
 		$tpl->assign_block_vars('item',array(
-			'ID' 		=> $row->id_cat,
-			'TITRE' 	=> htmlentities($row->title_cat),
-			'PICTURE'	=> $row->picture_cat,
-			'URL'		=> formate_url('action=lister&id_cat='.$row->id_cat,true)
+			'ID' 		=> $row['id_cat'],
+			'TITRE' 	=> htmlentities($row['title_cat']),
+			'PICTURE'	=> $row['picture_cat'],
+			'URL'		=> formate_url('action=lister&id_cat='.$row['id_cat'],true)
 			));
 	}
 
