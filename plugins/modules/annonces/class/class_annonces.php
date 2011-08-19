@@ -157,7 +157,7 @@ class Annonces
 				max_weeks = '.intval($this->max_weeks).'
 				WHERE id = '.intval($this->id).'
 				LIMIT 1';
-var_dump($sql);
+//var_dump($sql);exit;
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		return $resultat;
 	}
