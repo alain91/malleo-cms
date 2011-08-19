@@ -123,10 +123,7 @@ class action_lister extends Action
 		}
 
 		// Creation du jeton de securite
-		if (!session_id()) @session_start();
-		$jeton = md5(uniqid(rand(), TRUE));
-		$_SESSION['jeton'] = $jeton;
-		$_SESSION['jeton_timestamp'] = $session->time;
+		$jeton = $this->creer_jeton();
 
 		$tpl->assign_block_vars('liste', array());
 

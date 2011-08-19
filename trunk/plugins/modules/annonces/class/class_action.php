@@ -75,6 +75,42 @@ class Action
 	{
 		return ($name == $value) ? 'selected="selected"' : '';
 	}
+	
+	/**
+	 * Creation jeton securite
+	 *
+	 * @return string jeton id
+	 */
+	function creer_jeton()
+	{
+		global $session;
+		
+		if (!session_id()) @session_start();
+		$jeton = md5(uniqid(rand(), TRUE));
+		$_SESSION['jeton'] = $jeton;
+		$_SESSION['jeton_timestamp'] = $session->time;
+		return $jeton;
+	}
+	
+	/**
+	 * Verifier jeton securite
+	 *
+	 * @return bool 
+	 */
+	function verifier_jeton($var)
+	{
+		if (!session_id()) @session_start();
+		if (!array_key_exists('jeton',$var) 
+			|| $var['jeton'] != $_SESSION['jeton'] 
+			|| time() - $_SESSION['jeton_timestamp'] >= VALIDITE_JETON)
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	
+		
 }
 
 ?>

@@ -26,22 +26,30 @@ class action_editer extends Action
 	{
 		global $droits,$module;
 
-		if (!$droits->check($module,0,'ecrire'))
+		if (!$droits->check($module,0,'ecrire') && ($annonces->created_by != $user['user_id']))
 		{
-			error404(518);
+			error404(521);
 			exit;
 		}
+		
+		if (!empty($_POST) AND !$this->verifier_jeton($_POST))
+		{
+			error404(56);
+			exit;
+		}
+		
+		if (!empty($_GET) AND !$this->verifier_jeton($_GET))
+		{
+			error404(56);
+			exit;
+		}
+		
 	}
 
 	function run()
 	{
 		global $tpl,$droits,$module,$img,$lang,$root,$cf,$base_formate_url;
 		global $cache,$style_name; // pour fct_tinymce.php
-		
-		if (!$droits->check($module,0,'ecrire') && ($annonces->created_by != $user['user_id'])){
-			error404(521);
-			exit;
-		}
 		
 		$annonces = Annonces::instance();	
 		
@@ -64,14 +72,6 @@ class action_editer extends Action
 			}
 			header('location: '.$_SERVER['REQUEST_URI']);
 			exit;
-		}
-		
-		if (!session_id()) @session_start();
-		if (!array_key_exists('jeton',$_GET) 
-			|| $_GET['jeton'] != $_SESSION['jeton'] 
-			|| time() - $_SESSION['jeton_timestamp'] >= VALIDITE_JETON)
-		{
-			error404(56);
 		}
 
 		$tpl->set_filenames(array(
@@ -96,6 +96,7 @@ class action_editer extends Action
 			'DATE_CREATION'		=> empty($annonces->created_date)?'':date('d/m/Y',$annonces->created_date),
 			'DATE_MODIFICATION'	=> empty($annonces->updated_date)?'':date('d/m/Y',$annonces->updated_date),
 			'DATE_APPROBATION'	=> empty($annonces->approved_date)?'':date('d/m/Y',$annonces->approved_date),
+			'NB_SEMAINES' => $annonces->max_weeks,
 		));
 		
 		$annoncescategories = AnnoncesCategories::instance();
