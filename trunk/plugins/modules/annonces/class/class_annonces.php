@@ -120,13 +120,8 @@ class Annonces
 				contents = "'.Helper::sql_escape($this->contents).'",
 				picture = "'.Helper::sql_escape($this->picture).'",
 				created_by = '.intval($user['user_id']).',
-				created_date = '.$time.',';
-		if ($user['user_id']==1)
-		{
-			$sql .= 'approved_by = '.intval($user['user_id']).',
-				approved_date = '.$time.',';
-		}
-		$sql .= 'type = '.intval($this->type).',
+				created_date = '.$time.',
+				type = '.intval($this->type).',
 				price = '.(float)$this->price.',
 				max_weeks = '.intval($this->max_weeks);
 				
@@ -154,13 +149,10 @@ class Annonces
 				contents = "'.Helper::sql_escape($this->contents).'",
 				picture = "'.Helper::sql_escape($this->picture).'",
 				updated_by = '.intval($user['user_id']).',
-				updated_date = '.$time.',';
-		if ($user['user_id']==1)
-		{
-			$sql .= 'approved_by = '.intval($user['user_id']).',
-				approved_date = '.$time.',';
-		}
-		$sql .= 'type = '.intval($this->type).',
+				updated_date = '.$time.',
+				approved_by = 0,
+				approved_date = 0,
+				type = '.intval($this->type).',
 				price = '.(float)$this->price.',
 				max_weeks = '.intval($this->max_weeks).'
 				WHERE id = '.intval($this->id).'
@@ -170,6 +162,29 @@ class Annonces
 		return $resultat;
 	}
 
+	/**
+	 * Approuver un enregistrement
+	 *
+	 */
+	function approuver()
+	{
+		global $c,$module,$root,$user;
+
+		if(empty($this->id))
+			return false;
+
+		$time = time();
+		
+		$sql = 'UPDATE '.TABLE_ANNONCES.'
+			SET approved_by = '.intval($user['user_id']).',
+				approved_date = '.$time.'
+				WHERE id = '.intval($this->id).'
+				LIMIT 1';
+
+		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
+		return $resultat;
+	}
+	
 	/**
 	 * Supprimer un enregistrement
 	 *

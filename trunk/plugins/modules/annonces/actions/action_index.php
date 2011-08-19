@@ -20,8 +20,6 @@
 
 defined('ANNONCES_PATH') OR die("Tentative de Hacking");
 
-global $lang,$type_options,$sort_options,$mode_options;
-
 class action_index extends Action
 {
 	function init()

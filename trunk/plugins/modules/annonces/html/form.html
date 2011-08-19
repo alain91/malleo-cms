@@ -1,3 +1,6 @@
+<script type="text/javascript" src="plugins/modules/annonces/datepicker/js/datepicker.js"></script>
+<script type="text/javascript" src="plugins/modules/annonces/datepicker/js/lang/fr.js"></script>
+<link rel="stylesheet" type="text/css" href="plugins/modules/annonces/datepicker/css/datepicker.css" />
 <!-- BEGIN erreur_saisie -->
 <div class="admin">
 	<table cellpadding="1" cellspacing="1" class="Alerte" width="80%" align="center">
@@ -16,23 +19,32 @@
 	</tr>
 	<tr>
 		<td class="row1">{L_ID}:</td>
-		<td class="row2"><input type="text" name="id" value="{ID}" size="10" /></td>
+		<td class="row2">{ID}</td>
 	</tr>
 	<tr>
-		<td class="row1">{L_TITRE}:</td>
-		<td class="row2"><input type="text" name="title" value="{TITRE}" size="50" /></td>
+		<td class="row1"><label for="type">{L_TYPE}:</label></td>
+		<td class="row2"><select id="type" name="type">
+		<!-- BEGIN type_options -->
+		<option value="{type_options.VALUE}" {type_options.SELECTED}>{type_options.NAME}</option>
+		<!-- END type_options -->
+		</select>
+		</td>
 	</tr>
 	<tr>
-		<td class="row1">{L_CATEGORIE}:</td>
-		<td class="row2"><select name="id_cat">
+		<td class="row1"><label for="id_cat">{L_CATEGORIE}:</label></td>
+		<td class="row2"><select id="id_cat" name="id_cat">
 		<!-- BEGIN cats -->
-		<option value="{cats.ID}" {cats.SELECTED}>{cats.NAME}</option>
+		<option value="{cats.VALUE}" {cats.SELECTED}>{cats.NAME}</option>
 		<!-- END cats -->
 		</select>
 		</td>
 	</tr>
 	<tr>
-		<td class="row1">{L_CONTENU}:</td>
+		<td class="row1"><label for="title">{L_TITRE}:</label></td>
+		<td class="row2"><input type="text" id="title" name="title" value="{TITRE}" size="50" /></td>
+	</tr>
+	<tr>
+		<td class="row1"><label for="contents">{L_DESCRIPTION}:</label></td>
 		<td class="row2">
 			{WYSIWYG}
 			<textarea id="contents" name="contents" rows="10" cols="40" style="width:100%">{TITRE}</textarea>
@@ -40,16 +52,38 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="row1">{L_PRIX}:</td>
-		<td class="row2"><input type="text" name="price" value="{PRIX}" size="10" /></td>
+		<td class="row1"><label for="price">{L_PRIX} ({L_PRIX_UNITE}):</label></td>
+		<td class="row2"><input type="text" id="price" name="price" value="{PRIX}" size="10" /></td>
 	</tr>
 	<tr>
-		<td class="row1">{L_PICTURE}:</td>
-		<td class="row2"><input type="file" name="picture" /></td>
+		<td class="row1"><label for="picture">{L_PICTURE}:</label></td>
+		<td class="row2"><input type="file" id="picture" name="picture" /></td>
+	</tr>
+	<tr>
+		<td class="row1"><label for="start_date">{L_DATE_DEBUT}:</label></td>
+		<td class="row2"><input type="text" id="start_date" name="start_date" value="{DATE_DEBUT}" size="10" maxlength="10" class="w8em format-d-m-y highlight-days-67 range-low-today"/></td>
+	</tr>
+	<tr>
+		<td class="row1"><label for="max_weeks">{L_NB_SEMAINES}:</label></td>
+		<td class="row2"><input type="text" id="max_weeks" name="max_weeks" value="{NB_SEMAINES}" size="2" maxlength="2" /></td>
+	</tr>
+	<tr>
+		<td class="row1">{L_DATE_CREATION}:</td>
+		<td class="row2">{DATE_CREATION}</td>
+	</tr>
+	<tr>
+		<td class="row1">{L_DATE_MODIFICATION}:</td>
+		<td class="row2">{DATE_MODIFICATION}</td>
+	</tr>
+	<tr>
+		<td class="row1">{L_DATE_APPROBATION}:</td>
+		<td class="row2">{DATE_APPROBATION}</td>
 	</tr>
 </table>
 </div>
 <input type="hidden" name="id" value="{ID}" />
-<div class="center"><input type="submit" name="save" value="{FORM_SUBMIT}" /></div>
+<div class="center">
+<input type="submit" name="save" value="{L_SAVE}" />
+<input type="submit" name="approve" value="{L_APPROVE}" />
+</div>
 </form>
-<br />

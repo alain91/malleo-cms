@@ -5,21 +5,23 @@ defined('PROTECT_ADMIN') OR die("Tentative de Hacking");
 // l'ID dans le tableau regles correspond a l'id du groupe
 // INVITES
 $regles[1] = array(
-	'voir'			=> 0,
 	'lire'			=> 0,
-	'ecrire'		=> 0
+	'ecrire'		=> 0,
+	'supprimer'		=> 0,
+	'approuver' 	=> 0,
+	'ecrire_tout'	=> 0,
+	'supprimer_tout' => 0,
 );
 // MEMBRES 
 $regles[2] = array(
-	'voir'			=> 1,
 	'lire'			=> 1,
-	'ecrire'		=> 1
+	'ecrire'		=> 1,
+	'supprimer'		=> 1,
+	'approuver' 	=> 0,
+	'ecrire_tout'	=> 0,
+	'supprimer_tout' => 0,
 );
 
 // ADMINS
-$regles[3] = array(
-	'voir'			=> 1,
-	'lire'			=> 1,
-	'ecrire'		=> 1
-);
+$regles[3] = array(); // On droit à tout systématiquement
 ?>
