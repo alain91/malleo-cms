@@ -63,6 +63,18 @@ class Action
 	
 	function run()
 	{}
+	
+	/**
+	 * Renvoie l'attribut selected si valide
+	 *
+	 * @param name
+	 * @param value
+	 * @return attribut selected ou vide
+	 */
+	function selected($name, $value)
+	{
+		return ($name == $value) ? 'selected="selected"' : '';
+	}
 }
 
 ?>

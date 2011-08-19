@@ -97,7 +97,7 @@ class AnnoncesCategories
 		$sql = 'INSERT INTO '.TABLE_ANNONCES_CATS.'
 			SET title_cat = '.Helper::sql_escape($this->title_cat).',
 				picture_cat = '.Helper::sql_escape($this->picture_cat).',
-				`order` = '.intval($this->order);
+				ordre = '.intval($this->ordre);
 
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		$this->id = $c->sql_nextid($resultat);
@@ -182,12 +182,14 @@ class AnnoncesCategories
 				LIMIT 1';
 
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
-		$row = $this->fetchObject($resultat);
-		if(!empty($row)) foreach ($row as $k => $v)
+		$row = $c->sql_fetchrow($resultat);
+		if(empty($row))
+			return false;
+		foreach ($row as $k => $v)
 		{
 			$this->{$k}	= $v;
 		}
-		return $this;
+		return true;
 	}
 
 	/**
@@ -203,25 +205,12 @@ class AnnoncesCategories
 
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		$rows = array();
-		while($row = $this->fetchObject($resultat))
+		while($row = $c->sql_fetchrow($resultat))
 		{
 			$rows[] = $row;
 		}
 		return $rows;
 	}
 
-	/**
-	 * Renvoie l'attribut selected si valide
-	 *
-	 * @param name
-	 * @param value
-	 * @return attribut selected ou vide
-	 */
-	function selected($name, $value)
-	{
-		return ($name == $value) ? 'selected="selected"' : '';
-	}
-
 }
-
 ?>

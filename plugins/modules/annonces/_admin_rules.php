@@ -23,5 +23,12 @@ $regles[2] = array(
 );
 
 // ADMINS
-$regles[3] = array(); // On droit à tout systématiquement
+$regles[3] = array(
+	'lire'			=> 1,
+	'ecrire'		=> 1,
+	'supprimer'		=> 1,
+	'approuver' 	=> 1,
+	'ecrire_tout'	=> 1,
+	'supprimer_tout' => 1,
+);
 ?>

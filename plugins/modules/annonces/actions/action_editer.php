@@ -37,7 +37,12 @@ class action_editer extends Action
 	{
 		global $tpl,$droits,$module,$img,$lang,$root,$cf,$base_formate_url;
 		global $cache,$style_name; // pour fct_tinymce.php
-
+		
+		if (!$droits->check($module,0,'ecrire') && ($annonces->created_by != $user['user_id'])){
+			error404(521);
+			exit;
+		}
+		
 		$annonces = Annonces::instance();	
 		
 		if (!empty($_POST['save']) OR !empty($_POST['approve']))
@@ -52,49 +57,55 @@ class action_editer extends Action
 			}
 			else
 			{
-				$annonces->modifier();
+				$x = $annonces->modifier();
+				var_dump($x);
 				if (!empty($_POST['approve']))
 					$annonces->approuver();
 			}
-			header('location: '.$base_formate_url);
+			header('location: '.$_SERVER['REQUEST_URI']);
 			exit;
+		}
+		
+		if (!session_id()) @session_start();
+		if (!array_key_exists('jeton',$_GET) 
+			|| $_GET['jeton'] != $_SESSION['jeton'] 
+			|| time() - $_SESSION['jeton_timestamp'] >= VALIDITE_JETON)
+		{
+			error404(56);
 		}
 
 		$tpl->set_filenames(array(
 			'annonces' => ANNONCES_PATH.'/html/form.html',
 		));
-
+		
 		$_GET = Helper::cleanSlashes($_GET);
 		$annonces->nettoyer($_GET);
 		$annonces->recuperer();
-		if (!$droits->check($module,0,'ecrire') && ($annonces->user_id != $user['user_id'])){
-			error404(521);
-			exit;
-		}
 		
 		// On charge le wysiwyg
 		if (!empty($cf->config['wysiwyg_editor']))
 			include_once($root.'fonctions/fct_'.$cf->config['wysiwyg_editor'].'.php');
 
 		$tpl->assign_vars(array(
+			'JETON'		=> $_GET['jeton'],
 			'AUTEUR'	=> $annonces->created_by,
 			'TITRE'		=> $annonces->title,
 			'CONTENU'	=> $annonces->contents,
 			'ID'		=> $annonces->id,
 			'PRIX'		=> $annonces->price,
-			'DATE_CREATION'	=> empty($annonces->created_date)?'':date('d/m/Y',$annonces->created_date),
+			'DATE_CREATION'		=> empty($annonces->created_date)?'':date('d/m/Y',$annonces->created_date),
 			'DATE_MODIFICATION'	=> empty($annonces->updated_date)?'':date('d/m/Y',$annonces->updated_date),
 			'DATE_APPROBATION'	=> empty($annonces->approved_date)?'':date('d/m/Y',$annonces->approved_date),
 		));
 		
-		$model_categories = AnnoncesCategories::instance();
-		$categories = $model_categories->recuperer_tous();
+		$annoncescategories = AnnoncesCategories::instance();
+		$categories = $annoncescategories->recuperer_tous();
 		foreach ($categories as $cat)
 		{
 			$tpl->assign_block_vars('cats',array(
-				'VALUE' => $cat->id_cat,
-				'NAME' => $cat->title_cat,
-				'SELECTED' => $model_categories->selected($cat->id_cat,$annonces->id_cat),
+				'VALUE' => $cat['id_cat'],
+				'NAME' => $cat['title_cat'],
+				'SELECTED' => $this->selected($cat['id_cat'],$annonces->id_cat),
 			));
 		}
 		
@@ -104,8 +115,13 @@ class action_editer extends Action
 			$tpl->assign_block_vars('type_options',array(
 				'VALUE' 	=> $k,
 				'NAME' 		=> $v,
-				'SELECTED' => $model_categories->selected($k,$annonces->type),
+				'SELECTED' => $this->selected($k,$annonces->type),
 			));
+		}
+		
+		if ($droits->check($module,0,'approuver'))
+		{
+			$tpl->assign_block_vars('approuver',array());
 		}
 		
 	}

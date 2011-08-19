@@ -1,4 +1,6 @@
+<!--
 <script type="text/javascript" src="js/affichage.js"></script>
+-->
 <div class="bloc">
 	{DESCRIPTION}
 	<hr style="margin-top:15px;" />
@@ -6,7 +8,7 @@
 	<!-- BEGIN item -->
 	<a href="{item.URL}">
 	<div style="border:1px solid black;float:left;width:{WIDTH};padding:5px">
-		<img src="data/icones_cat_annonces/{item.PICTURE}"/>
+		<img src="{CHEMIN_ICONES}{item.PICTURE}"/>
 		<p><strong>{item.TITRE}</strong></p>
 		<p>{item.DESCRIPTION}</p>
 	</div>

@@ -17,7 +17,7 @@
 | SVP lisez Licence_CeCILL_V2-fr.txt
 |------------------------------------------------------------------------------------------------------------
 */
-defined('PROTECT') OR die("Tentative de Hacking");
+defined('PROTECT') OR die("Tentative de Hacking ".basename(__file__));
 
 define('ANNONCES_PATH', dirname(__FILE__));
 
@@ -42,6 +42,7 @@ class controller_annonces extends Controller
             'editer'	=> 'actions/action_editer',
             'supprimer'	=> 'actions/action_supprimer',
 			'lister' 	=> 'actions/action_lister',
+			'rules_update' 	=> 'actions/action_rules_update',
         );
 	}
 }
