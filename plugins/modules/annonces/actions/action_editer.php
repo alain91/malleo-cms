@@ -35,21 +35,26 @@ class action_editer extends Action
 
 	function run()
 	{
-		global $session,$tpl,$droits,$module,$img,$lang,$root,$cf,$cache,$base_formate_url,$style_name;
+		global $tpl,$droits,$module,$img,$lang,$root,$cf,$base_formate_url;
+		global $cache,$style_name; // pour fct_tinymce.php
 
 		$annonces = Annonces::instance();	
 		
-		if (!empty($_POST))
+		if (!empty($_POST['save']) OR !empty($_POST['approve']))
 		{
 			$_POST = Helper::cleanSlashes($_POST);
 			$annonces->nettoyer($_POST);
 			if (empty($annonces->id))
 			{
 				$annonces->inserer();
+				if (!empty($_POST['approve']))
+					$annonces->approuver();
 			}
 			else
 			{
 				$annonces->modifier();
+				if (!empty($_POST['approve']))
+					$annonces->approuver();
 			}
 			header('location: '.$base_formate_url);
 			exit;
@@ -72,20 +77,14 @@ class action_editer extends Action
 			include_once($root.'fonctions/fct_'.$cf->config['wysiwyg_editor'].'.php');
 
 		$tpl->assign_vars(array(
-			'L_ID'		=> $lang['FORM_ID'],
-			'L_AUTEUR'	=> $lang['FORM_AUTEUR'],
-			'L_CATEGORIE' => $lang['FORM_CATEGORIE'],
-			'L_TITRE'	=> $lang['FORM_TITRE'],
-			'L_CONTENU'	=> $lang['FORM_CONTENU'],
-			'L_TYPE'	=> $lang['FORM_TYPE'],
-			'L_PRIX'	=> $lang['FORM_PRIX'],
-			'L_PICTURE'	=> $lang['FORM_PICTURE'],
 			'AUTEUR'	=> $annonces->created_by,
 			'TITRE'		=> $annonces->title,
 			'CONTENU'	=> $annonces->contents,
 			'ID'		=> $annonces->id,
-			'TYPE'		=> $annonces->type,
 			'PRIX'		=> $annonces->price,
+			'DATE_CREATION'	=> empty($annonces->created_date)?'':date('d/m/Y',$annonces->created_date),
+			'DATE_MODIFICATION'	=> empty($annonces->updated_date)?'':date('d/m/Y',$annonces->updated_date),
+			'DATE_APPROBATION'	=> empty($annonces->approved_date)?'':date('d/m/Y',$annonces->approved_date),
 		));
 		
 		$model_categories = AnnoncesCategories::instance();
@@ -93,14 +92,22 @@ class action_editer extends Action
 		foreach ($categories as $cat)
 		{
 			$tpl->assign_block_vars('cats',array(
-				'ID' => $cat->id_cat,
+				'VALUE' => $cat->id_cat,
 				'NAME' => $cat->title_cat,
 				'SELECTED' => $model_categories->selected($cat->id_cat,$annonces->id_cat),
 			));
 		}
-
-		$titre_page = $lang['FORM_PAGE_TITRE'];
-
+		
+		foreach ($this->type_options as $k => $v)
+		{
+			if ($k==0) continue;
+			$tpl->assign_block_vars('type_options',array(
+				'VALUE' 	=> $k,
+				'NAME' 		=> $v,
+				'SELECTED' => $model_categories->selected($k,$annonces->type),
+			));
+		}
+		
 	}
 }
 

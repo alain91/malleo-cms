@@ -27,7 +27,7 @@ require_once(ANNONCES_PATH.'/class/class_core.php');
 Core::setup();
 //
 // initialisation de certaines variables
-$chemin_icones = 'data/icones_cat_annonces/';
+$chemin_icones = 'data/icones_annonces/';
 $module_select = '';
 $ext_ok = array('gif','png','jpg','jpeg');
 $image = $liste_images = $image_par_defaut = '';
@@ -140,7 +140,7 @@ while($row = $c->sql_fetchrow($resultat))
 		{
 			$tpl->assign_block_vars('liste_modules.ok.cat', array(
 				'TITRE'		=> $v['title_cat'],
-				'IMAGE'		=> $chemin_icones.$v['picture_cat'],
+				'IMAGE'		=> $v['picture_cat'],
 				'S_UP'		=> formate_url('action=move&sens=up&id_cat='.$v['id_cat'],true),
 				'S_DOWN'	=> formate_url('action=move&sens=down&id_cat='.$v['id_cat'],true),
 				'S_EDIT'	=> formate_url('action=edit&id_cat='.$v['id_cat'],true),
@@ -182,6 +182,7 @@ $tpl->assign_vars(array(
 	'IMAGE'					=> $liste_images,
 	'MODULE'				=> $select_list,
 	'ICONE_PAR_DEFAUT'		=> ($image!='')?$image:$image_par_defaut,
+	'CHEMIN_ICONES'			=> $chemin_icones,
 	
 	'I_DOWN'				=> $img['down'],
 	'I_UP'					=> $img['up'],

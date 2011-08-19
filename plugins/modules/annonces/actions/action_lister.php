@@ -9,9 +9,9 @@
 |  Copyright (c) 2011, Alain GANDON All Rights Reserved
 |------------------------------------------------------------------------------------------------------------
 |  License: Distributed under the CECILL V2 License
-|  This program is distributed in the hope that it will be useful - WITHOUT 
-|  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-|  FITNESS FOR A PARTICULAR PURPOSE. 
+|  This program is distributed in the hope that it will be useful - WITHOUT
+|  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+|  FITNESS FOR A PARTICULAR PURPOSE.
 |
 | Please read Licence_CeCILL_V2-en.txt
 | SVP lisez Licence_CeCILL_V2-fr.txt
@@ -22,39 +22,15 @@ defined('ANNONCES_PATH') OR die("Tentative de Hacking");
 
 class action_lister extends Action
 {
-	var $type_options;
-	var $sort_options;
-	var $mode_options;
-	var $forgiven_tags;
-	
 	function init()
 	{
 		global $droits,$module,$lang;
 
-		if (!$droits->check($module,0,'voir'))
+		if (!$droits->check($module,0,'lire'))
 		{
 			error404(518);
 			exit;
 		}
-
-		$this->type_options = array(0 => $lang['sa_group_all']);
-		for ($i = 1; $i <= 9; $i++) {
-			if (!empty($lang['sa_group_'.$i]))
-				$this->type_options[$i] = $lang['sa_group_'.$i];
-			else
-				break;
-		}
-
-		$this->sort_options = array(
-			'title' => $lang['sa_sort_title'],
-			'date_created' => $lang['sa_sort_date'],
-			'price' => $lang['sa_sort_price']);
-			
-		$this->mode_options = array(
-			'asc' => $lang['sa_mode_asc'],
-			'desc' => $lang['sa_mode_desc']);
-
-		$this->forgiven_tags = array('code', 'math', 'html');
 	}
 
 	function run()
@@ -69,34 +45,35 @@ class action_lister extends Action
 		$tpl->titre_navigateur = $module;
 		$tpl->titre_page = $module;
 
-		if ($droits->check($module,0,'poster'))
+		if ($droits->check($module,0,'ecrire'))
 		{
 			$tpl->options_page = array(
-					3=>array(
-					'ICONE'		=> $img['nouveau'],
-					'LIBELLE'	=> 'Nouveau',
-					'LIEN'		=> formate_url('action=editer',true))
+				3=>array(
+				'ICONE'		=> $img['nouveau'],
+				'LIBELLE'	=> 'Nouveau',
+				'LIEN'		=> formate_url('action=editer',true))
 			);
 		}
-		
+
 		$this->lister();
 	}
 
 	function lister()
 	{
 		global $session,$tpl,$droits,$module,$img,$lang,$user,$jeton;
+		
+		$annonces = Annonces::instance();
+
+		$id_cat = !empty($_GET['id_cat']) ? intval($_GET['id_cat']) : 0;
+
+		$target = formate_url('action=lister'.(empty($id_cat)?'':'&id_cat='.$id_cat),true);
+		$target = str_replace('&amp;','&',$target);
 
 		$tpl->assign_vars(array(
-			'L_DESCRIPTION'	=> 'Champ description',
-			'L_NO_SMALLADS'	=> $lang['sa_no_smallads'],
-			'L_PRICE'		=> $lang['sa_db_price'],
-			'L_PRICE_UNIT'	=> $lang['sa_price_unit'],
 			'I_EDITER' 		=> $img['editer'],
 			'I_DELETE' 		=> $img['effacer'],
-			'L_EDITER'		=> 'l_editer',
-			'L_DELETE'		=> 'l_delete',
-			'L_CONFIRM_DELETE'	=> 'l_confirm_delete',
-			'L_NOT_APPROVED' => $lang['sa_not_approved'],
+			'TARGET_ON_CHANGE_ORDER' => $target,
+			'CHEMIN_ICONES' => 'data/icones_annonces/',
 		));
 
 		$sort = !empty($_GET['sort']) ? trim($_GET['sort']) : '';
@@ -104,26 +81,38 @@ class action_lister extends Action
 		{
 			$sort = 'created_date';
 		}
-		
+
 		$mode = !empty($_GET['mode']) ? trim($_GET['mode']) : '';
 		if (empty($mode) || !array_key_exists($mode, $this->mode_options))
 		{
 			$mode = 'desc';
 		}
 		
-		$type = !empty($_GET['type']) ? intval($_GET['type']) : 0;
-		$filter = '1';
-		if (!empty($type))
-		{
-			$filter .= ' AND type = '.(int)$type; 
-		}
-	
-		$annonces = Annonces::instance();
-		$id_cat = !empty($_GET['id_cat']) ? intval($_GET['id_cat']) : 0;
+		$view_not_approved = !empty($_GET['ViewNotApproved']) ? intval($_GET['ViewNotApproved']) : 0;
+		if (empty($view_not_approved))
+			$filter = 'approved_by <> 0';
+		else
+			$filter = 'approved_by = 0';
+		
 		if (!empty($id_cat))
 		{
-			$filter .= ' AND id_cat = '.(int)$id_cat; 
-		}		
+			$filter .= ' AND id_cat = '.(int)$id_cat;
+		}
+		$type = !empty($_GET['type']) ? intval($_GET['type']) : 0;
+		if (!empty($type))
+		{
+			$filter .= ' AND type = '.(int)$type;
+		}
+		
+		foreach ($this->type_options as $k => $v)
+		{
+			$checked  = ($k == $type) ? 'checked' : '';
+			$tpl->assign_block_vars('type_options',array(
+				'NAME' 		=> $v,
+				'CHECKED'	=> $checked,
+				'VALUE' 	=> $k));
+		}
+
 		$rows = $annonces->recuperer_tous($sort, $mode, $filter);
 		if (empty($rows))
 		{
@@ -138,24 +127,17 @@ class action_lister extends Action
 		$jeton = md5(uniqid(rand(), TRUE));
 		$_SESSION['jeton'] = $jeton;
 		$_SESSION['jeton_timestamp'] = $session->time;
-	
+
+		$tpl->assign_block_vars('liste', array());
+
 		foreach ($rows as $row)
 		{
-			$this->render_view($annonces, $row);			
-		}
-		
-		foreach ($this->type_options as $k => $v)
-		{
-			$checked  = ($k == $type) ? 'checked' : '';
-			$tpl->assign_block_vars('type_options',array(
-				'NAME' 		=> $v,
-				'CHECKED'	=> $checked,
-				'VALUE' 	=> $k));
+			$this->render_view($annonces, $row);
 		}
 		
 		foreach ($this->sort_options as $k => $v)
 		{
-			$tpl->assign_block_vars('sort_options',array(
+			$tpl->assign_block_vars('liste.sort_options',array(
 				'NAME' 		=> $v,
 				'SELECTED'	=> $annonces->selected($k, $sort),
 				'VALUE' 	=> $k));
@@ -163,46 +145,47 @@ class action_lister extends Action
 
 		foreach ($this->mode_options as $k => $v)
 		{
-			$tpl->assign_block_vars('mode_options',array(
+			$tpl->assign_block_vars('liste.mode_options',array(
 				'NAME' 		=> $v,
 				'SELECTED'	=> $annonces->selected($k, $mode),
 				'VALUE' 	=> $k));
 		}
+
 	}
-	
+
 	function render_view($annonces, $row)
 	{
 		global $tpl,$user,$lang,$droits,$module,$jeton,$type_options;
-		
-		$tpl->assign_block_vars('item',array(
+
+		$type = empty($row->type) ? '' : $this->type_options[intval($row->type)];
+
+		$tpl->assign_block_vars('liste.item',array(
 			'ID' 		=> $row->id,
-			'TYPE'	 	=> $this->type_options[intval($row->type)],
+			'TYPE'	 	=> $type,
 			'TITRE' 	=> htmlentities($row->title),
 			'CONTENU' 	=> htmlentities($row->contents),
-			'PRICE'		=> $row->price,
-			'DATE_CREATED' => $row->created_date,
-			'DATE_UPDATED' => $row->updated_date,
-			'PICTURE'	 => $row->picture,
+			'PRIX'		=> $row->price,
+			'DATE_APPROBATION' => empty($row->approved_date)?'-':date('d/m/Y',$row->approved_date),
+			'IMAGE'	 	=> $row->picture,
 		));
-		
-		if ($droits->check($module,0,'ecrire')
-			|| ($row['id'] == $user['user_id']))
+
+		if ($droits->check($module,0,'ecrire'))
 		{
-			$tpl->assign_block_vars('item.edit', array(
+			$tpl->assign_block_vars('liste.item.edit', array(
 				'U_EDIT' => formate_url('action=editer&id='.(int)$row->id,true)
 			));
 		}
-		if ($droits->check($module,0,'supprimer')
-			|| ($row['id'] == $user['user_id']))
+		if ($droits->check($module,0,'supprimer'))
 		{
-			$tpl->assign_block_vars('item.delete', array(
+			$tpl->assign_block_vars('liste.item.delete', array(
 				'U_DELETE' => formate_url('action=supprimer&id='.(int)$row->id.'&jeton='.$jeton,true)
 			));
 		}
-			
-		$tpl->assign_block_vars('item.login',array());
-		$tpl->assign_block_vars('item.pm',array());
-		$tpl->assign_block_vars('item.mail',array());	
+		if (empty($row->approved_by))
+		{
+			$tpl->assign_block_vars('liste.item.not_approved', array());
+		}
+
 	}
 
 }

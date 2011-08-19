@@ -22,8 +22,34 @@ defined('PROTECT') OR die("Tentative de Hacking");
 
 class Action
 {
+	var $type_options;
+	var $sort_options;
+	var $mode_options;
+	var $forgiven_tags;
+	
 	function __construct()
 	{
+		global $lang;
+		
+		$this->type_options = array(0 => $lang['sa_group_all']);
+		for ($i = 1; $i <= 9; $i++) {
+			if (!empty($lang['sa_group_'.$i]))
+				$this->type_options[$i] = $lang['sa_group_'.$i];
+			else
+				break;
+		}
+
+		$this->sort_options = array(
+			'title' => $lang['sa_sort_title'],
+			'created_date' => $lang['sa_sort_date'],
+			'price' => $lang['sa_sort_price']);
+			
+		$this->mode_options = array(
+			'asc' => $lang['sa_mode_asc'],
+			'desc' => $lang['sa_mode_desc']);
+
+		$this->forgiven_tags = array('code', 'math', 'html');
+		
 		$this->init();
 	}
 	
