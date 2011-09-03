@@ -11,36 +11,38 @@ DROP TABLE IF EXISTS `a_mod_annonces`;
 	</requete>
 	<requete>
 CREATE TABLE IF NOT EXISTS `a_mod_annonces` (
-	`id` int(11) unsigned NOT NULL auto_increment,
-	`id_cat` int(11) unsigned NOT NULL default 0,
-	`title` varchar(63) NOT NULL default '',
-	`contents` text NOT NULL default '',
-	`picture` varchar(63),
-	`created_by` int(11) unsigned NOT NULL default 0,
-	`created_date` int(11) unsigned NOT NULL default 0,
-	`type` tinyint(4) unsigned NOT NULL default 0,
-	`price` FLOAT NOT NULL default 0.0,
-	`approved_by` int(11) unsigned NOT NULL default 0,
-	`approved_date` int(11) unsigned NOT NULL default 0,
-	`updated_by` int(11) unsigned NOT NULL default 0,
-	`updated_date` int(11) unsigned NOT NULL default 0,
-	`start_date` int(11) unsigned NOT NULL default 0,
-	`max_weeks` int(11) unsigned NOT NULL default 0,
-	PRIMARY KEY  (`id`)
-) AUTO_INCREMENT=1 ;
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `id_cat` int(11) unsigned NOT NULL default '0',
+  `title` varchar(63) collate utf8_unicode_ci NOT NULL default '',
+  `contents` text collate utf8_unicode_ci NOT NULL,
+  `picture` varchar(63) collate utf8_unicode_ci default NULL,
+  `created_by` int(11) unsigned NOT NULL default '0',
+  `created_date` int(11) unsigned NOT NULL default '0',
+  `type` tinyint(4) unsigned NOT NULL default '0',
+  `price` float NOT NULL default '0',
+  `approved_by` int(11) unsigned NOT NULL default '0',
+  `approved_date` int(11) unsigned NOT NULL default '0',
+  `updated_by` int(11) unsigned NOT NULL default '0',
+  `updated_date` int(11) unsigned NOT NULL default '0',
+  `start_date` int(11) unsigned NOT NULL default '0',
+  `max_weeks` int(11) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
 	</requete>
 	<requete>
 DROP TABLE IF EXISTS `a_mod_annonces_cats`;
 	</requete>
 	<requete>
-CREATE TABLE `a_mod_annonces_cats` (
-	`id_cat` int(11) unsigned NOT NULL auto_increment,
-	`title_cat` varchar(63) NOT NULL default '',
-	`description_cat` varchar(255),	
-	`picture_cat` varchar(63),
-	`ordre` int(11) unsigned NOT NULL default 0,
-	PRIMARY KEY  (`id_cat`)
+CREATE TABLE IF NOT EXISTS `a_mod_annonces_cats` (
+  `id_cat` int(11) unsigned NOT NULL auto_increment,
+  `title_cat` varchar(63) NOT NULL,
+  `description_cat` varchar(255) default NULL,
+  `picture_cat` varchar(63) default NULL,
+  `order` int(11) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id_cat`)
 ) AUTO_INCREMENT=1 ;
+
 	</requete>
 	<requete>
 DELETE FROM `a_config` WHERE

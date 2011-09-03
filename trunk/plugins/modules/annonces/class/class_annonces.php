@@ -35,6 +35,7 @@ class Annonces
 	var $approved_date;
 	var $updated_by;
 	var $updated_date;
+	var $start_date;
 	var $max_weeks;
 
 	private function __construct()
@@ -83,8 +84,20 @@ class Annonces
 				case 'contents':
 				case 'picture':
 					$this->$key = $val;break;
+				// float
 				case 'price':
 					$this->$key = (float)$val;break;
+				// date
+				case 'start_date':
+					$val = trim($val);
+					$timestamp = 0;
+					if (!empty($val))
+					{
+						$item = explode('/',$val);
+						if (count($item) == 3)
+							$timestamp = mktime(0,0,0,$item[1],$item[0],$item[2]);
+					}
+					$this->$key = $timestamp;break;
 			}
 		}
 	}
@@ -113,7 +126,7 @@ class Annonces
 		global $c,$user;
 		
 		$time = time();
-
+		
 		$sql = 'INSERT INTO '.TABLE_ANNONCES.'
 			SET id_cat = '.intval($this->id_cat).',
 				title = "'.Helper::sql_escape($this->title).'",
@@ -123,6 +136,7 @@ class Annonces
 				created_date = '.$time.',
 				type = '.intval($this->type).',
 				price = '.(float)$this->price.',
+				start_date = '.intval($this->start_date).',
 				max_weeks = '.intval($this->max_weeks);
 				
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
@@ -154,10 +168,10 @@ class Annonces
 				approved_date = 0,
 				type = '.intval($this->type).',
 				price = '.(float)$this->price.',
+				start_date = '.intval($this->start_date).',
 				max_weeks = '.intval($this->max_weeks).'
 				WHERE id = '.intval($this->id).'
 				LIMIT 1';
-//var_dump($sql);exit;
 		$resultat = $c->sql_query($sql) OR message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		return $resultat;
 	}

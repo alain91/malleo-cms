@@ -35,7 +35,10 @@ class action_index extends Action
 
 	function run()
 	{
-		global $tpl,$droits,$module,$img,$lang;
+		global $tpl,$droits,$module,$img,$lang,$jeton;
+		
+		// Creation du jeton de securite
+		$jeton = $this->creer_jeton();
 
 		$tpl->set_filenames(array(
 			'annonces' => ANNONCES_PATH.'/html/liste_cat.html',
@@ -53,11 +56,11 @@ class action_index extends Action
 		if ($droits->check($module,0,'poster'))
 		{
 			$tpl->options_page = array(
-					3=>array(
-					'ICONE'		=> $img['nouveau'],
-					'LIBELLE'	=> 'Nouveau',
-					'LIEN'		=> formate_url('action=editer',true))
-			);
+				3=>array(
+				'ICONE'		=> $img['nouveau'],
+				'LIBELLE'	=> 'Nouveau',
+				'LIEN'		=> formate_url('action=editer&jeton='.$jeton,true))
+				);
 		}
 		
 		$this->lister();
