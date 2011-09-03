@@ -96,7 +96,8 @@ class action_editer extends Action
 			'DATE_CREATION'		=> empty($annonces->created_date)?'':date('d/m/Y',$annonces->created_date),
 			'DATE_MODIFICATION'	=> empty($annonces->updated_date)?'':date('d/m/Y',$annonces->updated_date),
 			'DATE_APPROBATION'	=> empty($annonces->approved_date)?'':date('d/m/Y',$annonces->approved_date),
-			'NB_SEMAINES' => $annonces->max_weeks,
+			'DATE_DEBUT' 	=> empty($annonces->start_date)?'':date('d/m/Y',$annonces->start_date),
+			'NB_SEMAINES'	=> $annonces->max_weeks,
 		));
 		
 		$annoncescategories = AnnoncesCategories::instance();

@@ -35,7 +35,10 @@ class action_lister extends Action
 
 	function run()
 	{
-		global $tpl,$droits,$module,$img,$lang;
+		global $tpl,$droits,$module,$img,$lang,$jeton;
+		
+		// Creation du jeton de securite
+		$jeton = $this->creer_jeton();
 
 		$tpl->set_filenames(array(
 			'annonces' => ANNONCES_PATH.'/html/liste.html',
@@ -51,8 +54,8 @@ class action_lister extends Action
 				3=>array(
 				'ICONE'		=> $img['nouveau'],
 				'LIBELLE'	=> 'Nouveau',
-				'LIEN'		=> formate_url('action=editer',true))
-			);
+				'LIEN'		=> formate_url('action=editer&jeton='.$jeton,true))
+				);
 		}
 
 		$this->lister();
@@ -121,9 +124,6 @@ class action_lister extends Action
 			));
 			return;
 		}
-
-		// Creation du jeton de securite
-		$jeton = $this->creer_jeton();
 
 		$tpl->assign_block_vars('liste', array());
 
