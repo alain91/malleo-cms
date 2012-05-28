@@ -26,7 +26,7 @@ class action_index extends Action
 	{
 		global $droits,$module;
 
-		if (!$droits->check($module,0,'voir'))
+		if (!$droits->check($module,0,'lister'))
 		{
 			error404(518);
 			exit;
