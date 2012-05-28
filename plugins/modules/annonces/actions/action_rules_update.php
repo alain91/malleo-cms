@@ -17,39 +17,28 @@
 | SVP lisez Licence_CeCILL_V2-fr.txt
 |------------------------------------------------------------------------------------------------------------
 */
-defined('PROTECT') OR die("Tentative de Hacking ".basename(__file__));
 
-define('ANNONCES_PATH', dirname(__FILE__));
+defined('ANNONCES_PATH') OR die("Tentative de Hacking ".basename(__FILE__));
 
-require_once(ANNONCES_PATH.'/class/class_core.php');
-Core::setup();
-
-$id_version = 0;
-
-require_once(ANNONCES_PATH.'/prerequis.php');
-
-class controller_annonces extends Controller
+class action_rules_update extends Action
 {
 	function init()
 	{
-		if (version_compare(phpversion(), '5.1.0') < 0) {
-			die('Ce module n&eacute;cessite PHP version 5.1 ou sup&eacute;rieur');
-		}
-		$this->setPath(ANNONCES_PATH);
+		global $droits,$module;
+		// DO NOTHING
 	}
 	
-	function getActions()
+	function run()
 	{
-        return array(
-            'index' 	=> 'actions/action_index',
-            'editer'	=> 'actions/action_editer',
-            'supprimer'	=> 'actions/action_supprimer',
-			'lister' 	=> 'actions/action_lister',
-			'rules_update' 	=> 'actions/action_rules_update',
-        );
+		global $user,$droits,$module,$base_formate_url;
+
+		defined('PROTECT_ADMIN') OR define('PROTECT_ADMIN',true);
+		
+		$droits->delete_regle('module',$module);
+		$droits->init_regles($module);
+	
+		header('location: '.$base_formate_url);
+		exit;
 	}
 }
-
-$controller = new controller_annonces();
-$controller->dispatch();
 ?>
