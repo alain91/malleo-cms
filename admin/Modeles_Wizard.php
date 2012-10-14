@@ -98,7 +98,7 @@ switch ($etape)
 		$i = 0;
 		while ($modele = @readdir($ch))
 		{
-			if ($modele[0] != '.' && is_dir($chemin.$modele))
+			if ($modele != "." && $modele != ".." && is_dir($chemin.$modele))
 			{
 				if ($i%$nbre_cols == 0) $tpl->assign_block_vars('etape1.ligne', array());
 				$liste_modeles[] = $modele;

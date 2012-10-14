@@ -60,8 +60,7 @@ switch($mode)
 						ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
 				WHERE fav.user_id='.$user['user_id'].'
 				AND c.module="'.$module.'" 
-				ORDER BY date_topic DESC
-				LIMIT 100';
+				ORDER BY date_topic DESC';
 		$tpl->titre_page = $tpl->titre_navigateur = $lang['L_MSG_FAVORIS'];
 		// Navlinks
 		$session->make_navlinks(array(
@@ -95,8 +94,7 @@ switch($mode)
 						ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
 				WHERE n.user_id='.$user['user_id'].'
 				AND c.module="'.$module.'" 
-				ORDER BY date_topic DESC
-				LIMIT 100';
+				ORDER BY date_topic DESC';
 		$tpl->titre_page = $tpl->titre_navigateur = $lang['L_MSG_NOUVEAU'];
 		// Navlinks
 		$session->make_navlinks(array(
@@ -132,8 +130,7 @@ switch($mode)
 						ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
 				WHERE p.user_id='.$user['user_id'].'
 				AND  c.module="'.$module.'" 
-				ORDER BY date_topic DESC
-				LIMIT 100';
+				ORDER BY date_topic DESC';
 		$tpl->titre_page = $tpl->titre_navigateur = $lang['L_MSG_MES_MSG'];
 		// Navlinks
 		$session->make_navlinks(array(
@@ -167,8 +164,7 @@ switch($mode)
 						ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
 				WHERE t.post_fin is null
 				AND  c.module="'.$module.'" 
-				ORDER BY date_topic DESC
-				LIMIT 100';
+				ORDER BY date_topic DESC';
 		$tpl->titre_page = $tpl->titre_navigateur = $lang['L_MSG_SANS_REPONSE'];
 		// Navlinks
 		$session->make_navlinks(array(

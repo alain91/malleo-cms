@@ -114,6 +114,8 @@ $lang['R_profil_editer'] = 'Editer';
 $lang['R_profil_voir'] = 'Voir les profils';
 
 
+$lang['L_profil_incorrect'] = 'Le profil demandé n\'existe pas'; 
+
 // --------------------------------------------------------------------------------
 //                             NE PAS TRADUIRE !!!
 // --------------------------------------------------------------------------------

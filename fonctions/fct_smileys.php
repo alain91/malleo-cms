@@ -31,13 +31,12 @@ function creer_cache_emotions(){
 	global $root,$tpl,$nbre_cols,$nbre_lignes,$c,$lang;
 	load_lang('smileys');
 	$tpl->set_filenames(array('smileys' => $root.'html/liste_smileys.html'));
-	
+
 	$sql = 'SELECT titre_smiley, url_smiley  FROM '.TABLE_SMILEYS.' ORDER BY ordre ASC';
 	if (!$resultat = $c->sql_query($sql)) message_die(E_ERROR,1101,__FILE__,__LINE__,$sql);
 	$cols=$lignes=0	;
 	while($row = $c->sql_fetchrow($resultat))
 	{
-		if (empty($nbre_cols)) $nbre_cols = 6;
 		if ($cols%$nbre_cols == 0){
 			$tpl->assign_block_vars('ligne', array());
 			$cols = 0;

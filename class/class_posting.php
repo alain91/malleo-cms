@@ -39,7 +39,7 @@ function formate_geshi($source)
 	global $id_code,$lang,$img,$root;
 	$id_code++;
 	// Choix du langage
-	$type_demande = eregi_replace('[^a-z0-9-]','',$source[1]);
+	$type_demande = preg_replace('/[^a-z0-9-]/i','',$source[1]);
 	$type_demande= (file_exists($root.'librairies/geshi/geshi/'.$type_demande.'.php'))? $type_demande:'html4strict';
 	// Formatage du langage
 	$code = str_replace('\t\t','\t',utf8_encode(html_entity_decode($source[2])));
@@ -59,8 +59,8 @@ function formate_geshi($source)
 function formate_wiki($source){
 	$val = html_to_str($source[1]);
 	$val = supprimer_accents($val);
-	$val = eregi_replace('[^a-z0-9]','_',$val);
-	$val = ereg_replace('[_]{2,}','_',$val);
+	$val = preg_replace('/[^a-z0-9]/','_',$val);
+	$val = preg_replace('/[_]{2,}/','_',$val);
 	return '<a href="'.formate_url('t='.$val,true).'" class="wiki">'.$source[1].'</a>';
 }
 
@@ -82,9 +82,9 @@ function formate_image($source){
 	if (is_array($listing_smileys) && array_key_exists($source[2],$listing_smileys)){
 		return '<img src="'.$source[2].'" alt="'.$listing_smileys[$source[2]].'" title="'.$listing_smileys[$source[2]].'"'.$align.' />';
 	// Affichage direct des images locales
-	}elseif (eregi('data/',$source[2])
-		|| eregi('http://'.$cf->config['adresse_site'].$cf->config['path'],$source[2])){
-		$url = ereg_replace('http://'.$cf->config['adresse_site'].$cf->config['path'],'',$source[2]);
+	}elseif (preg_match('/data\//i',$source[2])
+		|| preg_match('/http:\/\/'.str_replace('/', '\/', $cf->config['adresse_site'].$cf->config['path']).'/',$source[2])){
+		$url = preg_replace('/http:\/\/'.str_replace('/', '\/', $cf->config['adresse_site'].$cf->config['path']).'/','',$source[2]);
 		
 		// Si l'image est trop grande on la reduit et on active lightbox
 		if (file_exists($url)){
@@ -135,6 +135,8 @@ class posting
 		// Transformation des urls en vidéos
 		include($root.'fonctions/fct_urltovideo.php');
 		
+		// GoogleMap
+    $text = preg_replace("#\[googlemap width=([0-9]{1,3}) height=([0-9]{1,3}) zoom=([0-9]{1,2})\](.*?)\[\/googlemap\]#is", '<img src="http://maps.google.com/maps/api/staticmap?zoom=\\3&size=\\1x\\2&maptype=roadmap\&markers=size:mid|label:\\4|color:blue|\\4&mobile=true&sensor=false" alt="\\4" title="\\4" />', $text);
 		// Coupure de page
 		$text = str_replace("[pagebreak]", '<!-- pagebreak -->', $text);
 		// Ligne horizontale

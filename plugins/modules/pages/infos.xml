@@ -2,6 +2,7 @@
 <module>
 	<libelle>Pages Web</libelle>
 	<version>1.0</version>
+	<version_min>1</version_min>
 	<auteur>SP</auteur>
 	<site_auteur>http://www.malleo-cms.com</site_auteur>
 	<check_version>http://www.malleo-cms.com/versions/pages.txt</check_version>

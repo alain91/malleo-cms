@@ -131,7 +131,7 @@ function lister_sens()
 }
 
 function lister_wysiwyg(){
-	return array('tinymce','markitup');
+	return array('tinymce');
 }
 
 function lister_affichage_membres(){

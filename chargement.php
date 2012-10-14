@@ -32,6 +32,7 @@ if (file_exists($root.'install/') && !ereg('install/',$_SERVER['PHP_SELF'])) hea
 // Config
 include_once($root.'config/config.php');
 include_once($root.'config/constantes.php');
+$style_name = 'BlueLight';
 
 // Connexion a la base
 require_once($root.'class/class_mysql.php');		
@@ -96,7 +97,7 @@ switch ($user['level'])
 // Switchs des groupes
 $tpl->assign_block_vars($level, array());
 foreach($user['groupes'] as $switch_groupe){
-	$tpl->assign_block_vars('switch_'.eregi_replace('[^a-z0-9\-_]','',$switch_groupe), array());
+	$tpl->assign_block_vars('switch_'.preg_replace('/[^a-z0-9\-_]/i','',$switch_groupe), array());
 }
 global $cache, $c, $cf, $user,$users, $droits, $style_name, $style_path, $startime, $liste_plugins;
 ?>

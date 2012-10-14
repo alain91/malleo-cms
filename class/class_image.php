@@ -58,7 +58,7 @@ class image
 	var $file_max_hauteur=100;
 	// Dossier ou copier l'image
 	var $destination;
-	// Contenu du .htaccess cree dans les dossiers cotnenant des images
+	// Contenu du .htaccess cree dans les dossiers contenant des images
 	var $htaccess = 
 '<Limit POST PUT DELETE>
 	Order Allow,Deny
@@ -180,7 +180,7 @@ class image
 		if (file_exists($destination.$nom_teste) && $cpt<10)
 		{
 			$ext = pathinfo($nom_teste);
-			$nom_teste = eregi_replace('.'.$ext['extension'],'',$nom_fichier).'_'.$cpt.'.'.$ext['extension'];
+			$nom_teste = preg_replace('/.'.$ext['extension'].'/i','',$nom_fichier).'_'.$cpt.'.'.$ext['extension'];
 			$cpt++;
 			$nom_teste = $this->nom_unique($nom_fichier,$destination,$nom_teste,$cpt);			
 		}
@@ -249,7 +249,7 @@ class image
 		$ch = @opendir($dir);
 		while ($image = @readdir($ch))
 		{
-			if (substr($image,0,1) != "." && $image != '.htaccess') {
+			if ($image != '.' && $image != '..' & $image != '.htaccess') {
 				if (is_dir($dir.$image)){
 					$size += $this->dirsize($dir.$image.'/');
 				}else{
@@ -361,7 +361,7 @@ class image
 				return sprintf($this->lang['image_bad_type'],implode(', ',$this->ext_ok));
 			}
 			// Suppression de l'arborescance
-			$nom_fichier = eregi_replace('(.*)[/]','',$url_ary[4]);
+			$nom_fichier = preg_replace('/(.*)[\/]/i','',$url_ary[4]);
 			$this->nom_unique($nom_fichier,$this->destination);
 			@copy($tmp_filename, $this->destination.$this->nom_unique);
 			@unlink($tmp_filename);
@@ -394,23 +394,23 @@ class image
 			for ($i=0;$i<$nbre_images;$i++)
 			{
 				// toute image n'etant pas dans le dossier data/images/ est enregistree
-				if (!eregi($this->destination,$images[1][$i]) 
-						&& !eregi('data/smileys/',$images[1][$i]))
+				if (!preg_match('/'.str_replace('/', '\/', $this->destination).'/i',$images[1][$i]) 
+						&& !preg_match('/data\/smileys\//i',$images[1][$i]))
 				{
 					// Copie locale
-					if (eregi('^(data\/)',$images[1][$i])){
-						$nom_fichier = eregi_replace('(.*)[/]','',$images[1][$i]);
+					if (preg_match('/^(data\/)/i',$images[1][$i])){
+						$nom_fichier = preg_replace('/(.*)[\/]/i','',$images[1][$i]);
 						$this->nom_unique($nom_fichier,$this->destination);
 						if(rename($images[1][$i],$this->destination.$this->nom_unique)){
 							// On enregistre la nouvelle url
 							$images_modifiees['avant'][$i] = $images[1][$i];
 							$images_modifiees['apres'][$i] = $this->destination.$this->nom_unique;
 	 						// Suppression du fichier dans le dossier perso
-							if (eregi('data/files/'.$user['user_id'].'/',$images[1][$i]))
+							if (preg_match('/data\/files\/'.$user['user_id'].'\//i',$images[1][$i]))
 							{
-								$img_tmp = eregi_replace($adresse_site,'',$images[1][$i]);
+								$img_tmp = preg_replace('/'.str_replace('/','\/',$adresse_site).'/i','',$images[1][$i]);
 								if (file_exists($img_tmp))@unlink($img_tmp);
-								$img_tmp = eregi_replace('data/files/'.$user['user_id'].'/','data/files/'.$user['user_id'].'/thumbs/',$img_tmp);
+								$img_tmp = preg_replace('/data\/files\/'.$user['user_id'].'\//i','data/files/'.$user['user_id'].'/thumbs/',$img_tmp);
 								if (file_exists($img_tmp))@unlink($img_tmp);
 							}
 						}
@@ -448,7 +448,7 @@ class image
 		$ch = @opendir($dir);
 		while ($image = @readdir($ch))
 		{
-			if ($image[0] != '.' && in_array($this->extension($image),$this->ext_ok)) {
+			if ($image != '.' && $image != '..' && in_array($this->extension($image),$this->ext_ok)) {
 				$this->miniature_image($image,$dir);
 			}
 		}

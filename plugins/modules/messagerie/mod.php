@@ -204,6 +204,49 @@ switch($mode){
 				$mp->afficher_saisie_mail();
 		}
 		break;
+		
+	case 'mailgroup':
+		// TITRE Page + NavLinks
+		$tpl->titre_navigateur = $tpl->titre_page = $lang['L_MAILGROUP'];
+		$session->make_navlinks(array($lang['L_MAILGROUP']	=> formate_url('mode=mailgroup',true)));
+		
+		if ($action=='nouveau' && (empty($_POST['a']) || empty($_POST['sujet']) || empty($_POST['message']))){
+			erreur_saisie('erreur_saisie',$lang['L_REMPLISSEZ_CHAMPS'],array(
+				'A'=>isset($_POST['a'])?stripslashes($_POST['a']):'',
+				'SUJET'=>isset($_POST['sujet'])?stripslashes($_POST['sujet']):'',
+				'MESSAGE'=>isset($_POST['message'])?stripslashes($_POST['message']):''));	
+			$action='';
+		}	
+		switch($action){
+			case 'nouveau':
+				$mp->clean($_POST);
+				// Chargement de la configuration emails
+				require_once($root.'class/class_mail.php');
+				$email = new mail();
+				$email->Subject = stripslashes($lang['L_MAIL_SUJET']);
+				$email->message_explain = sprintf($lang['L_ENTETE_EMAIL'],$user['pseudo'],(isset($_SERVER['REMOTE_HOST']))?$_SERVER['REMOTE_HOST']:$session->ip);
+				$email->titre_message = stripslashes($mp->sujet);
+				$email->formate_html(html_entity_decode(stripslashes($post->bbcode2html($mp->message))));
+				if ($mp->send_mail_group() == false){
+					// Aucune adresse ne concorde, ou les destinataires ne souhaites pas recevoir de Mails
+					 echo $email;
+					affiche_message('message_envoye','L_MAIL_NON_ENVOYE',formate_url('mode=inbox',true));
+				}else{
+					// Si au moins 1 destinataire veut une alerte mail
+					if (count($email->to)>0){
+						$email->Send();
+					}
+					affiche_message('message_envoye','L_MAIL_ENVOYE',formate_url('mode=inbox',true));
+				}				
+				$tpl->assign_var_from_handle('ZONE_CENTRALE','message_envoye');
+				break;
+			default:
+				// Affichage champs de saisie
+				$WYSIWYG_METHODE='html';
+				if ($cf->config['wysiwyg_editor']!='') include_once($root.'fonctions/fct_'.$cf->config['wysiwyg_editor'].'.php');
+				$mp->afficher_saisie_mailgroup();
+		}
+		break;
 	case 'newmp':
 		// TITRE Page + NavLinks
 		$tpl->titre_navigateur = $tpl->titre_page = $lang['L_NEWMP'];
@@ -248,6 +291,51 @@ switch($mode){
 				$mp->afficher_saisie_mp();
 		}
 		break;
+	//MP groupé
+	case 'mpgroup':
+		// TITRE Page + NavLinks
+		$tpl->titre_navigateur = $tpl->titre_page = $lang['L_MPGROUP'];
+		$session->make_navlinks(array($lang['L_MPGROUP']	=> formate_url('mode=mpgroup',true)));
+		if ($action=='nouveau' && (empty($_POST['a']) || empty($_POST['sujet']) || empty($_POST['message']))){
+			erreur_saisie('erreur_saisie',$lang['L_REMPLISSEZ_CHAMPS'],array(
+				'MESSAGE'=>isset($_POST['message'])?stripslashes($_POST['message']):''));	
+			$_GET = $_POST;
+			$action='';
+		}	
+			switch($action){
+			case 'nouveau':
+				$mp->clean($_POST);
+				
+				// Chargement de la configuration emails
+				require_once($root.'class/class_mail.php');
+				$email = new mail($cf->config);
+				$email->Subject = stripslashes($lang['L_MP_SUJET']);
+			
+				
+				if ($mp->send_mp_groupe() == false){
+					// Aucune adresse ne concorde, ou les destinataires ne souhaites pas recevoir de MP
+					affiche_message('message_envoye','L_MP_NON_ENVOYE',formate_url('mode=inbox',true));
+				}else{
+					// On enregistre le MP + Ajout des adresse emails dans la liste des destinataires
+					$url = 'http://'.$cf->config['adresse_site'].$cf->config['path'].'index.php?module=messagerie&amp;mode=lecture&amp;id_mp='.$mp->id_mp;
+					$email->message_explain = sprintf($lang['L_MP_BODY_HTML'],$url,$url);
+					$email->titre_message = stripslashes($mp->sujet);
+					$email->formate_html($post->bbcode2html(stripslashes($mp->message)));				
+					// Si au moins 1 destinataire veut une alerte mail
+					if (count($email->to)>0){
+						$email->Send();
+					}
+					affiche_message('message_envoye','L_MP_ENVOYE',formate_url('mode=lecture&id_mp='.$mp->id_mp,true));
+				}
+				$tpl->assign_var_from_handle('ZONE_CENTRALE','message_envoye');
+				break;
+			default:
+				// Affichage champs de saisie
+				$mp->clean($_GET);
+				if ($cf->config['wysiwyg_editor']!='') include_once($root.'fonctions/fct_'.$cf->config['wysiwyg_editor'].'.php');
+				$mp->afficher_saisie_mpgroupe();
+		}
+		break;		
 	case 'inbox':
 	default:
 		// TITRE Page + NavLinks

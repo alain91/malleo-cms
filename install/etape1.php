@@ -44,15 +44,17 @@ if (phpVersion() > 5.0){
 //
 // MySQL
 if (in_array('mysql',$loaded_extensions)){
-	if (mysql_get_client_info() >= 4.2){
+	preg_match('/[1-9]\.[0-9]\.?[1-9]?[0-9]?/', mysql_get_client_info(), $match);
+	$mysql_ver = (isset($match[0])) ? $match[0] : mysql_get_client_info();
+	if ($mysql_ver >= 4.2){
 			$tpl->assign_block_vars('liste_versions', array(
 				'ICONE'	=> $img['valide'],
-				'EXT'	=> sprintf($lang['MySQL'],@mysql_get_client_info())
+				'EXT'	=> sprintf($lang['MySQL'], $mysql_ver)
 			));
 	}else{
 			$tpl->assign_block_vars('liste_versions', array(
 				'ICONE'	=> $img['invalide'],
-				'EXT'	=> sprintf($lang['MySQL'],@mysql_get_client_info())	
+				'EXT'	=> sprintf($lang['MySQL'], $mysql_ver)	
 			));
 			$i++;
 	}
@@ -66,7 +68,9 @@ if (in_array('mysql',$loaded_extensions)){
 
 //
 // Fonctions
-if (function_exists('fsockopen')){
+$disable_functions = (ini_get("disable_functions")!="" AND ini_get("disable_functions")!=false) ? array_map('trim', preg_split( "/[\s,]+/", ini_get("disable_functions"))) : array();
+if(function_exists("fsockopen") AND !in_array('fsockopen', $disable_functions))
+{
 		$tpl->assign_block_vars('liste_fonctions', array(
 			'ICONE'	=> $img['valide'],
 			'EXT'	=> $lang['L_FSOCKOPEN_NON_INSTALLE']

@@ -18,7 +18,6 @@
 | SVP lisez Licence_CeCILL_V2-fr.txt
 |------------------------------------------------------------------------------------------------------------
 */
-
 define('PROTECT',true);
 $root = './';
 require_once($root.'/chargement.php');
@@ -27,7 +26,7 @@ load_lang('defaut');
 
 // récupération du module demandé dans l'URL
 $module = (!isset($_GET['module']) || empty($_GET['module'])) ? $cf->config['default_module']:$_GET['module'];
-$module =  eregi_replace('[^a-z0-9_-]','',$module);
+$module =  preg_replace('/[^a-z0-9_-]/i','',$module);
 $base_formate_url = 'index.php?module='.$module;
 
 // Construction des navlinks
@@ -52,7 +51,6 @@ $tpl->assign_vars(array(
 	'CHARSET'			=>	$cf->config['charset'],
 	'STYLE'				=>	$style_name,
 ));
-
 // si un style est impose on le force
 $style_name=load_style($map->listing_modules[$module]['style']);
 
@@ -82,10 +80,10 @@ for ($ListeBlocs=0;$ListeBlocs<sizeof($modules[1]);$ListeBlocs++)
 			message_die(E_WARNING,1,__FILE__,__LINE__);
 		}
 	}else{
-		if (ereg('HTML_',$modules[1][$ListeBlocs]))
+		if (preg_match('/HTML_/',$modules[1][$ListeBlocs]))
 		{
 			// BLOC HTML
-			$id_bloc_html = intval(ereg_replace('HTML_','',$modules[1][$ListeBlocs]));
+			$id_bloc_html = intval(preg_replace('/HTML_/','',$modules[1][$ListeBlocs]));
 			include($root.'plugins/blocs/html/mod.php');
 			$tpl->assign_var_from_handle('HTML_'.$id_bloc_html,'HTML_'.$id_bloc_html);
 		}elseif (file_exists($root.'plugins/blocs/'.$modules[1][$ListeBlocs].'/mod.php'))

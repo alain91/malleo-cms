@@ -76,21 +76,21 @@ class mail extends phpmailer {
 	}
 	
 	function protege_guillemets($texte){
-		return stripslashes(ereg_replace("''","'",$texte));
+		return stripslashes(preg_replace("/''/","'",$texte));
 	}
 	
 	function protege_images($string){
 		global $cf;
-        $string = eregi_replace(' src="data/',' src="'.'http://'.$cf->config['adresse_site'].$cf->config['path'].'data/',$string);
-        $string = eregi_replace(' src="/data/',' src="'.'http://'.$cf->config['adresse_site'].$cf->config['path'].'data/',$string);
+        $string = preg_replace('/ src="data\//i',' src="'.'http://'.$cf->config['adresse_site'].$cf->config['path'].'data/',$string);
+        $string = preg_replace('/ src="\/data\//i',' src="'.'http://'.$cf->config['adresse_site'].$cf->config['path'].'data/',$string);
         return $string;
 	}
 	
 	function formate_texte($string){	
-		$string = ereg_replace('<br />',"\n",$string);
+		$string = preg_replace('/<br \/>/',"\n",$string);
 		$string = trim(strip_tags($string));
-		$string = ereg_replace("\n\n","",$string);
-		$string = ereg_replace("\t",'',$string);
+		$string = preg_replace("/\n\n/","",$string);
+		$string = preg_replace("/\t/",'',$string);
 		$string = html_to_str($string);
 		return $string;
 	}

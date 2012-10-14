@@ -87,9 +87,9 @@ $requetes['INSERT INTO '.$prefixe.'config'] =
 	('mail_port_serveur', '25'),
 	('mail_username', 'pseudo'),
 	('mail_password', 'password'),
-	('mail_from', 'webmaster@".eregi_replace('www.','',$param['ADRESSE'])."'),
+	('mail_from', 'webmaster@".preg_replace('/www./i','',$param['ADRESSE'])."'),
 	('mail_fromname', 'Le Webmaster'),
-	('version_cms', '1.3');";
+	('version_cms', '1.4');";
 
 $requetes['CREATE TABLE '.$prefixe.'droits_fonctions'] = 
 	"CREATE TABLE `".$prefixe."droits_fonctions` (
@@ -169,8 +169,8 @@ $requetes['INSERT INTO '.$prefixe.'modelisation_tables'] =
 	"INSERT INTO `".$prefixe."modelisation_tables` (`nom_champs`, `type_saisie`, `lang`, `param`, `page`) VALUES
 	('nom_site', 'text', 'Q_Nom_site', '30', 'Config_Metas'),
 	('adresse_site', 'text', 'Q_Adresse_site', '30', 'Config_Generale'),
-	('path', 'text', 'Q_Chemin_site', '10', 'Config_Generale'),
-	('cookie_name', 'text', 'Q_Cookie_nom', '10', 'Config_Generale'),
+	('path', 'text', 'Q_Chemin_site', '30', 'Config_Generale'),
+	('cookie_name', 'text', 'Q_Cookie_nom', '30', 'Config_Generale'),
 	('cookie_time', 'text', 'Q_Cookie_temps', '10', 'Config_Generale'),
 	('default_langue', 'select', 'Q_Langue', 'lister_langues', 'Config_Generale'), 
 	('default_style', 'select', 'Q_Style', 'lister_styles', 'Config_Generale'),

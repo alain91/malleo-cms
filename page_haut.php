@@ -22,6 +22,7 @@ if ( !defined('PROTECT'))
 {
 	die("Tentative de Hacking");
 }
+
 $tpl->set_filenames(array('PAGE_HAUT' => $root . $style_path . $style_name.'/_page_haut.html'));
 
 if (((!defined('MESSAGE_DIE') && !defined('ERROR_404')) || !defined('PROTECT_ADMIN')) && (defined('PROTECT_ADMIN') || $cf->config['activer_menuh']))
@@ -56,7 +57,6 @@ if (is_array($tpl->options_page)){
 if (!empty($tpl->url_canonique)){
 	$tpl->assign_block_vars('url_canonique', array());
 }
-
 // Variables globales
 $tpl->assign_vars(array(
 	'ROOT_STYLE'		=>	$root,
@@ -74,7 +74,7 @@ $tpl->assign_vars(array(
 // Switchs groupes
 if (is_array($user) && array_key_exists('groupes',$user)){
 	foreach($user['groupes'] as $switch_groupe){
-		$tpl->assign_block_vars('switch_'.eregi_replace('[^a-z0-9\-_]','',$switch_groupe), array());
+		$tpl->assign_block_vars('switch_'.preg_replace('/[^a-z0-9\-_]/i','',$switch_groupe), array());
 	}
 }
 // Titre de la page

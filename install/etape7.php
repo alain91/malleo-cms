@@ -49,7 +49,7 @@ global $c, $cf, $users, $droits, $style_path, $style_name, $liste_plugins, $tpl;
 $disabled = true;
 $dir = $root.'plugins/modules/';
 $excludes = array('.','..','.htaccess','index.html');
-$modules_non_acceptables = array('profile','messagerie','membres');
+$modules_non_acceptables = array('profil','messagerie','membres');
 
 // Enregistrement du module par defaut
 if (isset($_POST['module_defaut'])){

@@ -412,8 +412,8 @@ class forum
 						$titre = preg_replace("/\[".$match."\]/si", $remplace, $titre);
 						
 					// Remplacement partiel [En cours par ? ]
-					}elseif(ereg($_tag,$_match)){
-						$alt = (!empty($t['alternatif']))?sprintf($t['alternatif'],strtoupper(ereg_replace($_tag,'',$_match))):$match;
+					}elseif(preg_match('/'.$_tag.'/',$_match)){
+						$alt = (!empty($t['alternatif']))?sprintf($t['alternatif'],strtoupper(preg_replace('/'.$_tag.'/','',$_match))):$match;
 						$remplace=($t['type']=='1')?'<img src="'.$t['image'].'" alt="'.$alt.'" title="'.$alt.'" />':'<span style="color:'.$t['couleur'].';">'.$alt.'</span>';
 						$titre = preg_replace("/\[".$match."\]/si", $remplace, $titre);
 					}

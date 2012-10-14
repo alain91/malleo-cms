@@ -44,7 +44,7 @@ if (isset($_POST['action']) || isset($_GET['action']))
 			$couleur 	= (empty($_POST['couleur']))?'null':'\''.str_replace("\'","''",protection_chaine($_POST['couleur'])).'\'';
 			$alternatif = (empty($_POST['alternatif']))?'null':'\''.str_replace("\'","''",protection_chaine($_POST['alternatif'])).'\'';
 			$sql = 'INSERT INTO '.TABLE_FORUM_TAG.' (mot, type, image, couleur, alternatif)
-					VALUES (\''.str_replace("\'","''",protection_chaine(ereg_replace('\[|\]','',$_POST['mot']))).'\',
+					VALUES (\''.str_replace("\'","''",protection_chaine(preg_replace('\[|\]','',$_POST['mot']))).'\',
 							'.intval($_POST['type']).',
 							'.$image.',
 							'.$couleur.',
@@ -64,7 +64,7 @@ if (isset($_POST['action']) || isset($_GET['action']))
 			$couleur 	= (empty($_POST['couleur']))?'null':'\''.str_replace("\'","''",protection_chaine($_POST['couleur'])).'\'';
 			$alternatif = (empty($_POST['alternatif']))?'null':'\''.str_replace("\'","''",protection_chaine($_POST['alternatif'])).'\'';
 			$sql = 'UPDATE '.TABLE_FORUM_TAG.' SET 
-						mot=\''.str_replace("\'","''",protection_chaine(ereg_replace('\[|\]','',$_POST['mot']))).'\', 
+						mot=\''.str_replace("\'","''",protection_chaine(preg_replace('\[|\]','',$_POST['mot']))).'\', 
 						type='.intval($_POST['type']).', 
 						image='.$image.', 
 						couleur='.$couleur.', 

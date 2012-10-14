@@ -61,7 +61,7 @@ class session
 		// Recherche ID de session
 		if(isset($_COOKIE[$this->cf['cookie_name']]) && $_COOKIE[$this->cf['cookie_name']]!= null){
 			// On recupere le cookie si il existe	
-			$this->id_session = eregi_replace("[^a-z0-9]",'',$_COOKIE[$this->cf['cookie_name']]);
+			$this->id_session = preg_replace("/[^a-z0-9]/i",'',$_COOKIE[$this->cf['cookie_name']]);
 		}else{
 			// Reconnaissance par l'ip
 			if (array_key_exists($this->ip,$this->liste_ip) && $this->liste_ip[$this->ip]['user_id'] < 2 ){
@@ -176,8 +176,7 @@ class session
 		$ch = @opendir($this->path_cache);
 		while ($file = @readdir($ch))
 		{
-			if ($file[0] != '.'
-				&& !is_dir($this->path_cache.$file)
+			if (!is_dir($this->path_cache.$file)
 				&& $file!='.htaccess' 
 				&& (filemtime($this->path_cache.$file)<($this->time - 3600))
 				&& is_writable($this->path_cache.$file)){
@@ -291,7 +290,7 @@ class session
 		if (!is_array($droits->liste_bannis)) return true;
 		if (array_key_exists(2,$droits->liste_bannis)){
 			foreach ($droits->liste_bannis[2] as $pattern=>$val){
-				if (ereg($pattern,$this->ip)){
+				if (preg_match('/'.$pattern.'/',$this->ip)){
 					load_lang('bannis');
 					$fin_ban = ($val['fin_ban']==0)? $lang['L_DEFINITIF']:date('d/m/Y h\h s\m\i\n',$val['fin_ban']);
 					die(sprintf($lang['L_ALERTE_BAN_IP'],$fin_ban,$val['raison_ban']));

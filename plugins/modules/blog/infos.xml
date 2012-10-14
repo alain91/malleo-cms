@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <module>
 	<libelle>Mon Blog</libelle>
-	<version>1.0</version>
+	<version>1.1</version>
+	<version_min>1</version_min>
 	<auteur>SP</auteur>
 	<site_auteur>http://www.malleo-cms.com</site_auteur>
 	<check_version>http://www.malleo-cms.com/versions/blog.txt</check_version>
@@ -57,4 +58,6 @@
 		('blog_sens', 'select', 'L_SENS_AFFICHAGE', 'lister_sens', 'Blog'),
 		('cache_duree_blog_cat', 'text', 'Q_CACHE_DUREE_BLOGS_CATS', '10', 'Config_Cache');</requete>
 	</install>
+	<update>
+	</update>
 </module>

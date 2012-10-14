@@ -31,7 +31,7 @@ if (isset($_POST['action']) || isset($_GET['action']))
 	switch ($action)
 	{
 		case 'enregistrer':
-			if (isset($_POST['cookie_name'])) $_POST['cookie_name']= ereg_replace("[^a-zA-Z0-9_-]",'',$_POST['cookie_name']);
+			if (isset($_POST['cookie_name'])) $_POST['cookie_name']= preg_replace("/[^a-zA-Z0-9_-]/",'',$_POST['cookie_name']);
 			$cf->appel_config('MODIFIER', $_POST);
 			header('location: '.$base_formate_url);
 			break;

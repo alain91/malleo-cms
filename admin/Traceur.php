@@ -38,7 +38,7 @@ function affiche_activite($time_min, $time_max, $pseudo){
 				'PSEUDO'				=> formate_pseudo($row['user_id'],$row['pseudo']),
 				'LIBELLE_PAGE'			=> $row['libelle_page'],
 				'URL_PAGE'				=> formate_url($row['url_page']),
-				'URL_PAGE_COURT'		=> str_court(eregi_replace($cf->config['path'].'index.php\?','',$row['url_page'])),
+				'URL_PAGE_COURT'		=> str_court(preg_replace('/'.str_replace('/', '\/',$cf->config['path']).'index.php\?/','',$row['url_page'])),
 				'DATE'					=> formate_date($row['date'],'d m H i','FORMAT_DATE_TRACEUR',$user['fuseau']),
 			));
 		}

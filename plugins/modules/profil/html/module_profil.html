@@ -1,5 +1,6 @@
 <script type="text/javascript" src="librairies/lightbox/prototype.js"></script><script type="text/javascript" src="librairies/lightbox/scriptaculous.js?load=effects,builder"></script><script type="text/javascript" src="librairies/lightbox/lightbox.js"></script><link rel="stylesheet" href="librairies/lightbox/css/lightbox.css" type="text/css" media="screen" />
 <script type="text/javascript" src="js/affichage.js"></script>
+<!-- BEGIN found -->
 <div class="bloc">
 <table cellpadding="1" cellspacing="1" class="standard" width="100%">
 	<tr>
@@ -66,16 +67,26 @@
 <div class="bloc">
 <table cellpadding="1" cellspacing="1" class="standard" width="100%">
 	<tr>
-		<th>{categories_profil.CATEGORIE}</th>
+		<th>{found.categories_profil.CATEGORIE}</th>
 	</tr>
 	<tr>
 		<td class="row1">
 		<!-- BEGIN droit_edition -->
-		<a href="{categories_profil.S_EDIT_CAT}" title="{L_EDIT_PROFILE}"><img src="{I_EDITER}" style="float:right;" alt="{L_EDIT_PROFILE}" /></a>
+		<a href="{found.categories_profil.S_EDIT_CAT}" title="{L_EDIT_PROFILE}"><img src="{I_EDITER}" style="float:right;" alt="{L_EDIT_PROFILE}" /></a>
 		<!-- END droit_edition -->
-		{categories_profil.TEXTE}</td>
+		{found.categories_profil.TEXTE}</td>
 	</tr>
 </table>
 </div>
 <br />
 <!-- END categories_profil -->
+<!-- END found -->
+<!-- BEGIN not_found -->
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<td colspan="2">{L_profil_incorrect}</td>
+	</tr>
+</table>
+</div>
+<!-- END found -->

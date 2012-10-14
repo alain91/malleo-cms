@@ -3,9 +3,9 @@ if ( !defined('PROTECT') )
 {
 	die("Tentative de Hacking");
 }
+include_once($root.'config/constantes.php');
 require_once($root.'fonctions/fct_chaines.php');
 require_once($root.'fonctions/fct_generiques.php');
-include_once($root.'config/constantes.php');
 
 // Protection des variables
 protection_variables();

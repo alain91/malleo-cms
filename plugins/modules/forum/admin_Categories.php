@@ -197,7 +197,7 @@ while ($icone = @readdir($ch))
 	if ($icone != "." && $icone != ".." 
 		&& array_key_exists('extension',$ext) && in_array($ext['extension'],$ext_ok)) {
 		if ($image_par_defaut == '') $image_par_defaut = $icone;
-		$select_icone[] = array($icone,ereg_replace('.'.$ext['extension'],'',$icone));
+		$select_icone[] = array($icone,preg_replace('/.'.$ext['extension'].'/','',$icone));
 	}
 }
 @closedir($ch);

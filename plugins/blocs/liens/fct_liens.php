@@ -30,7 +30,7 @@ function corriger_image_liens($image,$titre)
 	global $root;
 	if ($image != '') 
 	{
-		if (!ereg('http://',$image)) $image = $root.$image; 
+		if (!preg_match('/http:\/\//i',$image)) $image = $root.$image; 
 		$image = '<img src="'.$image.'" border="0" alt="'.$titre.'" title="'.$titre.'" align="center" />';
 	}else{
 		$image= '';

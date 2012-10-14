@@ -18,12 +18,12 @@ foreach ($liste_dossiers_chmodes as $file){
 	if (is_writable($file)){
 		$tpl->assign_block_vars('liste_dossiers', array(
 			'ICONE'		=> $img['valide'],
-			'FICHIER'	=> ereg_replace('\.\.\/','',$file)
+			'FICHIER'	=> preg_replace('/\.\.\//','',$file)
 		));
 	}else{
 		$tpl->assign_block_vars('liste_dossiers', array(
 			'ICONE'		=> $img['invalide'],
-			'FICHIER'	=> ereg_replace('\.\.\/','',$file)
+			'FICHIER'	=> preg_replace('/\.\.\//','',$file)
 		));
 		$i++;
 	}

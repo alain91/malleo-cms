@@ -257,7 +257,7 @@ class Modelisation
 
 	function formate_date($var,$param)
 	{
-		return ereg_replace(':','/',date($param,$this->RetourValeur($var)));
+		return preg_replace('/:/','/',date($param,$this->RetourValeur($var)));
 	}
 
 	function choix_image($var,$param)

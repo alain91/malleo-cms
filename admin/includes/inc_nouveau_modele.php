@@ -26,10 +26,10 @@ load_lang('modeles');
 
 if (isset($_POST['RequeteAjax']))
 {
-	if (ereg('HTML_',$_POST['RequeteAjax']))
+	if (preg_match('/HTML_/',$_POST['RequeteAjax']))
 	{
 		// BLOC HTML
-		$id_bloc_html = intval(ereg_replace('HTML_','',$_POST['RequeteAjax']));
+		$id_bloc_html = intval(preg_replace('/HTML_/','',$_POST['RequeteAjax']));
 		include_once($root.'plugins/blocs/html/mod.php');
 		$tpl->pparse('HTML_'.$id_bloc_html,true);
 	}elseif (file_exists($root.'plugins/blocs/'.$_POST['RequeteAjax'].'/mod.php'))
