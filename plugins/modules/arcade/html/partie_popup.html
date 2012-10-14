@@ -1,0 +1,15 @@
+<!-- BEGIN lancement_jeu -->
+<div style="clear:both;">
+	<object type="application/x-shockwave-flash" data="{lancement_jeu.nom_swf}" width="{lancement_jeu.largeur}" height="{lancement_jeu.hauteur}" align="center">
+	<param name="movie" value="{lancement_jeu.nom_swf}"/>
+	<param name="flashvars" value="module={MODULE}&id_session={ID}" />
+	<param name="type" value="application/x-shockwave-flash" />
+	<param name="pluginspage" value="http://www.macromedia.com/go/getflashplayer/" />
+	<param name="menu" value="false" />
+	<embed src="{lancement_jeu.nom_swf}" flashvars="module={MODULE}&id_session={ID}" menu="false" type="application/x-shockwave-flash" width="{lancement_jeu.largeur}" height="{lancement_jeu.hauteur}" pluginspage="http://www.macromedia.com/go/getflashplayer" align="center" />
+</object>
+</div>
+<!-- END lancement_jeu -->
+<!-- BEGIN aucun_resultat -->
+<div class="center">L_AUCUN_JEU_NE_CORRESPOND}<br /><br /><a href="{URL_ACCUEIL}">{L_REVENIR_ACCUEIL_ARCADE}</a><div>
+<!-- END aucun_resultat -->

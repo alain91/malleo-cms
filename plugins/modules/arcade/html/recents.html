@@ -1,0 +1,42 @@
+<script type="text/javascript" src="librairies/lightbox/prototype.js"></script>
+<script type="text/javascript" src="librairies/lightbox/scriptaculous.js?load=effects,builder"></script>
+<script type="text/javascript" src="librairies/lightbox/lightbox.js"></script>
+<script type="text/javascript" src="plugins/modules/arcade/html/Arcadelightbox.js"></script>
+<link rel="stylesheet" href="plugins/modules/arcade/html/lightbox.css" type="text/css" media="screen" />
+<div class="bloc">
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th colspan="2">{L_JEUX}</th>
+		<th class="center" width="100">{L_AJOUTE_LE}</th>
+		<th class="center" width="100">{L_NBRE_PARTIES_PERSO}</th>
+		<th class="center" width="100">{L_TON_SCORE}</th>
+		<th class="center" width="100">{L_MEILLEUR_SCORE}</th>
+	</tr>
+	<!-- BEGIN liste_recents -->
+	<tr>
+		<td class="row1 center middle" width="50"><a href="{URL_JEU}{liste_recents.id_jeu}" title="{L_JOUER_CE_JEU}"><img src="{liste_recents.image_petite}" alt="{liste_recents.nom_jeu}" /></a></td>
+		<td class="row1 left"><a href="{URL_JEU}{liste_recents.id_jeu}" title="{L_JOUER_CE_JEU}">{liste_recents.nom_jeu}</a>&nbsp;
+		<!-- BEGIN popup -->
+		<a href="javascript:void(0);" onClick="initArcadeLightbox('module={MODULE}&mode=partie_popup&id_jeu={liste_recents.id_jeu}',{liste_recents.largeur},{liste_recents.hauteur});" title="{L_POPUP}"><img src="{I_POPUP}" alt="{L_POPUP}" /></a>
+		<!-- END popup -->
+		</td>
+		<td class="row1 center">{liste_recents.date_ajout}</td>
+		<td class="row1 center">{liste_recents.nbre_parties}</td>
+		<td class="row1 center">{liste_recents.score}</td>
+		<td class="row1 left">{liste_recents.score_max_user_id} {liste_recents.score_max}</td>
+	</tr>
+	<!-- END liste_recents -->
+	<!-- BEGIN aucun_recents -->
+	<tr>
+		<td class="row1 center" colspan="6">{L_AUCUN_JEU}</td>
+	</tr>
+	<!-- END aucun_recents -->
+	</table>
+</div>
+<!-- BEGIN liste_complete_recents -->
+<div class="left"><a href="{URL_RECENTS}">{L_LISTE_COMPLETE}</a></div>
+<!-- END liste_complete_recents -->
+<!-- BEGIN pagination -->
+<div class="pagination">{PAGINATION}</div>
+<!-- END pagination -->
+<br clear="all" />

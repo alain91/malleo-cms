@@ -1,0 +1,85 @@
+<script type="text/javascript" src="js/affichage.js"></script>
+<h1 class="admin">{L_ARCADE_INSTALLATION}</h1>
+<p>{L_ARCADE_INSTALLATION_EXPLAIN}</p>
+
+<!-- BEGIN erreur_saisie -->
+<div class="admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" width="80%" align="center">
+		<tr>
+			<td class="rowAlerte center" height="20"><b>{ALERTE_ERREUR_SAISIE}</b></td>
+		</tr>
+	</table>
+</div>
+<br />
+<!-- END erreur_saisie -->
+<!-- BEGIN aucune_categorie -->
+<br />
+<div class="bloc_admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" align="center" width="80%">
+	<tr>
+		<td class="rowAlerte" colspan="2" height="20"><b>{L_AUCUNE_CATEGORIE_EXISTE}</b></td>
+	</tr>
+	</table>
+</div>
+<!-- END aucune_categorie -->
+<h2>{L_LISTE_JEUX_ATTENTE}</h2>
+<form name="liste_jeux" id="liste_jeux" method="post">
+<div class="bloc_admin">
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th width="10">#</th>
+		<th colspan="2" width="300">{L_JEUX}</th>
+		<th width="100">{L_ADAPTEUR}</th>
+	</tr>
+	<!-- BEGIN liste_jeux -->
+	<tr>
+		<td rowspan="2" class="row1 center" width="20">
+			<input type="checkbox" name="dossiers[]" value="{liste_jeux.DOSSIER}" />
+		</td>
+		<td rowspan="2" class="row1 center" width="30">{liste_jeux.IMAGE_PETITE}</td>
+		<td class="row1 left"><a href="javascript:;" onclick="window.open('{liste_jeux.SWF}','apercu','width={liste_jeux.LARGEUR}, height={liste_jeux.HAUTEUR}');" class="link1">{liste_jeux.TITRE}</a></td>	
+		<td class="row1 center"><a href="{liste_jeux.URL_ADAPTEUR}" class="pseudo">{liste_jeux.ADAPTEUR}</a></td>
+	</tr>
+	<tr>
+		<td colspan="2" class="row1 left">{liste_jeux.DESCRIPTION}</td>		
+	</tr>
+	<!-- BEGIN etat -->
+	<tr>
+		<td colspan="4" class="rowAlerte left">{liste_jeux.etat.ETAT}</td>		
+	</tr>
+	<!-- END etat -->
+	<!-- END liste_jeux -->
+	<!-- BEGIN aucun_resultat -->
+	<tr>
+		<td colspan="4" class="row1 center">{L_AUCUN_JEU_A_INSTALLER}</td>
+	</tr>
+	<!-- END aucun_resultat -->
+	</table>
+	<div class="left">
+		<a href="javascript:;" onclick="cocher_checkbox('liste_jeux');">{L_COCHER}</a> / <a href="javascript:;" onclick="decocher_checkbox('liste_jeux');">{L_DECOCHER}</a>
+	</div>
+</div>
+<!-- BEGIN categories_ok -->
+<br />
+<h2>{L_SELECT_CATEGORIE}</h2>
+<div class="bloc_admin" style="width:300px;">
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th>{L_CATEGORIES}</th>
+	</tr>
+	<tr>
+		<td class="row1 left">
+			<select name="id_cat[]" multiple style="height:70px;width:300px;">{SELECT_LISTE_ID_CAT}</select>
+		</td>
+	</tr>
+	</table>
+</div>
+<br />
+<div class="center">
+	<input type="hidden" name="action" value="ajouter" />
+	<input type="submit" name="installer" value="{L_INSTALLER}" />
+</div>
+<!-- END categories_ok -->
+
+</form>
+<br clear="all">

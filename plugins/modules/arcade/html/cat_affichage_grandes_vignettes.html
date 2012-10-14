@@ -1,0 +1,56 @@
+<table class="standard" width="100%">
+<!-- BEGIN liste_jeux -->
+<!-- BEGIN tr_debut -->
+<tr>
+<!-- END tr_debut -->
+<td valign="top">
+	<div class="bloc">
+		<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+		<tr>
+			<th colspan="3">{liste_jeux.nom_jeu}</th>
+		</tr>
+		<tr>
+			<td class="row1 abstop center" rowspan="2" width="200">
+				<a href="{URL_JEU}{liste_jeux.id_jeu}"><img src="{liste_jeux.image_grande}" alt="{liste_jeux.nom_jeu}" /></a>
+			</td>
+			<td class="row2 abstop left" height="100">{liste_jeux.description}<br /><br />
+				<div class="center">
+					<a href="{URL_JEU}{liste_jeux.id_jeu}" class="link1">{L_JOUER_CE_JEU}</a>
+					<!-- BEGIN popup -->
+					<a href="javascript:void(0);" onClick="initArcadeLightbox('module={MODULE}&mode=partie_popup&id_jeu={liste_jeux.id_jeu}',{liste_jeux.largeur},{liste_jeux.hauteur});" title="{L_POPUP}"><img src="{I_POPUP}" alt="{L_POPUP}" /></a>
+					<!-- END popup -->
+				</div>
+			</td>
+			<td class="row3 left abstop" width="180">
+				<h3>{L_ULTIME_SCORE}</h3>{liste_jeux.score_ultime_user_id} {liste_jeux.score_ultime}
+				<h3>{L_MEILLEUR_SCORE}</h3>{liste_jeux.score_max_user_id} {liste_jeux.score_max} 
+				<h3>{L_TON_SCORE}</h3>{liste_jeux.score_visiteur}
+			</td>
+		</tr>
+		</table>
+	</div>
+</td>
+<!-- BEGIN tr_fin -->
+</tr>
+<!-- END tr_fin -->
+<!-- END liste_jeux -->
+<!-- BEGIN aucun_resultat -->
+<tr>
+	<td>
+	<div class="bloc">
+		<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+		<tr>
+			<th>{L_INFORMATION}</th>
+		</tr>
+		<tr>
+			<td class="row1 center">{L_AUCUN_JEU}<br /><br />
+			
+			<a href="{URL_ACCUEIL}">{L_REVENIR_ACCUEIL_ARCADE}</a>
+			</td>
+		</tr>
+		</table>
+	</div>
+	</td>
+</tr>
+<!-- END aucun_resultat -->
+</table>

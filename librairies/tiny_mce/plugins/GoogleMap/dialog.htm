@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>{#GoogleMap_dlg.title}</title>
+  <script type="text/javascript" src="../../tiny_mce_popup.js"></script>
+  <script type="text/javascript" src="js/dialog.js"></script>
+  <link href="../../themes/advanced/skins/default/dialog.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript">
+	function apercu_carte(){
+		document.getElementById('image_carte').src= 'http://maps.google.com/maps/api/staticmap?zoom='+document.forms[0].GoogleMapZoom.value+'&size='+document.forms[0].GoogleMapLargeur.value+'x'+document.forms[0].GoogleMapHauteur.value+'&maptype=roadmap\&markers=size:mid|label:'+escape(document.forms[0].GoogleMapAdresse.value)+'|color:blue|'+escape(document.forms[0].GoogleMapAdresse.value)+'&mobile=true&sensor=false';
+		if (document.forms[0].GoogleMapLargeur.value > 350) tinyMCEPopup.getWindowArg("window").width = document.forms[0].GoogleMapLargeur.value;
+		if (document.forms[0].GoogleMapHauteur.value > 350) tinyMCEPopup.getWindowArg("window").height = document.forms[0].GoogleMapHauteur.value;
+	}  
+  </script>
+</head>
+<body>
+
+<form onsubmit="GoogleMapDialog.insert();return false;" action="#">
+  <p>{#GoogleMap_dlg.instr}</p>
+
+  <div class="mceActionPanel">
+    <div style="float: left">
+      {#GoogleMap_dlg.adresse} <input id="GoogleMapAdresse" name="GoogleMapAdresse" type="text" class="text" size="40" value=""  onblur="apercu_carte();" />
+	  <br />
+    </div>
+    <div style="float: left">
+		<br />
+      {#GoogleMap_dlg.largeur} <input id="GoogleMapLargeur" name="GoogleMapLargeur" type="text" class="text" size="2" value="200"  onblur="apercu_carte();"/>&nbsp;
+      {#GoogleMap_dlg.hauteur} <input id="GoogleMapHauteur" name="GoogleMapHauteur" type="text" class="text" size="2" value="200"  onblur="apercu_carte();"/>&nbsp;
+      {#GoogleMap_dlg.zoom} <select id="GoogleMapZoom" name="GoogleMapZoom"  onchange="apercu_carte();">
+	  <option>1</option>
+	  <option>2</option>
+	  <option>3</option>
+	  <option>4</option>
+	  <option>5</option>
+	  <option>6</option>
+	  <option>7</option>
+	  <option>8</option>
+	  <option>9</option>
+	  <option>10</option>
+	  <option>11</option>	  
+	  <option selected="selected">12</option>	  
+	  <option>13</option>
+	  <option>14</option>
+	  <option>15</option>
+	  <option>16</option>
+	  <option>17</option>
+	  <option>18</option>
+	  <option>19</option>
+	  <option>20</option>
+	  <option>21</option>
+	  </select>&nbsp;
+	  <br />
+    </div>
+    <div style="align:center;">
+		<img src="" id="image_carte" align="center" />
+    </div>
+  </div>
+
+  <div class="mceActionPanel">
+    <div style="float:left;padding-top:23px">
+      <input type="button" id="insert" name="insert" value="{#insert}" onclick="GoogleMapDialog.insert();" />
+    </div>
+    <div style="float:right;padding-top:23px">
+      <input type="button" id="cancel" name="cancel" value="{#cancel}" onclick="tinyMCEPopup.close();" />
+    </div>
+  </div>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<table class="standard" width="100%">
+<!-- BEGIN liste_jeux -->
+<!-- BEGIN tr_debut -->
+<tr>
+<!-- END tr_debut -->
+<td valign="top">
+	<div class="bloc" style="width:208px;">
+		<table cellpadding="1" cellspacing="1" class="standard" width="200">
+		<tr>
+			<th>{liste_jeux.nom_jeu}&nbsp;
+			<!-- BEGIN popup -->
+			<a href="javascript:void(0);" onClick="initArcadeLightbox('module={MODULE}&mode=partie_popup&id_jeu={liste_jeux.id_jeu}',{liste_jeux.largeur},{liste_jeux.hauteur});" title="{L_POPUP}"><img src="{I_POPUP}" alt="{L_POPUP}" /></a>
+			<!-- END popup -->
+			</th>
+		</tr>
+		<tr>
+			<td class="row1 absmiddle center" width="200">
+				<a href="{URL_JEU}{liste_jeux.id_jeu}" title="{liste_jeux.description}">
+				<img src="{liste_jeux.image_grande}" alt="{liste_jeux.nom_jeu}"  title="{liste_jeux.description}" /></a>
+			</td>
+		</tr>
+		</table>
+	</div>
+</td>
+<!-- BEGIN tr_fin -->
+</tr>
+<!-- END tr_fin -->
+<!-- END liste_jeux -->
+<!-- BEGIN aucun_resultat -->
+<tr>
+	<td>
+	<div class="bloc">
+		<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+		<tr>
+			<th>{L_INFORMATION}</th>
+		</tr>
+		<tr>
+			<td class="row1 center">{L_AUCUN_JEU}<br /><br />
+			
+			<a href="{URL_ACCUEIL}">{L_REVENIR_ACCUEIL_ARCADE}</a>
+			</td>
+		</tr>
+		</table>
+	</div>
+	</td>
+</tr>
+<!-- END aucun_resultat -->
+</table>
