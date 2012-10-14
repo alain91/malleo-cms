@@ -64,9 +64,9 @@ class blog
 				// Mail
 				case 'mail':			$this->saisie['mail'] = nettoyage_mail($val); 	break;
 				// Tags
-				case 'tags':			$val = trim(ereg_replace("[^a-z0-9_-]",' ',strtolower(supprimer_accents($val)))); 	
-										$val = ereg_replace("(^[a-z0-9]{1}[ ])|([ ][a-z0-9]{1}[ ])|([ ][a-z0-9]{1}$)",' ',$val); 	
-										$this->saisie['tags'] = trim(ereg_replace("[ ]{2}",' ',$val)); 	
+				case 'tags':			$val = trim(preg_replace("/[^a-z0-9_-]/",' ',strtolower(supprimer_accents($val)))); 	
+										$val = preg_replace("/(^[a-z0-9]{1}[ ])|([ ][a-z0-9]{1}[ ])|([ ][a-z0-9]{1}$)/",' ',$val); 	
+										$this->saisie['tags'] = trim(preg_replace("/[ ]{2}/",' ',$val)); 	
 										break;
 				// Temps
 				case 'heure': case 'minute':  case 'mois':	case 'jour': case 'annee':
@@ -119,7 +119,6 @@ class blog
 						\''.$this->saisie['tags'].'\')';
 		if (!$resultat = $c->sql_query($sql)) message_die(E_ERROR,501,__FILE__,__LINE__,$sql);
 		$this->id_billet = $c->sql_nextid($resultat);
-
 		// On met à jour le nbre de billets
 		$this->update_nbre_billets();
 		// On met à jour le nbre de messages de l'utilisateur
@@ -132,7 +131,6 @@ class blog
 		affiche_message('blog','L_BILLET_ENREGISTRE',formate_url('mode=billet&id_billet='.$this->id_billet,true));
 		return true;
 	}
-
 	//
 	// Mise a jour des donnees
 	
@@ -191,25 +189,34 @@ class blog
 	
 	function ajouter_commentaire()
 	{
-		global $user,$c;
-		// Protection contre les messages vides
-		if (empty($this->saisie['commentaire']) ||($user['user_id']==1 && empty($this->saisie['pseudo']))){
-			message_die(E_WARNING,523,'','');
+		global $user,$c,$root,$_POST;
+		$cryptinstall = $root.'librairies/crypt/cryptographp.fct.php';
+		require_once($cryptinstall);
+		if(chk_crypt($_POST['crypt_code']))
+		{
+			// Protection contre les messages vides
+			if (empty($this->saisie['commentaire']) ||($user['user_id']==1 && empty($this->saisie['pseudo']))){
+				message_die(E_WARNING,523,'','');
+			}
+			
+			$sql = 'INSERT INTO '.TABLE_BLOG_COMS.' ( id_billet, user_id, date, msg, email, pseudo, site) 
+					VALUES ('.$this->saisie['id_billet'].','.$user['user_id'].',\''.time().'\',\''.$this->saisie['commentaire'].'\',\''.$this->saisie['mail'].'\',
+					\''.$this->saisie['pseudo'].'\',\''.$this->saisie['site'].'\')';
+			if (!$resultat = $c->sql_query($sql)) message_die(E_ERROR,505,__FILE__,__LINE__,$sql);
+			// On incremente le compteur de coms 
+			$this->update_nbre_commentaires();	
+			// On met a jour le nbre de messages de l'utilisateur
+			$this->update_nbre_messages($user['user_id'],'+');		
+			// On previent les autres de cet email
+			$this->mail_avertissement($this->saisie['id_billet'],$user['user_id'],$this->saisie['commentaire']);
+			// On affiche une fenetre de confirmation
+			affiche_message('blog','L_COM_ENREGISTRE',formate_url('mode=billet&id_billet='.$this->saisie['id_billet'].'#commentaires',true));
+			return true;
 		}
-		
-		$sql = 'INSERT INTO '.TABLE_BLOG_COMS.' ( id_billet, user_id, date, msg, email, pseudo, site) 
-				VALUES ('.$this->saisie['id_billet'].','.$user['user_id'].',\''.time().'\',\''.$this->saisie['commentaire'].'\',\''.$this->saisie['mail'].'\',
-				\''.$this->saisie['pseudo'].'\',\''.$this->saisie['site'].'\')';
-		if (!$resultat = $c->sql_query($sql)) message_die(E_ERROR,505,__FILE__,__LINE__,$sql);
-		// On incremente le compteur de coms 
-		$this->update_nbre_commentaires();	
-		// On met a jour le nbre de messages de l'utilisateur
-		$this->update_nbre_messages($user['user_id'],'+');		
-		// On previent les autres de cet email
-		$this->mail_avertissement($this->saisie['id_billet'],$user['user_id'],$this->saisie['commentaire']);
-		// On affiche une fenetre de confirmation
-		affiche_message('blog','L_COM_ENREGISTRE',formate_url('mode=billet&id_billet='.$this->saisie['id_billet'].'#commentaires',true));
-		return true;
+		else
+		{
+			message_die(E_WARNING,526,'','');
+		}
 	}
 	
 	//

@@ -24,7 +24,7 @@ define('TABLE_BANNIS',			$prefixe.'users_bannis');
 define('TABLE_ROBOTS',			$prefixe.'robots');
 
 // On force certains parametres de configuration
-set_magic_quotes_runtime(0);
+ini_set ("magic_quotes_runtime", 0);
 // Pas d'id de session apparant dans l'URL
 ini_set('session.use_trans_sid',0);
 

@@ -122,7 +122,7 @@ if ($c->sql_numrows($resultat) == 0 ){
 			'EDITER'			=> formate_url('mode=saisie&id_billet='.$billets[$a]['id_billet'].'&action=editer',true),
 			'SUPPRIMER'			=> formate_url('mode=saisie&id_billet='.$billets[$a]['id_billet'].'&action=supprimer&jeton='.$jeton,true)
 		));
-		if (ereg('\[pagebreak\]',$billets[$a]['billet']))$tpl->assign_block_vars('liste_billets.suite', array());
+		if (preg_match('/\[pagebreak\]/',$billets[$a]['billet']))$tpl->assign_block_vars('liste_billets.suite', array());
 		if ($droits->check($module,0,'editer') || $billets[$a]['auteur'] == $user['user_id'])$tpl->assign_block_vars('liste_billets.editer', array());
 		if ($droits->check($module,0,'supprimer') || $billets[$a]['auteur'] == $user['user_id'])$tpl->assign_block_vars('liste_billets.supprimer', array());
 		if ($droits->check($module,0,'commenter') && $cf->config['blog_ok_coms'] == 1) $tpl->assign_block_vars('liste_billets.commentaires_ok', array());

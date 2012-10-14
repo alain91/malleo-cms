@@ -44,7 +44,7 @@ switch($etape)
 {
 	case '3':
 		$email = nettoyage_mail($_GET['email']);
-		$clef = eregi_replace("[^A-Za-z0-9]",'',$_GET['clef']);
+		$clef = preg_replace("/[^A-Za-z0-9]/i",'',$_GET['clef']);
 		$sql = 'SELECT user_id FROM '.TABLE_USERS.' 
 				WHERE email=\''.$email.'\' AND clef=\''.$clef.'\'LIMIT 1';
 		if (!$resultat = $c->sql_query($sql)) message_die(E_ERROR,29,__FILE__,__LINE__,$sql);
@@ -182,7 +182,7 @@ switch($etape)
 	default : 
 		$tpl->assign_block_vars('etape1', array());
 		$reglement = (file_exists(PATH_REGLEMENT))? @file_get_contents(PATH_REGLEMENT):$lang['REGLEMENT'];
-		$reglement = ereg_replace("\n ",'<br />',$reglement);
+		$reglement = preg_replace("/\n /",'<br />',$reglement);
 		$tpl->assign_vars(array(
 			'ETAPE'			=>	1,
 			'REGLEMENT'		=>	$reglement

@@ -31,9 +31,9 @@ if (isset($_POST['action']) || isset($_GET['action']))
 	switch ($action)
 	{
 		case 'enregistrer':
-			if (isset($_POST['cookie_name'])) $_POST['cookie_name']= ereg_replace("[^a-zA-Z0-9_-]",'',$_POST['cookie_name']);
+			if (isset($_POST['cookie_name'])) $_POST['cookie_name']= preg_replace("/[^a-zA-Z0-9_-]/",'',$_POST['cookie_name']);
 			if (isset($_POST['digicode_acces_zone_admin'])){
-				$_POST['digicode_acces_zone_admin']=  ereg_replace("[^0-9]",'',$_POST['digicode_acces_zone_admin']);
+				$_POST['digicode_acces_zone_admin']=  preg_replace("/[^0-9]/",'',$_POST['digicode_acces_zone_admin']);
 				if ($_POST['digicode_acces_zone_admin']=='') $_POST['digicode_acces_zone_admin'] = '0000';
 			}
 			$cf->appel_config('MODIFIER', $_POST);

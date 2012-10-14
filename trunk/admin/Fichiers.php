@@ -60,10 +60,10 @@ function dirsize($dir)
 	$ch = @opendir($dir);
 	while ($file = @readdir($ch))
 	{
-		if ($file[0] != ".") {
+		if ($file != '.' && $file != '..' & $file != '.htaccess') {
 			if (is_dir($dir.$file)){
 				$size += dirsize($dir.$file.'/');
-			}else{
+			}elseif(is_file($dir.$file)){
 				$size += filesize($dir.$file);
 			}
 		}
@@ -117,7 +117,7 @@ function nom_unique($nom_fichier,$destination,$nom_teste=false,$cpt=1){
 	if (file_exists($destination.$nom_teste) && $cpt<10)
 	{
 		$ext = pathinfo($nom_teste);
-		$nom_teste = eregi_replace('.'.$ext['extension'],'',$nom_fichier).'_'.$cpt.'.'.$ext['extension'];
+		$nom_teste = preg_replace('/.'.$ext['extension'].'/i','',$nom_fichier).'_'.$cpt.'.'.$ext['extension'];
 		$cpt++;
 		$nom_teste = nom_unique($nom_fichier,$destination,$nom_teste,$cpt);			
 	}
@@ -252,7 +252,7 @@ switch ($action)
 		$ch = @opendir($show_path);
 		while ($file = @readdir($ch))
 		{
-			if ($file[0] != '.' && is_dir($show_path.$file)) {
+			if ($file != '.' && $file != '..' && is_dir($show_path.$file)) {
 				$tpl->assign_block_vars('arbo.liste_dossiers', array(
 					'CLASS'				=> $classd = ($classd!='row1')?'row1':'row2',
 					'ICONE_FICHIER'		=> iconefile($show_path.$file),
@@ -300,7 +300,7 @@ switch ($action)
 
 
 // Liens de retour
-$dossiers = explode('/',ereg_replace('/$','',$show_path));
+$dossiers = explode('/',preg_replace('/\/$/','',$show_path));
 $liste_dossiers = '';
 foreach($dossiers AS $dir){
 	$liste_dossiers .= $dir.'/';

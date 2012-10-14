@@ -158,9 +158,10 @@ function load_images_bloc($bloc=false){
 //
 // Lit le contenu d'un fichier distant via fsockopen
 function fsockopen_file_get_contents($url){
-return('0.0');
-	if (!function_exists('fsockopen')) return false;
-
+	//Vérification fsockopen
+	$disable_functions = (ini_get("disable_functions")!="" AND ini_get("disable_functions")!=false) ? array_map('trim', preg_split( "/[\s,]+/", ini_get("disable_functions"))) : array();
+	if(!function_exists("fsockopen") OR in_array('fsockopen', $disable_functions))return false;
+    
 	$parts = parse_url($url);
 	// gethostbyname suppose d'avoir un serveur DNS fonctionnel pour obtenir l'IP du serveur
 	// Celà suppose aussi qu'une ip fournie en url ne fonctionnerait pas
@@ -177,8 +178,8 @@ return('0.0');
 				$data .= @fread($fsock, 200000);
 			}
 			@fclose($fsock);
-			// On masque les erreurs 404, par contre les autres erreurs seront visibles
-			if (!preg_match('#404#i', $data)){
+			// On masque les erreurs 404(non trouve), 403(acces refuse), 302 (deplace) et 501 (internal error), par contre les autres erreurs seront visibles
+			if (!preg_match('#302#i', $data) AND !preg_match('#403#i', $data) AND !preg_match('#404#i', $data)  AND !preg_match('#501#i', $data)){
 				preg_match('#Content-Length\: ([0-9]+)[^ /][\s]+#i', $data, $filesize);
 				return substr($data, strlen($data) - $filesize[1],$filesize[1]);
 			}
@@ -232,17 +233,21 @@ function error404($msg=false)
 	}
 	// SI un BUG survient avant le chargement des elements de base on tente de relancer le minimum
 	$message = $lang['PAGE_NOT_FOUND'];
-	if (array_key_exists($msg,$erreur))
+	if(is_bool($msg))
+		$message = $lang['PAGE_NOT_FOUND'];
+	else if (array_key_exists($msg,$erreur))
 		$message = $erreur[$msg];
 	elseif (is_string($msg))
 		$message = $msg;
 	if(!isset($session))$session->make_navlinks($msg,formate_url('',true));
 	$tpl->set_filenames(array('body' => $root.'html/error_404.html'));
 	$tpl->assign_vars(array(
-		'MSG'		=> $message,
+		'MSG'	 => $message,
 		'L_RETOUR'	=> $lang['L_RETOUR']
 	));
+
 	$tpl->assign_block_vars('retour', array());
+
 	define('ERROR_404',true);
 	include_once($root.'page_haut.php');
 	$tpl->pparse('body');
@@ -258,9 +263,8 @@ function message_die($CodeErreur,$NumErreur, $err_file, $err_line, $sql = '')
 {
 	if (!(error_reporting() & $CodeErreur))
 	{
-        // This error code is not included in error_reporting
-        return false;
-    }
+		 return false;
+	}
 	// On masque les erreur E_STRICT non graves
 	if (defined('E_STRICT') && $CodeErreur == E_STRICT) return false;
 	

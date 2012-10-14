@@ -59,7 +59,7 @@ $session->make_navlinks($lang['L_LISTE_MEMBRES'],formate_url('',true));
 // INIT
 $where = $pagination = $jointure = '';
 $start = (isset($_GET['start']) && $_GET['start']>0)? intval($_GET['start']):0;
-$order = (isset($_GET['order']))? ereg_replace('[^a-z]','',$_GET['order']):$cf->config['membres_order'];
+$order = (isset($_GET['order']))? preg_replace('/[^a-z]/','',$_GET['order']):$cf->config['membres_order'];
 
 $action = null;
 if (isset($_GET['action']) ||isset($_POST['action']))
@@ -213,9 +213,9 @@ $tpl->set_filenames(array(
 
 // transformation en chaine
 $chps_o = implode(',',$chps_o);
-if(!ereg('user_id',$chps_o)) $chps_o .= ',u.user_id';
-if(!ereg('rang',$chps_o)) $chps_o .= ',rang';
-if(!ereg('msg',$chps_o)) $chps_o .= ',msg';
+if(!preg_match('/user_id/',$chps_o)) $chps_o .= ',u.user_id';
+if(!preg_match('/rang/',$chps_o)) $chps_o .= ',rang';
+if(!preg_match('/msg/',$chps_o)) $chps_o .= ',msg';
 
 $sql = 'SELECT '.$chps_o.'
 		FROM '. TABLE_USERS .' AS u 

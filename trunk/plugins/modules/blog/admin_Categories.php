@@ -164,7 +164,7 @@ while ($icone = @readdir($ch))
 	if ($icone != "." && $icone != ".." && in_array(strtolower($ext['extension']),$ext_ok)) {
 		if ($image_par_defaut == '') $image_par_defaut = $icone;
 		$selected = ($image == $icone)?' selected="selected"':'';
-		$liste_images .= "\n ".'<option value="'.$icone.'"'.$selected.'>'.ereg_replace('.'.$ext['extension'],'',$icone).'</option>';
+		$liste_images .= "\n ".'<option value="'.$icone.'"'.$selected.'>'.preg_replace('/.'.$ext['extension'].'/','',$icone).'</option>';
 	}
 }
 @closedir($ch);

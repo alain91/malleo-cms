@@ -19,6 +19,6 @@ $lang['L_ENVOYER'] = 'Envoyer';
 $lang['L_CAPTCHA'] = 'Veuillez saisir le code &agrave; 5 chiffres et/ou lettres affich&eacute;. Si vous avez un doute tapez la lettre. Si vous &ecirc;tes d&eacute;ficient visuel contactez un administrateur.';
 $lang['L_MAIL_ENVOYE'] = 'Un email vous a &eacute;t&eacute; envoy&eacute;, il contient votre nouveau mot de passe.';
 $lang['L_ERREUR_CAPTCHA_CODE'] = 'Vous avez commis une erreur en recopiant le code, ou alors le pseudo saisi n\'existe pas. (%s/5 essais)';
-$lang['L_LOGIN_HACK'] = 'Votre IP a &eacute;t&eacute; bloqu&eacute;e automatiquement apr&egrave;s 5 tentatives infructueuses sur le compte de <b>%s</b>';
+$lang['L_LOGIN_HACK'] = 'Votre IP a &eacute;t&eacute; bloqu&eacute;e automatiquement apr&egrave;s 3 tentatives infructueuses sur le compte de <b>%s</b>';
 
 ?>

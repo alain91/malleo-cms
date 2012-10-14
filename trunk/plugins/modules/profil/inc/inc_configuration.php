@@ -91,7 +91,7 @@ if (isset($_GET['action']) ||isset($_POST['action']))
 			header('Location: '.formate_url('user_id='.$user_id.'&mode=configuration',true));
 			exit;
 		case 'effacer_avatar':
-			$file = mysql_real_escape_string(ereg_replace('[/\]','',$_GET['fichier']));
+			$file = mysql_real_escape_string(preg_replace('[/\]','',$_GET['fichier']));
 			if (file_exists($dir_avatars.$user_id.'/'.$file))
 			{
 				@unlink($dir_avatars.$user_id.'/'.$file);
@@ -99,7 +99,7 @@ if (isset($_GET['action']) ||isset($_POST['action']))
 			header('Location: '.formate_url('user_id='.$user_id.'&mode=configuration',true));
 			break;
 		case 'select_avatar':
-			$file = mysql_real_escape_string(ereg_replace('[/\]','',$_GET['fichier']));
+			$file = mysql_real_escape_string(preg_replace('/[\/\\]/','',$_GET['fichier']));
 			if (file_exists($dir_avatars.$user_id.'/'.$file))
 			{
 				$profil->update_element('avatar=\''.$dir_avatars.$user_id.'/'.$file.'\'');
@@ -107,7 +107,7 @@ if (isset($_GET['action']) ||isset($_POST['action']))
 			header('Location: '.formate_url('user_id='.$user_id.'&mode=configuration',true));
 			exit;
 		case 'select_langue':
-			$lg = substr(ereg_replace('[^a-z]','',$_GET['langue']),0,2);
+			$lg = substr(preg_replace('/[^a-z]/','',$_GET['langue']),0,2);
 			if (file_exists($dir_langues.'/'.$lg))
 			{
 				$profil->update_element('langue=\''.$lg.'\'');
@@ -115,7 +115,7 @@ if (isset($_GET['action']) ||isset($_POST['action']))
 			header('Location: '.formate_url('user_id='.$user_id.'&mode=configuration',true));
 			exit;
 		case 'select_style':
-			$style = eregi_replace('[^a-z0-9_-]','',$_GET['style']);
+			$style = preg_replace('/[^a-z0-9_-]/i','',$_GET['style']);
 			if (is_dir($dir_styles.$style))
 			{
 				$profil->update_element('style=\''.$style.'\'');

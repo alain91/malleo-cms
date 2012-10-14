@@ -17,7 +17,7 @@ if (isset($_POST['texte']))
 		'L_APERCU'	=> $lang['L_APERCU']
 	));
 	include_once($root.'page_haut.php');
-	$tpl->contenu_page = ereg_replace('href="../../styles/','href="styles/',$tpl->contenu_page);
+	$tpl->contenu_page = preg_replace('/href="..\/..\/styles\//','href="styles/',$tpl->contenu_page);
 	$tpl->pparse('body');
 	include_once($root.'page_bas.php');
 	die($tpl->contenu_page);	

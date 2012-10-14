@@ -14,6 +14,7 @@ $lang['L_VERSION_CMS'] = 'Malleo CMS';
 $lang['L_VERSION_APACHE'] = 'Apache';
 $lang['L_VERSION_PHP'] = 'PHP';
 $lang['L_VERSION_MYSQL'] = 'MySQL';
+$lang['L_VERSION_RELOAD'] = 'Recharger les versions';
 
 $lang['L_EQUIPE'] = 'L\'&eacute;quipe';
 $lang['L_FONDATEURS'] = 'Les fondateurs';

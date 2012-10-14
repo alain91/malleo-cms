@@ -22,6 +22,7 @@ if ( !defined('PROTECT') )
 {
 	die("Tentative de Hacking");
 }
+
 //
 // supprime les entites HTML incompletes
 function clean_amp($chaine){
@@ -49,7 +50,8 @@ function protection_variables()
 // SOURCE de la fonction : http://ha.ckers.org/xss.html
 function RemoveXSS($val) {
 
-	return htmlspecialchars($val);
+	return $val;
+	/*return htmlspecialchars($val);
    // remove all non-printable characters. CR(0a) and LF(0b) and TAB(9) are allowed 
    // this prevents some character re-spacing such as <java\0script> 
    // note that you have to handle splits with \n, \r, and \t later since they *are* allowed in some inputs 
@@ -70,7 +72,7 @@ function RemoveXSS($val) {
       // &#00064 @ 0{0,7} matches '0' zero to seven times 
       $val = preg_replace('/(&#0{0,8}'.ord($search[$i]).';?)/', $search[$i], $val); // with a ; 
    }
-    return $val;
+    return $val;*/
 }
 
 //
@@ -136,4 +138,4 @@ function protection_chaine($chaine){
 
 //
 // Rend les URL cliquables
-function url_cliquable($chaine){	return eregi_replace("([[:alnum:]]+)://([^[:space:]]*)([[:alnum:]#?/&=])",'<a href="\\1://\\2\\3">\\2\\3</a>',$chaine);}
+function url_cliquable($chaine){	return preg_replace("/([[:alnum:]]+):\/\/([^[:space:]]*)([[:alnum:]#?\/&=])/i",'<a href="\\1://\\2\\3">\\2\\3</a>',$chaine);}

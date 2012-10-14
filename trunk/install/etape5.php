@@ -31,7 +31,7 @@ while($row = $c->sql_fetchrow($resultat)){
 // Parametres d'adresse
 unset($param);
 $param['ADRESSE'] = $_SERVER['HTTP_HOST'];
-$param['PATH'] = eregi_replace('install/index.php','',$_SERVER['SCRIPT_NAME']);
+$param['PATH'] = preg_replace('/install\/index.php/i','',$_SERVER['SCRIPT_NAME']);
 
 
 // CHARGEMENT des REQUETES

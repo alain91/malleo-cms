@@ -87,6 +87,8 @@ class plugins
 		$extract = array();
 		$dir_plug = ($type==0)? 'modules':'blocs';
 		$file = $root.'plugins/'.$dir_plug.'/'.$plugin.'/infos.xml';
+		$xml = simplexml_load_file($file);
+		$version_finale = $xml->version;
 
 		// RECUPERATION des requetes de MAJ dans le XML
 		if (array_key_exists($plugin, $this->liste_plugins) && file_exists($file)){
@@ -107,7 +109,7 @@ class plugins
 		// EXECUTION des REQUETES de MAJ
 		if (sizeof($extract)>0){
 			foreach($extract as $id_version=>$paquet){
-				if ($id_version >= $version_courante){
+				if ($id_version > $version_courante AND $id_version <= $version_finale){
 					foreach ($paquet as $id=>$sql){
 						if (!$resultat=$c->sql_query($sql)) message_die(E_ERROR,31,__FILE__,__LINE__,$sql);
 					}
@@ -115,27 +117,13 @@ class plugins
 			}
 		}
 		// MAJ du numero de version en base
-		if ($version_atteinte>$version_courante){
-			$sql = 'UPDATE '.TABLE_PLUGINS.' SET version="'.$version_atteinte.'" 
+		if ($version_finale>$version_courante){
+			$sql = 'UPDATE '.TABLE_PLUGINS.' SET version="'.$version_finale.'" 
 			WHERE plugin="'.$plugin.'" AND type='.$type;
 			if (!$resultat=$c->sql_query($sql)) message_die(E_ERROR,31,__FILE__,__LINE__,$sql);
 			
 			$this->get_liste_plugins(true);
 		}
-	}
-	
-	//
-	// Supprime le module dans la table plugins
-	function supprimer_plugin($plugin){
-		global $c;
-		$plugin = trim($plugin);
-		if (!empty($plugin))
-		{
-			$sql = 'DELETE FROM '.TABLE_PLUGINS.' WHERE plugin=\''.mysql_real_escape_string($plugin).'\' LIMIT 1';
-			$resultat=$c->sql_query($sql) OR message_die(E_ERROR,31,__FILE__,__LINE__,$sql);
-			return $resultat != false;
-		}
-		return false;
 	}
 }
 

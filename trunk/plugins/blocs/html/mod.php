@@ -33,7 +33,7 @@ $liste_blocs_html = $cache->appel_cache('listing_blocs_html');
 
 if ($id_bloc_html>0 &&  array_key_exists($id_bloc_html,$liste_blocs_html))
 {
-		if (ereg('<?php',$liste_blocs_html[$id_bloc_html]['texte']))
+		if (preg_match('/<?php/',$liste_blocs_html[$id_bloc_html]['texte']))
 		{
 			$texte = '?>'."\n ".$liste_blocs_html[$id_bloc_html]['texte'].'<?php'."\n ";
 			$code = exe_code($texte);

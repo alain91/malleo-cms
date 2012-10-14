@@ -53,7 +53,7 @@ class messagerie{
 			{
 				// Liste chiffres separes par des virgules
 				case 'id_mp':	if(is_array($val))$val = implode(',',$val);
-								$this->id_mp = ereg_replace('[^0-9,]','',$val);	break;
+								$this->id_mp = preg_replace('/[^0-9,]/','',$val);	break;
 				case 'sujet_initial':	if(intval($val)!=0) $this->sujet_initial = intval($val);	break;
 				// Chaine encodee
 				case 'a': $this->$key = utf8_encode(html_to_str(utf8_decode($val)));break;
@@ -298,7 +298,7 @@ class messagerie{
 	//
 	// Charge le menu lateral
 	function afficher_menu_lateral(){
-		global $tpl,$lang,$root,$img;
+		global $tpl,$lang,$root,$img,$user;
 		$tpl->set_filenames(array('menu'=>$root.'plugins/modules/messagerie/html/menu_lateral.html'));
 		$tpl->assign_vars(array(
 			'I_NEWMP'	=> $img['messagerie_menu_nouveau_mp'],
@@ -308,8 +308,7 @@ class messagerie{
 			'I_DOSSIER'	=> $img['messagerie_menu_sauvegardes'],
 			'I_INBOX'	=> $img['messagerie_menu_elements_recus'],
 			'I_SENTBOX'	=> $img['messagerie_menu_elements_envoyes'],
-			'I_OUTBOX'	=> $img['messagerie_menu_elements_en_cours'],
-			
+			'I_OUTBOX'	=> $img['messagerie_menu_elements_en_cours'],			
 			'S_NEWMP'	=> formate_url('mode=newmp',true),
 			'S_NEWMAIL'	=> formate_url('mode=newmail',true),
 			'S_INBOX'	=> formate_url('mode=inbox',true),
@@ -318,7 +317,16 @@ class messagerie{
 			'S_OPTIONS'	=> formate_url('mode=options',true),
 			'S_CONTACTS'=> formate_url('mode=contacts',true),
 			'S_SAVEBOX'	=> formate_url('mode=savebox',true),
+			'S_MAILGROUP'	=> formate_url('mode=mailgroup',true),
+			'S_MPGROUP'	=> formate_url('mode=mpgroup',true),
+			'I_MAILGROUP'	=> $img['messagerie_menu_mail_groupe'],
+			'I_MPGROUP'		=> $img['messagerie_menu_mp_groupe']
 		));
+		if ($user['level'] > 8)
+			{
+			$tpl->assign_block_vars('autorisation_mpgroupe', array(	
+			));	
+			}
 		$tpl->assign_var_from_handle('ZONE_MENU','menu');
 	}
 	
@@ -658,6 +666,242 @@ class messagerie{
 			return true;
 		}
 		return false;
+	}
+	
+	
+
+	//
+	// Envoie un Mail groupé
+	function send_mail_group(){
+		global $c,$user,$tpl,$email;
+		
+		// Tous les champs sont biens remplis ?
+		if (empty($this->a) || empty($this->sujet) || empty($this->message)){
+			message_die(E_WARNING,1207,'','');
+		}	
+		
+		// Création de la liste des destinataitres en fonction du groupe
+		if (($this->a) == "membres" OR ($this->a) == "admins"){
+		$sql = 'SELECT DISTINCT g.titre,u.user_id, u.email, u.pseudo, u.messagerie_copie_mail, messagerie_absent_site, messagerie_absent_site_msg  
+				FROM '.TABLE_GROUPES.' AS g
+				LEFT JOIN '.TABLE_USERS.' AS u
+				ON g.group_id <= u.level
+				LEFT JOIN '.TABLE_MESSAGERIE_CONTACTS.' AS c
+				ON (u.user_id=c.user_id) 
+				WHERE g.titre = "'.$this->a.'"
+				AND (u.messagerie_accepter_mp=1
+					OR (u.messagerie_accepter_mp=0 AND c.id_contact='.$user['user_id'].'))';
+		if (!$result = $c->sql_query($sql)) message_die(E_ERROR,1202,__FILE__,__LINE__,$sql);
+		$liste_users_group=array();
+		while($ligne = $c->sql_fetchrow($result)){
+		$liste_users_group[] = $ligne['pseudo'];
+		}
+		$listing_user_group='';
+		foreach ($liste_users_group as $users_group){
+				if ($listing_user_group!='')$listing_user_group.=',';
+				$listing_user_group.='"'.$users_group.'"';
+		
+		}
+		}else{
+		$sql = 'SELECT DISTINCT g.titre,u.user_id, u.email, u.pseudo, u.messagerie_copie_mail, messagerie_absent_site, messagerie_absent_site_msg  
+				FROM '.TABLE_GROUPES.' AS g
+				LEFT JOIN '.TABLE_GROUPES_INDEX.' AS i
+				ON g.group_id = i.group_id
+				LEFT JOIN '.TABLE_USERS.' AS u
+				ON i.user_id = u.user_id
+				LEFT JOIN '.TABLE_MESSAGERIE_CONTACTS.' AS c
+				ON (u.user_id=c.user_id) 
+				WHERE g.titre = "'.$this->a.'"
+				AND (u.messagerie_accepter_mp=1
+					OR (u.messagerie_accepter_mp=0 AND c.id_contact='.$user['user_id'].'))';
+		if (!$result = $c->sql_query($sql)) message_die(E_ERROR,1202,__FILE__,__LINE__,$sql);
+		$liste_users_group=array();
+		while($ligne = $c->sql_fetchrow($result)){
+		$liste_users_group[] = $ligne['pseudo'];
+		}
+		$listing_user_group='';
+		foreach ($liste_users_group as $users_group){
+				if ($listing_user_group!='')$listing_user_group.=',';
+				$listing_user_group.='"'.$users_group.'"';
+		
+		}
+		}
+		// RECHERCHE de l'existance des destinataires
+		$sql = 'SELECT u.user_id, u.email, u.pseudo, u.messagerie_copie_mail  
+				FROM '.TABLE_USERS.' AS u
+				LEFT JOIN '.TABLE_MESSAGERIE_CONTACTS.' AS c
+				ON (u.user_id=c.user_id) 
+				WHERE u.pseudo IN ('.$listing_user_group.')
+				AND (u.messagerie_accepter_mail=1
+					OR (u.messagerie_accepter_mail=0 AND c.id_contact='.$user['user_id'].'))';
+		if (!$resultat = $c->sql_query($sql)) message_die(E_ERROR,1202,__FILE__,__LINE__,$sql);
+		if ($c->sql_numrows($resultat)==0){
+			return false;
+		}else{
+			while($row = $c->sql_fetchrow($resultat)){
+				// Si l'utilisateur veut une alerte email
+				if ($row['messagerie_copie_mail'] == 1){
+					$email->AddAddress( $row['email'],$row['pseudo']);
+				}
+			}
+			return true;
+		}
+	}	
+
+		
+		//
+	// AFFICHER les champs de saisie d'un Mail groupé
+	function afficher_saisie_mailgroup(){
+		global $tpl,$lang,$root,$img,$_GET,$cf,$user,$_SERVER,$session,$c;
+		$tpl->set_filenames(array('saisie_mail_group'=>$root.'plugins/modules/messagerie/html/saisie_mail_group.html'));
+		
+		// Groupes
+		$sql = 'SELECT titre 
+				FROM '.TABLE_GROUPES.' AS g
+				WHERE group_id != 1 AND type=1';
+		if (!$resultat = $c->sql_query($sql)) message_die(E_ERROR,1202,__FILE__,__LINE__,$sql);
+		while($row = $c->sql_fetchrow($resultat)){
+		$tpl->assign_block_vars('destinataires', array(
+				'GROUPES'	=> $row['titre']
+				));
+		}
+		
+		if (isset($_GET['a'])){
+			$tpl->assign_vars(array(
+				'A'=> stripslashes($_GET['a'])
+			));
+		}
+		
+		$tpl->assign_vars(array(
+			'L_ENTETE_EMAIL'		=> sprintf($lang['L_ENTETE_EMAIL'],'http://'.$cf->config['adresse_site'],$user['pseudo'],(isset($_SERVER['REMOTE_HOST']))?$_SERVER['REMOTE_HOST']:$session->ip),
+			'I_DELETE'				=> $img['effacer'],
+			'HIDDEN'				=> $this->hidden
+		));
+		$tpl->assign_var_from_handle('ZONE_CENTRALE','saisie_mail_group');	
+	}	
+		
+	
+	//
+	// Envoie MP groupé
+	function send_mp_groupe(){
+		global $c,$user,$tpl,$email;
+		
+		// Tous les champs sont biens remplis ?
+		if (empty($this->a) || empty($this->sujet) || empty($this->message)){
+			message_die(E_WARNING,1207,'','');
+		}	
+		
+		// Création de la liste des destinataitres en fonction du groupe
+		if (($this->a) == "membres" OR ($this->a) == "admins"){
+		$sql = 'SELECT DISTINCT g.titre,u.user_id, u.email, u.pseudo, u.messagerie_copie_mail, messagerie_absent_site, messagerie_absent_site_msg  
+				FROM '.TABLE_GROUPES.' AS g
+				LEFT JOIN '.TABLE_USERS.' AS u
+				ON g.group_id <= u.level
+				LEFT JOIN '.TABLE_MESSAGERIE_CONTACTS.' AS c
+				ON (u.user_id=c.user_id) 
+				WHERE g.titre = "'.$this->a.'"
+				AND (u.messagerie_accepter_mp=1
+					OR (u.messagerie_accepter_mp=0 AND c.id_contact='.$user['user_id'].'))';
+		if (!$result = $c->sql_query($sql)) message_die(E_ERROR,1202,__FILE__,__LINE__,$sql);
+		$liste_users_group=array();
+		while($ligne = $c->sql_fetchrow($result)){
+		$liste_users_group[] = $ligne['pseudo'];
+		}
+		$listing_user_group='';
+		foreach ($liste_users_group as $users_group){
+				if ($listing_user_group!='')$listing_user_group.=',';
+				$listing_user_group.='"'.$users_group.'"';
+		
+		}
+		}else{
+		$sql = 'SELECT DISTINCT g.titre,u.user_id, u.email, u.pseudo, u.messagerie_copie_mail, messagerie_absent_site, messagerie_absent_site_msg  
+				FROM '.TABLE_GROUPES.' AS g
+				LEFT JOIN '.TABLE_GROUPES_INDEX.' AS i
+				ON g.group_id = i.group_id
+				LEFT JOIN '.TABLE_USERS.' AS u
+				ON i.user_id = u.user_id
+				LEFT JOIN '.TABLE_MESSAGERIE_CONTACTS.' AS c
+				ON (u.user_id=c.user_id) 
+				WHERE g.titre = "'.$this->a.'"
+				AND (u.messagerie_accepter_mp=1
+					OR (u.messagerie_accepter_mp=0 AND c.id_contact='.$user['user_id'].'))';
+		if (!$result = $c->sql_query($sql)) message_die(E_ERROR,1202,__FILE__,__LINE__,$sql);
+		$liste_users_group=array();
+		while($ligne = $c->sql_fetchrow($result)){
+		$liste_users_group[] = $ligne['pseudo'];
+		}
+		$listing_user_group='';
+		foreach ($liste_users_group as $users_group){
+				if ($listing_user_group!='')$listing_user_group.=',';
+				$listing_user_group.='"'.$users_group.'"';
+		
+		}
+		}
+		
+		// RECHERCHE de l'existance des destinataires
+		$sql = 'SELECT DISTINCT u.user_id, u.email, u.pseudo, u.messagerie_copie_mail, messagerie_absent_site, messagerie_absent_site_msg  
+				FROM '.TABLE_USERS.' AS u
+				LEFT JOIN '.TABLE_MESSAGERIE_CONTACTS.' AS c
+				ON (u.user_id=c.user_id) 
+				WHERE u.pseudo IN ('.$listing_user_group.')
+				AND (u.messagerie_accepter_mp=1
+					OR (u.messagerie_accepter_mp=0 AND c.id_contact='.$user['user_id'].'))';
+		if (!$resultat = $c->sql_query($sql)) message_die(E_ERROR,1202,__FILE__,__LINE__,$sql);
+		if ($c->sql_numrows($resultat)==0){
+			return false;
+		}else{
+			if ($this->sujet_initial == null)$this->sujet_initial='null';
+			$sql = 'INSERT INTO '.TABLE_MESSAGERIE.'(userid_from,sujet,message,date,destinataires,sujet_initial) VALUES
+					('.$user['user_id'].', \''.str_replace("\'","''",$this->sujet).'\', \''.str_replace("\'","''",$this->message).'\', '.time().',\''.str_replace('"','',$this->protect_liste_users($listing_user_group)).'\','.$this->sujet_initial.')';
+			if ($result=!$c->sql_query($sql)) message_die(E_ERROR,1203,__FILE__,__LINE__,$sql);
+			$this->id_mp = $c->sql_nextid($result);
+			// Enregistrement du MP pour chaque destinataire
+			while($row = $c->sql_fetchrow($resultat)){
+				$sql = 'INSERT INTO '.TABLE_MESSAGERIE_ETAT.'(id_mp,userid_dest,etat,cat) VALUES
+					('.$this->id_mp.', \''.$row['user_id'].'\',0,0)';
+				if (!$c->sql_query($sql)) message_die(E_ERROR,1203,__FILE__,__LINE__,$sql);
+				// Si l'utilisateur veut une alerte email
+				if ($row['messagerie_copie_mail'] == 1){
+					$email->AddAddress($row['email'],$row['pseudo']);
+				}
+				if ($row['messagerie_absent_site'] == 1){
+					// L'utilisateur est absent du site
+					$this->avertir_absence_site($row['user_id'],$row['messagerie_absent_site_msg'],$user['pseudo'],$user['user_id']);				
+				}
+			}
+			return true;
+		}
+	}
+	
+	//
+	// AFFICHER les champs de saisie d'un MP groupé
+	function afficher_saisie_mpgroupe(){
+		global $tpl,$lang,$root,$img,$c;
+		$tpl->set_filenames(array('saisie_mp_groupe'=>$root.'plugins/modules/messagerie/html/saisie_mp_groupe.html'));
+		
+		// Groupes
+		$sql = 'SELECT titre 
+				FROM '.TABLE_GROUPES.' AS g
+				WHERE group_id != 1 AND type=1';
+		if (!$resultat = $c->sql_query($sql)) message_die(E_ERROR,1202,__FILE__,__LINE__,$sql);
+		while($row = $c->sql_fetchrow($resultat)){
+		$tpl->assign_block_vars('destinataires', array(
+				'GROUPES'	=> $row['titre']
+				));
+		}
+		
+		if (isset($this->a)){
+			$tpl->assign_vars(array(
+				'A'=> stripslashes($this->a)
+			));
+		}
+		$tpl->assign_vars(array(
+			'I_DELETE'				=> $img['effacer'],
+			'SUJET_INITIAL'			=> ($this->sujet_initial!=null)?$this->sujet_initial:'',
+			'SUJET'					=> (isset($this->sujet))?$this->sujet:(($this->sujet_initial!=null)?$lang['L_RE']:''),
+			'HIDDEN'				=> $this->hidden
+		));
+		$tpl->assign_var_from_handle('ZONE_CENTRALE','saisie_mp_groupe');	
 	}
 }
 

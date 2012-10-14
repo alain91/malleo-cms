@@ -26,12 +26,12 @@ load_lang('update_langues');
 
 if (isset($_POST['html'])){
 	$sens = 'html';
-	$code_langue = ereg_replace('[^a-z]{0,2}','',$_POST['lang']);
+	$code_langue = preg_replace('/[^a-z]{0,2}/','',$_POST['lang']);
 	if (!is_dir($root.'lang/'.$code_langue))$code_langue = 'fr';
 	scanne_zones();
 }elseif(isset($_POST['accents'])){
 	$sens = 'accents';
-	$code_langue = ereg_replace('[^a-z]{0,2}','',$_POST['lang']);
+	$code_langue = preg_replace('/[^a-z]{0,2}/','',$_POST['lang']);
 	if (!is_dir($root.'lang/'.$code_langue))$code_langue = 'fr';
 	scanne_zones();
 }
@@ -90,7 +90,7 @@ function scanne_zones(){
 	$ch = @opendir($chemin);
 	while ($fichier = @readdir($ch))
 	{
-		if ($fichier[0] != "." && ereg('lang_',$fichier))
+		if ($fichier != "." && $fichier != ".." && preg_match('/lang_/',$fichier))
 		{
 			update_fichier_langue($chemin.$fichier);
 		}
@@ -103,7 +103,7 @@ function scanne_zones(){
 	$ch = @opendir($chemin);
 	while ($fichier = @readdir($ch))
 	{
-		if ($fichier[0] != "." && file_exists($chemin.$fichier.'/lang_'.$code_langue.'.php'))
+		if ($fichier != "." && $fichier != ".." && file_exists($chemin.$fichier.'/lang_'.$code_langue.'.php'))
 		{
 			update_fichier_langue($chemin.$fichier.'/lang_'.$code_langue.'.php');
 		}
@@ -116,7 +116,7 @@ function scanne_zones(){
 	$ch = @opendir($chemin);
 	while ($fichier = @readdir($ch))
 	{
-		if ($fichier[0] != "." && file_exists($chemin.$fichier.'/lang_'.$code_langue.'.php'))
+		if ($fichier != "." && $fichier != ".." && file_exists($chemin.$fichier.'/lang_'.$code_langue.'.php'))
 		{
 			update_fichier_langue($chemin.$fichier.'/lang_'.$code_langue.'.php');
 		}
@@ -130,7 +130,7 @@ $options = '';
 $ch = @opendir($chemin);
 while ($fichier = @readdir($ch))
 {
-	if ($fichier[0] != "." && is_dir($chemin.$fichier))
+	if ($fichier != "." && $fichier != ".." && is_dir($chemin.$fichier))
 	{
 		$options .= "\n".'<option>'.$fichier.'</option>';
 	}

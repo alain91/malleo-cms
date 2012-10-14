@@ -54,7 +54,7 @@ class digicode extends image
 		$this->police[] = $root.'data/fonts/verdana.ttf';
 		$this->police[] = $root.'data/fonts/Alanden_.ttf';
 		
-		$this->code_acces_za = ereg_replace('[^0-9]','',$cf->config['digicode_acces_zone_admin']);
+		$this->code_acces_za = preg_replace('/[^0-9]/','',$cf->config['digicode_acces_zone_admin']);
 		if ($this->code_acces_za == '')$this->code_acces_za='0000';
 	}
 
@@ -174,7 +174,7 @@ class digicode extends image
 		{
 			$this->redirect_echec();
 		}else{
-			$code_saisis = eregi_replace('[^a-z0-9]','',$vars['code']);	
+			$code_saisis = preg_replace('/[^a-z0-9]/i','',$vars['code']);	
 			if ($code_saisis != $_SESSION['digicode_clef_acceptee']){
 				$this->redirect_echec();
 			}else{

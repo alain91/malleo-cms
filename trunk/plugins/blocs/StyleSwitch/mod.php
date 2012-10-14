@@ -26,7 +26,7 @@ load_lang_bloc('StyleSwitch');
 
 if (isset($_POST['style']) && $user['user_id'] > 1)
 {
-	$style = eregi_replace('[^a-z0-9_-]','',$_POST['style']);
+	$style = preg_replace('/[^a-z0-9_-]/i','',$_POST['style']);
 	if (is_dir('styles/'.$style)){
 		$sql = 'UPDATE '.TABLE_USERS.' SET style =\''.$style.'\' 
 				WHERE user_id = \'' . $user['user_id'] . '\'' ;

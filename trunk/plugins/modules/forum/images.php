@@ -8,6 +8,7 @@ $images['forum_raccourcis_mes_sujets']			= $root.'plugins/modules/forum/images/f
 $images['forum_raccourcis_mes_favoris']			= $root.'plugins/modules/forum/images/forum_raccourcis_mes_favoris.png';
 $images['forum_sujet_lu']						= $root.'plugins/modules/forum/images/forum_sujet_lu.png';
 $images['forum_sujet_non_lu']					= $root.'plugins/modules/forum/images/forum_sujet_non_lu.png';
+$images['forum_sujet_verrouille']					= $root.'plugins/modules/forum/images/forum_sujet_verrouille.png';
 $images['forum_sujet_abonne'] 					= $root.'plugins/modules/forum/images/forum_puce_abonne.png';
 $images['forum_sujet_non_abonne'] 				= $root.'plugins/modules/forum/images/forum_puce_non_abonne.png';
 $images['forum_sujet_favoris_del'] 				= $root.'plugins/modules/forum/images/bouton_favoris_del_'.$user['langue'].'.png';

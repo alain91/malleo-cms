@@ -38,8 +38,8 @@ class Wiki
 			switch($key)
 			{
 				case 't':	$val = supprimer_accents($val);
-							$val = eregi_replace('[^a-z0-9]','_',$val);
-							$val = ereg_replace('[_]{2,}','_',$val);				
+							$val = preg_replace('/[^a-z0-9]/','_',$val);
+							$val = preg_replace('/[_]{2,}/','_',$val);				
 							$this->t = $val;
 							break;
 				case 'id_version':	$this->id_version = intval($val); break;				

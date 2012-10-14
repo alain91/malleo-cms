@@ -48,13 +48,14 @@ if (isset($_GET['action']) || isset($_POST['action']))
 	$action = (isset($_POST['action']))?$_POST['action']:$_GET['action'];
 	if (isset($_POST['id']))
 	{
-		if (eregi('add_groupe_',$action)){
-			$group_id = intval(ereg_replace('add_groupe_','',$action));
+		if (preg_match('/add_groupe_/i',$action)){
+			$group_id = intval(preg_replace('/add_groupe_/','',$action));
 			$action = 'groupe';
 		}
-		$liste = ereg_replace("[^0-9,]",'',implode(',',$_POST['id']));
+		$liste = preg_replace("/[^0-9,]/",'',implode(',',$_POST['id']));
 		if ($liste=='')$liste="''";
 		$sql = '';
+		$sql2 = '';
 		switch($action)
 		{
 			case 'bannir': 
@@ -79,7 +80,7 @@ if (isset($_GET['action']) || isset($_POST['action']))
 				}
 				break;
 			case 'supprimer': $sql = 'DELETE FROM '.TABLE_USERS.' WHERE user_id IN ('.$liste.')';break;
-			case 'activer':$sql = 'UPDATE '.TABLE_USERS.' SET level=2,actif=1 WHERE user_id IN ('.$liste.')';break;
+			case 'activer':$sql = 'UPDATE '.TABLE_USERS.' SET level=2,actif=1 WHERE user_id IN ('.$liste.') WHERE level<2';$sql2 = 'UPDATE '.TABLE_USERS.' SET actif=1 WHERE user_id IN ('.$liste.') WHERE level>2';break;
 			case 'desactiver':$sql = 'UPDATE '.TABLE_USERS.' SET level=1,actif=0 WHERE user_id IN ('.$liste.')';break;
 			case 'theme':$sql = 'UPDATE '.TABLE_USERS.' SET style="'.$cf->config['default_style'].'" WHERE user_id IN ('.$liste.')';				break;
 			case 'groupe':
@@ -100,7 +101,9 @@ if (isset($_GET['action']) || isset($_POST['action']))
 				break;
 			
 		}
-		if ($sql != '') if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,47,__FILE__,__LINE__,$sql); 
+		if ($sql != '') if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,47,__FILE__,__LINE__,$sql);
+		if ($sql2 != '') if (!$resultat = $c->sql_query($sql2))message_die(E_ERROR,47,__FILE__,__LINE__,$sql2);
+		unset($sql2);
 		affiche_message('body_admin','L_MODIFICATION_EFFECTUEE',formate_url('',true));
 	}
 }

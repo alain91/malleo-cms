@@ -27,6 +27,9 @@ $lang['L_SITE'] = 'Site web';
 $lang['L_AUTEUR'] = 'Auteur';
 $lang['L_VERSION_ACTUELLE'] = 'Version actuelle';
 $lang['L_VERSION_OFFICIELLE'] = 'Version officielle';
+$lang['L_VERSION_NOT_SUPPORTED'] = 'Version non supporté';
+$lang['L_VERSION_NOT_SUPPORTED_CONSIGNES'] = 'Vous tentez de mettre une version non compatible, remettez celle que vous possédiez avant, afin que celui-ci fonctionne correctement.';
 $lang['L_FSOCKOPEN'] = 'La fonction Fsockopen a &eacute;t&eacute; d&eacute;sactiv&eacute;e par votre h&eacute;bergeur, cette fonction nous permet de v&eacute;rifier &agrave; votre place si des mises &agrave; jour sont disponibles.<br/> Vous devrez le faire manuellement en visitant les diff&eacute;rents sites list&eacute;s.';
+$lang['L_VERSION_RELOAD'] = 'Recharger les versions';
 
 ?>

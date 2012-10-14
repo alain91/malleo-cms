@@ -25,6 +25,9 @@ if ( !defined('PROTECT_ADMIN') )
 global $lang;
 load_lang('modules');
 
+//Rechargement des versions
+$reload_module = (isset($_GET['reload_module']))?intval($_GET['reload_module']):0;
+
 $tpl->set_filenames(array(
 	  'body_admin' => $root.'html/admin_gestion_modules.html'
 ));
@@ -42,7 +45,7 @@ $SelectModele = $SelectStyle = '';
 if (isset($_GET['action']) || isset($_POST['action']))
 {
 	$action = (isset($_POST['action']))?$_POST['action']:$_GET['action'];
-	$mod_saisie = (isset($_POST['module']))? eregi_replace("[^a-z0-9_-]",'',supprimer_accents($_POST['module'])):'';
+	$mod_saisie = (isset($_POST['module']))? preg_replace("/[^a-z0-9_-]/i",'',supprimer_accents($_POST['module'])):'';
 	
 	switch($action)
 	{
@@ -57,12 +60,7 @@ if (isset($_GET['action']) || isset($_POST['action']))
 			header('location: '.$base_formate_url);	exit;
 			break;
 		case 'supprimer':
-			global $cache;
 			$mod->supprime_module($_GET['id_module']);
-			require_once($root.'class/class_plugins.php');
-			$plugin = new plugins($root);
-			$plugin->supprimer_plugin($_GET['plugin']);
-			//$cache->purger_cache();
 			header('location: '.$base_formate_url);	exit;
 			break;
 		case 'virtuel_ajouter':	
@@ -148,15 +146,24 @@ while($row = $c->sql_fetchrow($resultat))
 }
 foreach($liste_mods as $key=>$val){
 	$file = $root.'plugins/modules/'.$key.'/infos.xml';
+	$version_dir = $root.'data/versions/'.$key;
+	if(!is_dir($version_dir)) mkdir($version_dir, 0777);
 	if (file_exists($file)){
 		$xml = simplexml_load_file($file);
 		
 		// Check version
 		$version_officielle = '- ? -';
-		if (!empty($xml->check_version)){
+		if (!empty($xml->check_version) AND $reload_module == 1){
 			if (($retour = fsockopen_file_get_contents($xml->check_version)) != false){
-				$version_officielle = $retour;
+				file_put_contents($version_dir.'/version.txt', $retour);
 			}
+		}
+		if(is_file($version_dir.'/version.txt')) $version_officielle = file_get_contents($version_dir.'/version.txt');
+		
+		$version_minimale = '1';
+		if (isset($xml->version_min))
+		{
+			$version_minimale = $xml->version_min;
 		}
 		
 		// version actuelle
@@ -169,8 +176,11 @@ foreach($liste_mods as $key=>$val){
 			'VERSION_OFFICIELLE'=> $version_officielle,
 			'VERSION_ACTUELLE'	=> $val[0]['version'],
 			'U_LIEN_UPGRADE'	=> formate_url('action=update&plugin='.$key,true)
-		));	
-		if ($val[0]['version'] < $xml->version)$tpl->assign_block_vars('liste_modules.update', array());
+		));
+		if($cf->config['version_cms'] < $version_minimale) $tpl->assign_block_vars('liste_modules.update_not_supported', array(
+		'VERSION_MINIMALE'	=> $version_minimale));
+		if (($val[0]['version'] < $xml->version) AND ($cf->config['version_cms'] >= $version_minimale))$tpl->assign_block_vars('liste_modules.update', array(
+			'VERSION_DISPONIBLE'	=> $xml->version));
 	}else{
 		$tpl->assign_block_vars('liste_modules', array(
 			'TITRE_MODULE'	=> $key
@@ -186,7 +196,7 @@ foreach($liste_mods as $key=>$val){
 			'STYLE'			=> ($v['style'] != null)?$v['style']:$lang['L_AUCUN_STYLE'],
 			'S_DROITS'		=> formate_url('admin.php?module=admin/Permissions.php&generer&defaut&noeuds='.$v['module']),
 			'S_EDIT'		=> formate_url('action='.$vedit.'&id_module='.$v['id_module'],true),
-			'S_SUPP'		=> formate_url('action=supprimer&id_module='.$v['id_module'].'&plugin='.$v['module'],true)
+			'S_SUPP'		=> formate_url('action=supprimer&id_module='.$v['id_module'],true)
 		));
 		if ($v['virtuel']==null)
 		{
@@ -201,18 +211,20 @@ foreach($liste_mods as $key=>$val){
 $tpl->assign_block_vars($mode, array());
 
 // Fsockopen actif ?
-if (!function_exists('fsockopen')) $tpl->assign_block_vars('fsockopen', array());
+$disable_functions = (ini_get("disable_functions")!="" AND ini_get("disable_functions")!=false) ? array_map('trim', preg_split( "/[\s,]+/", ini_get("disable_functions"))) : array();
+if (!function_exists("fsockopen") OR in_array('fsockopen', $disable_functions))$tpl->assign_block_vars('fsockopen', array());
 
 $tpl->assign_vars(array(
 	'LISTE_STYLES'				=> $mod->lister_styles_dispos($SelectStyle),
-	'LISTE_MODELES'				=> $mod->lister_modeles_dispos($SelectModele),
-	'LISTE_MODULES'				=> $mod->lister_modules_dispos($liste_modules_installes),
-	'I_EDIT'					=> $img['editer'],
-	'I_SUPP'					=> $img['effacer'],
+	'LISTE_MODELES'			=> $mod->lister_modeles_dispos($SelectModele),
+	'LISTE_MODULES'			=> $mod->lister_modules_dispos($liste_modules_installes),
+	'I_EDIT'						=> $img['editer'],
+	'I_SUPP'						=> $img['effacer'],
 	'I_DUPLIQUER'				=> $img['dupliquer'],
 	'I_CADENAS'					=> $img['cadenas'],
 	'I_REFRESH'					=> $img['refresh'],
-	'HIDDEN'					=> $hidden
+	'HIDDEN'						=> $hidden,
+	'REALOAD_LINK'				=>	formate_url('admin.php?module=admin/Modules.php&reload_module=1')
 ));
 
 ?>

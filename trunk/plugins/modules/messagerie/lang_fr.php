@@ -6,7 +6,7 @@ if (!defined('PROTECT'))
 global $lang,$erreur;
 $lang['L_BOITE_AUX_LETTRES_PSEUDO'] = 'Boite aux Lettres';
 $lang['L_NEWMP'] = 'Nouveau Message Priv&eacute;';
-$lang['L_NEWMAIL'] = 'Nouveau Email';
+$lang['L_NEWMAIL'] = 'Nouvel Email';
 $lang['L_INBOX'] = 'Messages re&ccedil;us';
 $lang['L_OUTBOX'] = 'Messages en cours';
 $lang['L_SENTBOX'] = 'Messages envoy&eacute;s';
@@ -43,7 +43,7 @@ $lang['L_ACCEPTER_MP'] = 'Acceptez-vous les messages priv&eacute;s de tout le mo
 $lang['L_ACCEPTER_MAIL'] = 'Acceptez-vous les emails de tout le monde, ou seulement de vos contacts?';
 $lang['L_MESSAGE_REFUS'] = 'Message que les personnes non autoris&eacute;es aux MP/Emails recevront.';
 $lang['L_MSG_REFUS'] = 'Vous ne faites pas partie des personnes autoris&eacute;es &agrave; envoyer un message &agrave; cette personne.';
-$lang['L_MSG_ABSENCE'] = 'Message Automatique: Je ne suis pas l&agrave; en ce moment je vous r&eacute;pondrais en revenant';
+$lang['L_MSG_ABSENCE'] = 'Message Automatique: Je ne suis pas l&agrave; en ce moment je vous r&eacute;pondrai en revenant';
 $lang['L_MSG_ABSENCE_TITRE'] = 'Re: ';
 $lang['L_ABSENT_SITE'] = 'Activer le mod "Absent du site" ?';
 $lang['L_ABSENT_SITE_MSG'] = 'Message d\'absence du site';
@@ -66,12 +66,18 @@ $lang['L_RE'] = 'RE: ';
 $lang['L_COCHER'] = 'Tout cocher';
 $lang['L_DECOCHER'] = 'Tout d&eacute;cocher';
 
-$lang['L_ENTETE_EMAIL'] = 'Cet email a &eacute;t&eacute; envoy&eacute; par %s (%s). Si celui-ci contient des propos pouvant vous porter atteinte n\'h&eacute;sitez pas &agrave; le signaler au webmaster du site.';
+$lang['L_ENTETE_EMAIL'] = 'L\'EXPEDITEUR  %s (%s) A ENVOYE CE MAIL PAR LE SITE. SI VOUS LUI REPONDEZ, PENSEZ A CHANGER L\'ADRESSE EMAIL PAR LA SIENNE OU BIEN REPONDEZ PAR LE SITE. Si celui-ci contient des propos pouvant vous porter atteinte n\'h&eacute;sitez pas &agrave; le signaler au webmaster du site.';
 $lang['L_ALERTE_ENTETE'] = 'L\'email envoy&eacute; sera pr&eacute;c&eacute;d&eacute; de ceci:';
 
 $lang['R_messagerie_email'] = 'Envoyer un Email';
 $lang['R_messagerie_mp'] = 'Envoyer un MP';
 $lang['R_messagerie_voir'] = 'Voir sa messagerie';
+
+//Emails group&eacute;s
+$lang['L_MAILGROUP'] = 'Email group&eacute;';
+$lang['L_MPGROUP'] = 'MP group&eacute;';
+$lang['L_MAIL_NON_ENVOYE'] = 'Email non envoy&eacute;;';
+
 
 
 // 1200 a 1299

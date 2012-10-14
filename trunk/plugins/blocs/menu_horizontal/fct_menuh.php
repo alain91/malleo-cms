@@ -138,27 +138,30 @@ function monter_menu($parent=0,$liste = '',$tab='')
 		}
 	}
 	$menu = '';
-	foreach ($liste[$parent] as $key=>$val)
+	if(isset($liste[$parent]))
 	{
-		$sub = (array_key_exists($val['id_lien'],$liste))? 1:0;
-		$menu .= ($val['switch'] != '')?"\r\n".'<!-- BEGIN '.$val['switch'].' -->'."\r\n":'';
-		$menu .= $tab.'<li ';
-		$menu .= ($sub == 1)? 'class="menuparent"':'';
-		$menu .= '><a href="'.str_replace('&','&amp;',$val['lien']).'"';
-		$menu .= ($val['accesskey'] != null)?' accesskey="'.$val['accesskey'].'"':'';
-		$menu .= '>';
-		$menu .= ($val['image'] != '')?'<img src="'.$val['image'].'" style="float:left;" alt="'.$val['titre_lien'].'" />&nbsp;':'';
-		$menu .= $val['titre_lien'].'</a>';
-		
-		if ($sub == 1)
+		foreach ($liste[$parent] as $key=>$val)
 		{
-			$tab .= " \t";
-			$menu .= "\r\n".$tab.'<ul>';
-			$menu .= "\r\n".$tab.monter_menu($val['id_lien'],$liste,$tab);
-			$menu .= "\r\n".$tab.'</ul>';
+			$sub = (array_key_exists($val['id_lien'],$liste))? 1:0;
+			$menu .= ($val['switch'] != '')?"\r\n".'<!-- BEGIN '.$val['switch'].' -->'."\r\n":'';
+			$menu .= $tab.'<li ';
+			$menu .= ($sub == 1)? 'class="menuparent"':'';
+			$menu .= '><a href="'.str_replace('&','&amp;',$val['lien']).'"';
+			$menu .= ($val['accesskey'] != null)?' accesskey="'.$val['accesskey'].'"':'';
+			$menu .= '>';
+			$menu .= ($val['image'] != '')?'<img src="'.$val['image'].'" style="float:left;" alt="'.$val['titre_lien'].'" />&nbsp;':'';
+			$menu .= $val['titre_lien'].'</a>';
+		
+			if ($sub == 1)
+			{
+				$tab .= " \t";
+				$menu .= "\r\n".$tab.'<ul>';
+				$menu .= "\r\n".$tab.monter_menu($val['id_lien'],$liste,$tab);
+				$menu .= "\r\n".$tab.'</ul>';
+			}
+			$menu .= '</li>'."\r\n";
+			$menu .= ($val['switch'] != '')?"\r\n".'<!-- END '.$val['switch'].' -->'."\r\n":'';
 		}
-		$menu .= '</li>'."\r\n";
-		$menu .= ($val['switch'] != '')?"\r\n".'<!-- END '.$val['switch'].' -->'."\r\n":'';
 	}
 	return $menu;
 }

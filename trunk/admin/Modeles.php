@@ -34,7 +34,7 @@ function nom_unique($nom_fichier,$destination,$nom_teste=false,$cpt=1){
 	if (file_exists($destination.$nom_teste) && $cpt<10)
 	{
 		$ext = pathinfo($nom_teste);
-		$nom_teste = eregi_replace('.'.$ext['extension'],'',$nom_fichier).'_'.$cpt.'.'.$ext['extension'];
+		$nom_teste = preg_replace('/.'.$ext['extension'].'/','',$nom_fichier).'_'.$cpt.'.'.$ext['extension'];
 		$cpt++;
 		$nom_teste = nom_unique($nom_fichier,$destination,$nom_teste,$cpt);			
 	}

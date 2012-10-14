@@ -1,5 +1,6 @@
 <h1 class="admin">{L_GESTION_MODULES}</h1>
-<p>{L_GESTION_MODULES_EXPLAIN}</p>
+<p>{L_GESTION_MODULES_EXPLAIN}<br />
+<a href="{REALOAD_LINK}">{L_VERSION_RELOAD}</a></p>
 <form name="admin_gestion_modules" method="post" action="">
 <div class="bloc_admin">
 	<table cellpadding="1" cellspacing="1" class="standard" width="300">
@@ -71,8 +72,11 @@
 		</td>
 		<td class="row1" colspan="2" align="left">
 			{L_VERSION_ACTUELLE}: {liste_modules.VERSION_ACTUELLE}
+			<!-- BEGIN update_not_supported -->
+			<br /><b style="color: #CE0000;"><i>{L_VERSION_NOT_SUPPORTED}<br />{L_VERSION_NOT_SUPPORTED_CONSIGNES}</i></b>
+			<!-- END update_not_supported -->
 			<!-- BEGIN update -->
-			<a href="{liste_modules.U_LIEN_UPGRADE}"><img src="{I_REFRESH}" alt="update" /></a>
+			<a href="{liste_modules.U_LIEN_UPGRADE}"><img src="{I_REFRESH}" alt="update" /> {liste_modules.update.VERSION_DISPONIBLE}</a>
 			<!-- END update -->
 			<br />
 			{L_VERSION_OFFICIELLE}: {liste_modules.VERSION_OFFICIELLE}

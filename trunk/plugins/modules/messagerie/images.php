@@ -16,4 +16,8 @@ $images['messagerie_envoyer_email']		= $root.'plugins/modules/messagerie/images/
 $images['messagerie_message_non_lu']	= $root.'plugins/modules/messagerie/images/messagerie_message_non_lu.png';
 $images['messagerie_message_lu']		= $root.'plugins/modules/messagerie/images/messagerie_message_lu.png';
 
+$images['messagerie_menu_mail_groupe']		= $root.'plugins/modules/messagerie/images/messagerie_menu_mail_groupe.png';
+$images['messagerie_menu_mp_groupe']		= $root.'plugins/modules/messagerie/images/messagerie_menu_mp_groupe.png';
+
+
 ?>

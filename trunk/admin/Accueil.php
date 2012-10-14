@@ -22,13 +22,23 @@ if ( !defined('PROTECT_ADMIN') )
 {
 	die("Tentative de Hacking");
 }
+//Rechargement des versions
+$reload_module = (isset($_GET['reload_module']))?intval($_GET['reload_module']):0;
+
 $url_check_version_malleo = 'http://www.malleo-cms.com/versions/malleo.txt';
 load_lang('accueil');
 
-$version_malleo = '- ? -';
-if (($retour = fsockopen_file_get_contents($url_check_version_malleo)) != false){
-	$version_malleo = $retour;
+$version_dir = $root.'data/versions';
+if(!is_dir($version_dir)) mkdir($version_dir, 0777);
+if ($reload_module == 1){
+	if (($retour = fsockopen_file_get_contents($url_check_version_malleo)) != false){
+		file_put_contents($version_dir.'/malleo.txt', $retour);
+	}
 }
+
+$version_malleo = '- ? -';
+
+if(is_file($version_dir.'/malleo.txt')) $version_malleo = file_get_contents($version_dir.'/malleo.txt');
 
 $path_blocnotes = 'data/blocnotes_admin.php';
 if (isset($_POST['blocnotes']))
@@ -51,9 +61,7 @@ $tpl->set_filenames(array('body_admin' => $root.'html/admin_accueil.html'));
 if ($cf->config['activer_digicode']==1 && $cf->config['digicode_acces_zone_admin'] == '0000') $tpl->assign_block_vars('alerte_digicode', array());
 
 // Alerte version malleo obsolete
-if ($version_malleo != '- ? -' && $cf->config['version_cms'] != $version_malleo) $tpl->assign_block_vars('alerte_version_malleo', array());
-
-
+if ($version_malleo != '- ? -' && $cf->config['version_cms'] < $version_malleo) $tpl->assign_block_vars('alerte_version_malleo', array());
 
 // MODULES installes
 $sql = 'SELECT id_module,module,virtuel,p.version 
@@ -67,16 +75,20 @@ if (!$resultat=$c->sql_query($sql)) message_die(E_ERROR,17,__FILE__,__LINE__,$sq
 while($row = $c->sql_fetchrow($resultat))
 {
 	$file = $root.'plugins/modules/'.$row['module'].'/infos.xml';
+	$version_dir = $root.'data/versions/'.$row['module'];
+	if(!is_dir($version_dir)) mkdir($version_dir, 0777);
 	if (file_exists($file)){
 		$xml = simplexml_load_file($file);
 		
 		// Check version
 		$version_officielle = '- ? -';
-		if (!empty($xml->check_version)){
+		if (!empty($xml->check_version) AND $reload_module == 1){
 			if (($retour = fsockopen_file_get_contents($xml->check_version)) != false){
-				$version_officielle = $retour;
+				file_put_contents($version_dir.'/version.txt', $retour);
 			}
 		}
+		if(is_file($version_dir.'/version.txt')) $version_officielle = file_get_contents($version_dir.'/version.txt');
+		
 		
 		// version actuelle
 		// affiche un lien UPDATE en cas de maj disponible
@@ -146,6 +158,7 @@ $tpl->assign_vars(array(
 
 	'I_REFRESH'					=>	$img['refresh'],
 	'I_EDIT'					=>	$img['editer'],
+	'REALOAD_LINK'				=>	formate_url('admin.php?module=admin/Accueil.php&reload_module=1')
 ));
 
 ?>

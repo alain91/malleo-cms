@@ -65,7 +65,7 @@ if ($cf->config['activer_digicode']
 	
 	if (isset($_POST['IRQ']))
 	{
-		include_once($root.'admin/includes/inc_'.eregi_replace("[^a-z0-9_-]",'',$_POST['IRQ']).'.php');
+		include_once($root.'admin/includes/inc_'.preg_replace("/[^a-z0-9_-]/i",'',$_POST['IRQ']).'.php');
 		exit;
 	}
 	$file = $root.$module;

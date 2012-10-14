@@ -25,11 +25,11 @@ if ( !defined('PROTECT') )
 
 function charge_blocs($retour){
 	global $tpl,$root,$lang;
-	$bloc = ereg_replace('{|}','',$retour[0]);
-	if (ereg('HTML_',$bloc))
+	$bloc = preg_replace('/{|}/','',$retour[0]);
+	if (preg_match('/HTML_/',$bloc))
 	{
 		// BLOC HTML
-		$id_bloc_html = intval(ereg_replace('HTML_','',$bloc));
+		$id_bloc_html = intval(preg_replace('/HTML_/','',$bloc));
 		include_once($root.'plugins/blocs/html/mod.php');
 		$tpl->pparse('HTML_'.$id_bloc_html,true);
 	}elseif (file_exists($root.'plugins/blocs/'.$bloc.'/mod.php'))
@@ -71,8 +71,8 @@ function charge_blocs_apercu(){
 			if ($value == 'module')
 			{
 				$colonne .= '<table class="standard"><tr><td class="row1">'.$lang['L_MODULE_PRINCIPAL'].'</td></tr></table>';
-			}elseif(ereg('HTML_',$value)){
-					$id_bloc_html = intval(ereg_replace('HTML_','',$value));
+			}elseif(preg_match('/HTML_/',$value)){
+					$id_bloc_html = intval(preg_replace('/HTML_/','',$value));
 					include($root.'plugins/blocs/html/mod.php');
 					$tpl->pparse($value,true);
 					$colonne .= $tpl->buffer;			
@@ -123,7 +123,7 @@ function tester_modele($gabaris,$map,$fichier=false)
 	{
 		foreach($val as $k=>$v)
 		{
-			if (!file_exists($root.'plugins/blocs/'.$v.'/mod.php') && $v != 'module'&& !ereg('HTML_',$v))	return sprintf($lang['BLOC_SUPPRIME'],$v);
+			if (!file_exists($root.'plugins/blocs/'.$v.'/mod.php') && $v != 'module'&& !preg_match('/HTML_/',$v))	return sprintf($lang['BLOC_SUPPRIME'],$v);
 		}
 	}
 	return $lang['L_ETAT_OK'];
@@ -227,7 +227,7 @@ class Assemblage
 		global $i;
 		if (!$this->lecture_squelette()) return false;
 		$i=0;
-		$this->map = eregi_replace('<td','<td class="zones"',$this->map);
+		$this->map = preg_replace('/<td/i','<td class="zones"',$this->map);
 		$this->map = preg_replace_callback("/BLOC/",'charge_zones',$this->map);
 		$this->map = preg_replace_callback("|\{[a-z0-9_-]+\}|",'charge_blocs',$this->map);
 		$this->nbre_zones = $i;
@@ -314,9 +314,8 @@ class Assemblage
 		message_die(E_ERROR,12,__FILE__,__LINE__);
 		while ($bloc = @readdir($ch))
 		{
-			if ($bloc[0] != '.'
-				&& is_dir($this->chemin_blocs.$bloc) && $bloc != 'menu_horizontal'
-				&& $bloc != 'html' && !in_array($bloc,$exclus))
+			if ($bloc != '.' && $bloc != '..' && is_dir($this->chemin_blocs.$bloc) 
+							&& $bloc != 'menu_horizontal'&& $bloc != 'html' && !in_array($bloc,$exclus))
 			{
 				if (!array_key_exists($bloc,$liste_plugins)){
 					$plugin->install_plugin($bloc,1);

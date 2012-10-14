@@ -1,6 +1,7 @@
 <?php
 // Chemin de ce style
 $path = $root.$style_path.$style_name.'/';
+echo $path;
 // Couleurs principales du theme qui permettront de generer les adresses mail sous forme d'image
 if (!defined('COULEUR_TEXTE')){
 	define('COULEUR_TEXTE','#2b4375');

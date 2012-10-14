@@ -63,6 +63,7 @@ $lang['L_REMPLISSEZ_CHAMPS'] = 'Merci de remplir au moins le titre et le corps d
 $lang['L_AUCUN_BILLET'] = 'Il n\'y a aucun billet dans ce blog, veuillez cliquer sur le bouton "nouveau" pour en cr&eacute;er.';
 $lang['L_TOUT_REMPLIR'] = 'Merci de mettre au moins un titre';
 $lang['L_CONFIRM_DELETE_BILLET'] = 'Etes vous s&ucirc;r de vouloir supprimer ce billet ?';
+$lang['L_COPY_CODE'] = 'Recopier le code:';
 
 $lang['R_blog_commenter'] = 'Commenter';
 $lang['R_blog_date_publication'] = 'Diff&eacute;rer la publication';
@@ -72,7 +73,6 @@ $lang['R_blog_publier'] = 'Rendre public';
 $lang['R_blog_supprimer'] = 'Supprimer';
 $lang['R_blog_tags'] = 'Taguer';
 $lang['R_blog_voir'] = 'Voir le blog';
-
 
 
 $erreur[501] = 'Impossible d\'enregistrer ce billet';
@@ -101,4 +101,5 @@ $erreur[522] = 'Vous n\'&ecirc;tes pas autoris&eacute; &agrave; supprimer les co
 $erreur[523] = 'Les messages vides ne sont pas autoris&eacute;s';
 $erreur[524] = 'Impossible de trouver des informations sur ce commentaire';
 $erreur[525] = 'Vous devez cr&eacute;er une cat&eacute;gorie avant de pouvoir utiliser ce blog';
+$erreur[526] = 'Veuillez compl&egrave;ter correctement le code v&eacute;rification afin d\'&eacute;viter les spams';
 ?>

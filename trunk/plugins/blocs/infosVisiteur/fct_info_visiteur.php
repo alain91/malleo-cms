@@ -35,15 +35,15 @@ function info_visiteur_get_ip()
 
 function info_visiteur_get_browser($browser)
 {
-	if (ereg("MSIE", $browser)) {
+	if (preg_match("/MSIE/", $browser)) {
 	   return 'Internet explorer';
-	} else if (ereg("Firefox/2.", $browser)) {
+	} else if (preg_match("/Firefox\/2./", $browser)) {
 	   return 'Firefox 2.x';
-	} else if (ereg("Firefox/1.", $browser)) {
+	} else if (preg_match("/Firefox\/1./", $browser)) {
 	   return 'Firefox 1.x';
-	} else if (ereg("^Mozilla/", $browser)) {
+	} else if (preg_match("/^Mozilla\//", $browser)) {
 	   return 'Mozilla';
-	} else if (ereg("^Opera/", $browser)) {
+	} else if (preg_match("/^Opera\//", $browser)) {
 	   return 'Opera';
 	} else {
 	   return 'Inconnu';
@@ -58,11 +58,11 @@ function info_visiteur_get_langue($langue)
 
 function info_visiteur_get_os($os)
 {
-	if (ereg("Linux", $os)) {    								return "linux";
-	} else if (ereg("WinNT", $os)||ereg("Windows NT", $os)) {	return "Windows XP/NT/2000";
-	} else if (ereg("Windows 98", $os)||ereg("Win98", $os)) {	return "Windows 98";
-	} else if (ereg("Windows 95", $os)||ereg("Win95", $os)) {	return "Windows 95";
-	} else if (ereg("Macintosh", $os)||ereg("Mac_PowerPC", $os)){return "Mac OS X / Tiger>";
+	if (preg_match("/Linux/", $os)) {    								return "linux";
+	} else if (preg_match("/WinNT/", $os)||preg_match("/Windows NT/", $os)) {	return "Windows XP/NT/2000";
+	} else if (preg_match("/Windows 98/", $os)||preg_match("/Win98/", $os)) {	return "Windows 98";
+	} else if (preg_match("/Windows 95/", $os)||preg_match("/Win95/", $os)) {	return "Windows 95";
+	} else if (preg_match("/Macintosh/", $os)||preg_match("/Mac_PowerPC/", $os)){return "Mac OS X / Tiger>";
 	} else return "Inconnu";
 }
 ?>

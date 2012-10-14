@@ -115,7 +115,9 @@ if ($c->sql_numrows($resultat) == 0)
 	//
 	// SAISIE des commentaires autorise ?
 	if ($droits->check($module,0,'commenter') && $cf->config['blog_ok_coms'] == 1){ 
-		$tpl->assign_block_vars('commentaires_ok', array());
+		$cryptinstall = $root.'librairies/crypt/cryptographp.fct.php';
+		require_once($cryptinstall);
+		$tpl->assign_block_vars('commentaires_ok', array('CRYPT_CODE' => dsp_crypt()));
 		if ($user['user_id'] < 2 ) $tpl->assign_block_vars('commentaires_ok.user_non_authentifie', array());
 	}
 	
@@ -145,13 +147,14 @@ if ($c->sql_numrows($resultat) == 0)
 			$auteur = ($coms[$i]['user_id'] > 1)? formate_pseudo($coms[$i]['user_id'],$coms[$i]['PseudoUser']):(($coms[$i]['site'] != null)?'<a href="'.$coms[$i]['site'].'" target="_blank" class="pseudo">'.$coms[$i]['pseudo'].'</a>':$coms[$i]['pseudo']);
 			$D = explode(':',date('j:n:Y:H:i',$coms[$i]['date']));
 			$D = sprintf($lang['L_DATE'],$D[0],$D[1],$D[2],$D[3],$D[4]);
+			$site = (!preg_match("/^http:\/\//i",$coms[$i]['site']))?'http://'.$coms[$i]['site']:$coms[$i]['site'];
 			$tpl->assign_block_vars('liste_coms', array(
 				'DATE'		=> $D,
 				'AUTEUR'	=> $auteur,
 				'AVATAR'	=> $coms[$i]['avatar'],
 				'RANG'		=> ($coms[$i]['user_id']>1)?formate_rang($coms[$i]['rang'],$coms[$i]['nbre_msg']):'',
 				'MSG'		=> $post->bbcode2html($coms[$i]['msg']),
-				'SITE'		=> $coms[$i]['site'],
+				'SITE'		=> $site,
 				'DELETE'	=> formate_url('mode=saisie&action=supprimer_coms&id_billet='.$id_billet.'&id_com='.$coms[$i]['id_com'].'&jeton='.$jeton,true)
 			));
 			// on est admin ou l'auteur de ce billet

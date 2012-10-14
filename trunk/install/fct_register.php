@@ -40,10 +40,10 @@ if (isset($_POST['pseudo'])){
 	if ($_POST['pass1']=='')$lang['L_REMPLIR_TOUT'];
 	$n = 0;
 	if (strlen($_POST['pass1'])>5)$n++;
-	if (ereg("[A-Z]",$_POST['pass1'])) $n++;
-	if (ereg("[a-z]",$_POST['pass1'])) $n++;
-	if (ereg("[0-9]",$_POST['pass1'])) $n++;
-	if (ereg("[^a-zA-Z0-9]",$_POST['pass1'])) $n++;	
+	if (preg_match("/[A-Z]/",$_POST['pass1'])) $n++;
+	if (preg_match("/[a-z]/",$_POST['pass1'])) $n++;
+	if (preg_match("/[0-9]/",$_POST['pass1'])) $n++;
+	if (preg_match("/[^a-zA-Z0-9]/",$_POST['pass1'])) $n++;	
 	if ($n<=3){
 		die($lang['PASS1_NOK']);
 	}else{

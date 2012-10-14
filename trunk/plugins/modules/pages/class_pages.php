@@ -233,7 +233,7 @@ class Pages
 	}
 	
 	//
-	// Enregistrement des modifications apportées à la page
+	// Enregistrement des modifications apportÃ©es Ã  la page
 	function enregistrer_modification_page(){
 		global $c,$module,$root;
 		$sql = 'UPDATE '.TABLE_PAGES.' SET 
@@ -251,7 +251,7 @@ class Pages
 	}
 	
 	//
-	// Supprime la page demandée
+	// Supprime la page demandÃ©e
 	function supprimer_page(){
 		global $c,$module;
 		$sql = 'DELETE FROM '.TABLE_PAGES.' WHERE module=\''.$module.'\' AND id_page='.$this->id_page;
