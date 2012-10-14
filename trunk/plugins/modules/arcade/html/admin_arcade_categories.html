@@ -1,0 +1,118 @@
+<script type="text/javascript" src="js/affichage.js"></script>
+<h1 class="admin">{L_ARCADE_GESTION_CATEGORIES}</h1>
+<p>{L_ARCADE_GESTION_CATEGORIES_EXPLAIN}</p>
+
+<!-- BEGIN dossier_data_arcade -->
+<div class="bloc_admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" align="center" width="80%">
+	<tr>
+		<td class="rowAlerte" colspan="2" height="20"><b>{L_DOSSIER_DATA_ICONES_ARCADE}</b></td>
+	</tr>
+	</table>
+</div>
+<br />
+<!-- END dossier_data_arcade -->
+
+<table width="100%">
+<tr>
+	<td valign="top" width="300">
+	
+		<h2>{L_GESTION_CATEGORIE}</h2>
+		<form method="post" name="arcade">
+			<div class="bloc_admin">
+				<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+				<tr>
+					<th colspan="3">{L_GESTION_CATEGORIE}</th>
+				</tr>
+				<tr>
+					<td class="row1">{L_MODULE}</td>
+					<td class="row2"><select name="module">{SELECT_MODULE}</select></td>
+					<td class="row2 middle center" rowspan="2"><img src="{ICONE_PAR_DEFAUT}" id="apercu" alt="" /></td>
+				</tr>
+				<tr>
+					<td class="row1">{L_SELECT_ICONE}</td>
+					<td class="row2">
+						<select name="icone" onkeyup="ChangeApercu(this.value,'apercu');" onchange="ChangeApercu(this.value,'apercu');">{SELECT_ICONE}</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="row1">{L_TITRE_CAT}</td>
+					<td class="row2" colspan="2"><input type="texte" name="titre_cat" value="{TITRE_CAT}" size="30" /></td>
+				</tr>
+				</table>
+				<div class="center"><input type="submit" name="ajouter" value="{L_ENREGISTRER}" /></div>
+				{HIDDEN_ACTION}
+			</div>
+		</form>
+	</td>
+	<td valign="top">
+
+		<!-- BEGIN liste_modules -->
+		<h2>{liste_modules.TITRE_SALLE} ({liste_modules.MODULE})</h2>
+		<div class="bloc_admin">
+			<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+			<tr>
+				<th colspan="2">{L_CATEGORIES}</th>
+				<th width="40">{L_NBRE_JEUX}</th>
+				<th colspan="2">{L_GERER}</th>
+			</tr>
+			<!-- BEGIN liste_cats -->
+			<tr>
+				<td class="row1 center" width="30">{liste_modules.liste_cats.ICONE}</td>
+				<td class="row1 left"><a href="{liste_modules.liste_cats.S_CAT}" class="cat">{liste_modules.liste_cats.TITRE_CAT}</a></td>
+				<td class="row1 center">{liste_modules.liste_cats.NBRE_JEUX_CATS}</td>
+				<td class="row1 justify" width="40">
+						<!-- BEGIN monter -->
+						<a href="{liste_modules.liste_cats.S_UP}" title="{L_DEPLACER}"><img src="{I_UP}" border="0" align="left" /></a>
+						<!-- END monter -->
+						<!-- BEGIN descendre -->
+						<a href="{liste_modules.liste_cats.S_DOWN}" title="{L_DEPLACER}"><img src="{I_DOWN}" border="0" align="right" /></a>
+						<!-- END descendre -->
+				</td>
+				<td class="row1 center" width="130">
+						<a href="{URL_MANAGE_JEUX}{liste_modules.liste_cats.ID_CAT}" title="{L_GERER_LES_JEUX}"><img src="{I_EXPLORER}" alt="{L_GERER_LES_JEUX}" /></a>
+						<a href="{liste_modules.liste_cats.S_EDIT}" title="{L_EDITER}"><img src="{I_EDITER}" alt="{L_EDITER}" border="0" /></a>
+						<a href="{liste_modules.liste_cats.S_SUPP}" title="{L_SUPPRIMER}"><img src="{I_EFFACER}" alt="{L_SUPPRIMER}" border="0" /></a>
+				</td>
+			</tr>
+			<!-- END liste_cats -->
+			<!-- BEGIN aucun_resultat -->
+			<tr>
+				<td colspan="5" class="row1 center">{L_AUCUNE_CATEGORIE}</td>
+			</tr>
+			<!-- END aucun_resultat -->
+			</table>
+		</div>
+		<br />
+		<!-- END liste_modules -->
+		
+		<h2>{L_JEUX_ORPHELINS}</h2>
+		<div class="bloc_admin">
+			<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+			<tr>
+				<th colspan="2">{L_CATEGORIES}</th>
+				<th width="40">{L_NBRE_JEUX}</th>
+				<th>{L_GERER}</th>
+			</tr>
+			<tr>
+				<td class="row1 center" width="30"><img src="{ICONE_ORPHELINS}" alt="{L_JEUX_ORPHELINS}" /></td>
+				<td class="row1 left"><span class="link1">{L_TITRE_CAT_ORPHELINS}</span></td>
+				<td class="row1 center">{NBRE_JEUX_ORPHELINS}</td>
+				<td class="row1 center" width="100">
+					<a href="{URL_MANAGE_JEUX}0" title="{L_GERER_LES_JEUX}"><img src="{I_EXPLORER}" alt="{L_GERER_LES_JEUX}" /></a>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</td>
+</tr>
+</table>
+	
+<br clear="all">
+
+<script type="text/javascript">
+function ChangeApercu(icone,div)
+{
+	document.getElementById(div).src = icone;
+}
+</script>

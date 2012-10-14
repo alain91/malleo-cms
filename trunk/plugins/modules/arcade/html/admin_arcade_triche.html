@@ -1,0 +1,71 @@
+<script type="text/javascript" src="js/affichage.js"></script>
+<h1 class="admin">{L_ARCADE_GESTION_TRICHE}</h1>
+<p>{L_ARCADE_GESTION_TRICHE_EXPLAIN}</p>
+
+<!-- BEGIN aucun_rapport -->
+<div class="bloc_admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" align="center" width="80%">
+	<tr>
+		<td class="rowAlerte" colspan="2" height="20"><b>{L_AUCUN_RAPPORT_TRICHE}</b></td>
+	</tr>
+	</table>
+</div>
+<br />
+<!-- END aucun_rapport -->
+
+
+<!-- BEGIN liste_jours -->
+<form name="page_triche{liste_jours.CPT}" id="page_triche{liste_jours.CPT}" method="post">
+<h2>{liste_jours.JOUR} </h2>
+<div class="bloc_admin">
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th colspan="2">{L_JEUX}</th>
+		<th width="60">{L_PLAYER}</th>
+		<th width="40">{L_DATE}</th>
+		<th width="40">{L_SCORE}</th>
+		<th width="100">{L_TIMEFLASH}</th>
+		<th width="100">{L_REALTIME}</th>
+		<th width="30">{L_TRICHE_FPS}</th>
+		<th width="80">{L_TYPE_TRICHE}</th>
+		<th width="20">#</th>
+	</tr>
+	<!-- BEGIN liste_rapports -->
+	<tr>
+		<td class="row1 center" width="40"><img src="{liste_jours.liste_rapports.IMAGE_PETITE}" alt="{liste_jours.liste_rapports.NOM_JEU}" /></td>
+		<td class="row1 left"><span class="link1">{liste_jours.liste_rapports.NOM_JEU}</span></td>		
+		<td class="row1 center">{liste_jours.liste_rapports.PSEUDO}</td>
+		<td class="row1 center">{liste_jours.liste_rapports.DATE}</td>
+		<td class="row1 center">{liste_jours.liste_rapports.SCORE}</td>
+		<td class="row1 center">{liste_jours.liste_rapports.TIMEFLASH}</td>
+		<td class="row1 center">{liste_jours.liste_rapports.REALTIME}</td>
+		<td class="row1 center">{liste_jours.liste_rapports.FPS}</td>
+		<td class="row1 center">{liste_jours.liste_rapports.TYPE_TRICHE}</td>
+		<td class="row1 center"><input type="checkbox" name="id_triche[]" value="{liste_jours.liste_rapports.ID_TRICHE}" /></td>
+	</tr>
+	<!-- END liste_rapports -->
+	</table>
+</div>
+<div class="right">
+	<a href="javascript:;" onclick="cocher_checkbox('page_triche{liste_jours.CPT}');">{L_COCHER}</a> / <a href="javascript:;" onclick="decocher_checkbox('page_triche{liste_jours.CPT}');">{L_DECOCHER}</a><br /><br />
+	<input type="submit" name="supprimer_rapports" value="{L_SUPPRIMER_LES_RAPPORTS}" />&nbsp;
+	<input type="submit" name="retablir_scores" value="{L_RETABLIR_SCORES}" />&nbsp;
+</div>
+</form>
+
+<br />
+<div class="right">
+	<form name="page_triche_tout" method="post">
+	<input type="submit" name="supprimer_tous_les_rapports" value="{L_SUPPRIMER_TOUS_LES_RAPPORTS}" />
+	</form>
+</div>
+<!-- END liste_jours -->
+<br />
+<h2>{L_LEGENDE}</h2>
+	<p>
+	<b>{L_TRICHE_SCOREFAKE}</b>: {L_TRICHE_SCOREFAKE_EXPLAIN}<br />
+	<b>{L_TRICHE_VARIABLE}</b>: {L_TRICHE_VARIABLE_EXPLAIN}<br />
+	<b>{L_TRICHE_FLASHTIME}</b>: {L_TRICHE_FLASHTIME_EXPLAIN}<br />
+	<b>{L_TRICHE_FPS}</b>: {L_TRICHE_FPS_EXPLAIN}
+	</p>
+<br clear="all">

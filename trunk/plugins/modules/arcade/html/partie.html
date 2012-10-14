@@ -1,0 +1,94 @@
+<script language="Javascript" type="text/javascript">
+// Augmenter la resolution du jeu
+function augmenter()
+{
+	var largeurmax = {LARGEURMAX};
+	var hauteurmax = {HAUTEURMAX};
+	var largeurdiv = parseInt(document.getElementById("flashgame").style.width) * 1.1;
+	var hauteurdiv = parseInt(document.getElementById("flashgame").style.height) * 1.1;
+	var centrerhauteur = -((parseInt(document.getElementById("flashgame").style.height) / 2)+32);
+	var centrerlargeur = -(parseInt(document.getElementById("flashgame").style.width) / 2);
+	if(largeurdiv > largeurmax)
+	{
+		document.getElementById("flashgame").style.cssText = 'left: 50%; margin-left: '+centrerlargeur+'px; top: 50%; margin-top: '+centrerhauteur+'px; width: '+largeurdiv+'px; height: '+hauteurdiv+'px; position:absolute; ';
+	}else{
+		document.getElementById("flashgame").style.cssText = 'margin: 0 auto; width: '+largeurdiv+'px; height: '+hauteurdiv+'px;';
+	}
+}
+
+// Diminuer la resolution du jeu
+function diminuer()
+{
+	var largeurmax = {LARGEURMAX};
+	var hauteurmax = {HAUTEURMAX};
+	var largeurdiv = parseInt(document.getElementById("flashgame").style.width) / 1.1;
+	var hauteurdiv = parseInt(document.getElementById("flashgame").style.height) / 1.1;
+	var centrerhauteur = -((hauteurdiv / 2)+32);
+	var centrerlargeur = -(largeurdiv / 2);
+	
+	if(largeurdiv > largeurmax)
+	{
+		document.getElementById("flashgame").style.cssText = 'left: 50%; margin-left: '+centrerlargeur+'px; top: 50%; margin-top: '+centrerhauteur+'px; width: '+largeurdiv+'px; height: '+hauteurdiv+'px; position:absolute; ';
+	}else{
+		document.getElementById("flashgame").style.cssText = 'margin: 0 auto; width: '+largeurdiv+'px; height: '+hauteurdiv+'px;';
+	}
+}
+</script>
+
+<!-- BEGIN erreur_saisie -->
+<div class="admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" width="80%" align="center">
+		<tr>
+			<td class="rowAlerte center" height="20"><b>{ALERTE_ERREUR_SAISIE}</b></td>
+		</tr>
+	</table>
+</div>
+<br />
+<!-- END erreur_saisie -->
+<div class="bloc" style="position: relative; z-index: 10;">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+<!-- BEGIN lancement_jeu -->
+<tr>
+	<th colspan="2">{lancement_jeu.nom_jeu}</th>
+</tr>
+<!-- BEGIN dessus -->
+<tr>
+	<td class="row1 justify abstop" colspan="2">{FICHE}</td>
+</tr>
+<!-- END dessus -->
+<tr>
+	<!-- BEGIN gauche -->
+	<td class="row1 justify abstop">{FICHE}</td>
+	<!-- END gauche -->
+	<td class="row1 center" valign="top" style="text-align:center;">
+		<div class="center" id="flashgame" style="margin: 0px auto; width:{lancement_jeu.largeur}px; height: {lancement_jeu.hauteur}px; ">
+			<object id="Flash" type="application/x-shockwave-flash" data="{lancement_jeu.nom_swf}" width="90%" height="90%">
+				<param name="movie" value="{lancement_jeu.nom_swf}"/>
+				<param name="flashvars" value="module={MODULE}&id_session={ID}" value="allowResize=true"/>
+				<param name="type" value="application/x-shockwave-flash" />
+				<param name="pluginspage" value="http://www.macromedia.com/go/getflashplayer/" />
+				<param name="menu" value="false" />
+				<embed id="Flash" src="{lancement_jeu.nom_swf}" flashvars="module={MODULE}&id_session={ID}" menu="false" type="application/x-shockwave-flash" width="90%" height="90%" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+			</object><br />
+			<img onclick="augmenter();" title="{L_AUGMENTER}" src="{I_AUGMENTER}" style="text-decoration: none; cursor: pointer;"/>&nbsp;&nbsp;
+			<img onclick="diminuer();" title="{L_DIMINUER}" src="{I_DIMINUER}" style="text-decoration: none; cursor: pointer;"/>
+		</div>
+	</td>
+	<!-- BEGIN droite -->
+	<td class="row1 justify abstop">{FICHE}</td>
+	<!-- END droite -->
+</tr>
+<!-- BEGIN dessous -->
+<tr>
+	<td class="row1 justify abstop" colspan="2">{FICHE}</td>
+</tr>
+<!-- END dessous -->
+<!-- END lancement_jeu -->
+<!-- BEGIN aucun_resultat -->
+<tr>
+	<td class="row1 center">{L_AUCUN_JEU_NE_CORRESPOND}<br /><br /><a href="{URL_ACCUEIL}">{L_REVENIR_ACCUEIL_ARCADE}</a></td>
+</tr>
+<!-- END aucun_resultat -->
+</table>
+
+</div>

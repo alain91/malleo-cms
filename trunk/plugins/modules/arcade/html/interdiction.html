@@ -1,0 +1,65 @@
+<table cellpadding="1" cellspacing="1" class="Alerte" width="100%">
+	<tr>
+		<td class="rowAlerte left" height="20"><span class="left"><b>
+		<!-- BEGIN interdiction_jouer -->
+		{L_INTERDICTION_JOUER_ALERTE}
+		<!-- END interdiction_jouer -->
+		<!-- BEGIN interdiction_voir -->
+		{L_INTERDICTION_VOIR_ALERTE}
+		<!-- END interdiction_voir -->
+		</b></span></td>
+	</tr>
+</table>
+<br />
+	{L_INTERDICTION_JOUER_DETAILS}
+
+<br />
+<h2>{L_COMMENT_DEVENIR_MEMBRE}</h2>
+<!-- BEGIN user_non_authentifie -->
+<table class="standard" width="100%">
+<tr>
+	<td width="66%" valign="top">
+		<form name="etape1" action="register.php" method="post">
+			<div class="bloc">
+				<table cellpadding="1" cellspacing="1" class="standard" width="100%" height="130" align="center">
+				<tr>
+					<th colspan="2">{L_REGISTER_SITE}</th>
+				</tr>
+				<tr>
+					<td class="row1"><div style="overflow:auto;z-index:-10;height:80px;">{REGLEMENT}</div></td>
+				</tr>
+				<tr>
+					<td class="row2">{L_CHECK} <input type="checkbox" name="validation" onClick="if(this.checked){ document.etape1.valider.disabled = false;}else if(this.checked ==false){document.etape1.valider.disabled =true;} " /></td>
+				</tr>
+				</table>
+			</div>
+			<div class="center">
+				<input type="hidden" name="etape" value="{ETAPE}" />
+				<input type="submit" name="valider" value="{L_INSCRIPTION}" disabled />
+			</div>
+		</form>
+	</td>
+	<td width="33%" valign="top">
+		<form name="bloc_login" method="post" action="login.php">
+		<div class="bloc">
+		<table cellpadding="1" cellspacing="1" class="standard" width="100%" height="130">
+			<tr>
+				<th>{TITRE_LOGIN}</th>
+			</tr>
+			<tr>
+				<td class="row1">{LOGIN_LOGIN}:<br /><input type="text" name="login" value="" /></td>
+			</tr>
+			<tr>
+				<td class="row2">{LOGIN_MDP}:<br /><input type="password" name="pass" value="" /></td>
+			</tr>
+			<tr>
+				<td class="row1"><input type="checkbox" value="ok" name="cookie" checked="checked" /> {LOGIN_COOKIE_BLOC}</td>
+			</tr>
+		</table>
+		</div>
+		<div class="center"><input type="submit" value="{LOGIN_AUTHENTIFIER}" name="authentifier" /></div>
+		</form>
+	</td>
+</tr>
+</table>
+<!-- END user_non_authentifie -->

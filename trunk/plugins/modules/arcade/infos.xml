@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<module>
+	<libelle>Arcade Flash</libelle>
+	<version>1.1</version>
+	<version_min>1</version_min>
+	<auteur>SP</auteur>
+	<site_auteur>http://www.malleo-cms.com</site_auteur>
+	<check_version>http://www.malleo-cms.com/versions/arcade.txt</check_version>
+	<install>
+		<requete>CREATE TABLE `a_mod_arcade_cats` (
+		`id_cat` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+		`module` VARCHAR( 30 ) NOT NULL ,
+		`titre_cat` VARCHAR( 255 ) NOT NULL ,
+		`nbre_jeux_cat` INT UNSIGNED NOT NULL DEFAULT '0',
+		`icone` VARCHAR( 255 ) NULL ,
+		`ordre` INT UNSIGNED NOT NULL DEFAULT '999',
+		PRIMARY KEY ( `id_cat` ) , INDEX ( `module` ))
+		  ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</requete>
+		<requete>CREATE TABLE `a_mod_arcade_jeux` (
+		`id_jeu` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+		`dossier_jeu` VARCHAR( 255 ) NOT NULL ,
+		`nom_jeu` VARCHAR( 255 ) NOT NULL ,
+		`description` TEXT NULL ,
+		`variable` VARCHAR( 100 ) NOT NULL,
+		`nom_swf` VARCHAR( 255 ) NOT NULL,
+		`controles` CHAR( 1 ) NOT NULL DEFAULT '0',
+		`actif` BINARY NOT NULL DEFAULT '1',
+		`score_sens` BINARY NOT NULL DEFAULT '1',
+		`score_max` INT NULL ,
+		`score_max_user_id` INT UNSIGNED NULL ,
+		`score_ultime` INT NULL ,
+		`score_ultime_user_id` INT UNSIGNED NULL ,
+		`temps_partie` INT UNSIGNED NOT NULL DEFAULT '0',
+		`nbre_parties` INT UNSIGNED NOT NULL DEFAULT '0',
+		`image_petite` VARCHAR( 255 ) NULL ,
+		`image_grande` VARCHAR( 255 ) NULL ,
+		`largeur` INT UNSIGNED NOT NULL DEFAULT '400',
+		`hauteur` INT UNSIGNED NOT NULL DEFAULT '300',
+		`fps` TINYINT UNSIGNED NOT NULL DEFAULT '20',
+		`date_ajout` INT UNSIGNED NOT NULL ,
+		PRIMARY KEY ( `id_jeu` ) ,	INDEX ( `dossier_jeu` ))
+		 ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</requete>
+		<requete>CREATE TABLE `a_mod_arcade_cats_jeux` (
+		`id_cat` INT UNSIGNED NOT NULL ,
+		`id_jeu` INT UNSIGNED NOT NULL ,
+		PRIMARY KEY ( `id_cat` , `id_jeu` ))
+		 ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</requete>
+		<requete>CREATE TABLE `a_mod_arcade_modules` (
+		`module` VARCHAR( 30 ) NOT NULL ,
+		`titre_salle` VARCHAR( 255 ) NULL ,
+		`description_salle` TINYTEXT NULL ,
+		`affichage_fiche_jeux` TINYINT NOT NULL DEFAULT '1',
+		`affichage_jeu` TINYINT NOT NULL DEFAULT '1',
+		`nbre_colonnes_jeux` INT UNSIGNED NOT NULL DEFAULT '1',
+		`affichage_mod` VARCHAR( 30 ) NOT NULL DEFAULT 'cats',
+		`nbre_colonnes` INT UNSIGNED NOT NULL DEFAULT '1',
+		`nbre_jeux_page` INT UNSIGNED NOT NULL DEFAULT '20',
+		`activer_favoris` BINARY NOT NULL DEFAULT '1',
+		`activer_mail_champion` BINARY NOT NULL DEFAULT '1',
+		`activer_mp_champion` BINARY NOT NULL DEFAULT '1',
+		PRIMARY KEY ( `module` ))
+		ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</requete>
+		<requete>CREATE TABLE `a_mod_arcade_scores` (
+		`id_score` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+		`id_jeu` INT UNSIGNED NOT NULL ,
+		`user_id` INT UNSIGNED NOT NULL ,
+		`date_score` INT UNSIGNED NOT NULL ,
+		`score` INT NOT NULL DEFAULT '0',
+		`temps_partie` INT UNSIGNED NOT NULL DEFAULT '0',
+		`nbre_parties` INT UNSIGNED NOT NULL DEFAULT '0',
+		PRIMARY KEY ( `id_score` ) ,
+		INDEX ( `id_jeu` , `user_id` ))
+		 ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</requete>
+		<requete>CREATE TABLE `a_mod_arcade_sessions` (
+		`id_session` int(10) unsigned NOT NULL auto_increment,
+		`clef_session` INT( 30 ) unsigned NULL default NULL,
+		`id_jeu` int(10) unsigned NOT NULL,
+		`dossier_jeu` varchar(255)  NOT NULL,
+		`user_id` int(10) unsigned NOT NULL,
+		`debut_session` int(10) unsigned default NULL,
+		`fin_session` int(10) unsigned default NULL,
+		PRIMARY KEY  (`id_session`),
+		KEY `clef_session` (`clef_session`,`id_jeu`,`user_id`,`dossier_jeu`))
+		 ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</requete>
+		<requete>CREATE TABLE `a_mod_arcade_triches` (
+		  `id_triche` int(11) unsigned NOT NULL auto_increment,
+		  `user_id` int(11) unsigned NOT NULL default '1',
+		  `id_jeu` int(11) unsigned NOT NULL default '0',
+		  `score` INT default '0',
+		  `date` int(11) unsigned NOT NULL default '0',
+		  `flashtime` int(11) unsigned NOT NULL default '0',
+		  `temps_reel` int(11) unsigned NOT NULL default '0',
+		  `fps` TINYINT UNSIGNED NOT NULL default '0',
+		  `type_triche` int(11) NOT NULL DEFAULT '3',
+		  PRIMARY KEY  (`id_triche`),
+		  KEY `user_id` (`user_id`,`id_jeu`))
+		  ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</requete>
+		<requete>INSERT INTO `a_config` (`data` ,`valeur`) VALUES 
+				('arcade_time_tolerance', '20'), ('arcade_fps_tolerance', '40'),
+				('arcade_largeur_max', '450'), ('arcade_hauteur_max', '450');</requete>
+		<requete>INSERT INTO `a_modelisation_tables` (`nom_champs` ,`type_saisie` ,`lang` ,`param` ,`page`)
+			VALUES ('arcade_time_tolerance', 'text', 'L_ARCADE_TIME_TOLERANCE', '10', 'Arcade'), 
+				('arcade_fps_tolerance', 'text', 'L_ARCADE_FPS_TOLERANCE', '10', 'Arcade'),
+				('arcade_largeur_max', 'text', 'L_ARCADE_LARGEUR_MAX', '10', 'Arcade'),
+				('arcade_hauteur_max', 'text', 'L_ARCADE_HAUTEUR_MAX', '10', 'Arcade');</requete>
+		<requete>CREATE TABLE `a_mod_arcade_favoris` (
+		`user_id` INT UNSIGNED NOT NULL ,
+		`id_jeu` INT UNSIGNED NOT NULL ,
+		PRIMARY KEY ( `user_id` , `id_jeu` ))
+		 ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</requete>
+	</install>
+</module>

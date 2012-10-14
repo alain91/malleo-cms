@@ -1,0 +1,156 @@
+<h1 class="admin">{L_ARCADE_GESTION_SALLES}</h1>
+<p>{L_ARCADE_GESTION_SALLES_EXPLAIN}</p>
+
+
+<!-- BEGIN liste_modules -->
+<h2>{liste_modules.MODULE}</h2>
+<table width="100%">
+<tr>
+	<td width="65%">
+		<form name="parametres_configuration_{liste_modules.MODULE}" method="post" action="">
+		<div class="bloc_admin">
+			<table cellpadding="1" cellspacing="1" width="100%" class="standard">
+			<tr>
+				<th colspan="2">{L_CONFIGURER}</th>
+			</tr>
+			<!-- Liste des parametrages de configuration -->
+			<tr>
+				<td class="row1 left">{L_TITRE_SALLE}</td>
+				<td class="row2"><input type="text" name="titre_salle" size="30" value="{liste_modules.TITRE_SALLE}" /></td>
+			</tr>
+			<tr>
+				<td class="row1 left">{L_DESCRIPTION_SALLE}</td>
+				<td class="row2"><textarea name="description_salle" style="width:98%;">{liste_modules.DESCRIPTION_SALLE}</textarea></td>
+			</tr>
+			
+			<tr>
+				<td class="row1 left">{L_AFFICHAGE_FICHE_JEUX}</td>
+				<td class="row2">
+					<select name="affichage_fiche_jeux">
+						<option value="0"{liste_modules.AFFICHAGE_FICHE_JEUX_0}>{L_AUCUN}</option>
+						<option value="1"{liste_modules.AFFICHAGE_FICHE_JEUX_1}>{L_GAUCHE}</option>
+						<option value="2"{liste_modules.AFFICHAGE_FICHE_JEUX_2}>{L_DROITE}</option>
+						<option value="3"{liste_modules.AFFICHAGE_FICHE_JEUX_3}>{L_DESSUS}</option>
+						<option value="4"{liste_modules.AFFICHAGE_FICHE_JEUX_4}>{L_DESSOUS}</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="row1 left">{L_AFFICHAGE_JEU}</td>
+				<td class="row2">
+					<select name="affichage_jeu">
+						<option value="1"{liste_modules.AFFICHAGE_JEU_1}>{L_CLASSIQUE}</option>
+						<option value="2"{liste_modules.AFFICHAGE_JEU_2}>{L_YEPYOP}</option>
+						<option value="3"{liste_modules.AFFICHAGE_JEU_3}>{L_MUR}</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="row1 left">{L_NBRE_COLONNES_JEUX}</td>
+				<td class="row2">
+					<select name="nbre_colonnes_jeux">
+						<option{liste_modules.NBRE_COLONNES_JEUX_1}>1</option>
+						<option{liste_modules.NBRE_COLONNES_JEUX_2}>2</option>
+						<option{liste_modules.NBRE_COLONNES_JEUX_3}>3</option>
+						<option{liste_modules.NBRE_COLONNES_JEUX_4}>4</option>
+						<option{liste_modules.NBRE_COLONNES_JEUX_5}>5</option>
+						<option{liste_modules.NBRE_COLONNES_JEUX_6}>6</option>
+						<option{liste_modules.NBRE_COLONNES_JEUX_7}>7</option>
+						<option{liste_modules.NBRE_COLONNES_JEUX_8}>8</option>
+						<option{liste_modules.NBRE_COLONNES_JEUX_9}>9</option>
+						<option{liste_modules.NBRE_COLONNES_JEUX_10}>10</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="row1 left">{L_AFFICHAGE_MOD}</td>
+				<td class="row2">
+					<select name="affichage_mod">
+						<option value="recents"		{liste_modules.AFFICHAGE_MOD_recents}>		{L_AFFICHAGE_RECENTS}</option>
+						<option value="populaires"	{liste_modules.AFFICHAGE_MOD_populaires}>	{L_AFFICHAGE_POPULAIRES}</option>
+						<option value="impopulaires"{liste_modules.AFFICHAGE_MOD_impopulaires}>	{L_AFFICHAGE_IMPOPULAIRES}</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="row1 left">{L_NBRE_COLONNES}</td>
+				<td class="row2">
+					<select name="nbre_colonnes">
+						<option{liste_modules.NBRE_COLONNES_1}>1</option>
+						<option{liste_modules.NBRE_COLONNES_2}>2</option>
+						<option{liste_modules.NBRE_COLONNES_3}>3</option>
+						<option{liste_modules.NBRE_COLONNES_4}>4</option>
+						<option{liste_modules.NBRE_COLONNES_5}>5</option>
+						<option{liste_modules.NBRE_COLONNES_6}>6</option>
+						<option{liste_modules.NBRE_COLONNES_7}>7</option>
+						<option{liste_modules.NBRE_COLONNES_8}>8</option>
+						<option{liste_modules.NBRE_COLONNES_9}>9</option>
+						<option{liste_modules.NBRE_COLONNES_10}>10</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="row1 left">{L_NBRE_JEUX_PAR_PAGE}</td>
+				<td class="row2">
+					<select name="nbre_jeux_page">
+						<option{liste_modules.NBRE_JEUX_PAR_PAGE_10}>10</option>
+						<option{liste_modules.NBRE_JEUX_PAR_PAGE_20}>20</option>
+						<option{liste_modules.NBRE_JEUX_PAR_PAGE_30}>30</option>
+						<option{liste_modules.NBRE_JEUX_PAR_PAGE_50}>50</option>
+						<option{liste_modules.NBRE_JEUX_PAR_PAGE_100}>100</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td class="row1 left">{L_ACTIVER_FAVORIS}</td>
+				<td class="row2">
+					<input type="radio" name="activer_favoris" value="1"{liste_modules.ACTIVER_FAVORIS_1} /> {L_OUI}
+					<input type="radio" name="activer_favoris" value="0"{liste_modules.ACTIVER_FAVORIS_0} /> {L_NON}
+				</td>
+			</tr>
+			<tr>
+				<td class="row1 left">{L_ACTIVER_MAIL_CHAMPION}</td>
+				<td class="row2">
+					<input type="radio" name="activer_mail_champion" value="1"{liste_modules.ACTIVER_MAIL_CHAMPION_1} /> {L_OUI}
+					<input type="radio" name="activer_mail_champion" value="0"{liste_modules.ACTIVER_MAIL_CHAMPION_0} /> {L_NON}
+				</td>
+			</tr>
+			<tr>
+				<td class="row1 left">{L_ACTIVER_MP_CHAMPION}</td>
+				<td class="row2">
+					<input type="radio" name="activer_mp_champion" value="1"{liste_modules.ACTIVER_MP_CHAMPION_1} /> {L_OUI}
+					<input type="radio" name="activer_mp_champion" value="0"{liste_modules.ACTIVER_MP_CHAMPION_0} /> {L_NON}
+				</td>
+			</tr>
+			</table>
+			<div class="center"><input type="submit" name="enregistrer" value="{L_ENREGISTRER}" /></div>
+		</div>
+		<input type="hidden" name="module" value="{liste_modules.MODULE}" />
+		<input type="hidden" name="action" value="enregistrer" />
+		</form>
+	
+	</td><td valign="top">
+		<div class="bloc_admin">
+			<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+			<tr><th>{L_OPTIONS_GENERALES}</th></tr>
+			<tr><td class="row1 left"><a href="{U_GESTION_CATEGORIES}{liste_modules.MODULE}">{L_GERER_CATEGORIES}</a></td></tr>
+			<tr><td class="row1 left"><a href="{U_INSTALLER_JEUX}{liste_modules.MODULE}">{L_INSTALLER_JEUX}</a></td></tr>
+			</table>
+		</div>
+		<br />
+		<br />
+		<div class="bloc_admin">
+			<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+			<tr><th>{L_OPTIONS_SPECIALES}</th></tr>
+			<tr><td class="row1 left"><a href="{liste_modules.U_METTRE_0_SCORES}">{L_METTRE_0_SCORES}</a></td></tr>
+			<tr><td class="row1 left"><a href="{liste_modules.U_METTRE_0_SCORES_ULTIMES}">{L_METTRE_0_SCORES_ULTIMES}</a></td></tr>
+			<tr><td class="row1 left"><a href="{liste_modules.U_DESACTIVER_JEUX}">{L_DESACTIVER_JEUX}</a></td></tr>
+			<tr><td class="row1 left"><a href="{liste_modules.U_ACTIVER_JEUX}">{L_ACTIVER_JEUX}</a></td></tr>
+			</table>
+		</div>
+	
+	</td>
+</tr>
+</table>
+<!-- END liste_modules -->
+<br />

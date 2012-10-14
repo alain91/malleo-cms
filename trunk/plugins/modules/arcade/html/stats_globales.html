@@ -1,0 +1,42 @@
+<h2>{L_CHIFFRES}</h2>
+<div class="bloc">
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<td class="row1">
+			<ul>
+			<li>{X_JEUX_INSTALLES}</li>
+			<li>{X_PARTIES_JOUEES}</li>
+			<li>{X_TEMPS_DE_JEU}</li>
+			<li>{MRX_RECORD_PARTIES}</li>
+			<li>{MRX_RECORD_JEUX}</li>
+			<li>{MRX_RECORD_TEMPS}</li>
+			<li>{MRX_RECORD_VICTOIRES}</li>
+			<li>{MRX_RECORD_VICTOIRES_ULTIMES}</li>
+			</ul>
+		</td>
+	</tr>
+	</table>
+</div>
+
+<h2>{L_3_CHAMPIONS}</h2>
+<div class="bloc">
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<!-- BEGIN top_classement -->
+		<th width="33%">{top_classement.place}</th>
+		<!-- END top_classement -->
+	</tr>
+	<tr>
+		<!-- BEGIN top_classement -->
+		<td class="row{top_classement.place} center abstop">
+			{top_classement.score_max_user_id}<br />
+			<img src="{top_classement.avatar}" alt="" /><br />
+			{top_classement.nbre_victoires} {L_VICTOIRES}<br />
+		</td>
+		<!-- END top_classement -->
+	</tr>
+	</table>
+</div>
+<h2>{L_TOP_FAVORIS}</h2>
+{TOP_FAVORIS}
+

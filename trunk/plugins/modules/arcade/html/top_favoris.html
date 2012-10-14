@@ -1,0 +1,38 @@
+<script type="text/javascript" src="librairies/lightbox/prototype.js"></script>
+<script type="text/javascript" src="librairies/lightbox/scriptaculous.js?load=effects,builder"></script>
+<script type="text/javascript" src="librairies/lightbox/lightbox.js"></script>
+<script type="text/javascript" src="plugins/modules/arcade/html/Arcadelightbox.js"></script>
+<link rel="stylesheet" href="plugins/modules/arcade/html/lightbox.css" type="text/css" media="screen" />
+<div class="bloc">
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th colspan="2">{L_JEUX}</th>
+		<th class="center" width="80" nowrap="nowrap">{L_NBRE_FAVORIS}</th>
+		<th class="center" width="80" nowrap="nowrap">{L_TEMPS_PERSO}</th>
+		<th class="center" width="80" nowrap="nowrap">{L_NBRE_PARTIES_PERSO}</th>
+		<th class="center" width="80" nowrap="nowrap">{L_TON_SCORE}</th>
+		<th class="center" width="80" nowrap="nowrap">{L_MEILLEUR_SCORE}</th>
+	</tr>
+	<!-- BEGIN liste_favoris -->
+	<tr>
+		<td class="row1 center middle" width="50"><a href="{URL_JEU}{liste_favoris.id_jeu}" title="{L_JOUER_CE_JEU}"><img src="{liste_favoris.image_petite}" alt="{liste_favoris.nom_jeu}" /></a></td>
+		<td class="row1 left" nowrap="nowrap"><a href="{URL_JEU}{liste_favoris.id_jeu}" title="{L_JOUER_CE_JEU}">{liste_favoris.nom_jeu}</a>&nbsp;
+		<!-- BEGIN popup -->
+		<a href="javascript:void(0);" onClick="initArcadeLightbox('module={MODULE}&mode=partie_popup&id_jeu={liste_favoris.id_jeu}',{liste_favoris.largeur},{liste_favoris.hauteur});" title="{L_POPUP}"><img src="{I_POPUP}" alt="{L_POPUP}" /></a>
+		<!-- END popup -->
+		</td>
+		<td class="row1 center">{liste_favoris.nbre_favoris}</td>
+		<td class="row1 center" nowrap="nowrap">{liste_favoris.temps_partie}</td>
+		<td class="row1 center">{liste_favoris.nbre_parties}</td>
+		<td class="row1 center">{liste_favoris.score}</td>
+		<td class="row1 left" nowrap="nowrap">{liste_favoris.score_max_user_id} {liste_favoris.score_max}</td>
+	</tr>
+	<!-- END liste_favoris -->
+	<!-- BEGIN aucun_favoris -->
+	<tr>
+		<td class="row1 center" colspan="7">{L_AUCUN_JEU}</td>
+	</tr>
+	<!-- END aucun_favoris -->
+	</table>
+</div>
+<br clear="all" />
