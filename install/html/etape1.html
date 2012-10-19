@@ -1,0 +1,46 @@
+<table width="100%">
+<tr>
+	<td width="200" align="left" valign="top" nowrap="nowrap">
+		<a href="index.php" class="link3">{L_ACCUEIL}</a><br />
+		{L_LIBELLE_ETAPE1}<br />
+	</td>
+	<td align="left">
+		<div class="bloc">
+			<table class="standard" width="100%">
+			<tr>
+				<td class="row1" align="left">
+					{L_EXPLAIN_VERIF_VERSIONS}<br />
+					<br />
+					<b>{L_VERSIONS}</b>:<br />
+					<ul>
+					<!-- BEGIN liste_versions -->
+						<li><img src="{liste_versions.ICONE}" alt="" /> {liste_versions.EXT}</li>
+					<!-- END liste_versions -->
+					</ul>
+					<br />
+					<b>{L_EXTENSIONS}</b>:<br />
+					<ul>
+					<!-- BEGIN liste_extensions -->
+						<li><img src="{liste_extensions.ICONE}" alt="" /> {liste_extensions.EXT}</li>
+					<!-- END liste_extensions -->
+					</ul>
+					<b>{L_FONCTIONS}</b>:<br />
+					<ul>
+					<!-- BEGIN liste_fonctions -->
+						<li><img src="{liste_fonctions.ICONE}" alt="" /> {liste_fonctions.EXT}</li>
+					<!-- END liste_fonctions -->
+					</ul>
+				</td>
+			</tr>
+			</table>
+		</div>
+		<form name="form_installation" method="post" action="?etape=2">
+			<div class="center">
+			<!-- BEGIN alerte_correction -->
+			{L_ALERTE_CORRECTION}<br />
+			<!-- END alerte_correction -->
+			<input type="submit" name="etape_suivante" value="{L_LIBELLE_ETAPE2} >>"{DISABLED} /></div>
+		</form>
+	</td>
+</tr>
+</table>
