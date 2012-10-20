@@ -5,7 +5,7 @@
 		<th width="5%"></th>
 		<th width="55%">{L_SOUS_FORUMS}</th>
 		<th width="10%">{L_TOPICS}</th>
-		<th width="10%">{L_LECTURES}</th>
+		<th width="10%">{L_REPONSES}</th>
 		<th width="20%">Dernier message</th>
 	</tr>
     <!-- BEGIN forum -->
@@ -13,7 +13,7 @@
 		<td><img src="{sous_forum.forum.ICONE}" alt="{sous_forum.forum.TITRE}" /></a></td>
         <td><a href="{sous_forum.forum.URL}" class="link1">{sous_forum.forum.TITRE}</a></td>
         <td>{sous_forum.forum.NBRE_TOPICS}</td>
-        <td>NB message</td>
+        <td>{sous_forum.forum.NBRE_REPONSES}</td>
         <td>dernier message</td>
     </tr>
     <!-- END forum -->        

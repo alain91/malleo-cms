@@ -62,7 +62,6 @@ class forum
 				&& array_key_exists(0,$this->liste_forums[$id_cat])
 					&& sizeof($this->liste_forums[$id_cat][0])>0)
 		{
-			// passage niveau 0
 			foreach ($this->liste_forums[$id_cat][0] as $key=>$val)
 			{
 				if ($droits->check($module,$val['id_forum'],'voir')){
@@ -70,7 +69,8 @@ class forum
 						'LIEN_FORUM'	=> formate_url('mode=forum&id_forum='.$val['id_forum'],true),
 						'ICONE_FORUM'	=> 'data/icones_forum/'.$val['icone_forum'],
 						'NOM_FORUM'		=> $val['titre_forum'],
-						'NBRE_TOPICS'	=> $val['nbre_topics']
+						'NBRE_TOPICS'	=> $val['nbre_topics'],
+						'NBRE_REPONSES'	=> $val['nbre_reponses']
 					));
 				}
 			}
@@ -172,10 +172,12 @@ class forum
 	function affiche_sous_forums($affiche_recents=false,$handle_actif, $handle, $handle_recents)
 	{
 		global $c,$tpl,$cf,$droits,$module;
-		$sql = 'SELECT f.titre_forum, f.id_forum, f.icone_forum,f.nbre_topics 
-				FROM '.TABLE_FORUM_FORUMS.' as f 
-				WHERE f.parent_forum='.$this->id_forum.
-				' ORDER BY f.ordre ASC,f.id_forum ASC';
+		$sql = 'SELECT f.titre_forum, f.id_forum, f.icone_forum, f.nbre_topics, sum(t.reponses_topic) as reponse
+				FROM '.TABLE_FORUM_FORUMS.' as f
+                LEFT JOIN '.TABLE_FORUM_TOPICS.' as t ON (f.id_forum=t.id_forum)
+				WHERE f.parent_forum='.$this->id_forum.'
+                GROUP BY f.id_forum				
+                ORDER BY f.ordre ASC,f.id_forum ASC';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,704,__FILE__,__LINE__,$sql); 
 		if ($c->sql_numrows($resultat)>0)
 		{
@@ -536,11 +538,15 @@ class forum
 	{
 		global $c;
 		$sql = 'SELECT c.id_cat, c.titre_cat,
-					f.id_forum, f.titre_forum, f.status_forum, f.parent_forum, f.icone_forum,f.nbre_topics  
+					f.id_forum, f.titre_forum, f.status_forum, f.parent_forum, f.icone_forum,f.nbre_topics,
+                    sum(t.reponses_topic) as nbre_reponses
 				FROM  '.TABLE_FORUM_FORUMS.' as f 
 				LEFT JOIN '.TABLE_FORUM_CATS.' as c
 				ON (f.id_cat=c.id_cat)
+				LEFT JOIN '.TABLE_FORUM_TOPICS.' as t
+				ON (f.id_forum=t.id_forum)
 				WHERE c.module="'.$module.'"
+                GROUP BY f.id_forum
 				ORDER BY c.ordre ASC, f.ordre ASC, c.id_cat ASC, f.id_forum ASC';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql); 
 		$liste_forums=array();
