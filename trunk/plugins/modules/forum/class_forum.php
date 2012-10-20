@@ -72,21 +72,6 @@ class forum
 						'NOM_FORUM'		=> $val['titre_forum'],
 						'NBRE_TOPICS'	=> $val['nbre_topics']
 					));
-					// passage inferieur
-					if (array_key_exists($val['id_forum'],$this->liste_forums[$id_cat]))
-					{
-						$cpt=0;
-						foreach ($this->liste_forums[$id_cat][$val['id_forum']] as $k=>$v)
-						{
-							$tpl->assign_block_vars($handle.'.sousforums', array(
-								'VIRGULE'		=> ($cpt==0)?'':',',
-								'LIEN_FORUM'	=> formate_url('mode=forum&id_forum='.$v['id_forum'],true),
-								'ICONE_FORUM'	=> 'data/icones_forum/'.$v['icone_forum'],
-								'NOM_FORUM'		=> $v['titre_forum'],
-							));
-							$cpt++;
-						}
-					}
 				}
 			}
 		}

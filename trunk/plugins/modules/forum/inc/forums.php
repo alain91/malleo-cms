@@ -39,11 +39,12 @@ $start = (isset($_GET['start']) && $_GET['start']>0)? intval($_GET['start']):0;
 
 
 $tpl->set_filenames(array('forum'=>$root.'plugins/modules/forum/html/forum.html'));
-		
 
 //
 // INFOS sur le forum
-$sql = 'SELECT f.titre_forum, f.id_forum, f.icone_forum, f.status_forum, c.titre_cat, c.id_cat, c.desc_cat, count(t.id_forum)  as max
+$sql = 'SELECT f.titre_forum, f.id_forum, f.icone_forum, f.status_forum,
+            c.titre_cat, c.id_cat, c.desc_cat,
+            count(t.id_forum) as max
 		FROM '.TABLE_FORUM_FORUMS.' as f 
 		LEFT JOIN '.TABLE_FORUM_TOPICS.' as t 
 			ON (f.id_forum=t.id_forum) 
