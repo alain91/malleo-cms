@@ -6,6 +6,8 @@
 | Support: http://www.malleo-cms.com?module=forum
 |  Documentation : Support: http://www.malleo-cms.com?module=wiki
 |------------------------------------------------------------------------------------------------------------
+|  Author: Alain GANDON
+|  Copyright (c) 2012, Alain GANDON All Rights Reserved
 |  Author: Stephane RAJALU
 |  Copyright (c) 2008-2009, Stephane RAJALU All Rights Reserved
 |------------------------------------------------------------------------------------------------------------
