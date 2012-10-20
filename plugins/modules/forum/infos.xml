@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <module>
 	<libelle>Multiples Forums</libelle>
-	<version>1.3</version>
-	<version_min>1</version_min>
-	<auteur>SP</auteur>
+	<version>1.4</version>
+	<version_min>0</version_min>
+	<auteur>alain91</auteur>
 	<site_auteur>http://www.malleo-cms.com</site_auteur>
 	<check_version>http://www.malleo-cms.com/versions/forum.txt</check_version>
 	<install>
