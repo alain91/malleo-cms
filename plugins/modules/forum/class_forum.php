@@ -321,12 +321,13 @@ class forum
 		{
 			$tpl->set_filenames(array('liste_annonces'=>$root.'plugins/modules/forum/html/liste_topics_annonces.html'));
 			$class='row2';
+            $tpl->assign_block_vars('liste_topics_annonces', array());
 			while($row = $c->sql_fetchrow($resultat))
 			{
 				if ($droits->check($module,$row['id_forum'],'voir') 
 					&& $droits->check($module,$row['id_forum'],'lire')){
 					$class=($class=='row2')?'row1':'row2';
-					$tpl->assign_block_vars('liste_topics_annonces', array(
+					$tpl->assign_block_vars('liste_topics_annonces.topics', array(
 						'CLASS'			=> $class,
 						'AUTEUR'		=> formate_pseudo($row['ID_AUTEUR'],$row['PSEUDO_AUTEUR']),
 						'AUTEUR_REPONSE'=> formate_pseudo($row['ID_REPONSE'],$row['PSEUDO_REPONSE']),

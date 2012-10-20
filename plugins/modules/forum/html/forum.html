@@ -2,19 +2,18 @@
 <div class="bloc">
 <table cellpadding="1" cellspacing="1" class="standard" width="100%">
 	<tr>
-		<th width="5%"></th>
-		<th width="55%">{L_SOUS_FORUMS}</th>
+		<th width="60%" colspan="2">{L_SOUS_FORUMS}</th>
 		<th width="10%">{L_TOPICS}</th>
 		<th width="10%">{L_REPONSES}</th>
 		<th width="20%">Dernier message</th>
 	</tr>
     <!-- BEGIN forum -->
 	<tr>
-		<td><img src="{sous_forum.forum.ICONE}" alt="{sous_forum.forum.TITRE}" /></a></td>
-        <td><a href="{sous_forum.forum.URL}" class="link1">{sous_forum.forum.TITRE}</a></td>
-        <td>{sous_forum.forum.NBRE_TOPICS}</td>
-        <td>{sous_forum.forum.NBRE_REPONSES}</td>
-        <td>dernier message</td>
+		<td class="row1 center" width="5%"><img src="{sous_forum.forum.ICONE}" alt="{sous_forum.forum.TITRE}" /></td>
+        <td class="row1 left" width="55%"><a href="{sous_forum.forum.URL}" class="link1">{sous_forum.forum.TITRE}</a></td>
+        <td class="row1 center">{sous_forum.forum.NBRE_TOPICS}</td>
+        <td class="row1 center">{sous_forum.forum.NBRE_REPONSES}</td>
+        <td class="row1 left">dernier message</td>
     </tr>
     <!-- END forum -->        
 </table>
