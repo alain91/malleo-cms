@@ -1,42 +1,28 @@
 <div class="bloc">
 <table cellpadding="1" cellspacing="1" class="standard" width="100%">
 	<tr>
-		<th colspan="4">{L_AUTEUR}</th>
-		<th colspan="2">{L_REPONSE}</th>
+		<th width="5%"></th>
+		<th width="55%">{L_TOPICS}</th>
+		<th width="10%">{L_REPONSES}</th>
+		<th width="10%">{L_LECTURES}</th>
+		<th width="20%">Dernier message</th>
 	</tr>
 	<!-- BEGIN aucun_topic -->
 	<tr>
-		<td class="row1" colspan="6">{L_AUCUN_TOPIC}</td>
+		<td class="row1 center" colspan="4">{L_AUCUN_TOPIC}</td>
 	</tr>
 	<!-- END aucun_topic -->
 	<!-- BEGIN liste_topics -->
 	<tr>
-		<td class="{liste_topics.CLASS} center abstop" width="75" rowspan="2">
-			{liste_topics.AUTEUR}<br /><img src="{liste_topics.AVATAR}" alt="" />
-		</td>
-		<td class="{liste_topics.CLASS}" width="75%">
-			<img src="{liste_topics.TOPIC_LU}" alt="{liste_topics.TOPIC_LU_LIBELLE}" title="{liste_topics.TOPIC_LU_LIBELLE}" /><a href="{liste_topics.LIEN_TOPIC}" class="link1"><img src="{liste_topics.TOPIC_ABONNE}" alt="{liste_topics.TOPIC_ABONNE_LIBELLE}" title="{liste_topics.TOPIC_ABONNE_LIBELLE}" />{liste_topics.TITRE_TOPIC}</a>
-		</td>
-		<td class="{liste_topics.CLASS}" width="25">
-			{L_REPONSES}:
-			{L_LECTURES}: 
-		</td>
-		<td class="{liste_topics.CLASS}" width="50">
-			{liste_topics.REPONSES}<br />
-			{liste_topics.LECTURES}
-		</td>
-		<td class="{liste_topics.CLASS} center abstop" width="75" rowspan="2">
-			<!-- BEGIN reponse -->
-			{liste_topics.AUTEUR_REPONSE}<br /><img src="{liste_topics.AVATAR_REPONSE}" alt="" />
-			<!-- END reponse -->
-		</td>
-	</tr>
-	<tr>
-		<td class="{liste_topics.CLASS}" height="50" width="75%" colspan="3" style="padding-left:50px;">
-		<!-- BEGIN reponse -->
-			<a href="{liste_topics.LIEN_REPONSE}" class="link2"><img src="{I_DETAILS}" alt="{L_REPONSE}" />{liste_topics.REPONSE}</a>
-		<!-- END reponse -->
-		</td>
+		<td class="{liste_topics.CLASS} left">
+            <img src="{liste_topics.TOPIC_LU}" alt="{liste_topics.TOPIC_LU_LIBELLE}" title="{liste_topics.TOPIC_LU_LIBELLE}" />
+        </td>
+		<td class="{liste_topics.CLASS} left">
+			<a href="{liste_topics.LIEN_TOPIC}" class="link1">{liste_topics.TITRE_TOPIC}</a>
+		</td>	
+		<td class="{liste_topics.CLASS} left">{liste_topics.REPONSES}</td>
+		<td class="{liste_topics.CLASS} left">{liste_topics.LECTURES}</td>
+        <td class="{liste_topics.CLASS} left">dernier message</td>
 	</tr>
 	<!-- END liste_topics -->
 </table>

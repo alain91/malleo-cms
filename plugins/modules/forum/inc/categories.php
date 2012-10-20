@@ -86,4 +86,7 @@ while($row = $c->sql_fetchrow($resultat))
 	// Topics Recents
 	$f->afficher_topics_recents($row['id_cat'],'id_cat','liste_cats.recents',$cf->config['forum_nbre_recents_index']);
 }
+
+if (empty($cat_specifique))
+    $tpl->assign_block_vars('liste_cats.header', array());
 ?>
