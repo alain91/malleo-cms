@@ -1,24 +1,25 @@
+<!-- BEGIN liste_topics_annonces -->
 <div class="bloc">
 <table cellpadding="1" cellspacing="1" class="standard" width="100%">
 	<tr>
-		<th width="5%"></th>
-		<th width="55%">{L_TOPICS}</th>
+		<th width="60%" colspan="2">{L_TOPICS}</th>
 		<th width="10%">{L_REPONSES}</th>
 		<th width="10%">{L_LECTURES}</th>
 		<th width="20%">Dernier message</th>
 	</tr>
-	<!-- BEGIN liste_topics_annonces -->
+	<!-- BEGIN topics -->
 	<tr>
-		<td class="{liste_topics_annonces.CLASS} left">
-            <img src="{liste_topics_annonces.TOPIC_LU}" alt="{liste_topics_annonces.TOPIC_LU_LIBELLE}" title="{liste_topics_annonces.TOPIC_LU_LIBELLE}" />
+		<td width="5%" class="{liste_topics_annonces.topics.CLASS} center">
+            <img src="{liste_topics_annonces.topics.TOPIC_LU}" alt="{liste_topics_annonces.topics.TOPIC_LU_LIBELLE}" title="{liste_topics_annonces.topics.TOPIC_LU_LIBELLE}" />
         </td>
-		<td class="{liste_topics_annonces.CLASS} left">
-			<a href="{liste_topics_annonces.LIEN_TOPIC}" class="link1">{liste_topics_annonces.TITRE_TOPIC}</a>
+		<td width="55%" class="{liste_topics_annonces.topics.CLASS} left">
+			<a href="{liste_topics_annonces.topics.LIEN_TOPIC}" class="link1">{liste_topics_annonces.topics.TITRE_TOPIC}</a>
 		</td>	
-		<td class="{liste_topics_annonces.CLASS} left">{liste_topics_annonces.REPONSES}</td>
-		<td class="{liste_topics_annonces.CLASS} left">{liste_topics_annonces.LECTURES}</td>
-        <td class="{liste_topics_annonces.CLASS} left">dernier message</td>
+		<td class="{liste_topics_annonces.topics.CLASS} center">{liste_topics_annonces.topics.REPONSES}</td>
+		<td class="{liste_topics_annonces.topics.CLASS} center">{liste_topics_annonces.topics.LECTURES}</td>
+        <td class="{liste_topics_annonces.topics.CLASS} center">dernier message</td>
 	</tr>
-	<!-- END liste_topics_annonces -->
+	<!-- END topics -->
 </table>
 </div>
+<!-- END liste_topics_annonces -->
