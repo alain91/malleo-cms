@@ -13,13 +13,14 @@
         <td class="{sous_forum.forum.CLASS} left" width="55%"><a href="{sous_forum.forum.URL}" class="link1">{sous_forum.forum.TITRE}</a></td>
         <td class="{sous_forum.forum.CLASS} center">{sous_forum.forum.NBRE_TOPICS}</td>
         <td class="{sous_forum.forum.CLASS} center">{sous_forum.forum.NBRE_REPONSES}</td>
-        <td class="{sous_forum.forum.CLASS} left">dernier message</td>
+        <td class="{sous_forum.forum.CLASS} left">{sous_forum.forum.P_TEXT}<br />{sous_forum.forum.P_USER} {sous_forum.forum.P_DATE}</td>
     </tr>
     <!-- END forum -->        
 </table>
 </div>
 <!-- END sous_forum -->
 {LISTE_ANNONCES}
+{LISTE_POSTITS}
 <!-- BEGIN nouveau -->
 <a href="{S_NOUVEAU}" title="{L_NOUVEAU}"><img src="{I_NOUVEAU}" alt="{L_NOUVEAU}" /></a>
 <!-- END nouveau -->
