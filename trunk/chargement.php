@@ -81,6 +81,7 @@ $user = $session->new_session();
 
 // On charge le template
 include_once($root.'class/class_template.php');
+//include_once($root.'class/class_template3.php');
 $tpl = new Template($root);
 $liste_plugins = $cache->appel_cache('listing_plugins');
 
