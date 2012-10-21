@@ -2,7 +2,7 @@
 <div class="bloc">
 <table cellpadding="1" cellspacing="1" class="standard" width="100%">
 	<tr>
-		<th width="60%" colspan="2">{L_TOPICS}</th>
+		<th width="60%" colspan="2">{L_TOPIC_ANNONCE}</th>
 		<th width="10%">{L_REPONSES}</th>
 		<th width="10%">{L_LECTURES}</th>
 		<th width="20%">Dernier message</th>
@@ -12,12 +12,12 @@
 		<td width="5%" class="{annonces.items.CLASS} center">
             <img src="{annonces.items.TOPIC_LU}" alt="{annonces.items.TOPIC_LU_LIBELLE}" title="{annonces.items.TOPIC_LU_LIBELLE}" />
         </td>
-		<td width="55%" class="{liste_topics_annonces.items.CLASS} left">
+		<td width="55%" class="{annonces.items.CLASS} left">
 			<a href="{annonces.items.LIEN_TOPIC}" class="link1">{annonces.items.TITRE_TOPIC}</a>
 		</td>	
 		<td class="{annonces.items.CLASS} center">{annonces.items.REPONSES}</td>
 		<td class="{annonces.items.CLASS} center">{annonces.items.LECTURES}</td>
-        <td class="{annonces.items.CLASS} center">dernier message</td>
+        <td class="{annonces.items.CLASS} left">{annonces.items.P_TEXT}<br />{annonces.items.P_USER} {annonces.items.P_DATE}</td>
 	</tr>
 	<!-- END items -->
 </table>

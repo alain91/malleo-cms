@@ -88,6 +88,7 @@ if ($c->sql_numrows($resultat)==0)
 
 $f->affiche_sous_forums($row['id_forum'],'sous_forum','forum');
 $f->affiche_liste_annonces('t.id_forum='.intval($row['id_forum']));
+$f->affiche_liste_postits('t.id_forum='.intval($row['id_forum']));
 $f->affiche_liste_topics($start,$cf->config['forum_topics_par_forum'],'t.id_forum='.intval($row['id_forum']));
 
 // PAGINATION
