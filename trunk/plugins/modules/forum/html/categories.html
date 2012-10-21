@@ -1,8 +1,8 @@
-<!-- BEGIN liste_cats -->
+<!-- BEGIN categories -->
 <!-- BEGIN header -->
-<h2><a href="{liste_cats.URL_CAT}">{liste_cats.TITRE_CAT}</a></h2>
+<h2><a href="{categories.URL_CAT}">{categories.TITRE_CAT}</a></h2>
 <!-- END header -->
-<p>{liste_cats.DESC_CAT}</p>
+<p>{categories.DESC_CAT}</p>
 <div class="bloc">
 <table cellpadding="1" cellspacing="1" class="standard" width="100%">
 	<tr>
@@ -11,15 +11,15 @@
 		<th width="10%">{L_REPONSES}</th>
 		<th width="20%">Dernier message</th>
 	</tr>
-    <!-- BEGIN liste_forums -->
+    <!-- BEGIN forums -->
 	<tr>
-		<td class="row1 center" width="5%"><img src="{liste_cats.liste_forums.ICONE_FORUM}" alt="{liste_cats.liste_forums.NOM_FORUM}" /></td>
-        <td class="row1 left" width="55%"><a href="{liste_cats.liste_forums.LIEN_FORUM}" class="link1">{liste_cats.liste_forums.NOM_FORUM}</a></td>
-        <td class="row1 center">{liste_cats.liste_forums.NBRE_TOPICS}</td>
-        <td class="row1 center">{liste_cats.liste_forums.NBRE_REPONSES}</td>
-        <td class="row1 left">dernier message</td>
+		<td class="{categories.forums.CLASS} center" width="5%"><img src="{categories.forums.ICONE_FORUM}" alt="{categories.forums.NOM_FORUM}" /></td>
+        <td class="{categories.forums.CLASS} left" width="55%"><a href="{categories.forums.LIEN_FORUM}" class="link1">{categories.forums.NOM_FORUM}</a></td>
+        <td class="{categories.forums.CLASS} center">{categories.forums.NBRE_TOPICS}</td>
+        <td class="{categories.forums.CLASS} center">{categories.forums.NBRE_REPONSES}</td>
+        <td class="{categories.forums.CLASS} left">{categories.forums.P_TEXT}<br />{categories.forums.P_USER} {categories.forums.P_DATE}</td>
     </tr>
-    <!-- END liste_forums -->        
+    <!-- END forums -->        
 </table>
 </div>
-<!-- END liste_cats -->
+<!-- END liste_categories -->

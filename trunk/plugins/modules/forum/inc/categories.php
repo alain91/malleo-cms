@@ -76,19 +76,16 @@ while($row = $c->sql_fetchrow($resultat))
 	}
 	
 	// Affichage des categories
-	$tpl->assign_block_vars('liste_cats', array(
+	$tpl->assign_block_vars('categories', array(
 		'TITRE_CAT'	=> $row['titre_cat'],
 		'DESC_CAT'	=> $row['desc_cat'],
 		'URL_CAT'	=> formate_url('mode=cat&id_cat='.$row['id_cat'],true)
 	));
 	
 	// Recherche des forums 
-	$f->afficher_forums($row['id_cat'],'liste_cats.liste_forums');
-	
-	// Topics Recents
-	$f->afficher_topics_recents($row['id_cat'],'id_cat','liste_cats.recents',$cf->config['forum_nbre_recents_index']);
+	$f->afficher_forums($row['id_cat'],'categories.forums');
+    
+    if (empty($cat_specifique))
+        $tpl->assign_block_vars('categories.header', array());
 }
-
-if (empty($cat_specifique))
-    $tpl->assign_block_vars('liste_cats.header', array());
 ?>
