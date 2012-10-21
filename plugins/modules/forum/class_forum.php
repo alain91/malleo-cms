@@ -54,6 +54,28 @@ class forum
 		}
 	}
     
+    protected function _tronquer($string)
+    {
+        $str=strlen($string<=75)?$string:substr($string,0,75).'...';
+        return $str;
+    }
+    
+    protected function _date($date)
+    {
+        global $user;
+        return formate_date($date,'d m Y H i','FORMAT_DATE',$user['fuseau']);
+    }
+    
+    protected function _plien($id_topic,$id_post)
+    {
+        return formate_url('mode=topic&id_topic='.intval($id_topic).'&id_post='.intval($id_post).'#'.intval($id_post),true);
+    }
+    
+    protected function _flien($id_forum)
+    {
+        return formate_url('mode=forum&id_forum='.intval($id_forum),true);
+    }
+    
     /**
 	* Affiche les forums de la categorie saisie en parametre
 	* input : int -> $id_cat; var -> $handle (le nom du noeud de la class $tpl)
@@ -74,19 +96,20 @@ class forum
 				if ($droits->check($module,$val['id_forum'],'voir'))
                 {
                     $class=($class=='row2')?'row1':'row2';
-                    $post=$this->afficher_dernier_post_forum($val['id_forum']);
+                    $fpost=$this->afficher_dernier_post_forum($val['id_forum']);
                     $liste_forums=$this->cherche_sous_forums($val['id_forum']);
                     $cumuls=$this->recupere_compteurs_cumules($liste_forums);
 					$tpl->assign_block_vars($handle, array(
-						'LIEN_FORUM'	=> formate_url('mode=forum&id_forum='.$val['id_forum'],true),
+						'LIEN_FORUM'	=> $this->_flien($val['id_forum']),
 						'ICONE_FORUM'	=> 'data/icones_forum/'.$val['icone_forum'],
 						'NOM_FORUM'		=> $val['titre_forum'],
 						'NBRE_TOPICS'	=> $cumuls['nbre_topics'],
 						'NBRE_REPONSES'	=> $cumuls['nbre_reponses'],
                         'CLASS'         => $class,
-                        'P_TEXT'        => empty($post)?'':$post['text_post'],
-                        'P_DATE'        => empty($post)?'':formate_date($post['date_post'],'d m Y H i','FORMAT_DATE',$user['fuseau']),
-                        'P_USER'        => empty($post)?'':$post['pseudo'],
+                        'P_TEXT'        => empty($fpost)?'':$this->_tronquer($fpost['text_post']),
+                        'P_DATE'        => empty($fpost)?'':$this->_date($fpost['date_post']),
+                        'P_USER'        => empty($fpost)?'':$fpost['pseudo'],
+                        'P_LIEN'        => empty($fpost)?'':$this->_plien($fpost['id_topic'],$fpost['id_post']),
 					));
 				}
 			}
@@ -201,13 +224,13 @@ class forum
                     $cumuls=$this->recupere_compteurs_cumules($liste_forums);
 					$tpl->assign_block_vars($handle_actif.'.'.$handle, array(
 						'ICONE'			=> 'data/icones_forum/'.$row['icone_forum'],
-						'URL'			=> formate_url('mode=forum&id_forum='.$row['id_forum'],true),
+						'URL'			=> $this->_flien($row['id_forum']),
 						'TITRE'			=> $row['titre_forum'],
 						'NBRE_TOPICS'	=> $cumuls['nbre_topics'],
 						'NBRE_REPONSES'	=> $cumuls['nbre_reponses'],
                         'CLASS'         => $class,
-                        'P_TEXT'        => empty($fpost)?'':$fpost['text_post'],
-                        'P_DATE'        => empty($fpost)?'':formate_date($fpost['date_post'],'d m Y H i','FORMAT_DATE',$user['fuseau']),
+                        'P_TEXT'        => empty($fpost)?'':$this->_tronquer($fpost['text_post']),
+                        'P_DATE'        => empty($fpost)?'':$this->_date($fpost['date_post']),
                         'P_USER'        => empty($fpost)?'':$fpost['pseudo'],
 					));
 				}
@@ -266,7 +289,7 @@ class forum
 					AND $droits->check($module,$row['id_forum'],'lire'))
                 {
 					$class=($class=='row2')?'row1':'row2';
-                    $topic_post=$this->afficher_dernier_post_topic($row['id_topic']);
+                    $tpost=$this->afficher_dernier_post_topic($row['id_topic']);
 					$tpl->assign_block_vars('items', array(
 						'CLASS'			=> $class,
 						'AUTEUR'		=> formate_pseudo($row['ID_AUTEUR'],$row['PSEUDO_AUTEUR']),
@@ -285,9 +308,11 @@ class forum
 						'LECTURES'		=> $row['lectures_topic'],
 						'LIEN_TOPIC'	=> formate_url('mode=topic&id_topic='.$row['id_topic'].'&id_post='.$row['id_post_depart'],true),
 						'LIEN_REPONSE'	=> formate_url('mode=topic&id_topic='.$row['id_topic'].'&id_post='.$row['post_fin'].'#'.$row['post_fin'],true),
-                        'P_TEXT'        => empty($topic_post)?'':$topic_post['text_post'],
-                        'P_DATE'        => empty($topic_post)?'':formate_date($topic_post['date_post'],'d m Y H i','FORMAT_DATE',$user['fuseau']),
-                        'P_USER'        => empty($topic_post)?'':$topic_post['pseudo'],
+                        'P_TEXT'        => empty($tpost)?'':$this->_tronquer($tpost['text_post']),
+                        'P_DATE'        => empty($tpost)?'':$this->_date($tpost['date_post']),
+                        'P_USER'        => empty($tpost)?'':$tpost['pseudo'],
+						'P_LIEN'	    => empty($tpost)?'':$this->_plien($tpost['id_topic'],$tpost['id_post']),
+
 					));
 				}
 				// Meta description
@@ -438,8 +463,8 @@ class forum
                         'P_TEXT'        => empty($topic_post)?'':$topic_post['text_post'],
                         'P_DATE'        => empty($topic_post)?'':formate_date($topic_post['date_post'],'d m Y H i','FORMAT_DATE',$user['fuseau']),
                         'P_USER'        => empty($topic_post)?'':$topic_post['pseudo'],
+						'P_LIEN'	    => empty($topic_post)?'':formate_url('mode=topic&id_topic='.$topic_post['id_topic'].'&id_post='.$topic_post['id_post'].'#'.$topic_post['id_post'],true),
 					));
-					if (!empty($row['text_post'])) $tpl->assign_block_vars('liste_topics_annonces.reponse', array());
 				}
 			}
 			$tpl->assign_var_from_handle('LISTE_POSTITS','liste_postits');
