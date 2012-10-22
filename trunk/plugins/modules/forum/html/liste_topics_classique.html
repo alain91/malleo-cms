@@ -4,7 +4,7 @@
 		<th width="40%" colspan="2">{L_TOPIC_NORMAL}</th>
 		<th width="10%">{L_REPONSES}</th>
 		<th width="10%">{L_LECTURES}</th>
-		<th width="40%">Dernier message</th>
+		<th width="40%">{L_DERNIERE_REPONSE}</th>
 	</tr>
 	<!-- BEGIN aucun_topic -->
 	<tr>
@@ -13,7 +13,10 @@
 	<!-- END aucun_topic -->
 	<!-- BEGIN items -->
 	<tr>
-		<td class="{items.CLASS} center" width="5%"><img src="{items.TOPIC_LU}" alt="{items.TOPIC_LU_LIBELLE}" title="{items.TOPIC_LU_LIBELLE}" /></td>
+		<td class="{items.CLASS} center" width="5%">
+            <img src="{items.TOPIC_LU}" alt="{items.TOPIC_LU_LIBELLE}" title="{items.TOPIC_LU_LIBELLE}" />
+            <img src="{items.TOPIC_ABONNE}" alt="{items.TOPIC_ABONNE_LIBELLE}" title="{items.TOPIC_ABONNE_LIBELLE}" />
+        </td>
 		<td class="{items.CLASS} left" width="35%"><a href="{items.LIEN_TOPIC}" class="link1">{items.TITRE_TOPIC}</a></td>	
 		<td class="{items.CLASS} center">{items.REPONSES}</td>
 		<td class="{items.CLASS} center">{items.LECTURES}</td>
