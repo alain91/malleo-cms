@@ -87,9 +87,9 @@ if ($c->sql_numrows($resultat)==0)
 }
 
 $f->affiche_sous_forums($row['id_forum'],'sous_forum','forum');
-$f->affiche_liste_annonces('t.id_forum='.intval($row['id_forum']));
-$f->affiche_liste_postits('t.id_forum='.intval($row['id_forum']));
-$f->affiche_liste_topics($start,$cf->config['forum_topics_par_forum'],'t.id_forum='.intval($row['id_forum']));
+$f->affiche_liste_generic($row['id_forum'],2,'liste_topics_annonces','annonces.items','LISTE_ANNONCES');
+$f->affiche_liste_generic($row['id_forum'],3,'liste_topics_postits','postits.items','LISTE_POSTITS');
+$f->affiche_liste_topics($start,$cf->config['forum_topics_par_forum'],$row['id_forum']);
 
 // PAGINATION
 include($root.'fonctions/fct_affichage.php');
