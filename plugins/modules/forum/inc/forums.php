@@ -20,13 +20,11 @@
 | SVP lisez Licence_CeCILL_V2-fr.txt
 |------------------------------------------------------------------------------------------------------------
 */
-if ( !defined('PROTECT') )
-{
+if ( !defined('PROTECT') ){
 	die("Tentative de Hacking");
 }
 
-if(!isset($_GET['id_forum']))
-{
+if(!isset($_GET['id_forum'])){
 	error404();
 	exit;
 }
@@ -39,12 +37,11 @@ if (!$droits->check($module,$id_forum,'voir')){
 
 $start = (isset($_GET['start']) && $_GET['start']>0)? intval($_GET['start']):0;
 
-
 $tpl->set_filenames(array('forum'=>$root.'plugins/modules/forum/html/forum.html'));
 
 //
 // INFOS sur le forum
-$sql = 'SELECT f.titre_forum, f.id_forum, f.icone_forum, f.status_forum,
+$sql = 'SELECT f.titre_forum, f.id_forum, f.icone_forum, f.status_forum, f.parent_forum,
             c.titre_cat, c.id_cat, c.desc_cat,
             count(t.id_forum) as max
 		FROM '.TABLE_FORUM_FORUMS.' as f 
@@ -57,8 +54,7 @@ $sql = 'SELECT f.titre_forum, f.id_forum, f.icone_forum, f.status_forum,
 		GROUP BY f.id_forum 
 		LIMIT 1';
 if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,704,__FILE__,__LINE__,$sql); 
-if ($c->sql_numrows($resultat)==0)
-{
+if ($c->sql_numrows($resultat)==0){
 	error404();
 	exit;
 }else{
@@ -72,9 +68,28 @@ if ($c->sql_numrows($resultat)==0)
 	// Navlinks
 	$session->make_navlinks(array(
 		ucfirst($module)	=> formate_url('',true),
-		$row['titre_cat']	=> formate_url('mode=cat&id_cat='.$row['id_cat'],true),
-		$row['titre_forum']	=> formate_url('mode=forum&id_forum='.$row['id_forum'],true)
-	));
+		$row['titre_cat']	=> formate_url('mode=cat&id_cat='.$row['id_cat'],true)
+    ));
+    if (empty($row['parent_forum']))
+		$session->make_navlinks($row['titre_forum'],formate_url('mode=forum&id_forum='.$row['id_forum'],true));
+    else {
+        $parent=$row['parent_forum'];
+        $liste=array($row['titre_forum']=>formate_url('mode=forum&id_forum='.$row['id_forum'],true));
+        while(!empty($parent)){
+            $sql1 = 'SELECT f.titre_forum, f.id_forum, f.parent_forum
+                FROM '.TABLE_FORUM_FORUMS.' as f
+                WHERE f.id_forum='.intval($parent).'
+                LIMIT 1';
+            if (!$resultat1 = $c->sql_query($sql1))message_die(E_ERROR,704,__FILE__,__LINE__,$sql);
+            $parent=0;
+            if ($c->sql_numrows($resultat1)>0){
+            	$row1 = $c->sql_fetchrow($resultat1);
+                $liste[$row1['titre_forum']]=formate_url('mode=forum&id_forum='.$row1['id_forum'],true);
+                $parent=$row1['parent_forum'];
+            }
+        }
+        $session->make_navlinks(array_reverse($liste));
+    }
 
 	// Nouveau topic ?
 	if (($droits->check($module,$row['id_forum'],'ecrire') || $user['level']>9) && $row['status_forum'] == 1 ) $tpl->assign_block_vars('nouveau', array());
