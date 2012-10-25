@@ -93,8 +93,8 @@ class forum
 		global $tpl,$cf,$cache,$droits,$module,$user;
 		if (!is_array($this->liste_forums)) $this->liste_forums = $cache->appel_cache('listing_forums');
 		if (array_key_exists($id_cat,$this->liste_forums)
-				AND array_key_exists(0,$this->liste_forums[$id_cat])
-				AND sizeof($this->liste_forums[$id_cat][0])>0)
+            AND array_key_exists(0,$this->liste_forums[$id_cat])
+            AND sizeof($this->liste_forums[$id_cat][0])>0)
 		{
             $class='row2';
 			foreach ($this->liste_forums[$id_cat][0] as $key=>$val){
@@ -568,16 +568,11 @@ class forum
 	function cache_liste_forums($module)
 	{
 		global $c;
-		$sql = 'SELECT c.id_cat, c.titre_cat,
-					f.id_forum, f.titre_forum, f.status_forum, f.parent_forum, f.icone_forum,f.nbre_topics,
-                    sum(t.reponses_topic) as nbre_reponses
+		$sql = 'SELECT c.id_cat, c.titre_cat, f.*
 				FROM  '.TABLE_FORUM_FORUMS.' as f
 				LEFT JOIN '.TABLE_FORUM_CATS.' as c
 				ON (f.id_cat=c.id_cat)
-				LEFT JOIN '.TABLE_FORUM_TOPICS.' as t
-				ON (f.id_forum=t.id_forum)
 				WHERE c.module="'.$module.'"
-                GROUP BY f.id_forum
 				ORDER BY c.ordre ASC, f.ordre ASC, c.id_cat ASC, f.id_forum ASC';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
 		$liste_forums=array();
