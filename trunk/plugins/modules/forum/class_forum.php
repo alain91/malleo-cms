@@ -81,7 +81,10 @@ class forum
         return 'data/icones_forum/'.$icone;
     }
 
-
+    protected function _escape($str)
+    {
+        return str_replace("\'","''",trim($str));
+    }
 
     /**
 	* Affiche les forums de la categorie saisie en parametre
@@ -110,10 +113,10 @@ class forum
 						'TITRE' => $val['titre_forum'],
 						'NBRE_TOPICS' => $cumuls['nbre_topics'],
 						'NBRE_REPONSES'	=> $cumuls['nbre_reponses'],
-                        'P_TEXT' => empty($row['post_fin'])?'':$this->_tronquer($fpost['text_post']),
-                        'P_DATE' => empty($row['post_fin'])?'':$this->_date($fpost['date_post']),
-                        'P_USER' => empty($row['post_fin'])?'':$fpost['pseudo'],
-                        'P_LIEN' => empty($row['post_fin'])?'':$this->_plien($fpost['id_topic'],$fpost['id_post']),
+                        'P_TEXT' => empty($fpost['id_post'])?'':$this->_tronquer($fpost['text_post']),
+                        'P_DATE' => empty($fpost['id_post'])?'':$this->_date($fpost['date_post']),
+                        'P_USER' => empty($fpost['id_post'])?'':$fpost['pseudo'],
+                        'P_LIEN' => empty($fpost['id_post'])?'':$this->_plien($fpost['id_topic'],$fpost['id_post']),
 					));
 				}
 			}
@@ -149,10 +152,10 @@ class forum
 						'TITRE'	=> $row['titre_forum'],
 						'NBRE_TOPICS' => $cumuls['nbre_topics'],
 						'NBRE_REPONSES'	=> $cumuls['nbre_reponses'],
-                        'P_TEXT' => empty($row['post_fin'])?'':$this->_tronquer($fpost['text_post']),
-                        'P_DATE' => empty($row['post_fin'])?'':$this->_date($fpost['date_post']),
-                        'P_USER' => empty($row['post_fin'])?'':$fpost['pseudo'],
-						'P_LIEN' => empty($row['post_fin'])?'':$this->_plien($fpost['id_topic'],$fpost['id_post']),
+                        'P_TEXT' => empty($row['id_post'])?'':$this->_tronquer($fpost['text_post']),
+                        'P_DATE' => empty($row['id_post'])?'':$this->_date($fpost['date_post']),
+                        'P_USER' => empty($row['id_post'])?'':$fpost['pseudo'],
+						'P_LIEN' => empty($row['id_post'])?'':$this->_plien($fpost['id_topic'],$fpost['id_post']),
 					));
 				}
 			}
@@ -171,7 +174,7 @@ class forum
 			case '2':$choix_tpl = 'liste_topics_classique.html';break;
 		}
 		$tpl->set_filenames(array('liste_topics'=>$root.'plugins/modules/forum/html/'.$choix_tpl));
-		$sql = 'SELECT t.*i, pfin.text_post, pfin.date_post,
+		$sql = 'SELECT t.*, pfin.text_post, pfin.date_post,
 				tnl.id_topic AS topic_lu, ts.id_topic AS topic_abonne, ufin.pseudo
 			FROM '.TABLE_FORUM_TOPICS.' as t
 			LEFT JOIN '.TABLE_FORUM_POSTS.' as pfin
@@ -207,10 +210,10 @@ class forum
 						'TOPIC_ABONNE_LIBELLE' => ($row['topic_abonne']!=$row['id_topic'])? $lang['L_TOPIC_NON_ABONNE']:$lang['L_TOPIC_ABONNE'],
 						'REPONSES' => $row['reponses_topic'],
 						'LECTURES' => $row['lectures_topic'],
-                        'P_TEXT' => empty($row['post_fin'])?'':$this->_tronquer($row['text_post']),
-                        'P_DATE' => empty($row['post_fin'])?'':$this->_date($row['date_post']),
-                        'P_USER' => empty($row['post_fin'])?'':$row['pseudo'],
-						'P_LIEN' => empty($row['post_fin'])?'':$this->_plien($row['id_topic'],$row['post_fin']),
+                        'P_TEXT' => empty($row['id_post'])?'':$this->_tronquer($row['text_post']),
+                        'P_DATE' => empty($row['id_post'])?'':$this->_date($row['date_post']),
+                        'P_USER' => empty($row['id_post'])?'':$row['pseudo'],
+						'P_LIEN' => empty($row['id_post'])?'':$this->_plien($row['id_topic'],$row['id_post']),
 					));
 				}
 				// Meta description
@@ -263,10 +266,10 @@ class forum
 						'TOPIC_ABONNE_LIBELLE' => ($row['topic_abonne']!=$row['id_topic'])? $lang['L_TOPIC_NON_ABONNE']:$lang['L_TOPIC_ABONNE'],
 						'REPONSES' => $row['reponses_topic'],
 						'LECTURES' => $row['lectures_topic'],
-                        'P_TEXT' => empty($row['post_fin'])?'':$this->_tronquer($row['text_post']),
-                        'P_DATE' => empty($row['post_fin'])?'':$this->_date($row['date_post']),
-                        'P_USER' => empty($row['post_fin'])?'':$row['pseudo'],
-						'P_LIEN' => empty($row['post_fin'])?'':$this->_plien($row['id_topic'],$row['post_fin']),
+                        'P_TEXT' => empty($row['id_post'])?'':$this->_tronquer($row['text_post']),
+                        'P_DATE' => empty($row['id_post'])?'':$this->_date($row['date_post']),
+                        'P_USER' => empty($row['id_post'])?'':$row['pseudo'],
+						'P_LIEN' => empty($row['id_post'])?'':$this->_plien($row['id_topic'],$row['id_post']),
 					));
 				}
 			}
@@ -304,7 +307,7 @@ class forum
             $clause=' IN ('.implode(',',$forums).')';
         }else{
             $clause='='.intval($forums);
-            if (empty($liste_forums)) $liste_forums[]=$forums;
+            if (empty($liste_forums)) $liste_forums=array($forums);
         }
 		$sql = 'SELECT f.id_forum
 				FROM '.TABLE_FORUM_FORUMS.' as f
@@ -382,12 +385,11 @@ class forum
 	function formate_titre_sujet($titre)
     {
 		// Pas de tags définis? pas la peine d'en chercher dans les titres.
-		if (sizeof($this->Get_Tags()) == 0) return $titre;
+		if (sizeof($this->get_tags()) == 0) return $titre;
 		preg_match_all("/\[(.*?)\]/", $titre, $sortie, PREG_PATTERN_ORDER);
 		if(isset($sortie[1])){
 			foreach($sortie[1] AS $id=>$match){
 				foreach($this->tags AS $tag=>$t){
-					//echo $this->supprimer_accents_majuscules($tag) .' - '. $this->supprimer_accents_majuscules($match) . '<br />';
 					$_tag = $this->supprimer_accents_majuscules($tag);
 					$_match = $this->supprimer_accents_majuscules($match);
 					// Remplacement complet [Reglé]
@@ -538,21 +540,21 @@ class forum
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,707,__FILE__,__LINE__,$sql);
 		if ($c->sql_numrows($resultat) == 0){
 			$sql = 'INSERT INTO '.TABLE_FORUM_CATS.' (titre_cat, desc_cat, module)
-					VALUES (\''.str_replace("\'","''",$lang['L_DEMO_CAT_TITRE']).'\',
-							\''.str_replace("\'","''",$lang['L_DEMO_CAT_DESCRIPTION']).'\',
+					VALUES (\''.$this->_escape($lang['L_DEMO_CAT_TITRE']).'\',
+							\''.$this->_escape($lang['L_DEMO_CAT_DESCRIPTION']).'\',
 							\''.$module.'\')';
 			if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,707,__FILE__,__LINE__,$sql);
 
 			$id_cat = $c->sql_nextid();
 			$sql = 'INSERT INTO '.TABLE_FORUM_FORUMS.' (titre_forum, parent_forum, icone_forum, id_cat)
-					VALUES (\''.str_replace("\'","''",$lang['L_DEMO_FORUM_TITRE']).'\',
+					VALUES (\''.$this->_escape($lang['L_DEMO_FORUM_TITRE']).'\',
 							\'0\',
 							\'Chat.png\',
 							\''.$id_cat.'\')';
 			if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,708,__FILE__,__LINE__,$sql);
 			// Ajout de regles par defaut pour ce forum
 			$id_forum = $c->sql_nextid();
-			$this->Droits_Ajoute_noeud($id_forum,$module,str_replace("\'","''",$lang['L_DEMO_FORUM_TITRE']));
+			$this->droits_ajoute_noeud($id_forum,$module,$this->_escape($lang['L_DEMO_FORUM_TITRE']));
 		}
 		// Purge du cache (suppression du cache du forum mais aussi des regles d'accès de tous les utilisateurs.)
 		$cache->purger_cache();
@@ -688,8 +690,8 @@ class forum
 	function suivre_sujet($id_topic)
     {
 		global $c,$user;
-		$sql = 'INSERT INTO '.TABLE_FORUM_TOPICS_SUIVIS.' (user_id, id_topic) VALUES
-				('.$user['user_id'].','.$id_topic.')';
+		$sql = 'INSERT INTO '.TABLE_FORUM_TOPICS_SUIVIS.' (user_id, id_topic)
+                VALUES ('.$user['user_id'].','.$id_topic.')';
 		$c->sql_query($sql);
 		// On affiche une fenetre de confirmation
 		affiche_message('forum','L_TOPIC_MARQUE_SUIVI',formate_url('mode=topic&id_topic='.$id_topic,true));
@@ -714,10 +716,8 @@ class forum
 	function ajouter_favoris($id_topic)
     {
 		global $c,$user;
-		$sql = 'INSERT INTO '.TABLE_FORUM_TOPICS_FAVORIS.'
-                (user_id, id_topic)
-                VALUES
-				('.$user['user_id'].','.$id_topic.')';
+		$sql = 'INSERT INTO '.TABLE_FORUM_TOPICS_FAVORIS.' (user_id, id_topic)
+                VALUES ('.$user['user_id'].','.$id_topic.')';
 		$c->sql_query($sql);
 		// On affiche une fenetre de confirmation
 		affiche_message('forum','L_TOPIC_AJOUTE_FAVORIS',formate_url('mode=topic&id_topic='.$id_topic,true));
@@ -764,8 +764,7 @@ class forum
 					ON (f.id_forum=t.id_forum)
 				LEFT JOIN '.TABLE_FORUM_CATS.' as c
 					ON (f.id_cat=c.id_cat)
-				WHERE (c.module=\''.$module.'\'
-				AND user_id='.$user['user_id'].')
+				WHERE (c.module=\''.$module.'\' AND user_id='.$user['user_id'].')
 				OR date<'.($session->time-1209600);
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,712,__FILE__,__LINE__,$sql);
 		// On affiche une fenetre de confirmation
@@ -779,7 +778,8 @@ class forum
     {
 		global $c,$user,$session;
 		$sql = 'DELETE FROM '.TABLE_FORUM_TOPICS_NONLUS.'
-				WHERE (user_id='.$user['user_id'].' AND id_topic='.$id_topic.') OR date<'.($session->time-1209600);
+				WHERE (user_id='.$user['user_id'].' AND id_topic='.$id_topic.')
+                OR date<'.($session->time-1209600);
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,712,__FILE__,__LINE__,$sql);
 	}
 	/**
@@ -801,7 +801,8 @@ class forum
             }
         }
         if ($sql_insert != ''){
-            $sql_insert = 'INSERT INTO '.TABLE_FORUM_TOPICS_NONLUS.' (id_topic,user_id,date) VALUES '.$sql_insert;
+            $sql_insert = 'INSERT INTO '.TABLE_FORUM_TOPICS_NONLUS.' (id_topic,user_id,date)
+                VALUES '.$sql_insert;
             if (!$resultat = $c->sql_query($sql_insert))message_die(E_ERROR,712,__FILE__,__LINE__,$sql_insert);
         }
 		return true;
@@ -847,7 +848,7 @@ class forum
 		}
 		$sql = 'INSERT INTO '.TABLE_FORUM_TOPICS.' (titre_topic, id_forum, type_topic, fin_annonce) VALUES
 				(
-				\''.str_replace("\'","''",$this->saisie['titre']).'\',
+				\''.$this->_escape($this->saisie['titre']).'\',
 				'.$this->saisie['id_forum'].',
 				'.$type_topic.',
 				'.$fin_annonce.')';
@@ -865,7 +866,7 @@ class forum
 		// NOUVEAU Topic
 		if (isset($this->saisie['id_forum']) && isset($this->saisie['titre']) && isset($this->saisie['post'])){
 			// securite : droit d'ecrire et forum verrouille ?
-			$this->Get_Forum();
+			$this->get_forum();
 			if ((!$droits->check($module,$this->id_forum,'ecrire') || $this->forum['status_forum'] == 0 )
 				&& $user['level']<10)	error404(720);
 			$this->creer_topic();
@@ -875,7 +876,7 @@ class forum
 		// REPONSE (simple post)
 		}elseif(isset($this->saisie['id_topic']) && isset($this->saisie['post'])){
 			// On doit savoir dans quel forum est ce post pour verifier les droit de l'utilisateur
-			$this->Get_Topic();
+			$this->get_topic();
 			if ((!$droits->check($module,$this->topic['id_forum'],'repondre') || $this->topic['status_topic'] == 0 )
 				&& $user['level']<10)	error404(721);
 			$titre = $this->topic['titre_topic'];
@@ -889,7 +890,7 @@ class forum
 				'.$this->id_topic.',
 				'.time().',
 				'.$user['user_id'].',
-				\''.str_replace("\'","''",$this->saisie['post']).'\',
+				\''.$this->_escape($this->saisie['post']).'\',
 				\''.$user['user_ip'].'\')';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,713,__FILE__,__LINE__,$sql);
 		$this->id_post = $c->sql_nextid();
@@ -900,7 +901,7 @@ class forum
 		// Enregistrement en local des images
 		require_once($root.'class/class_image.php');
 		$image = new image();
-		$this->saisie['post'] = $image->copie_locale_images(str_replace("\'","''",$this->saisie['post']),'UPDATE '.TABLE_FORUM_POSTS.' SET text_post=\'%s\' WHERE id_post='.$this->id_post);
+		$this->saisie['post'] = $image->copie_locale_images($this->_escape($this->saisie['post']),'UPDATE '.TABLE_FORUM_POSTS.' SET text_post=\'%s\' WHERE id_post='.$this->id_post);
 		// Marquer ce topic comme non lu
 		$this->marquer_non_lu($this->id_topic);
 		// Abonner le user ayant posté au suivis de ce topic
@@ -923,25 +924,29 @@ class forum
 		if (isset($this->saisie['post']) && !empty($this->saisie['post'])){
 			if (empty($this->saisie['post'])) message_die(E_WARNING,716,'','');
 			$sql = 'UPDATE '.TABLE_FORUM_POSTS.' SET
-						text_post=\''.str_replace("\'","''",$this->saisie['post']).'\'
+						text_post=\''.$this->_escape($this->saisie['post']).'\'
 					WHERE id_post='.$this->saisie['id_post'];
 			if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,713,__FILE__,__LINE__,$sql);
 			// Enregistrement en local des images
 			require_once($root.'class/class_image.php');
 			$image = new image();
-			$image->copie_locale_images(str_replace("\'","''",$this->saisie['post']),'UPDATE '.TABLE_FORUM_POSTS.' SET text_post=\'%s\' WHERE id_post='.$this->saisie['id_post']);
+			$image->copie_locale_images($this->_escape($this->saisie['post']),'UPDATE '.TABLE_FORUM_POSTS.' SET text_post=\'%s\' WHERE id_post='.$this->saisie['id_post']);
 		}
+		if (empty($this->saisie['titre']) || empty($this->saisie['post'])) message_die(E_WARNING,716,'','');
 		// MAJ du titre
-		if (isset($this->saisie['titre']) && !empty($this->saisie['titre'])){
-			if (empty($this->saisie['titre']) || empty($this->saisie['post'])) message_die(E_WARNING,716,'','');
+		if (!empty($this->saisie['titre'])){
             $this->id_post = $this->saisie['id_post'];
             $this->Get_Post();
             $this->id_topic = $this->post['id_topic'];
             $this->Get_Topic();
-            if (($droits->check($module,$this->topic['id_forum'],'moderer') || $user['level']>9) && $this->type_topic==2){
+            if (($droits->check($module,$this->topic['id_forum'],'moderer') || $user['level']>9)
+                && $this->type_topic==2)
+            {
                 $type_topic = $this->type_topic;
                 $fin_annonce = $this->fin_annonce;
-            }elseif (($droits->check($module,$this->topic['id_forum'],'moderer') || $user['level']>9) && $this->type_topic==3){
+            }elseif (($droits->check($module,$this->topic['id_forum'],'moderer') || $user['level']>9)
+                && $this->type_topic==3)
+            {
                 $type_topic = $this->type_topic;
                 $fin_annonce = 'null';
             }else{
@@ -949,7 +954,7 @@ class forum
                 $fin_annonce = 'null';
             }
             $sql = 'UPDATE '.TABLE_FORUM_TOPICS.' SET
-                        titre_topic=\''.str_replace("\'","''",$this->saisie['titre']).'\',
+                        titre_topic=\''.$this->_escape($this->saisie['titre']).'\',
                         type_topic='.$type_topic.',
                         fin_annonce='.$fin_annonce.'
                     WHERE id_topic = '.$this->id_topic;
@@ -968,10 +973,8 @@ class forum
 		$liste_user_id = array();
 		require_once($root.'class/class_mail.php');
 		$email = new mail();
-
 		$url = 'http://'.$cf->config['adresse_site'].$cf->config['path'].'index.php?module='.$module.'&mode=topic&id_topic='.$id_topic.'&id_post='.$id_post.'#'.$id_post;
-
-		$email->Subject = $lang['L_MAIL_SUJET'];
+		$email->subject = $lang['L_MAIL_SUJET'];
 		$email->message_explain = sprintf($lang['L_MAIL_BODY_HTML'],$url,$url);
 		$email->titre_message = $post->bbcode2html($titre);
 		$email->formate_html($post->bbcode2html($message));
@@ -989,13 +992,13 @@ class forum
 		if (!$resultat = $c->sql_query($sql)) message_die(E_ERROR,703,__FILE__,__LINE__,$sql);
 		while ($row = $c->sql_fetchrow($resultat)){
 			if ($user['user_id'] != $row['user_id']){
-				$email->AddAddress( $row['email'],$row['pseudo']);
+				$email->addaddress( $row['email'],$row['pseudo']);
 				$liste_user_id[] = $row['user_id'];
 			}
 		}
 		if (sizeof($liste_user_id) >0){
- 			if(!$email->Send()){
-			 message_die(E_WARNING,35,__FILE__,__LINE__);
+ 			if(!$email->send()){
+                message_die(E_WARNING,35,__FILE__,__LINE__);
 			}
 			// Mise a jour du champs "Prevenu" a true pour eviter qu'ils se fassent spammer a chaque nouveau message
 			$liste_user_id = implode(',',$liste_user_id);
