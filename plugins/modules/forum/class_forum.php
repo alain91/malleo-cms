@@ -39,17 +39,15 @@ class forum
     */
 	function clean($vars)
 	{
-		foreach($vars as $key=>$val)
-		{
-			switch($key)
-			{
+		foreach($vars as $key=>$val){
+			switch($key){
 				case 'id_forum':
 				case 'id_topic':
 				case 'type_topic':
-				case 'id_post':		$this->$key = $this->saisie[$key] = intval($val); break;
+				case 'id_post':	$this->$key = $this->saisie[$key] = intval($val); break;
 				case 'post':
-				case 'titre':		$this->saisie[$key] = protection_chaine($val); break;
-				case 'jour':		$this->fin_annonce = mktime(0,0,1,intval($vars['mois']),intval($vars['jour']),intval($vars['annee'])); break;
+				case 'titre': $this->saisie[$key] = protection_chaine($val); break;
+				case 'jour': $this->fin_annonce = mktime(0,0,1,intval($vars['mois']),intval($vars['jour']),intval($vars['annee'])); break;
 			}
 		}
 	}
@@ -177,16 +175,11 @@ class forum
 		$sql = 'SELECT t.*, pfin.text_post, pfin.date_post,
 				tnl.id_topic AS topic_lu, ts.id_topic AS topic_abonne, ufin.pseudo
 			FROM '.TABLE_FORUM_TOPICS.' as t
-			LEFT JOIN '.TABLE_FORUM_POSTS.' as pfin
-				ON (t.post_fin=pfin.id_post)
-			LEFT JOIN '.TABLE_USERS.' as ufin
-				ON (pfin.user_id=ufin.user_id)
-			LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl
-				ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
-			LEFT JOIN '.TABLE_FORUM_TOPICS_SUIVIS.' as ts
-				ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
-			WHERE t.id_forum='.intval($id_forum).'
-                AND type_topic<=1
+			LEFT JOIN '.TABLE_FORUM_POSTS.' as pfin ON (t.post_fin=pfin.id_post)
+			LEFT JOIN '.TABLE_USERS.' as ufin ON (pfin.user_id=ufin.user_id)
+			LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
+			LEFT JOIN '.TABLE_FORUM_TOPICS_SUIVIS.' as ts ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
+			WHERE t.id_forum='.intval($id_forum).' AND type_topic<=1
 			ORDER BY date_topic DESC
 			LIMIT '.$start.','.$nbre_topics;
 
@@ -233,16 +226,11 @@ class forum
 		$sql = 'SELECT t.*i, pfin.text_post, pfin.date_post,
 				tnl.id_topic AS topic_lu, ts.id_topic AS topic_abonne, ufin.pseudo
 			FROM '.TABLE_FORUM_TOPICS.' as t
-			LEFT JOIN '.TABLE_FORUM_POSTS.' as pfin
-				ON (t.post_fin=pfin.id_post)
-			LEFT JOIN '.TABLE_USERS.' as ufin
-				ON (pfin.user_id=ufin.user_id)
-			LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl
-				ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
-			LEFT JOIN '.TABLE_FORUM_TOPICS_SUIVIS.' as ts
-				ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
-			WHERE t.id_forum='.intval($id_forum).'
-                AND type_topic='.intval($type).'
+			LEFT JOIN '.TABLE_FORUM_POSTS.' as pfin ON (t.post_fin=pfin.id_post)
+			LEFT JOIN '.TABLE_USERS.' as ufin ON (pfin.user_id=ufin.user_id)
+			LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
+			LEFT JOIN '.TABLE_FORUM_TOPICS_SUIVIS.' as ts ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
+			WHERE t.id_forum='.intval($id_forum).' AND type_topic='.intval($type).'
 			ORDER BY date_topic DESC';
 
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
@@ -469,7 +457,8 @@ class forum
 	function deplacer_topic()
 	{
 		global $c;
-		$sql = 'UPDATE '.TABLE_FORUM_TOPICS.' SET id_forum='.$this->id_forum.' WHERE id_topic='.$this->id_topic;
+		$sql = 'UPDATE '.TABLE_FORUM_TOPICS.' SET id_forum='.$this->id_forum.'
+                WHERE id_topic='.$this->id_topic;
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
 		$this->maj_forums();
 		// On affiche une fenetre de confirmation
@@ -484,9 +473,8 @@ class forum
 	function update_id_topic_from_id_post($liste_posts)
     {
 		global $c;
-		$sql = 'UPDATE '.TABLE_FORUM_POSTS.'
-            SET id_topic='.$this->id_topic.'
-            WHERE id_post IN ('.$liste_posts.')';
+		$sql = 'UPDATE '.TABLE_FORUM_POSTS.' SET id_topic='.$this->id_topic.'
+                WHERE id_post IN ('.$liste_posts.')';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
 	}
 
@@ -498,9 +486,8 @@ class forum
 	function update_id_topic_from_id_topic($liste_topics)
     {
 		global $c;
-		$sql = 'UPDATE '.TABLE_FORUM_POSTS.'
-            SET id_topic='.$this->id_topic.'
-            WHERE id_topic IN ('.$liste_topics.')';
+		$sql = 'UPDATE '.TABLE_FORUM_POSTS.' SET id_topic='.$this->id_topic.'
+                WHERE id_topic IN ('.$liste_topics.')';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
 	}
 
@@ -572,8 +559,7 @@ class forum
 		global $c;
 		$sql = 'SELECT c.id_cat, c.titre_cat, f.*
 				FROM  '.TABLE_FORUM_FORUMS.' as f
-				LEFT JOIN '.TABLE_FORUM_CATS.' as c
-				ON (f.id_cat=c.id_cat)
+				LEFT JOIN '.TABLE_FORUM_CATS.' as c ON (f.id_cat=c.id_cat)
 				WHERE c.module="'.$module.'"
 				ORDER BY c.ordre ASC, f.ordre ASC, c.id_cat ASC, f.id_forum ASC';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
@@ -758,12 +744,9 @@ class forum
     {
 		global $c,$user,$session,$module;
 		$sql = 'DELETE tnl FROM '.TABLE_FORUM_TOPICS_NONLUS.' as tnl
-				LEFT JOIN '.TABLE_FORUM_TOPICS.' as t
-					ON (tnl.id_topic=t.id_topic)
-				LEFT JOIN '.TABLE_FORUM_FORUMS.' as f
-					ON (f.id_forum=t.id_forum)
-				LEFT JOIN '.TABLE_FORUM_CATS.' as c
-					ON (f.id_cat=c.id_cat)
+				LEFT JOIN '.TABLE_FORUM_TOPICS.' as t ON (tnl.id_topic=t.id_topic)
+				LEFT JOIN '.TABLE_FORUM_FORUMS.' as f ON (f.id_forum=t.id_forum)
+				LEFT JOIN '.TABLE_FORUM_CATS.' as c ON (f.id_cat=c.id_cat)
 				WHERE (c.module=\''.$module.'\' AND user_id='.$user['user_id'].')
 				OR date<'.($session->time-1209600);
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,712,__FILE__,__LINE__,$sql);
@@ -846,12 +829,11 @@ class forum
 			$type_topic = 1;
 			$fin_annonce = 'null';
 		}
-		$sql = 'INSERT INTO '.TABLE_FORUM_TOPICS.' (titre_topic, id_forum, type_topic, fin_annonce) VALUES
-				(
-				\''.$this->_escape($this->saisie['titre']).'\',
-				'.$this->saisie['id_forum'].',
-				'.$type_topic.',
-				'.$fin_annonce.')';
+		$sql = 'INSERT INTO '.TABLE_FORUM_TOPICS.' (titre_topic, id_forum, type_topic, fin_annonce)
+                VALUES (\''.$this->_escape($this->saisie['titre']).'\',
+                    '.$this->saisie['id_forum'].',
+                    '.$type_topic.',
+                    '.$fin_annonce.')';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,712,__FILE__,__LINE__,$sql);
 		$this->id_topic=$c->sql_nextid();
 		$this->maj_forum();
@@ -885,13 +867,12 @@ class forum
 			message_die(E_WARNING,716,'','');
 		}
 
-		$sql = 'INSERT INTO '.TABLE_FORUM_POSTS.' (id_topic, date_post, user_id, text_post,ip_posteur) VALUES
-				(
-				'.$this->id_topic.',
-				'.time().',
-				'.$user['user_id'].',
-				\''.$this->_escape($this->saisie['post']).'\',
-				\''.$user['user_ip'].'\')';
+		$sql = 'INSERT INTO '.TABLE_FORUM_POSTS.' (id_topic, date_post, user_id, text_post,ip_posteur)
+                VALUES ('.$this->id_topic.',
+                    '.time().',
+                    '.$user['user_id'].',
+                    \''.$this->_escape($this->saisie['post']).'\',
+                    \''.$user['user_ip'].'\')';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,713,__FILE__,__LINE__,$sql);
 		$this->id_post = $c->sql_nextid();
 		// Update topic
@@ -936,9 +917,9 @@ class forum
 		// MAJ du titre
 		if (!empty($this->saisie['titre'])){
             $this->id_post = $this->saisie['id_post'];
-            $this->Get_Post();
+            $this->get_post();
             $this->id_topic = $this->post['id_topic'];
-            $this->Get_Topic();
+            $this->get_topic();
             if (($droits->check($module,$this->topic['id_forum'],'moderer') || $user['level']>9)
                 && $this->type_topic==2)
             {
@@ -982,10 +963,8 @@ class forum
 		// Liste des participants voulant recevoir un email de notification
 		$sql = 'SELECT s.user_id, u.email, u.pseudo
 				FROM '.TABLE_FORUM_TOPICS_SUIVIS.' AS s
-				LEFT JOIN '.TABLE_USERS.' AS u
-					ON (s.user_id=u.user_id)
-				LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' AS tnl
-					ON (s.user_id=tnl.user_id AND s.id_topic=tnl.id_topic)
+				LEFT JOIN '.TABLE_USERS.' AS u ON (s.user_id=u.user_id)
+				LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' AS tnl ON (s.user_id=tnl.user_id AND s.id_topic=tnl.id_topic)
 				WHERE u.forum_email_reponse=true
 				AND s.prevenu=false
 				AND s.id_topic='.$id_topic;
@@ -1055,14 +1034,12 @@ class forum
 	{
 		global $c,$cache;
 		$sql = 'SELECT COUNT(id_topic) as cpt,f.id_forum FROM '.TABLE_FORUM_FORUMS.' as f
-				LEFT JOIN '.TABLE_FORUM_TOPICS.' as t
-				ON (f.id_forum=t.id_forum)';
+				LEFT JOIN '.TABLE_FORUM_TOPICS.' as t ON (f.id_forum=t.id_forum)';
 		if ($id_forum!=false) $sql .= ' WHERE f.id_forum='.$id_forum;
 		$sql .= ' GROUP BY f.id_forum';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,712,__FILE__,__LINE__,$sql);
 		while($row = $c->sql_fetchrow($resultat)){
-			$sql_update = 'UPDATE '.TABLE_FORUM_FORUMS.' SET
-						nbre_topics='.$row['cpt'].'
+			$sql_update = 'UPDATE '.TABLE_FORUM_FORUMS.' SET nbre_topics='.intval($row['cpt']).'
 						WHERE id_forum='.$row['id_forum'];
 			if (!$c->sql_query($sql_update))message_die(E_ERROR,712,__FILE__,__LINE__,$sql_update);
 		}
@@ -1079,8 +1056,8 @@ class forum
 		if (!isset($this->id_post)) error404(711);
 		$sql = 'SELECT p.*, t.*
 				FROM '.TABLE_FORUM_POSTS.' AS p
-				LEFT JOIN '.TABLE_FORUM_TOPICS.' AS t
-				ON (p.id_topic=t.id_topic) WHERE p.id_post='.$this->id_post;
+				LEFT JOIN '.TABLE_FORUM_TOPICS.' AS t ON (p.id_topic=t.id_topic)
+                WHERE p.id_post='.$this->id_post;
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,703,__FILE__,__LINE__,$sql);
 		$this->post = $c->sql_fetchrow($resultat);
 	}
@@ -1094,10 +1071,8 @@ class forum
 		if (!isset($this->id_topic)) error404(711);
 		$sql = 'SELECT t.*,p.*,f.*
 				FROM '.TABLE_FORUM_TOPICS.' AS t
-				LEFT JOIN '.TABLE_FORUM_POSTS.' AS p
-				ON (t.id_topic=p.id_topic)
-				LEFT JOIN '.TABLE_FORUM_FORUMS.' AS f
-				ON (t.id_forum=f.id_forum)
+				LEFT JOIN '.TABLE_FORUM_POSTS.' AS p ON (t.id_topic=p.id_topic)
+				LEFT JOIN '.TABLE_FORUM_FORUMS.' AS f ON (t.id_forum=f.id_forum)
 				WHERE t.id_topic='.$this->id_topic.'
 				ORDER BY date_post ASC';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,703,__FILE__,__LINE__,$sql);
@@ -1137,8 +1112,7 @@ class forum
 		global $c;
 		$sql = 'SELECT module, titre_forum
 				FROM '.TABLE_FORUM_FORUMS .' AS f
-				LEFT JOIN '.TABLE_FORUM_CATS.' AS c
-					ON (f.id_cat=c.id_cat)
+				LEFT JOIN '.TABLE_FORUM_CATS.' AS c ON (f.id_cat=c.id_cat)
 				WHERE id_forum='.$id_forum;
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,703,__FILE__,__LINE__,$sql);
 		if ( $c->sql_numrows()> 0){
