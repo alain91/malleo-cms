@@ -70,26 +70,7 @@ if ($c->sql_numrows($resultat)==0){
 		ucfirst($module)	=> formate_url('',true),
 		$row['titre_cat']	=> formate_url('mode=cat&id_cat='.$row['id_cat'],true)
     ));
-    if (empty($row['parent_forum']))
-		$session->make_navlinks($row['titre_forum'],formate_url('mode=forum&id_forum='.$row['id_forum'],true));
-    else {
-        $parent=$row['parent_forum'];
-        $liste=array($row['titre_forum']=>formate_url('mode=forum&id_forum='.$row['id_forum'],true));
-        while(!empty($parent)){
-            $sql1 = 'SELECT f.titre_forum, f.id_forum, f.parent_forum
-                FROM '.TABLE_FORUM_FORUMS.' as f
-                WHERE f.id_forum='.intval($parent).'
-                LIMIT 1';
-            if (!$resultat1 = $c->sql_query($sql1))message_die(E_ERROR,704,__FILE__,__LINE__,$sql);
-            $parent=0;
-            if ($c->sql_numrows($resultat1)>0){
-            	$row1 = $c->sql_fetchrow($resultat1);
-                $liste[$row1['titre_forum']]=formate_url('mode=forum&id_forum='.$row1['id_forum'],true);
-                $parent=$row1['parent_forum'];
-            }
-        }
-        $session->make_navlinks(array_reverse($liste));
-    }
+    $f->navlinks_forums($row['id_forum'],$row['titre_forum'],$row['parent_forum']);
 
 	// Nouveau topic ?
 	if (($droits->check($module,$row['id_forum'],'ecrire') || $user['level']>9) && $row['status_forum'] == 1 ) $tpl->assign_block_vars('nouveau', array());

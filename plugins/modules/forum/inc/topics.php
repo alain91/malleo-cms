@@ -40,7 +40,7 @@ $tpl->set_filenames(array('forum'=>$root.'plugins/modules/forum/html/topic.html'
 // RECHERCHE du topic et de la page où se trouve le post demandé
 $sql = 'SELECT p.user_id, p.id_post, p.id_topic,
 		t.id_topic, t.titre_topic, t.reponses_topic, t.lectures_topic, t.status_topic, t.type_topic, t.fin_annonce,
-		f.titre_forum, f.id_forum, f.status_forum, 
+		f.titre_forum, f.id_forum, f.status_forum, f.parent_forum,
 		c.titre_cat, c.id_cat,
 		tnl.id_topic AS topic_lu,		
 		ts.id_topic AS topic_suivis, ts.prevenu, 
@@ -130,12 +130,13 @@ while($row = $c->sql_fetchrow($resultat))
 		$tpl->titre_navigateur = $row['titre_topic'].' :: '.$row['titre_cat'].' :: '.$row['titre_forum'];
 		$tpl->titre_page = $f->formate_titre_sujet($row['titre_topic']);
 
-
-		// Navlinks
+        // Navlinks
+        $session->make_navlinks(array(
+            ucfirst($module)	=> formate_url('',true),
+            $row['titre_cat']	=> formate_url('mode=cat&id_cat='.$row['id_cat'],true)
+        ));
+        $f->navlinks_forums($row['id_forum'],$row['titre_forum'],$row['parent_forum']);
 		$session->make_navlinks(array(
-			ucfirst($module)	=> formate_url('',true),
-			$row['titre_cat']	=> formate_url('mode=cat&id_cat='.$row['id_cat'],true),
-			$row['titre_forum']	=> formate_url('mode=forum&id_forum='.$f->id_forum,true),
 			$row['titre_topic']	=> formate_url('mode=topic&id_topic='.$f->id_topic,true)
 		));
 
