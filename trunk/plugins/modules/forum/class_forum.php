@@ -172,17 +172,16 @@ class forum
 			case '2':$choix_tpl = 'liste_topics_classique.html';break;
 		}
 		$tpl->set_filenames(array('liste_topics'=>$root.'plugins/modules/forum/html/'.$choix_tpl));
-		$sql = 'SELECT t.*, pfin.text_post, pfin.date_post,
+		$sql = 'SELECT t.*, pfin.id_post, pfin.text_post, pfin.date_post,
 				tnl.id_topic AS topic_lu, ts.id_topic AS topic_abonne, ufin.pseudo
 			FROM '.TABLE_FORUM_TOPICS.' as t
 			LEFT JOIN '.TABLE_FORUM_POSTS.' as pfin ON (t.post_fin=pfin.id_post)
 			LEFT JOIN '.TABLE_USERS.' as ufin ON (pfin.user_id=ufin.user_id)
 			LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
 			LEFT JOIN '.TABLE_FORUM_TOPICS_SUIVIS.' as ts ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
-			WHERE t.id_forum='.intval($id_forum).' AND type_topic<=1
-			ORDER BY date_topic DESC
+			WHERE t.id_forum='.intval($id_forum).' AND t.type_topic<=1
+			ORDER BY t.date_topic DESC
 			LIMIT '.$start.','.$nbre_topics;
-
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		if ($c->sql_numrows($resultat)==0){
 			$tpl->assign_block_vars('aucun_topic', array());
@@ -223,15 +222,15 @@ class forum
 	function affiche_liste_generic($id_forum,$type,$template,$varliste,$vartemplate)
 	{
 		global $c,$cf,$tpl,$post,$lang,$img,$root,$droits,$module,$user;
-		$sql = 'SELECT t.*i, pfin.text_post, pfin.date_post,
+		$sql = 'SELECT t.*, pfin.id_post, pfin.text_post, pfin.date_post,
 				tnl.id_topic AS topic_lu, ts.id_topic AS topic_abonne, ufin.pseudo
 			FROM '.TABLE_FORUM_TOPICS.' as t
 			LEFT JOIN '.TABLE_FORUM_POSTS.' as pfin ON (t.post_fin=pfin.id_post)
 			LEFT JOIN '.TABLE_USERS.' as ufin ON (pfin.user_id=ufin.user_id)
 			LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
 			LEFT JOIN '.TABLE_FORUM_TOPICS_SUIVIS.' as ts ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
-			WHERE t.id_forum='.intval($id_forum).' AND type_topic='.intval($type).'
-			ORDER BY date_topic DESC';
+			WHERE t.id_forum='.intval($id_forum).' AND t.type_topic='.intval($type).'
+			ORDER BY t.date_topic DESC';
 
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		if ($c->sql_numrows($resultat)>0){
@@ -274,9 +273,10 @@ class forum
         global $c;
         $sql = 'SELECT p.*, u.pseudo
                 FROM '.TABLE_FORUM_TOPICS.' as t
-                LEFT JOIN '.TABLE_FORUM_POSTS.' as p ON (t.post_fin=p.id_topic)
+                LEFT JOIN '.TABLE_FORUM_POSTS.' as p ON (t.post_fin=p.id_post)
                 LEFT JOIN '.TABLE_USERS.' as u ON (p.user_id=u.user_id)
                 WHERE t.id_forum IN ('.implode(',',$liste_forums).')
+                AND t.post_fin is not null
                 ORDER BY p.date_post DESC
                 LIMIT 1';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
@@ -1150,5 +1150,36 @@ class forum
 				WHERE module="'.$module.'" AND id_noeud='.$id_forum;
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,703,__FILE__,__LINE__,$sql);
 	}
+	/**
+	* Navlinks arborescence des forums
+    *
+    */
+	function navlinks_forums($id_forum,$titre_forum,$parent_forum)
+    {
+        global $c,$session;
+        $id_forum=intval($id_forum);
+        $parent_forum=intval($parent_forum);
+        $titre_forum=trim($titre_forum);
+        if (empty($parent_forum))
+            $session->make_navlinks($titre_forum,formate_url('mode=forum&id_forum='.$id_forum,true));
+        else {
+            $parent=$parent_forum;
+            $liste=array($titre_forum=>formate_url('mode=forum&id_forum='.$id_forum,true));
+            while(!empty($parent)){
+                $sql = 'SELECT f.titre_forum, f.id_forum, f.parent_forum
+                    FROM '.TABLE_FORUM_FORUMS.' as f
+                    WHERE f.id_forum='.$parent.'
+                    LIMIT 1';
+                if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,704,__FILE__,__LINE__,$sql);
+                $parent=0;
+                if ($c->sql_numrows($resultat)>0){
+                    $row = $c->sql_fetchrow($resultat);
+                    $liste[$row['titre_forum']]=formate_url('mode=forum&id_forum='.intval($row['id_forum']),true);
+                    $parent=intval($row['parent_forum']);
+                }
+            }
+            $session->make_navlinks(array_reverse($liste));
+        }
+    }
 }
 ?>

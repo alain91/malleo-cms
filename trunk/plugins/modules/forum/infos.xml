@@ -2,7 +2,7 @@
 <module>
 	<libelle>Multiples Forums</libelle>
 	<version>1.4</version>
-	<version_min>a3</version_min>
+	<version_min>1</version_min>
 	<auteur>alain91</auteur>
 	<site_auteur>http://www.malleo-cms.com</site_auteur>
 	<check_version>http://www.malleo-cms.com/versions/forum.txt</check_version>
