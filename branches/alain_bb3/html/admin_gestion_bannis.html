@@ -1,0 +1,86 @@
+<h1 class="admin">{L_GESTION_BANNIS}</h1>
+<p>{L_GESTION_BANNIS_EXPLAIN}</p>
+
+<table width="100%">
+<tr>
+	<td width="200" valign="top">	
+		<h2>{L_AJOUTER_REGLE}</h2>
+		<form name="admin_gestion_bannis" method="post" action="">
+		<div class="bloc_admin">
+			<table cellpadding="1" cellspacing="1" class="standard" width="300">
+			<tr>
+				<th colspan="2" align="center">{L_AJOUTER_REGLE}</th>
+			</tr>
+			<tr>
+				<td class="row1" align="left">{L_TYPE}</td>
+				<td class="row2" align="left"><select name="type">
+				<!-- BEGIN liste_types -->
+				<option value="{liste_types.VALEUR_TYPE}">{liste_types.LIBELLE_TYPE}</option>
+				<!-- END liste_types -->
+				</select></td>
+			</tr>
+			<tr>
+				<td class="row1" align="left">{L_VALEUR}</td>
+				<td class="row2" align="left"><input type="text" name="valeur" value="{LISTE_MODELES}" /></td>
+			</tr>
+			<tr>
+				<td class="row1" align="left">{L_DATE_FIN}</td>
+				<td class="row2" align="left">
+					<select name="jour">{JOUR}</select>
+					<select name="mois">{MOIS}</select>
+					<select name="annee">{ANNEE}</select><br />
+					<input type="checkbox" name="illimite" value="" />{L_COCHER_ILLIMITE}
+				</td>
+			</tr>
+			<tr>
+				<td class="row1" align="left" colspan="2">{L_RAISON}<br />
+				<textarea name="raison" style="width:98%;">{RAISON}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center"><input type="submit" name="enregistrer" value="{L_ENREGISTRER}" /></td>
+			</tr>
+			</table>
+		</div>
+		{HIDDEN}
+		<input type="hidden" name="action" value="{ACTION}" />
+		</form>
+</td><td valign="top">
+	<h2>{L_LISTE_REGLES}</h2>
+	<!-- BEGIN liste_types -->
+	<div class="bloc_admin">
+		<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+		<tr>
+			<th>{liste_types.LIBELLE_TYPE}</th>
+			<th width="50">{L_DATE_DEBUT}</th>
+			<th width="50">{L_DATE_FIN}</th>
+			<th width="15">{L_SUPPRIMER}</th>
+		</tr>
+		<!-- BEGIN enregistrements -->
+		<tr>
+			<td class="row1" align="left">{liste_types.enregistrements.PATTERN}</td>
+			<td class="row1" align="center">{liste_types.enregistrements.DATE_DEBUT}</td>
+			<td class="row1" align="center">{liste_types.enregistrements.DATE_FIN}</td>
+			<td class="row2" align="center">
+				<a href="{liste_types.enregistrements.S_SUPP}"><img src="{I_SUPP}" border="0" /></a>
+			</td>
+		</tr>
+		<!-- BEGIN raison_ban -->
+		<tr>
+			<td class="row3" align="left" colspan="4">&nbsp;&nbsp;&nbsp;&raquo; {liste_types.enregistrements.RAISON}</td>
+		</tr>
+		<!-- END raison_ban -->
+		<!-- END enregistrements -->
+		<!-- BEGIN aucun_enregistrements -->
+		<tr>
+			<td class="row1" align="center" colspan="4">{L_AUCUN_ENREGISTREMENT}</td>
+		</tr>
+		<!-- END aucun_enregistrements -->
+		</table>
+	</div><br />
+	<!-- END liste_types -->
+	
+	
+	</td>
+</tr>
+</table>

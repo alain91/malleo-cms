@@ -1,0 +1,86 @@
+<h1 class="admin">{L_TITLE_PAGE_STICK}</h1>
+<p>{L_DESC_PAGE_STICK}</p>
+<h2>{L_CONFIG_GENERALE}</h2>
+<div class="bloc_admin">
+<table cellpadding="1" cellspacing="1" class="standard" align="center" width="100%">
+	<tr>
+		<th>{L_MOT_STICK}</th>
+		<th>{L_TYPE_STICK}</th>
+		<th>{L_COULEUR_STICK}</th>
+		<th>{L_IMAGE_STICK}</th>
+		<th>{L_TEXTE_STICK}</th>
+		<th>{L_OPTION_STICK}</th>
+	</tr>
+	<!-- BEGIN liste_tags -->
+	<tr>
+		<td class="row1">{liste_tags.MOT}</td>
+		<td class="row1 center">{liste_tags.TYPE}</td>
+		<td class="row1 center"><span style="color:{liste_tags.COULEUR};">{liste_tags.COULEUR}</span></td>
+		<td class="row1 center">{liste_tags.IMAGE}</td>
+		<td class="row1"><span style="color:{liste_tags.COULEUR};">{liste_tags.ALTERNATIF}</span></td>
+		<td class="row1 center absmiddle">
+			<a href="{liste_tags.U_EDITER}" title="{L_EDITER}"><img src="{I_EDITER}" alt="{L_EDITER}" /></a>
+			<a href="{liste_tags.U_SUPPRIMER}" title="{L_SUPPRIMER}"><img src="{I_SUPPR}" alt="{L_SUPPRIMER}" /></a>
+		</td>
+	</tr>
+	<!-- END liste_tags -->
+	<!-- BEGIN aucun_log -->
+	<tr>
+		<td class="row1 center" colspan="6">{aucun_log.AUCUN_LOG}</td>
+	</tr>
+	<!-- END aucun_log -->
+</table>
+</div>
+<br />
+<h2>{L_AJOUTER_TAG}</h2>
+<!-- BEGIN erreur_saisie -->
+<div class="admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" width="80%" align="center">
+		<tr>
+			<td class="rowAlerte center" height="20"><b>{ALERTE_ERREUR_SAISIE}</b></td>
+		</tr>
+	</table>
+</div>
+<br />
+<!-- END erreur_saisie -->
+<form name="admin_config" method="post" action="">
+<div class="bloc_admin" style="width:350px;">
+<script language="Javascript" type="text/javascript" src="js/picker.js" /></script>
+<table cellpadding="1" cellspacing="1" class="standard" align="center" width="100%">
+	<tr>
+		<th colspan="2">&nbsp;</th>
+	</tr>
+	<tr>
+		<td class="row1" width="40%">{L_MOT_STICK}</td>
+		<td class="row2" width="60%"><input type="text" name="mot" value="{MOT}" size="20" /></td>
+	<tr>
+		<td class="row1">{L_TYPE_STICK}</td>
+		<td class="row2">
+			<select name="type">
+				<option value="0"{SELECT_TYPE_0}>{L_COULEUR}</option>
+				<option value="1"{SELECT_TYPE_1}>{L_IMAGE}</option>
+			</select></td>
+	</tr>
+	<tr>
+		<td class="row1">{L_COULEUR_STICK}</td>
+		<td class="row2"><input type="text" name="couleur" value="{COULEUR}" maxlength="7" size="20" />
+		<img src="{I_PICKER}" onclick="showColorPicker(this,document.admin_config.couleur)"></td>
+	</tr>
+	<tr>
+		<td class="row1">{L_IMAGE_STICK}</td>
+		<td class="row2"><input type="text" name="image" value="{IMAGE}" size="20" /></td>
+	</tr>
+	<tr>
+		<td class="row1">{L_TEXTE_STICK}</td>
+		<td class="row1"><input type="text" name="alternatif" value="{ALTERNATIF}" size="20" /></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center">
+			{ID_STICK}
+			<input type="submit" name="enregistrer" value="{L_ENREGISTRER}" />
+			<input type="hidden" name="action" value="{HIDDEN}" />	
+		</td>
+	</tr>
+</table>
+</form>
+</div>

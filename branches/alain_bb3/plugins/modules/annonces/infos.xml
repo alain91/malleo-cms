@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<module>
+<libelle>Annonces</libelle>
+<version>0.3</version>
+<auteur>alain91</auteur>
+<site_auteur>http://localhost/malleoBase</site_auteur>
+<check_version>http://localhost/malleoBase/versions/annonces.txt</check_version>
+<install>
+	<requete>
+DROP TABLE IF EXISTS `a_mod_annonces`;
+	</requete>
+	<requete>
+CREATE TABLE IF NOT EXISTS `a_mod_annonces` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `id_cat` int(11) unsigned NOT NULL default '0',
+  `title` varchar(63) collate utf8_unicode_ci NOT NULL default '',
+  `contents` text collate utf8_unicode_ci NOT NULL,
+  `picture` varchar(63) collate utf8_unicode_ci default NULL,
+  `created_by` int(11) unsigned NOT NULL default '0',
+  `created_date` int(11) unsigned NOT NULL default '0',
+  `type` tinyint(4) unsigned NOT NULL default '0',
+  `price` float NOT NULL default '0',
+  `approved_by` int(11) unsigned NOT NULL default '0',
+  `approved_date` int(11) unsigned NOT NULL default '0',
+  `updated_by` int(11) unsigned NOT NULL default '0',
+  `updated_date` int(11) unsigned NOT NULL default '0',
+  `start_date` int(11) unsigned NOT NULL default '0',
+  `max_weeks` int(11) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+	</requete>
+	<requete>
+DROP TABLE IF EXISTS `a_mod_annonces_cats`;
+	</requete>
+	<requete>
+CREATE TABLE IF NOT EXISTS `a_mod_annonces_cats` (
+  `id_cat` int(11) unsigned NOT NULL auto_increment,
+  `title_cat` varchar(63) NOT NULL,
+  `description_cat` varchar(255) default NULL,
+  `picture_cat` varchar(63) default NULL,
+  `order` int(11) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id_cat`)
+) AUTO_INCREMENT=1 ;
+
+	</requete>
+	<requete>
+DELETE FROM `a_config` WHERE
+	`data` = 'annonces_bpp' OR
+	`data` = 'annonces_cat_cols' OR
+	`data` = 'cache_duree_annonces_cat';
+	</requete>
+	<requete>
+INSERT INTO `a_config` (`data`, `valeur`) VALUES
+	('annonces_bpp', 10),
+	('annonces_cat_cols', 1),
+	('cache_duree_annonces_cat', 3600);
+	</requete>
+	<requete>
+DELETE FROM `a_modelisation_tables` WHERE
+	`nom_champs` = 'annonces_bpp' OR
+	`nom_champs` = 'annonces_cat_cols' OR
+	`nom_champs` = 'cache_duree_annonces_cat' LIMIT 3;
+	</requete>
+	<requete>
+INSERT INTO `a_modelisation_tables` (`nom_champs`, `type_saisie`, `lang`, `param`, `page`) VALUES
+	('annonces_bpp', 'text', 'L_BILLETS_PAR_PAGE', 10, 'Annonces'),
+	('annonces_cat_cols', 'text', 'L_CAT_COLS', 10, 'Annonces'),
+	('cache_duree_annonces_cat', 'text', 'Q_CACHE_DUREE_ANNONCES_CATS', 10, 'Config_Cache');
+	</requete>
+</install>
+<delete>
+	<requete>
+DROP TABLE IF EXISTS `a_mod_annonces`;
+	</requete>
+	<requete>
+DROP TABLE IF EXISTS `a_mod_annonces_cats`;
+	</requete>
+	<requete>
+DELETE FROM `a_config` WHERE
+	`data` = 'annonces_bpp' OR
+	`data` = 'annonces_cat_cols' OR
+	`data` = 'cache_duree_annonces_cat' LIMIT 3;
+	</requete>
+	<requete>
+DELETE FROM `a_modelisation_tables` WHERE
+	`nom_champs` = 'annonces_bpp' OR
+	`nom_champs` = 'annonces_cat_cols' OR
+	`nom_champs` = 'cache_duree_annonces_cat' LIMIT 3;
+	</requete>
+	<requete>
+DELETE FROM `a_plugins` WHERE `plugin` = 'annonces' LIMIT 1;
+	</requete>
+</delete>
+</module>

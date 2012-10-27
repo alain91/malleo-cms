@@ -1,0 +1,123 @@
+<!--
+<script type="text/javascript" src="js/affichage.js"></script>
+-->
+<script type="text/javascript">
+<!--
+function radioClicked(Nom)
+{
+	var r = false;
+	var d = document.getElementsByName(Nom);
+	for(var i=0; i<d.length; i++)
+	{
+		if(d[i].type=='radio' && d[i].checked)
+		{
+			r = d[i].value;
+			break;
+		}
+	}
+	return r ? r : 0;
+}
+
+function change_order()
+{
+	window.location = "{TARGET_ON_CHANGE_ORDER}&sort=" + document.getElementById("sort").value + "&mode=" + document.getElementById("mode").value + "&type=" + radioClicked("radio_type");
+}
+
+function change_filter()
+{
+	window.location = "{TARGET_ON_CHANGE_ORDER}&type=" + radioClicked("radio_type");
+}
+
+function view_not_approved()
+{
+	window.location = "{TARGET_ON_CHANGE_ORDER}&ViewNotApproved=1";
+}
+-->
+</script>
+
+<div class="bloc">
+	{DESCRIPTION}
+	<hr style="margin-top:15px;" />
+	
+	<!-- BEGIN add -->
+	&nbsp;&nbsp;
+	<a href="">
+		<img class="valign_middle" src="{CHEMIN_ICONES}add.png" alt="" />
+	</a>
+	<!-- END add -->
+
+	<p>
+	<!-- BEGIN type_options -->
+	&nbsp;&nbsp;<input type="radio" name="radio_type" value="{type_options.VALUE}" {type_options.CHECKED}>&nbsp;{type_options.NAME}</input>
+	<!-- END type_options -->
+	&nbsp;&nbsp;<input type="button" onclick="change_filter()" value="OK" />
+	</p>
+	<p style="margin-top:1.5em"><input type="button" onclick="view_not_approved()" value="{L_LIST_NOT_APPROVED}" /></p>
+	<hr style="margin-top:10px;" />
+	<!-- BEGIN liste -->
+	<div style="float:right" class="row3" id="form">
+		{L_ORDER_BY}
+		<select name="sort" id="sort" class="nav" onchange="change_order()">
+			<!-- BEGIN sort_options -->
+			<option value="{liste.sort_options.VALUE}" {liste.sort_options.SELECTED}>{liste.sort_options.NAME}</option>
+			<!-- END sort_options -->
+		</select>
+		<select name="mode" id="mode" class="nav" onchange="change_order()">
+			<!-- BEGIN mode_options -->
+			<option value="{liste.mode_options.VALUE}" {liste.mode_options.SELECTED}>{liste.mode_options.NAME}</option>
+			<!-- END mode_options -->
+		</select>
+	</div>
+	<div class="spacer">&nbsp;</div>
+	<!-- BEGIN item -->
+	<div id="smallads_{liste.item.ID}" class="block_container" style="margin-bottom:20px;">
+		<div class="block_contents">
+			<p style="margin-bottom:10px">
+				<a href="" style="font-size:large">{liste.item.TYPE} - {liste.item.TITRE}</a>
+				<!-- BEGIN edit -->
+				&nbsp;&nbsp;
+				<a href="{liste.item.edit.U_EDIT}">
+					<img class="valign_middle" src="{CHEMIN_ICONES}edit.png" alt="" width="16" height="16"/>
+				</a>
+				<!-- END edit -->
+				<!-- BEGIN delete -->
+				&nbsp;&nbsp;
+				<a href="{liste.item.delete.U_DELETE" onclick="return confirm('#{liste.item.ID} : {L_CONFIRM_DELETE}');">
+					<img class="valign_middle" src="{CHEMIN_ICONES}delete.png" alt="" width="16" height="16"/>
+				</a>
+				<!-- END delete -->
+			</p>
+			<!-- BEGIN not_approved -->
+			<p style="font-weight:bold; font-size:large; color:red">{L_NOT_APPROVED}</p>
+			<!-- END not_approved -->
+			<!-- BEGIN picture -->
+			<div style="float:left;margin:10px">
+				<img src="{liste.item.IMAGE}" />
+			</div>
+			<!-- END picture -->
+			<div>{liste.item.CONTENU}</div>
+			<br />
+			<div class="text_small">
+				<p style="font-weight:bold;font-size:large;">{L_PRIX}&nbsp;: {liste.item.PRIX}&nbsp;{L_PRIX_UNITE}</p>
+				<p>{L_APPROUVE} {liste.item.DATE_APPROBATION}</p>
+				<p>id #{liste.item.ID}</p>
+			</div>
+			<br />
+			<span style="float:left;">
+				{liste.item.USER} {liste.item.USER_PM} {liste.item.USER_MAIL} {liste.item.USER_MSN}
+				{liste.item.USER_YAHOO} {liste.item.USER_WEB}
+			</span>
+			<div class="spacer"></div>
+		</div>
+	</div>
+	<!-- END item -->
+	<div style="text-align:center;">{PAGINATION}</div>
+	<!-- END liste -->
+
+	<!-- BEGIN liste_vide -->
+	<div>
+		{liste_vide.CONTENU}
+	</div>
+	<!-- END liste_vide -->
+	<div class="spacer"></div>
+</div>

@@ -1,0 +1,90 @@
+<script type="text/javascript" src="js/affichage.js"></script>
+<h1 class="admin">{L_ARCADE_GESTION_JEUX}</h1>
+<p>{L_ARCADE_GESTION_JEUX_EXPLAIN}</p>
+
+	<h1>{MODULE}</h1>
+	<h2><img src="{ICONE_CATEGORIE}" alt="{CATEGORIE}" />  {CATEGORIE}</h2>
+		
+<table width="100%">
+<tr>
+	<td valign="top" width="400">
+	<form name="liste_jeux" id="liste_jeux" method="post">
+		<div class="bloc_admin">
+			<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+			<tr>
+				<th width="10">#</th>
+				<th colspan="2">{LISTE_JEUX}</th>
+				<th colspan="2">{L_GERER}</th>
+			</tr>
+		<!-- BEGIN liste_jeux -->
+			<tr>
+				<td class="row1 left" width="30"><input type="checkbox" name="jeu[]" value="{liste_jeux.ID_JEU}" /></td>
+				<td class="row1 left" width="30"><img src="{liste_jeux.IMAGE_PETITE}" alt="{liste_jeux.TITRE_JEU}" /></td>
+				<td class="row1 left"><span class="link1">{liste_jeux.TITRE_JEU}</span></td>
+				<td class="row1 center" width="40">
+					<a href="javascript:void('');" title="{L_EDITER}"  onClick="apercu_jeu('{liste_jeux.ID_JEU}');"><img src="{I_EDITER}" border="0" alt="{L_EDITER}" /></a>
+					<a href="{liste_jeux.S_SUPP}" title="{L_SUPPRIMER}"><img src="{I_EFFACER}" border="0" /></a>
+				</td>
+			</tr>
+		<!-- END liste_jeux -->
+		<!-- BEGIN aucun_resultat -->
+			<tr>
+				<td colspan="5" class="row1 center">{L_AUCUN_JEU}</td>
+			</tr>
+		<!-- END aucun_resultat -->
+			</table>
+			<br />
+			<div class="left">
+				<a href="javascript:;" onclick="cocher_checkbox('liste_jeux');">{L_COCHER}</a> / <a href="javascript:;" onclick="decocher_checkbox('liste_jeux');">{L_DECOCHER}</a>
+			</div>
+			<br />
+			<div class="pagination">{PAGINATION}</div>
+		</div>
+		<br />
+		<select name="action" onChange="if(this.value=='affecter') document.getElementById('bloc_categories').style.display = 'block'; else document.getElementById('bloc_categories').style.display = 'none';">{SELECT_OPTIONS_JEUX}</select>
+	
+		<div id="bloc_categories" style="display:none;">
+			<!-- BEGIN aucune_categorie -->
+			<br />
+			<div class="bloc_admin">
+				<table cellpadding="1" cellspacing="1" class="Alerte" align="center">
+				<tr>
+					<td class="rowAlerte" colspan="2" height="20"><b>{L_AUCUNE_CATEGORIE_EXISTE}</b></td>
+				</tr>
+				</table>
+			</div>
+			<!-- END aucune_categorie -->
+			<!-- BEGIN categories_ok -->
+			<br />
+			<h2>{L_AFFECTER_CATEGORIE}</h2>
+			<div class="bloc_admin">
+				<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+				<tr>
+				<th>{L_CATEGORIES}</th>
+				</tr>
+				<tr>
+				<td class="row1 left">
+					<select name="id_cats[]" multiple style="height:120px;width:300px;">{SELECT_LISTE_ID_CAT}</select>
+				</td>
+				</tr>
+				</table>
+			</div><br />
+			<!-- END categories_ok -->
+		</div>
+		<br /><br />
+		<div class="center"><input type="submit" name="confirmer" value="{L_CONFIRMER}" /></div>
+		</form>
+	</td>
+	<td valign="top">
+		<div id="apercu"></div>
+	</td>
+</tr>
+</table>
+<script type="text/javascript" src="js/requete_ajax.js"></script>
+<script type="text/javascript">
+	function apercu_jeu(id_jeu)
+	{
+		RequeteAjax('plugins/modules/arcade/admin_arcade_edition_fiche_jeu.php', 'POST', 'id_jeu='+id_jeu, 'apercu', 'InsererDansDIV');
+	}
+</script>
+<br clear="all">

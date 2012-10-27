@@ -1,0 +1,36 @@
+<script type="text/javascript" src="js/affichage.js"></script>
+<div class="bloc">
+	<!-- BEGIN error -->
+	<p style="text-align:center;color:red">{error.MESSAGE}</p>
+	<!-- END error -->
+	<table width="100%">
+	<tr>
+		<th>Lien</th>
+		<th>Taille</th>
+		<th>Date modification</th>
+		<th>Actions</th>
+	</tr>
+	<!-- BEGIN quotes -->
+	<tr>
+		<td class="row1 center" style="text-align:left"><input type="text" name="xx" value="{quotes.URL}" size="50" readonly="readonly" onclick="this.select();"/></td>
+		<td class="row1 center">{quotes.SIZE}</td>
+		<td class="row1 center">{quotes.MTIME}</td>
+		<td class="row1 center">
+	<!-- BEGIN delete -->
+		<a href="{quotes.delete.U_DELETE}" onclick="return confirmLink('{L_CONFIRM_DELETE}',this,'');""><img src="{I_DELETE}" alt="{L_DELETE}" title="{L_DELETE}" /></a>
+	<!-- END delete -->
+		&nbsp;</td>
+	</tr>
+	<!-- END quotes -->
+		<!-- BEGIN notfull -->
+	<td class="row1 center" colspan="4">
+	<form enctype="multipart/form-data" action="" method="post"> 
+		<input type="hidden" name="MAX_FILE_SIZE" value="{notfull.MAXSIZE}" /> 
+		<input type="file" name="userfile" /> ({FILEMAXSIZE} Mo maxi) 
+		<input type="submit" value="{FORM_SUBMIT}" /> 
+	</form> 
+	</td>
+	<!-- END notfull -->
+	</table>
+
+</div>

@@ -1,0 +1,230 @@
+<?php
+
+global $lang,$erreur;
+$lang['L_MENU_FORUM'] = 'Forum';
+$lang['L_MENU_FORUM_CONFIGURATION'] = 'Configuration';
+$lang['L_MENU_FORUM_CATEGORIES'] = 'Cat&eacute;gories';
+$lang['L_MENU_FORUM_PERMISSIONS'] = 'Permissions';
+
+
+$lang['L_DEMO_CAT_TITRE'] = 'Cat&eacute;gorie de D&eacute;monstration';
+$lang['L_DEMO_CAT_DESCRIPTION'] = 'Une cat&eacute;gorie permet de regrouper des forums et sous-forums suivant une m&ecirc;me th&eacute;matique.';
+$lang['L_DEMO_FORUM_TITRE'] = 'Mon premier Forum';
+
+$lang['L_TOPICS_RECENTS'] = 'Messages R&eacute;cents';
+$lang['L_IMPORTANT'] = 'Important';
+$lang['L_REPONSES'] = 'R&eacute;ponses';
+$lang['L_LECTURES'] = 'Lectures';
+$lang['L_AUTEUR'] = 'Auteur';
+$lang['L_TOPIC'] = 'Sujet';
+$lang['L_TOPICS'] = 'Sujets';
+$lang['L_FORUMS'] = 'Forums';
+$lang['L_FORUM'] = 'Forum';
+$lang['L_POSTS'] = 'Messages';
+$lang['L_POST'] = 'Message';
+$lang['L_AUCUN_TOPIC'] = 'Aucun sujet dans ce forum';
+$lang['L_REPONSE'] = 'R&eacute;ponse';
+$lang['L_MESSAGE'] = 'Message';
+$lang['L_AUTEUR'] = 'Auteur';
+$lang['L_MODULES'] = 'Modules';
+$lang['L_AJOUTER'] = 'Ajouter';
+$lang['L_POSTER'] = 'Poster';
+$lang['L_NOUVEAU'] = 'Nouveau';
+$lang['L_REPONDRE'] = 'R&eacute;pondre';
+$lang['L_ENREGISTRER'] = 'Enregistrer';
+$lang['L_SUIVRE'] = 'Suivre ce sujet';
+$lang['L_RESILIER'] = 'Arr&ecirc;ter de suivre ce sujet';
+$lang['L_SELECTIONNER'] = 'S&eacute;lectionner';
+$lang['L_GESTION'] = 'Gestion';
+$lang['L_AJOUTER_CAT'] = 'Ajouter une Cat&eacute;gorie';
+$lang['L_EDITER_CAT'] = 'Editer une Cat&eacute;gorie';
+$lang['L_AJOUTER_FORUM'] = 'Ajouter un Forum';
+$lang['L_EDITER_FORUM'] = 'Editer un Forum';
+$lang['L_EDITER_CAT'] = 'Editer une Cat&eacute;gorie';
+$lang['L_DEPLACER_TOPIC'] = 'D&eacute;placer le sujet vers';
+$lang['L_TOPIC_DEPLACE'] = 'Le sujet a bien &eacute;t&eacute; d&eacute;plac&eacute;';
+$lang['L_TITRE'] = 'Titre';
+$lang['L_PAR'] = 'par';
+$lang['L_LE'] = 'le';
+$lang['L_MODULE'] = 'Module';
+$lang['L_RACINE'] = 'Racine';
+$lang['L_NOT_DEFINED'] = 'Aucune cat&eacute;gorie de d&eacute;finie';
+$lang['L_DESCRIPTION'] = 'Description';
+$lang['L_NOM_NEW_FORUM'] = 'Nom du nouveau Forum';
+$lang['L_TITRE_ADMIN_CATEGORIES'] = 'Gestion des Forums';
+$lang['L_DEPLACER'] = 'D&eacute;placer';
+$lang['L_VERROUILLER'] = 'Verrouiller';
+$lang['L_DEVERROUILLER'] = 'D&eacute;verrouiller';
+$lang['L_TOPIC_VERROUILLE'] = 'Le sujet a &eacute;t&eacute; verrouill&eacute;';
+$lang['L_TOPIC_DEVERROUILLE'] = 'Le sujet a &eacute;t&eacute; d&eacute;verrouill&eacute;';
+$lang['L_FORUM_VERROUILLE'] = 'Le forum a &eacute;t&eacute; verrouill&eacute;';
+$lang['L_FORUM_DEVERROUILLE'] = 'Le forum a &eacute;t&eacute; d&eacute;verrouill&eacute;';
+$lang['L_EXPLAIN_CATEGORIES_FORUM'] = 'Organisez vos diff&eacute;rents forums en les classant dans des cat&eacute;gories et des modules. Pr&eacute;f&eacute;rez multiplier les cat&eacute;gories et les forums, que les sous forums.<br/> Trop de sous forums signifiera un travail de mod&eacute;ration cons&eacute;quent. La majorit&eacute; des internautes ne prennent pas la peine de chercher o&ugrave; poster, donc pr&eacute;f&eacute;rez des cat&eacute;gories fourre-tout.';
+$lang['L_POST_ENREGISTRE'] = 'Votre message a bien &eacute;t&eacute; enregistr&eacute;';
+$lang['L_TITRE_BOX'] = 'Action effectu&eacute;e';
+$lang['L_SOUS_FORUMS'] = 'Sous forums';
+$lang['L_SAISIE_MSG'] = 'Saisie d\'un message';
+$lang['L_TITRE_ADMIN_PERMISSIONS'] = 'Permissions des Forums';
+$lang['L_OU_MULTIPLE'] = 'OU au niveau d\'un groupe';
+$lang['L_OU_FORUMS'] = 'OU au niveau d\'un forum';
+$lang['L_PERSONNEL'] = 'Droits fins au niveau d\'un utilisateur';
+$lang['L_SELECT_GROUPE'] = 'S&eacute;lectionnez un pseudo, un groupe ou un forum';
+$lang['L_SAISIE_PSEUDO'] = 'Saisir un Pseudo';
+$lang['L_SELECT_FORUM'] = 'Forum parent';
+$lang['L_SELECT_ICONE'] = 'Ic&ocirc;ne';
+$lang['L_EXPLAIN_PERMISSIONS_FORUM'] = 'Le module forum b&eacute;n&eacute;ficie d\'un syst&egrave;me de permissions allant au del&agrave; des permissions du module. Vous pouvez appliquer des permissions pour chaque forum &agrave; des groupes, ou directement &agrave; des personnes.<br/><br/> Je vous conseille bien &eacute;videmment de travailler avec des groupes ce qui simplifie la gestion. De m&ecirc;me laissez sur "h&eacute;rit&eacute;" chaque fonctionnalit&eacute; que vous ne souhaitez pas voir &eacute;voluer.';
+$lang['L_POST_SUPPRIME'] = 'Le message a bien &eacute;t&eacute; supprim&eacute;';
+$lang['L_TOPIC_SUPPRIME'] = 'Le sujet a bien &eacute;t&eacute; supprim&eacute;';
+$lang['L_FONCTIONS'] = 'Fonction';
+$lang['L_INVITES'] = 'Tous';
+$lang['L_MEMBRES'] = 'Membres';
+$lang['L_ADMINS'] = 'Admins';
+$lang['L_TOPICS_MARQUES_LUS'] = 'Tous les sujets ont &eacute;t&eacute; marqu&eacute;s comme lus';
+$lang['L_TOPIC_MARQUE_SUIVI'] = 'Le sujet s&eacute;lectionn&eacute; est maintenant suivi';
+$lang['L_TOPIC_MARQUE_RESILIE'] = 'Le sujet s&eacute;lectionn&eacute; n\'est maintenant plus suivi';
+$lang['L_AUCUN_RESULTAT'] = 'Aucun r&eacute;sultat';
+$lang['L_ALLER_A'] = 'Page';
+$lang['L_MESSAGE'] = 'Message';
+$lang['L_REPONSES'] = 'R&eacute;ponses';
+$lang['L_LECTURES'] = 'Lectures';
+$lang['L_PREMIER'] = 'Premier';
+$lang['L_DERNIER'] = 'Dernier';
+$lang['L_DANS'] = 'Dans';
+$lang['L_PAR'] = 'par';
+$lang['L_LE'] = 'le';
+$lang['L_SUJET'] = 'Sujet';
+$lang['L_NON'] = 'Non';
+$lang['L_OUI'] = 'Oui';
+$lang['L_FORUMS'] = 'Forums';
+$lang['L_TOPIC_DEJA_LU'] = 'Vous avez d&eacute;j&agrave; lu ce sujet';
+$lang['L_TOPIC_JAMAIS_LU'] = 'Vous n\'avez jamais lu ce sujet';
+$lang['L_TOPIC_NON_ABONNE'] = 'Vous n\'&ecirc;tes pas abonn&eacute; au suivi de ce sujet';
+$lang['L_TOPIC_ABONNE'] = 'Vous &ecirc;tes abonn&eacute; au suivi de ce sujet';
+
+$lang['L_MSG_FAVORIS'] = 'Messages Favoris';
+$lang['L_MSG_NOUVEAU'] = 'Nouveaux Messages';
+$lang['L_MSG_MES_MSG'] = 'Mes Messages';
+$lang['L_MSG_SANS_REPONSE'] = 'Messages sans r&eacute;ponse';
+$lang['L_MSG_REPONSE_LU'] = 'Marquer tous les messages comme lus';
+$lang['L_OPTIONS'] = 'Options du forum';
+$lang['L_SUPPRIMER'] = 'Supprimer';
+$lang['L_EXPLORER'] = 'Explorer';
+$lang['L_EDITER'] = 'Editer';
+$lang['L_DIVISER'] = 'Diviser';
+$lang['L_VOIR_REPONSE'] = 'voir la r&eacute;ponse de ';
+$lang['L_VUE_FORUM'] = 'Comment souhaitez-vous que les sujets dans les forums soient affich&eacute;s ?';
+$lang['L_VUE_COMPLETE'] = 'Compl&egrave;te (avatars, messages)';
+$lang['L_VUE_CLASSIQUE'] = 'Classique (une seule ligne)';
+$lang['L_RECEPTION_EMAIL_REPONSE'] = 'Souhaitez-vous recevoir un email lors d\'une r&eacute;ponse &agrave; un message que vous suivez ?';
+$lang['L_OPTIONS_ENREGISTREES'] = 'Vos options personnelles ont bien &eacute;t&eacute; enregistr&eacute;es';
+
+$lang['L_MAIL_SUJET'] = 'Vous avez re&ccedil;u une r&eacute;ponse dans le forum';
+$lang['L_MAIL_BODY_HTML'] = "Vous avez re&ccedil;u une r&eacute;ponse &agrave; un sujet auquel vous avez particip&eacute; sur notre site. Voici un lien pour vous rendre directement sur le dernier message re&ccedil;u: <br /> <a href=\"%s\">%s</a>";
+$lang['L_TOUT_REMPLIR'] = 'Merci de remplir tous les champs';
+$lang['L_SAISIR_2_SUJETS'] = 'Il faut s&eacute;lectionner au moins 2 sujets pour les fusionner';
+$lang['L_DIVISER_TOPIC'] = 'Division du sujet';
+$lang['L_NOUVEAU_FORUM'] = 'Nouveau forum';
+$lang['L_DIVISER_A_PARTIR'] = 'Diviser &agrave; partir du premier message coch&eacute;';
+$lang['L_DIVISER_COCHES'] = 'Diviser les messages coch&eacute;s uniquement';
+$lang['L_COCHEZ_MESSAGES'] = 'Cochez les messages que vous souhaitez diviser, ou uniquement le premier message &agrave; partir duquel la division se fera';
+$lang['L_DEPLACER_EXPLAIN'] = 'S&eacute;lectionnez le forum dans lequel vous souhaitez d&eacute;placer ce sujet.';
+$lang['L_MSG_TRONQUE'] = '(message tronqu&eacute;)';
+$lang['L_COCHER'] = 'Tout cocher';
+$lang['L_DECOCHER'] = 'Tout d&eacute;cocher';
+$lang['L_TOPIC_DIVISE'] = 'Le sujet a bien &eacute;t&eacute; divis&eacute;, vous allez &ecirc;tre redirig&eacute; vers le nouveau sujet.';
+$lang['L_FUSIONNER'] = 'Fusionner';
+$lang['L_FUSIONNER_TOPICS'] = 'En fusionnant des sujets, tous les sujets s&eacute;lectionn&eacute;s vont se regrouper dans le sujet le plus ancien, les statistiques vont &ecirc;tre cumul&eacute;es.';
+$lang['L_DATE'] = 'Date';
+$lang['L_TOPICS_FUSIONNES'] = 'Les sujets s&eacute;lectionn&eacute;s ont &eacute;t&eacute; fusionn&eacute;s. Vous allez &ecirc;tre redirig&eacute; vers le forum de d&eacute;part.';
+$lang['L_AUCUN_FORUM'] = 'Il n\'y a aucun forum dans cette cat&eacute;gorie.';
+$lang['L_REMPLIR_TITRE'] = 'Merci de mettre au moins un titre';
+$lang['L_FAVORIS_DEL'] = 'Supprimer des Favoris';
+$lang['L_FAVORIS_ADD'] = 'Ajouter aux Favoris';
+$lang['L_TOPIC_AJOUTE_FAVORIS'] = 'Ce sujet a &eacute;t&eacute; ajout&eacute; aux favoris';
+$lang['L_TOPIC_SUPPRIME_FAVORIS'] = 'Ce sujet a &eacute;t&eacute; supprim&eacute; des favoris';
+$lang['L_TYPE_SUJET'] = 'Type de sujet';
+$lang['L_DATE_FIN_ANNONCE'] = 'Date de fin de l\'annonce';
+$lang['L_TOPIC_NORMAL'] = 'Sujet normal';
+$lang['L_TOPIC_ANNONCE'] = 'Sujet en annonce (dur&eacute;e limit&eacute;e)';
+$lang['L_TOPIC_POSTIT'] = 'Sujet en post-it (dur&eacute;e illimit&eacute;e)';
+$lang['L_CONFIRM_DELETE_TOPIC'] = 'Etes vous s&ucirc;r de vouloir supprimer ce sujet ?';
+$lang['L_CONFIRM_DELETE_POST'] = 'Etes vous s&ucirc;r de vouloir supprimer ce message ?';
+
+$lang['Q_FORUM_NBRE_POSTS_PAR_TOPIC'] = 'Nombre de messages par sujet ?';
+$lang['Q_FORUM_NBRE_TOPICS_PAR_FORUM'] = 'Nombre de sujets par forum ?';
+$lang['Q_FORUM_NBRE_RECENTS_INDEX'] = 'Nombre de sujets r&eacute;cents par cat&eacute;gorie sur l\'index?';
+$lang['Q_FORUM_NBRE_RECENTS_FORUM'] = 'Nombre de sujets r&eacute;cents dans sous-forums?';
+
+
+$lang['R_forum_ecrire'] = 'Ecrire un nouveau sujet';
+$lang['R_forum_editer'] = 'Editer ses messages';
+$lang['R_forum_favoris'] = 'Mettre en favoris';
+$lang['R_forum_lire'] = 'Lire les messages';
+$lang['R_forum_voir'] = 'Voir le forum';
+$lang['R_forum_moderer'] = 'Mod&eacute;rer';
+$lang['R_forum_repondre'] = 'R&eacute;pondre';
+$lang['R_forum_supprimer'] = 'Supprimer ses messages';
+$lang['R_forum_verrouiller'] = 'Verrouiller le forum';
+
+
+$lang['L_MENU_STICKIT'] = 'Tag';
+$lang['L_MENU_FORUM_STICKIT_CONFIGURATION'] = 'Tags';
+$lang['L_MENU_STICKIT_AJOUT'] = 'Ajout';
+$lang['L_MENU_FORUM_CATEGORIES'] = 'Cat&eacute;gories';
+$lang['L_MENU_FORUM_PERMISSIONS'] = 'Permissions';
+
+$lang['L_MOT_STICK'] = 'Mot recherch&eacute;';
+$lang['L_TYPE_STICK'] = 'Type';
+$lang['L_COULEUR_STICK'] = 'Couleur';
+$lang['L_IMAGE_STICK'] = 'Image affich&eacute;e';
+$lang['L_TEXTE_STICK'] = 'Texte affich&eacute;';
+$lang['L_DROIT_STICK'] = 'Permissions';
+$lang['L_EDITER'] = 'Editer';
+$lang['L_COULEUR'] = 'Couleur';
+$lang['L_IMAGE'] = 'Image';
+//$lang['L_INFOBULLE'] = 'Mot reconnu';
+
+$lang['L_AUCUN_LOGS'] = 'Aucun enregistrement trouv&eacute;';
+$lang['L_OPTION_STICK'] = 'Option';
+$lang['L_AJOUTER_TAG'] = 'Ajouter un tag';
+$lang['L_TITLE_PAGE_STICK'] = 'Gestion des tags color&eacute;s du forum';
+$lang['L_DESC_PAGE_STICK'] = 'Il vous est possible d\'ajouter, dans chaque titre de sujet, un tag afin de faire ressortir les sujets importants, les d&eacute;bats, les sujets r&eacute;solus. Les tags peuvent &ecirc;tre color&eacute;s, remplac&eacute;s par un autre mot, par une image, ou les trois r&eacute;unis.<br />
+Pour qu\'un mot soit rep&eacute;r&eacute; dans un sujet il faudra OBLIGATOIREMENT qu\'il soit encadr&eacute; de crochets dans le sujet.<br />Exemple: "[regl&eacute;] j\'ai un probl&egrave;me"<br />
+Par contre, dans cette interface les crochets ne doivent pas &ecirc;tre saisis.';
+$lang['L_CONFIG_GENERALE'] = 'Configuration G&eacute;n&eacute;rale';
+
+$lang['L_ENREGISTRER'] = 'Enregistrer';
+
+$lang['L_DERNIERE_REPONSE'] = 'Derni&egrave;re r&eacute;ponse';
+
+
+
+$erreur[700] = 'Impossible de lister les forums ';
+$erreur[701] = 'Impossible de lister les cat&eacute;gories de forums';
+$erreur[702] = 'Impossible de lister les sujets de ce forum';
+$erreur[703] = 'Impossible de trouver le sujet/message demand&eacute';
+$erreur[704] = 'Impossible de trouver le forum demand&eacute';
+$erreur[705] = 'Impossible de lister les modules';
+$erreur[706] = 'Impossible de lister les cat&eacute;gories';
+$erreur[707] = 'Impossible d\'enregistrer cette cat&eacute;gorie';
+$erreur[708] = 'Impossible d\'enregistrer ce forum';
+$erreur[709] = 'Impossible de supprimer ce forum';
+$erreur[710] = 'Impossible de supprimer cette cat&eacute;gorie';
+$erreur[711] = 'Vous n\'&ecirc;tes pas autoris&eacute; &agrave; poster sur ce forum';
+$erreur[712] = 'Impossible de cr&eacute;er ce sujet';
+$erreur[713] = 'Impossible de cr&eacute;er ce message';
+$erreur[714] = 'Impossible de supprimer ce sujet';
+$erreur[715] = 'Impossible de modifier le statut de ce sujet';
+$erreur[716] = 'Veuillez remplir tous les champs';
+$erreur[717] = 'Impossible de mettre &agrave; jour les forums';
+$erreur[718] = 'Le pseudo saisi n\'existe pas';
+$erreur[719] = 'Vous n\'&ecirc;tes pas autoris&eacute; &agrave; &eacute;diter un message';
+$erreur[720] = 'Vous n\'&ecirc;tes pas autoris&eacute; &agrave; &eacute;crire un message';
+$erreur[721] = 'Vous n\'&ecirc;tes pas autoris&eacute; &agrave; r&eacute;pondre sur ce sujet';
+$erreur[722] = 'Vous n\'&ecirc;tes pas autoris&eacute; &agrave; supprimer ce message';
+$erreur[723] = 'Vous n\'&ecirc;tes pas autoris&eacute; &agrave; mod&eacute;rer ce forum';
+$erreur[724] = 'Vous n\'&ecirc;tes pas autoris&eacute; &agrave; lire ce sujet';
+$erreur[725] = 'Vous n\'&ecirc;tes pas autoris&eacute; &agrave; voir ce forum';
+$erreur[726] = 'Vous ne pouvez pas voir le forum, plusieurs raisons sont possibles:<ul><li>La cat&eacute;gorie n\'existe pas</li><li>Aucun forum n\'a &eacute;t&eacute; cr&eacute;&eacute; dans ce module</li><li>Vous n\'avez pas les autorisations d\'acc&eacute;der &agrave; cette cat&eacute;gorie.</li></ul>';
+$erreur[727] = 'Impossible de modifier le statut de ce forum';
+?>

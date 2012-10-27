@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<module>
+	<libelle>Qui est en ligne ?</libelle>
+	<version>1.0</version>
+	<auteur>SP</auteur>
+	<site_auteur>http://www.malleo-cms.com</site_auteur>
+	<check_version>http://www.malleo-cms.com/versions/bloc_whoisonline.txt</check_version>
+	<install>
+		<requete>INSERT INTO `a_config` (`data`, `valeur`) VALUES
+('cache_duree_whoisonline', '60'),
+('cache_duree_whoisonline_groupe', '43200');</requete>
+<requete>INSERT INTO `a_modelisation_tables` (`nom_champs`, `type_saisie`, `lang`, `param`, `page`) VALUES
+('cache_duree_whoisonline', 'text', 'Q_CACHE_WHOISONLINE', '10', 'Config_Cache'),
+('cache_duree_whoisonline_groupe', 'text', 'Q_CACHE_WHOISONLINE_GROUPES', '10', 'Config_Cache');</requete>
+</install>
+</module>
