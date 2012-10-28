@@ -2,18 +2,28 @@
 <div class="bloc">
 <table cellpadding="1" cellspacing="1" class="standard" width="100%">
 	<tr>
-		<th width="40%" colspan="2">{L_SOUS_FORUMS}</th>
+		<th width="50%" colspan="2">{L_SOUS_FORUMS}</th>
 		<th width="10%">{L_TOPICS}</th>
-		<th width="10%">{L_REPONSES}</th>
-		<th width="40%">{L_DERNIERE_REPONSE}</th>
+		<th width="10%">{L_POSTS}</th>
+		<th width="30%">{L_TOPICS_RECENTS}</th>
 	</tr>
     <!-- BEGIN forum -->
 	<tr>
-		<td class="{sous_forum.forum.CLASS} center" width="5%"><img src="{sous_forum.forum.ICONE}" alt="{sous_forum.forum.TITRE}" /></td>
-        <td class="{sous_forum.forum.CLASS} left" width="35%"><a href="{sous_forum.forum.LIEN}" class="link1">{sous_forum.forum.TITRE}</a></td>
+		<td class="{sous_forum.forum.CLASS} center" width="5%"><img src="{sous_forum.forum.ETAT_LU_ICONE}" alt="{sous_forum.forum.ETAT_LU_LIBELLE}" title="{sous_forum.forum.ETAT_LU_LIBELLE}" /></td>
+        <td class="{sous_forum.forum.CLASS} left" width="45%">
+            <a href="{sous_forum.forum.LIEN}" class="link1">
+                <img src="{sous_forum.forum.ICONE}" alt="{sous_forum.forum.TITRE}" class="absmiddle"/> {sous_forum.forum.TITRE} {sous_forum.forum.STATUS}
+            </a></td>
         <td class="{sous_forum.forum.CLASS} center">{sous_forum.forum.NBRE_TOPICS}</td>
-        <td class="{sous_forum.forum.CLASS} center">{sous_forum.forum.NBRE_REPONSES}</td>
-        <td class="{sous_forum.forum.CLASS} left"><a href=""></a>{sous_forum.forum.P_TEXT}<br />{sous_forum.forum.P_USER} {sous_forum.forum.P_DATE}</td>
+        <td class="{sous_forum.forum.CLASS} center">{sous_forum.forum.NBRE_POSTS}</td>
+        <td class="{sous_forum.forum.CLASS} left">
+        <!-- BEGIN aucun -->
+        {L_AUCUN_MESSAGE}
+        <!-- END aucun -->    
+        <!-- BEGIN recents -->        
+            <a href="{sous_forum.forum.recents.LIEN}">{sous_forum.forum.recents.TEXT}</a><br /><em style="font-size:10px">{L_LE} {sous_forum.forum.recents.DATE} {L_PAR} <a href="" class="pseudo">{sous_forum.forum.recents.PSEUDO}</a></em></td>
+        <!-- END recents -->
+        </td>
     </tr>
     <!-- END forum -->        
 </table>

@@ -2,18 +2,28 @@
 <div class="bloc">
 <table cellpadding="1" cellspacing="1" class="standard" width="100%">
 	<tr>
-		<th width="40%" colspan="2">{L_TOPIC_POSTIT}</th>
+		<th width="50%" colspan="2">{L_TOPIC_POSTIT}</th>
 		<th width="10%">{L_REPONSES}</th>
 		<th width="10%">{L_LECTURES}</th>
-		<th width="40%">{L_DERNIERE_REPONSE}</th>
+		<th width="30%">{L_TOPICS_RECENTS}</th>
 	</tr>
 	<!-- BEGIN items -->
 	<tr>
-		<td class="{postits.items.CLASS} center" width="5%"><img src="{postits.items.TOPIC_LU}" alt="{postits.items.TOPIC_LU_LIBELLE}" title="{postits.items.TOPIC_LU_LIBELLE}" /></td>
-		<td class="{postits.items.CLASS} left" width="35%"><a href="{postits.items.LIEN_TOPIC}" class="link1"><img src="{postits.items.TOPIC_ABONNE}" alt="{postits.items.TOPIC_ABONNE_LIBELLE}" title="{postits.items.TOPIC_ABONNE_LIBELLE}" />{postits.items.TITRE_TOPIC}</a></td>	
+		<td class="{postits.items.CLASS} center" width="5%"><img src="{postits.items.TOPIC_ETAT_LU_ICONE}" alt="{postits.items.TOPIC_ETAT_LU_LIBELLE}" title="{postits.items.TOPIC_ETAT_LU_LIBELLE}" /></td>
+		<td class="{postits.items.CLASS} left" width="45%">
+            <a href="{postits.items.TOPIC_LIEN}" class="link1">
+                <img src="{postits.items.TOPIC_SUIVI_ICONE}" alt="{postits.items.TOPIC_SUIVI_LIBELLE}" title="{postits.items.TOPIC_SUIVI_LIBELLE}" class="absmiddle"/> {postits.items.TOPIC_TITRE}
+            </a></td>	
 		<td class="{postits.items.CLASS} center">{postits.items.REPONSES}</td>
 		<td class="{postits.items.CLASS} center">{postits.items.LECTURES}</td>
-        <td class="{postits.items.CLASS} left"><a href=""></a>{postits.items.P_TEXT}<br />{postits.items.P_USER} {postits.items.P_DATE}</td>
+        <td class="{postits.items.CLASS} left">
+        <!-- BEGIN aucun -->
+        {L_AUCUN_MESSAGE}
+        <!-- END aucun -->    
+        <!-- BEGIN recents -->        
+            <a href="{postits.items.recents.LIEN}">{postits.items.recents.TEXT}</a><br /><em style="font-size:10px">{L_LE} {postits.items.recents.DATE} {L_PAR} <a href="" class="pseudo">{postits.items.recents.PSEUDO}</a></em></td>
+        <!-- END recents -->
+        </td>
 	</tr>
 	<!-- END items -->
 </table>

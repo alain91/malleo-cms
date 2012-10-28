@@ -52,10 +52,18 @@ class forum
 		}
 	}
 
-    protected function _tronquer($string)
+    protected function _tronquer($string,$length=30)
     {
-        $str=strlen($string<=75)?$string:substr($string,0,75).'...';
-        return $str;
+        $str=$this->stripbbcode($string);
+		$str = str_replace("&amp;","&",$str);
+        $str=strlen($str)<=$length?$str:substr($str,0,$length);
+        $amp = strrpos($str,'&');
+        if ($amp!==false){
+            $pvirg = strrpos($str,';',$amp);
+            if ($pvirg===false)
+                $str=substr($str,0,$amp);
+        }
+        return $str.'...';
     }
 
     protected function _date($date)
@@ -77,6 +85,43 @@ class forum
     protected function _ficone($icone)
     {
         return 'data/icones_forum/'.$icone;
+    }
+
+    protected function _fetat_lu($etat_non_lu, $status)
+    {
+        global $img,$lang;
+        if (empty($status)){
+            $data=array('img'=>$img['forum_sujet_verrouille'],'label'=>$lang['L_FORUM_VERROUILLE']);
+        }elseif (!empty($etat_non_lu)){
+            $data=array('img'=>$img['forum_sujet_non_lu'],'label'=>$lang['L_TOPIC_JAMAIS_LU']);
+        }else{
+            $data=array('img'=>$img['forum_sujet_lu'],'label'=>$lang['L_TOPIC_DEJA_LU']);
+        }
+        return $data;
+    }
+
+    protected function _tetat_lu($etat_non_lu, $status)
+    {
+        global $img,$lang;
+        if (empty($status)){
+            $data=array('img'=>$img['forum_sujet_verrouille'],'label'=>$lang['L_TOPIC_VERROUILLE']);
+        }elseif (!empty($etat_non_lu)){
+            $data=array('img'=>$img['forum_sujet_non_lu'],'label'=>$lang['L_TOPIC_JAMAIS_LU']);
+        }else{
+            $data=array('img'=>$img['forum_sujet_lu'],'label'=>$lang['L_TOPIC_DEJA_LU']);
+        }
+        return $data;
+    }
+
+    protected function _tsuivi($suivi, $status)
+    {
+        global $img,$lang;
+        if (!empty($suivi)){
+            $data=array('img'=>$img['forum_sujet_abonne'],'label'=>$lang['L_TOPIC_MARQUE_SUIVI']);
+        }else{
+            $data=array('img'=>$img['forum_sujet_non_abonne'],'label'=>$lang['L_TOPIC_MARQUE_RESILIE']);
+        }
+        return $data;
     }
 
     protected function _escape($str)
@@ -102,20 +147,30 @@ class forum
 				if ($droits->check($module,$val['id_forum'],'voir')){
                     $class=($class=='row2')?'row1':'row2';
                     $liste_forums=$this->cherche_tous_fils($val['id_forum']);
-                    $fpost=$this->afficher_dernier_post($liste_forums);
+                    $fpost=$this->chercher_dernier_post($liste_forums);
                     $cumuls=$this->recupere_compteurs_cumules($liste_forums);
+                    $etat_non_lu=$this->recupere_non_lu_cumules($liste_forums);
+                    $etat_lu=$this->_fetat_lu($etat_non_lu,$val['status_forum']);
 					$tpl->assign_block_vars($handle, array(
                         'CLASS' => $class,
 						'LIEN' => $this->_flien($val['id_forum']),
 						'ICONE' => $this->_ficone($val['icone_forum']),
 						'TITRE' => $val['titre_forum'],
+                        'ETAT_LU_ICONE' => $etat_lu['img'],
+                        'ETAT_LU_LIBELLE' => $etat_lu['label'],
 						'NBRE_TOPICS' => $cumuls['nbre_topics'],
-						'NBRE_REPONSES'	=> $cumuls['nbre_reponses'],
-                        'P_TEXT' => empty($fpost['id_post'])?'':$this->_tronquer($fpost['text_post']),
-                        'P_DATE' => empty($fpost['id_post'])?'':$this->_date($fpost['date_post']),
-                        'P_USER' => empty($fpost['id_post'])?'':$fpost['pseudo'],
-                        'P_LIEN' => empty($fpost['id_post'])?'':$this->_plien($fpost['id_topic'],$fpost['id_post']),
-					));
+						'NBRE_POSTS' => $cumuls['nbre_reponses']+$cumuls['nbre_topics'],
+                    ));
+                    if (empty($fpost['id_post'])){
+                        $tpl->assign_block_vars($handle.'.aucun', array());
+                    }else{
+                        $tpl->assign_block_vars($handle.'.recents', array(
+                            'TEXT' => $this->_tronquer($fpost['text_post']),
+                            'DATE' => $this->_date($fpost['date_post']),
+                            'PSEUDO' => formate_pseudo($fpost['user_id'],$fpost['pseudo']),
+                            'LIEN' => $this->_plien($fpost['id_topic'],$fpost['id_post']),
+                        ));
+                    }
 				}
 			}
 		}
@@ -129,7 +184,7 @@ class forum
 	function affiche_sous_forums($id_forum, $handle_actif, $handle)
 	{
 		global $c,$tpl,$cf,$droits,$module,$user;
-		$sql = 'SELECT f.id_forum, f.titre_forum, f.icone_forum
+		$sql = 'SELECT f.id_forum, f.titre_forum, f.icone_forum, f.status_forum
 				FROM '.TABLE_FORUM_FORUMS.' as f
 				WHERE f.parent_forum='.intval($id_forum).'
                 ORDER BY f.ordre ASC,f.id_forum ASC';
@@ -141,20 +196,30 @@ class forum
 				if ($droits->check($module,$row['id_forum'],'voir')){
                 	$class=($class=='row2')?'row1':'row2';
                     $liste_forums=$this->cherche_tous_fils($row['id_forum']);
-                    $fpost=$this->afficher_dernier_post($liste_forums);
+                    $fpost=$this->chercher_dernier_post($liste_forums);
                     $cumuls=$this->recupere_compteurs_cumules($liste_forums);
+                    $etat_non_lu=$this->recupere_non_lu_cumules($liste_forums);
+                    $etat_lu=$this->_fetat_lu($etat_non_lu,$row['status_forum']);
 					$tpl->assign_block_vars($handle_actif.'.'.$handle, array(
                         'CLASS' => $class,
 						'LIEN' => $this->_flien($row['id_forum']),
 						'ICONE' => $this->_ficone($row['icone_forum']),
 						'TITRE'	=> $row['titre_forum'],
+                        'ETAT_LU_ICONE' => $etat_lu['img'],
+                        'ETAT_LU_LIBELLE' => $etat_lu['label'],
 						'NBRE_TOPICS' => $cumuls['nbre_topics'],
-						'NBRE_REPONSES'	=> $cumuls['nbre_reponses'],
-                        'P_TEXT' => empty($row['id_post'])?'':$this->_tronquer($fpost['text_post']),
-                        'P_DATE' => empty($row['id_post'])?'':$this->_date($fpost['date_post']),
-                        'P_USER' => empty($row['id_post'])?'':$fpost['pseudo'],
-						'P_LIEN' => empty($row['id_post'])?'':$this->_plien($fpost['id_topic'],$fpost['id_post']),
-					));
+						'NBRE_POSTS' => $cumuls['nbre_reponses']+$cumuls['nbre_topics'],
+                    ));
+                    if (empty($fpost['id_post'])){
+                        $tpl->assign_block_vars($handle_actif.'.'.$handle.'.aucun', array());
+                    }else{
+                        $tpl->assign_block_vars($handle_actif.'.'.$handle.'.recents', array(
+                            'TEXT' => $this->_tronquer($fpost['text_post']),
+                            'DATE' => $this->_date($fpost['date_post']),
+                            'PSEUDO' => formate_pseudo($fpost['user_id'],$fpost['pseudo']),
+                            'LIEN' => $this->_plien($fpost['id_topic'],$fpost['id_post']),
+                        ));
+                    }
 				}
 			}
 		}
@@ -164,119 +229,137 @@ class forum
 	* affiche les topics demandes
 	* les topics apparaitront dans {LISTE_TOPICS}
     */
-	function affiche_liste_topics($start,$nbre_topics,$id_forum)
+	function affiche_liste_topics($id_forum,$start,$limit)
 	{
+    	return $this->affiche_liste($id_forum,1,$start,$limit);
+    }
+
+	function affiche_liste_annonces($id_forum)
+	{
+        return $this->affiche_liste($id_forum,2);
+    }
+
+	function affiche_liste_postits($id_forum)
+	{
+        return $this->affiche_liste($id_forum,3);
+    }
+
+    function affiche_liste($id_forum,$type,$start=false,$limit=false)
+    {
 		global $c,$cf,$tpl,$post,$lang,$img,$root,$droits,$module,$user;
-		switch($user['forum_vue']){
-			case '1':$choix_tpl = 'liste_topics_complet.html';break;
-			case '2':$choix_tpl = 'liste_topics_classique.html';break;
-		}
-		$tpl->set_filenames(array('liste_topics'=>$root.'plugins/modules/forum/html/'.$choix_tpl));
-		$sql = 'SELECT t.*, pfin.id_post, pfin.text_post, pfin.date_post,
-				tnl.id_topic AS topic_lu, ts.id_topic AS topic_abonne, ufin.pseudo
+        $clause='';
+        switch($type){
+            case 2:  $template = 'liste_topics_annonces';
+                $varliste='annonces.items';
+                $vartemplate='LISTE_ANNONCES';
+                $clause='='.$type;
+                break;
+            case 3:  $template = 'liste_topics_postits';
+                $varliste='postits.items';
+                $vartemplate='LISTE_POSTITS';
+                $clause='='.$type;
+                break;
+            case 1:
+            default:
+                $type=1;
+                switch($user['forum_vue']){
+                    case '1':$template = 'liste_topics_complet';break;
+                    case '2':$template = 'liste_topics_classique';break;
+                }
+                $varliste='items';
+                $vartemplate='LISTE_TOPICS';
+                $clause='<='.$type;
+                break;
+        }
+		$tpl->set_filenames(array($template=>$root.'plugins/modules/forum/html/'.$template.'.html'));
+		$sql = 'SELECT t.*,
+                pfin.id_post as f_id_post, pfin.text_post as f_text_post, pfin.date_post as f_date_post,
+                pdep.id_post as d_id_post, pdep.text_post as d_text_post, pdep.date_post as d_date_post,
+				tnl.id_topic AS topic_non_lu, ts.id_topic AS topic_suivi,
+                ufin.pseudo as f_pseudo, ufin.user_id as f_user_id,
+                udep.pseudo as d_pseudo, udep.user_id as d_user_id
 			FROM '.TABLE_FORUM_TOPICS.' as t
 			LEFT JOIN '.TABLE_FORUM_POSTS.' as pfin ON (t.post_fin=pfin.id_post)
+			LEFT JOIN '.TABLE_FORUM_POSTS.' as pdep ON (t.post_depart=pdep.id_post)
 			LEFT JOIN '.TABLE_USERS.' as ufin ON (pfin.user_id=ufin.user_id)
+			LEFT JOIN '.TABLE_USERS.' as udep ON (pdep.user_id=udep.user_id)
 			LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
 			LEFT JOIN '.TABLE_FORUM_TOPICS_SUIVIS.' as ts ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
-			WHERE t.id_forum='.intval($id_forum).' AND t.type_topic<=1
-			ORDER BY t.date_topic DESC
-			LIMIT '.$start.','.$nbre_topics;
+			WHERE t.id_forum='.intval($id_forum).' AND t.type_topic'.$clause.'
+			ORDER BY t.date_topic DESC';
+        if ($type==1){
+            $sql.=' LIMIT '.$start.','.$limit;
+        }
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		if ($c->sql_numrows($resultat)==0){
-			$tpl->assign_block_vars('aucun_topic', array());
+            if ($type==1){
+                $tpl->assign_block_vars('aucun_topic', array());
+            }
 		}else{
 			$class='row2';
+            if ($type!=1){
+                $tmp=explode('.',$varliste);
+                $tpl->assign_block_vars($tmp[0], array());
+            }
 			while($row = $c->sql_fetchrow($resultat)){
 				if ($droits->check($module,$row['id_forum'],'voir')
 					AND $droits->check($module,$row['id_forum'],'lire'))
                 {
 					$class=($class=='row2')?'row1':'row2';
-					$tpl->assign_block_vars('items', array(
+                    $etat_lu=$this->_tetat_lu($row['topic_non_lu'],$row['status_topic']);
+                    $suivi=$this->_tsuivi($row['topic_suivi'],$row['status_topic']);
+					$tpl->assign_block_vars($varliste,array(
 						'CLASS'	=> $class,
-                        'TITRE_TOPIC' => $row['titre_topic'],
-						'LIEN_TOPIC' => $this->_plien($row['id_topic'],$row['post_depart']),
-						'TOPIC_LU' => ($row['topic_lu']!=$row['id_topic'])? $img['forum_sujet_lu']:$img['forum_sujet_non_lu'],
-						'TOPIC_LU_LIBELLE' => ($row['topic_lu']!=$row['id_topic'])? $lang['L_TOPIC_DEJA_LU']:$lang['L_TOPIC_JAMAIS_LU'],
-						'TOPIC_ABONNE' => ($row['topic_abonne']!=$row['id_topic'])? $img['forum_sujet_non_abonne']:$img['forum_sujet_abonne'],
-						'TOPIC_ABONNE_LIBELLE' => ($row['topic_abonne']!=$row['id_topic'])? $lang['L_TOPIC_NON_ABONNE']:$lang['L_TOPIC_ABONNE'],
+                        'TOPIC_TITRE' => $row['titre_topic'],
+						'TOPIC_LIEN' => $this->_plien($row['id_topic'],$row['post_depart']),
+						'TOPIC_ETAT_LU_ICONE' => $etat_lu['img'],
+						'TOPIC_ETAT_LU_LIBELLE' => $etat_lu['label'],
+						'TOPIC_SUIVI_ICONE' => $suivi['img'],
+						'TOPIC_SUIVI_LIBELLE' => $suivi['label'],
 						'REPONSES' => $row['reponses_topic'],
 						'LECTURES' => $row['lectures_topic'],
-                        'P_TEXT' => empty($row['id_post'])?'':$this->_tronquer($row['text_post']),
-                        'P_DATE' => empty($row['id_post'])?'':$this->_date($row['date_post']),
-                        'P_USER' => empty($row['id_post'])?'':$row['pseudo'],
-						'P_LIEN' => empty($row['id_post'])?'':$this->_plien($row['id_topic'],$row['id_post']),
-					));
+                    ));
+                    if (!empty($row['f_id_post'])){
+                        $tpl->assign_block_vars($varliste.'.recents',array(
+                            'TEXT' => $this->_tronquer($row['f_text_post']),
+                            'DATE' => $this->_date($row['f_date_post']),
+                            'PSEUDO' => formate_pseudo($row['f_user_id'],$row['f_pseudo']),
+                            'LIEN' => $this->_plien($row['id_topic'],$row['f_id_post']),
+                        ));
+                    }elseif (!empty($row['d_id_post'])){
+                        $tpl->assign_block_vars($varliste.'.recents',array(
+                            'TEXT' => $this->_tronquer($row['d_text_post']),
+                            'DATE' => $this->_date($row['d_date_post']),
+                            'PSEUDO' => formate_pseudo($row['d_user_id'],$row['d_pseudo']),
+                            'LIEN' => $this->_plien($row['id_topic'],$row['d_id_post']),
+                        ));
+                    }else{
+                        $tpl->assign_block_vars($varliste.'.aucun',array());
+                    }
 				}
 				// Meta description
-				$tpl->meta_description .= ' '.$post->bbcode2html($row['titre_topic']);
+                if ($type==1){
+                    $tpl->meta_description .= ' '.$post->bbcode2html($row['titre_topic']);
+                }
 			}
 		}
-		$tpl->assign_var_from_handle('LISTE_TOPICS','liste_topics');
+		$tpl->assign_var_from_handle($vartemplate,$template);
 	}
 
 	/**
-	* affiche les topics speciaux : annonces ou postits
-	*
-    */
-	function affiche_liste_generic($id_forum,$type,$template,$varliste,$vartemplate)
-	{
-		global $c,$cf,$tpl,$post,$lang,$img,$root,$droits,$module,$user;
-		$sql = 'SELECT t.*, pfin.id_post, pfin.text_post, pfin.date_post,
-				tnl.id_topic AS topic_lu, ts.id_topic AS topic_abonne, ufin.pseudo
-			FROM '.TABLE_FORUM_TOPICS.' as t
-			LEFT JOIN '.TABLE_FORUM_POSTS.' as pfin ON (t.post_fin=pfin.id_post)
-			LEFT JOIN '.TABLE_USERS.' as ufin ON (pfin.user_id=ufin.user_id)
-			LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
-			LEFT JOIN '.TABLE_FORUM_TOPICS_SUIVIS.' as ts ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
-			WHERE t.id_forum='.intval($id_forum).' AND t.type_topic='.intval($type).'
-			ORDER BY t.date_topic DESC';
-
-		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
-		if ($c->sql_numrows($resultat)>0){
-			$tpl->set_filenames(array($template=>$root.'plugins/modules/forum/html/'.$template.'.html'));
-			$class='row2';
-            $tmp=explode('.',$varliste);
-            $tpl->assign_block_vars($tmp[0], array());
-			while($row = $c->sql_fetchrow($resultat)){
-				if ($droits->check($module,$row['id_forum'],'voir')
-					AND $droits->check($module,$row['id_forum'],'lire'))
-                {
-					$class=($class=='row2')?'row1':'row2';
-					$tpl->assign_block_vars($varliste, array(
-						'CLASS'	=> $class,
-                        'TITRE_TOPIC' => $row['titre_topic'],
-						'LIEN_TOPIC' => $this->_plien($row['id_topic'],$row['post_depart']),
-						'TOPIC_LU' => ($row['topic_lu']!=$row['id_topic'])? $img['forum_sujet_lu']:$img['forum_sujet_non_lu'],
-						'TOPIC_LU_LIBELLE' => ($row['topic_lu']!=$row['id_topic'])? $lang['L_TOPIC_DEJA_LU']:$lang['L_TOPIC_JAMAIS_LU'],
-						'TOPIC_ABONNE' => ($row['topic_abonne']!=$row['id_topic'])? $img['forum_sujet_non_abonne']:$img['forum_sujet_abonne'],
-						'TOPIC_ABONNE_LIBELLE' => ($row['topic_abonne']!=$row['id_topic'])? $lang['L_TOPIC_NON_ABONNE']:$lang['L_TOPIC_ABONNE'],
-						'REPONSES' => $row['reponses_topic'],
-						'LECTURES' => $row['lectures_topic'],
-                        'P_TEXT' => empty($row['id_post'])?'':$this->_tronquer($row['text_post']),
-                        'P_DATE' => empty($row['id_post'])?'':$this->_date($row['date_post']),
-                        'P_USER' => empty($row['id_post'])?'':$row['pseudo'],
-						'P_LIEN' => empty($row['id_post'])?'':$this->_plien($row['id_topic'],$row['id_post']),
-					));
-				}
-			}
-			$tpl->assign_var_from_handle($vartemplate,$template);
-		}
-	}
-
-	/**
-    * Afficher le dernier post d'un forum et de ses fils
+    * Chercher le dernier post d'un forum et de ses fils
     *
     */
-	function afficher_dernier_post($liste_forums)
+	function chercher_dernier_post($liste_forums)
     {
         global $c;
-        $sql = 'SELECT p.*, u.pseudo
-                FROM '.TABLE_FORUM_TOPICS.' as t
-                LEFT JOIN '.TABLE_FORUM_POSTS.' as p ON (t.post_fin=p.id_post)
+        $sql = 'SELECT p.*, u.pseudo, u.user_id
+                FROM '.TABLE_FORUM_POSTS.' as p
+                LEFT JOIN '.TABLE_FORUM_TOPICS.' as t1 ON (t1.post_fin=p.id_post)
+                LEFT JOIN '.TABLE_FORUM_TOPICS.' as t2 ON (t2.post_depart=p.id_post)
                 LEFT JOIN '.TABLE_USERS.' as u ON (p.user_id=u.user_id)
-                WHERE t.id_forum IN ('.implode(',',$liste_forums).')
-                AND t.post_fin is not null
+                WHERE (t1.id_forum IN ('.implode(',',$liste_forums).') AND t1.post_fin is not null)
+                OR (t2.id_forum IN ('.implode(',',$liste_forums).'))
                 ORDER BY p.date_post DESC
                 LIMIT 1';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
@@ -288,7 +371,7 @@ class forum
     * cherche les fils d'un forum
     *
     */
-	function cherche_tous_fils($forums,$liste_forums=array())
+    function cherche_tous_fils($forums,$liste_forums=array())
 	{
 		global $c;
         if (is_array($forums)){
@@ -326,6 +409,24 @@ class forum
         return $row;
 	}
 
+    /**
+    * recupere les etats non lu des topics des sous-forums d'un forum
+    *
+    */
+	function recupere_non_lu_cumules($liste_forums)
+	{
+		global $c,$user;
+		$sql = 'SELECT count(tnl.id_topic) as COUNT
+				FROM '.TABLE_FORUM_TOPICS.' as t
+                LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
+				WHERE t.id_forum IN ('.implode(',',$liste_forums).')
+                AND tnl.id_topic IS NOT NULL';
+		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,704,__FILE__,__LINE__,$sql);
+        $row = $c->sql_fetchrow($resultat);
+        $count=intval($row['COUNT']);
+        return $count;
+	}
+
 	/**
 	* Récupère en cache la liste des tags
     *
@@ -361,10 +462,27 @@ class forum
 	* fonction permettant de supprimer accents/majuscules
     *
     */
-	function supprimer_accents_majuscules($chaine){
+	function supprimer_accents_majuscules($chaine)
+    {
 		global $cf;
 		return strtolower(supprimer_accents(utf8_decode(html_entity_decode($chaine,ENT_QUOTES,$cf->config['charset']))));
 	}
+
+    function stripbbcode($text)
+    {
+        $tags=array('googlemap','flash','dailymotion','code','url','img');
+        $pattern = '#\[%s.*\]*.\[\/%s\]#si';
+        $data=$text;
+        foreach($tags as $tag){
+            $str=sprintf($pattern,$tag,$tag);
+            $data=preg_replace($str, ' ', $data);
+        }
+        $pattern2 = '#\[[^\]]+\]#si';
+        $data=preg_replace($pattern2, ' ', $data);
+        $pattern3 = '#\s+#si';
+        $data=preg_replace($pattern3, ' ', $data);
+        return $data;
+    }
 
 	/**
 	* Formate le titre avec des tags
@@ -902,7 +1020,7 @@ class forum
 	{
 		global $c,$root,$module,$user,$droits;
 		// MAJ du post
-		if (isset($this->saisie['post']) && !empty($this->saisie['post'])){
+		if (!isset($this->saisie['titre']) && !empty($this->saisie['post'])){
 			if (empty($this->saisie['post'])) message_die(E_WARNING,716,'','');
 			$sql = 'UPDATE '.TABLE_FORUM_POSTS.' SET
 						text_post=\''.$this->_escape($this->saisie['post']).'\'
@@ -913,9 +1031,9 @@ class forum
 			$image = new image();
 			$image->copie_locale_images($this->_escape($this->saisie['post']),'UPDATE '.TABLE_FORUM_POSTS.' SET text_post=\'%s\' WHERE id_post='.$this->saisie['id_post']);
 		}
-		if (empty($this->saisie['titre']) || empty($this->saisie['post'])) message_die(E_WARNING,716,'','');
 		// MAJ du titre
-		if (!empty($this->saisie['titre'])){
+		if (isset($this->saisie['titre'])){
+            if (empty($this->saisie['titre']) || empty($this->saisie['post'])) message_die(E_WARNING,716,'','');
             $this->id_post = $this->saisie['id_post'];
             $this->get_post();
             $this->id_topic = $this->post['id_topic'];

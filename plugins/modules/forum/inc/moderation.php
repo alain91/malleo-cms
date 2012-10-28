@@ -29,7 +29,7 @@ switch($mode)
 		if (isset($_GET['id_topic']))
 		{
 			$f->clean($_GET);
-			$f->Get_Topic();
+			$f->get_topic();
 			if (!$droits->check($module,$f->topic['id_forum'],'moderer') && $user['level']<10) error404(723);
 			$f->verrouiller_topic();
 		}
@@ -38,7 +38,7 @@ switch($mode)
 		if (isset($_GET['id_topic']))
 		{
 			$f->clean($_GET);
-			$f->Get_Topic();
+			$f->get_topic();
 			if (!$droits->check($module,$f->topic['id_forum'],'moderer') && $user['level']<10) error404(723);
 			$f->deverrouiller_topic();
 		}
@@ -47,33 +47,39 @@ switch($mode)
 		if (isset($_GET['id_forum']))
 		{
 			$f->clean($_GET);
-			$f->Get_Forum();
+			$f->get_forum();
 			if (!$droits->check($module,$f->forum['id_forum'],'verrouiller') && $user['level']<10) error404(723);
 			$f->verrouiller_forum();
 		}
+		// On met a jour le cache
+        global $cache;
+		$cache->appel_cache('listing_forums',true);
 		break;
 	case 'DeVerrouillerForum':
 		if (isset($_GET['id_forum']))
 		{
 			$f->clean($_GET);
-			$f->Get_Forum();
+			$f->get_forum();
 			if (!$droits->check($module,$f->forum['id_forum'],'verrouiller') && $user['level']<10) error404(723);
 			$f->deverrouiller_forum();
 		}
+		// On met a jour le cache
+        global $cache;
+		$cache->appel_cache('listing_forums',true);
 		break;
 	case 'DeplacerTopic':
 		if (isset($_POST['id_forum']) && isset($_POST['id_topic']))
 		{
 			$f->clean($_POST);
-			$f->Get_Topic();
+			$f->get_topic();
 			if (!$droits->check($module,$f->topic['id_forum'],'moderer') && $user['level']<10) error404(723);
 			$f->id_topic = intval($_POST['id_topic']);
 			$f->id_forum = intval($_POST['id_forum']); // ID du forum de destination et non actuel
 			$f->deplacer_topic();
-		}elseif( isset($_GET['id_topic'])){
+		}elseif(isset($_GET['id_topic'])){
 			$tpl->set_filenames(array('forum'=>$root.'plugins/modules/forum/html/deplacer.html'));
 			$f->clean($_GET);
-			$f->Get_Topic();
+			$f->get_topic();
 			if (!$droits->check($module,$f->topic['id_forum'],'moderer') && $user['level']<10) error404(723);
 			
 			// Metas
@@ -105,7 +111,7 @@ switch($mode)
 		}elseif (isset($_POST['enregistrer'])){
 			// Verif des droits
 			$f->clean($_POST);
-			$f->Get_Topic();
+			$f->get_topic();
 			$ancien_id_topic = $f->id_topic;
 			if (!$droits->check($module,$f->topic['id_forum'],'moderer') && $user['level']<10) error404(723);
 			
@@ -151,7 +157,7 @@ switch($mode)
 			
 			// Infos sur le topic
 			$f->clean($_GET);
-			$f->Get_Topic();
+			$f->get_topic();
 			if (!$droits->check($module,$f->topic['id_forum'],'moderer') && $user['level']<10) error404(723);
 			
 			// Navlinks
@@ -208,7 +214,7 @@ switch($mode)
 		}elseif (isset($_POST['enregistrer'])){
 			// Verif des droits
 			$f->clean($_POST);
-			$f->Get_Forum();
+			$f->get_forum();
 			if (!$droits->check($module,$f->forum['id_forum'],'moderer') && $user['level']<10) error404(723);
 			
 			// On trouve les ID des sujets
@@ -245,7 +251,7 @@ switch($mode)
 			
 			// Infos sur le topic
 			$f->clean($_GET);
-			$f->Get_Forum();
+			$f->get_forum();
 			if (!$droits->check($module,$f->forum['id_forum'],'moderer') && $user['level']<10) error404(723);
 			
 			// Navlinks
