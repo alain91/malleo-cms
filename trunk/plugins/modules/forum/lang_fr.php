@@ -196,7 +196,7 @@ $lang['L_CONFIG_GENERALE'] = 'Configuration G&eacute;n&eacute;rale';
 $lang['L_ENREGISTRER'] = 'Enregistrer';
 
 $lang['L_DERNIERE_REPONSE'] = 'Derni&egrave;re r&eacute;ponse';
-
+$lang['L_AUCUN_MESSAGE'] = 'Pas de message';
 
 
 $erreur[700] = 'Impossible de lister les forums ';
