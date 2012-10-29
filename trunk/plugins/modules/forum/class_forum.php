@@ -136,7 +136,7 @@ class forum
     */
 	function afficher_forums($id_cat,$handle)
 	{
-		global $tpl,$cf,$cache,$droits,$module,$user;
+		global $tpl,$cf,$cache,$droits,$module,$user,$lang;
 		if (!is_array($this->liste_forums)) $this->liste_forums = $cache->appel_cache('listing_forums');
 		if (array_key_exists($id_cat,$this->liste_forums)
             AND array_key_exists(0,$this->liste_forums[$id_cat])
@@ -165,7 +165,7 @@ class forum
                         $tpl->assign_block_vars($handle.'.aucun', array());
                     }else{
                         $tpl->assign_block_vars($handle.'.recents', array(
-                            'TEXT' => $this->_tronquer($fpost['text_post']),
+                            'TEXT' => $lang['L_VOIR_REPONSE'],
                             'DATE' => $this->_date($fpost['date_post']),
                             'PSEUDO' => formate_pseudo($fpost['user_id'],$fpost['pseudo']),
                             'LIEN' => $this->_plien($fpost['id_topic'],$fpost['id_post']),
@@ -183,7 +183,7 @@ class forum
     */
 	function affiche_sous_forums($id_forum, $handle_actif, $handle)
 	{
-		global $c,$tpl,$cf,$droits,$module,$user;
+		global $c,$tpl,$cf,$droits,$module,$user,$lang;
 		$sql = 'SELECT f.id_forum, f.titre_forum, f.icone_forum, f.status_forum
 				FROM '.TABLE_FORUM_FORUMS.' as f
 				WHERE f.parent_forum='.intval($id_forum).'
@@ -214,7 +214,7 @@ class forum
                         $tpl->assign_block_vars($handle_actif.'.'.$handle.'.aucun', array());
                     }else{
                         $tpl->assign_block_vars($handle_actif.'.'.$handle.'.recents', array(
-                            'TEXT' => $this->_tronquer($fpost['text_post']),
+                            'TEXT' => $lang['L_VOIR_REPONSE'],
                             'DATE' => $this->_date($fpost['date_post']),
                             'PSEUDO' => formate_pseudo($fpost['user_id'],$fpost['pseudo']),
                             'LIEN' => $this->_plien($fpost['id_topic'],$fpost['id_post']),
@@ -321,14 +321,14 @@ class forum
                     ));
                     if (!empty($row['f_id_post'])){
                         $tpl->assign_block_vars($varliste.'.recents',array(
-                            'TEXT' => $this->_tronquer($row['f_text_post']),
+                            'TEXT' => $lang['L_VOIR_REPONSE'],
                             'DATE' => $this->_date($row['f_date_post']),
                             'PSEUDO' => formate_pseudo($row['f_user_id'],$row['f_pseudo']),
                             'LIEN' => $this->_plien($row['id_topic'],$row['f_id_post']),
                         ));
                     }elseif (!empty($row['d_id_post'])){
                         $tpl->assign_block_vars($varliste.'.recents',array(
-                            'TEXT' => $this->_tronquer($row['d_text_post']),
+                            'TEXT' => $lang['L_VOIR_REPONSE'],
                             'DATE' => $this->_date($row['d_date_post']),
                             'PSEUDO' => formate_pseudo($row['d_user_id'],$row['d_pseudo']),
                             'LIEN' => $this->_plien($row['id_topic'],$row['d_id_post']),
