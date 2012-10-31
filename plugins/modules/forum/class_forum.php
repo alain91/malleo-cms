@@ -161,15 +161,17 @@ class forum
 						'NBRE_TOPICS' => $cumuls['nbre_topics'],
 						'NBRE_POSTS' => $cumuls['nbre_reponses']+$cumuls['nbre_topics'],
                     ));
-                    if (empty($fpost['id_post'])){
+                    if (empty($fpost)){
                         $tpl->assign_block_vars($handle.'.aucun', array());
                     }else{
-                        $tpl->assign_block_vars($handle.'.recents', array(
-                            'TEXT' => $lang['L_VOIR_REPONSE'],
-                            'DATE' => $this->_date($fpost['date_post']),
-                            'PSEUDO' => formate_pseudo($fpost['user_id'],$fpost['pseudo']),
-                            'LIEN' => $this->_plien($fpost['id_topic'],$fpost['id_post']),
-                        ));
+                        foreach($fpost as $f){
+                            $tpl->assign_block_vars($handle.'.recents', array(
+                                'TEXT' => $f['titre_topic'],
+                                'DATE' => $this->_date($f['date_post']),
+                                'PSEUDO' => formate_pseudo($f['user_id'],$f['pseudo']),
+                                'LIEN' => $this->_plien($f['id_topic'],$f['id_post']),
+                            ));
+                        }
                     }
 				}
 			}
@@ -210,15 +212,17 @@ class forum
 						'NBRE_TOPICS' => $cumuls['nbre_topics'],
 						'NBRE_POSTS' => $cumuls['nbre_reponses']+$cumuls['nbre_topics'],
                     ));
-                    if (empty($fpost['id_post'])){
+                    if (empty($fpost)){
                         $tpl->assign_block_vars($handle_actif.'.'.$handle.'.aucun', array());
                     }else{
-                        $tpl->assign_block_vars($handle_actif.'.'.$handle.'.recents', array(
-                            'TEXT' => $lang['L_VOIR_REPONSE'],
-                            'DATE' => $this->_date($fpost['date_post']),
-                            'PSEUDO' => formate_pseudo($fpost['user_id'],$fpost['pseudo']),
-                            'LIEN' => $this->_plien($fpost['id_topic'],$fpost['id_post']),
-                        ));
+                        foreach($fpost as $f){
+                            $tpl->assign_block_vars($handle_actif.'.'.$handle.'.recents', array(
+                                'TEXT' => $f['titre_topic'],
+                                'DATE' => $this->_date($f['date_post']),
+                                'PSEUDO' => formate_pseudo($f['user_id'],$f['pseudo']),
+                                'LIEN' => $this->_plien($f['id_topic'],$f['id_post']),
+                            ));
+                        }
                     }
 				}
 			}
@@ -272,26 +276,8 @@ class forum
                 break;
         }
 		$tpl->set_filenames(array($template=>$root.'plugins/modules/forum/html/'.$template.'.html'));
-		$sql = 'SELECT t.*,
-                pfin.id_post as f_id_post, pfin.text_post as f_text_post, pfin.date_post as f_date_post,
-                pdep.id_post as d_id_post, pdep.text_post as d_text_post, pdep.date_post as d_date_post,
-				tnl.id_topic AS topic_non_lu, ts.id_topic AS topic_suivi,
-                ufin.pseudo as f_pseudo, ufin.user_id as f_user_id,
-                udep.pseudo as d_pseudo, udep.user_id as d_user_id
-			FROM '.TABLE_FORUM_TOPICS.' as t
-			LEFT JOIN '.TABLE_FORUM_POSTS.' as pfin ON (t.post_fin=pfin.id_post)
-			LEFT JOIN '.TABLE_FORUM_POSTS.' as pdep ON (t.post_depart=pdep.id_post)
-			LEFT JOIN '.TABLE_USERS.' as ufin ON (pfin.user_id=ufin.user_id)
-			LEFT JOIN '.TABLE_USERS.' as udep ON (pdep.user_id=udep.user_id)
-			LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
-			LEFT JOIN '.TABLE_FORUM_TOPICS_SUIVIS.' as ts ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
-			WHERE t.id_forum='.intval($id_forum).' AND t.type_topic'.$clause.'
-			ORDER BY t.date_topic DESC';
-        if ($type==1){
-            $sql.=' LIMIT '.$start.','.$limit;
-        }
-		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
-		if ($c->sql_numrows($resultat)==0){
+        $rows = $this->chercher_liste_dernier_post($id_forum, $type, $clause, $start, $limit);
+		if (empty($rows)){
             if ($type==1){
                 $tpl->assign_block_vars('aucun_topic', array());
             }
@@ -301,7 +287,7 @@ class forum
                 $tmp=explode('.',$varliste);
                 $tpl->assign_block_vars($tmp[0], array());
             }
-			while($row = $c->sql_fetchrow($resultat)){
+			foreach($rows as $row){
 				if ($droits->check($module,$row['id_forum'],'voir')
 					AND $droits->check($module,$row['id_forum'],'lire'))
                 {
@@ -319,19 +305,12 @@ class forum
 						'REPONSES' => $row['reponses_topic'],
 						'LECTURES' => $row['lectures_topic'],
                     ));
-                    if (!empty($row['f_id_post'])){
+                    if (!empty($row['id_post'])){
                         $tpl->assign_block_vars($varliste.'.recents',array(
                             'TEXT' => $lang['L_VOIR_REPONSE'],
-                            'DATE' => $this->_date($row['f_date_post']),
-                            'PSEUDO' => formate_pseudo($row['f_user_id'],$row['f_pseudo']),
-                            'LIEN' => $this->_plien($row['id_topic'],$row['f_id_post']),
-                        ));
-                    }elseif (!empty($row['d_id_post'])){
-                        $tpl->assign_block_vars($varliste.'.recents',array(
-                            'TEXT' => $lang['L_VOIR_REPONSE'],
-                            'DATE' => $this->_date($row['d_date_post']),
-                            'PSEUDO' => formate_pseudo($row['d_user_id'],$row['d_pseudo']),
-                            'LIEN' => $this->_plien($row['id_topic'],$row['d_id_post']),
+                            'DATE' => $this->_date($row['date_post']),
+                            'PSEUDO' => formate_pseudo($row['user_id'],$row['pseudo']),
+                            'LIEN' => $this->_plien($row['id_topic'],$row['id_post']),
                         ));
                     }else{
                         $tpl->assign_block_vars($varliste.'.aucun',array());
@@ -345,26 +324,73 @@ class forum
 		}
 		$tpl->assign_var_from_handle($vartemplate,$template);
 	}
-
+    
+	/**
+    * Chercher le dernier post
+    *
+    */
+	function chercher_liste_dernier_post($forum, $type, $clause, $start, $limit)
+    {      
+        global $c,$user;
+        $sql = '(SELECT p.*, t.*, u.pseudo, u.user_id, tnl.id_topic AS topic_non_lu, ts.id_topic AS topic_suivi
+                    FROM '.TABLE_FORUM_TOPICS.' as t
+                    LEFT JOIN '.TABLE_FORUM_POSTS.' as p ON (t.post_fin=p.id_post)
+                    LEFT JOIN '.TABLE_USERS.' as u ON (p.user_id=u.user_id)
+                    LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
+                    LEFT JOIN '.TABLE_FORUM_TOPICS_SUIVIS.' as ts ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
+                    WHERE (t.id_forum = '.$forum.')
+                    AND t.post_fin is not null
+                    ORDER BY t.date_topic)
+                UNION
+                (SELECT p.*, t.*, u.pseudo, u.user_id, tnl.id_topic AS topic_non_lu, ts.id_topic AS topic_suivi
+                    FROM '.TABLE_FORUM_TOPICS.' as t
+                    LEFT JOIN '.TABLE_FORUM_POSTS.' as p ON (t.post_depart=p.id_post)
+                    LEFT JOIN '.TABLE_USERS.' as u ON (p.user_id=u.user_id)
+                    LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
+                    LEFT JOIN '.TABLE_FORUM_TOPICS_SUIVIS.' as ts ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
+                    WHERE (t.id_forum = '.$forum.')
+                    AND t.post_depart is not null
+                    ORDER BY t.date_topic)
+                ORDER BY date_topic';
+        if ($type==1){
+            $sql.=' LIMIT '.$start.','.$limit;
+        }
+		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
+		$rows = $c->sql_fetchrowset($resultat);
+        return $rows;
+	}
+    
 	/**
     * Chercher le dernier post d'un forum et de ses fils
     *
     */
 	function chercher_dernier_post($liste_forums)
     {
-        global $c;
-        $sql = 'SELECT p.*, u.pseudo, u.user_id
-                FROM '.TABLE_FORUM_POSTS.' as p
-                LEFT JOIN '.TABLE_FORUM_TOPICS.' as t1 ON (t1.post_fin=p.id_post)
-                LEFT JOIN '.TABLE_FORUM_TOPICS.' as t2 ON (t2.post_depart=p.id_post)
-                LEFT JOIN '.TABLE_USERS.' as u ON (p.user_id=u.user_id)
-                WHERE (t1.id_forum IN ('.implode(',',$liste_forums).') AND t1.post_fin is not null)
-                OR (t2.id_forum IN ('.implode(',',$liste_forums).'))
-                ORDER BY p.date_post DESC
-                LIMIT 1';
+        global $c,$user;
+        $sql = '(SELECT p.*, t.titre_topic, u.pseudo, u.user_id, tnl.id_topic AS topic_non_lu
+                    FROM '.TABLE_FORUM_TOPICS.' as t
+                    LEFT JOIN '.TABLE_FORUM_POSTS.' as p ON (t.post_fin=p.id_post)
+                    LEFT JOIN '.TABLE_USERS.' as u ON (p.user_id=u.user_id)
+                    LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
+                    WHERE (t.id_forum IN ('.implode(',',$liste_forums).')
+                    AND t.post_fin is not null)
+                    ORDER BY date_post
+                    LIMIT 3)
+                UNION
+                (SELECT p.*, t.titre_topic, u.pseudo, u.user_id, tnl.id_topic AS topic_non_lu
+                    FROM '.TABLE_FORUM_TOPICS.' as t
+                    LEFT JOIN '.TABLE_FORUM_POSTS.' as p ON (t.post_depart=p.id_post)
+                    LEFT JOIN '.TABLE_USERS.' as u ON (p.user_id=u.user_id)
+                    LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
+                    WHERE (t.id_forum IN ('.implode(',',$liste_forums).')
+                    AND t.post_depart is not null)
+                    ORDER BY date_post
+                    LIMIT 3)
+                ORDER BY date_post
+                LIMIT 3';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
-		$row = $c->sql_fetchrow($resultat);
-        return $row;
+		$rows = $c->sql_fetchrowset($resultat);
+        return $rows;
 	}
 
     /**
