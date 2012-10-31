@@ -81,11 +81,12 @@ while($row = $c->sql_fetchrow($resultat))
 		'DESC_CAT'	=> $row['desc_cat'],
 		'URL_CAT'	=> formate_url('mode=cat&id_cat='.$row['id_cat'],true)
 	));
-	
-	// Recherche des forums 
-	$f->afficher_forums($row['id_cat'],'categories.forums');
     
     if (empty($cat_specifique))
         $tpl->assign_block_vars('categories.header', array());
+	
+	// Recherche des forums 
+	$f->afficher_forums($row['id_cat'],'categories.forums');
+
 }
 ?>
