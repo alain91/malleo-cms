@@ -195,7 +195,7 @@ $lang['L_CONFIG_GENERALE'] = 'Configuration G&eacute;n&eacute;rale';
 
 $lang['L_ENREGISTRER'] = 'Enregistrer';
 
-$lang['L_DERNIERE_REPONSE'] = 'Derni&egrave;re r&eacute;ponse';
+$lang['L_VOIR_MESSAGE'] = 'Voir le message de ';
 $lang['L_AUCUN_MESSAGE'] = 'Pas de message';
 
 

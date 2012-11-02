@@ -99,8 +99,19 @@ class forum
         }
         return $data;
     }
+    
+    protected function _tetat_lu($etat_non_lu)
+    {
+        global $img,$lang;
+        if (!empty($etat_non_lu)){
+            $data='<img src="'.$img['forum_sujet_non_lu'].'"/>';
+        }else{
+            $data='';
+        }
+        return $data;
+    }
 
-    protected function _tetat_lu($etat_non_lu, $status)
+    protected function _gtetat_lu($etat_non_lu, $status)
     {
         global $img,$lang;
         if (empty($status)){
@@ -170,6 +181,7 @@ class forum
                                 'DATE' => $this->_date($f['date_post']),
                                 'PSEUDO' => formate_pseudo($f['user_id'],$f['pseudo']),
                                 'LIEN' => $this->_plien($f['id_topic'],$f['id_post']),
+                                'ETAT_LU' => $this->_tetat_lu($f['topic_non_lu']),
                             ));
                         }
                     }
@@ -221,6 +233,7 @@ class forum
                                 'DATE' => $this->_date($f['date_post']),
                                 'PSEUDO' => formate_pseudo($f['user_id'],$f['pseudo']),
                                 'LIEN' => $this->_plien($f['id_topic'],$f['id_post']),
+                                'ETAT_LU' => $this->_tetat_lu($f['topic_non_lu']),
                             ));
                         }
                     }
@@ -292,7 +305,7 @@ class forum
 					AND $droits->check($module,$row['id_forum'],'lire'))
                 {
 					$class=($class=='row2')?'row1':'row2';
-                    $etat_lu=$this->_tetat_lu($row['topic_non_lu'],$row['status_topic']);
+                    $etat_lu=$this->_gtetat_lu($row['topic_non_lu'],$row['status_topic']);
                     $suivi=$this->_tsuivi($row['topic_suivi'],$row['status_topic']);
 					$tpl->assign_block_vars($varliste,array(
 						'CLASS'	=> $class,
@@ -307,7 +320,7 @@ class forum
                     ));
                     if (!empty($row['id_post'])){
                         $tpl->assign_block_vars($varliste.'.recents',array(
-                            'TEXT' => $lang['L_VOIR_REPONSE'],
+                            'TEXT' => $lang['L_VOIR_MESSAGE'],
                             'DATE' => $this->_date($row['date_post']),
                             'PSEUDO' => formate_pseudo($row['user_id'],$row['pseudo']),
                             'LIEN' => $this->_plien($row['id_topic'],$row['id_post']),
@@ -329,7 +342,7 @@ class forum
     * Chercher le dernier post
     *
     */
-	function chercher_liste_dernier_post($forum, $type, $clause, $start, $limit)
+	function chercher_liste_dernier_post($id_forum, $type, $clause, $start, $limit)
     {      
         global $c,$user;
         $sql = '(SELECT p.*, t.*, u.pseudo, u.user_id, tnl.id_topic AS topic_non_lu, ts.id_topic AS topic_suivi
@@ -338,9 +351,9 @@ class forum
                     LEFT JOIN '.TABLE_USERS.' as u ON (p.user_id=u.user_id)
                     LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
                     LEFT JOIN '.TABLE_FORUM_TOPICS_SUIVIS.' as ts ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
-                    WHERE (t.id_forum = '.$forum.')
-                    AND t.post_fin is not null
-                    ORDER BY t.date_topic)
+                    WHERE (t.id_forum = '.$id_forum.')
+                    AND t.type_topic '.$clause.'
+                    AND t.post_fin is not null)
                 UNION
                 (SELECT p.*, t.*, u.pseudo, u.user_id, tnl.id_topic AS topic_non_lu, ts.id_topic AS topic_suivi
                     FROM '.TABLE_FORUM_TOPICS.' as t
@@ -348,9 +361,9 @@ class forum
                     LEFT JOIN '.TABLE_USERS.' as u ON (p.user_id=u.user_id)
                     LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
                     LEFT JOIN '.TABLE_FORUM_TOPICS_SUIVIS.' as ts ON (t.id_topic=ts.id_topic AND ts.user_id='.$user['user_id'].')
-                    WHERE (t.id_forum = '.$forum.')
-                    AND t.post_depart is not null
-                    ORDER BY t.date_topic)
+                    WHERE (t.id_forum = '.$id_forum.')
+                    AND t.type_topic '.$clause.'
+                    AND t.post_depart is not null AND t.post_fin is null)
                 ORDER BY date_topic';
         if ($type==1){
             $sql.=' LIMIT '.$start.','.$limit;
@@ -359,7 +372,7 @@ class forum
 		$rows = $c->sql_fetchrowset($resultat);
         return $rows;
 	}
-    
+
 	/**
     * Chercher le dernier post d'un forum et de ses fils
     *
@@ -373,9 +386,7 @@ class forum
                     LEFT JOIN '.TABLE_USERS.' as u ON (p.user_id=u.user_id)
                     LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
                     WHERE (t.id_forum IN ('.implode(',',$liste_forums).')
-                    AND t.post_fin is not null)
-                    ORDER BY date_post
-                    LIMIT 3)
+                    AND t.post_fin is not null))
                 UNION
                 (SELECT p.*, t.titre_topic, u.pseudo, u.user_id, tnl.id_topic AS topic_non_lu
                     FROM '.TABLE_FORUM_TOPICS.' as t
@@ -383,10 +394,8 @@ class forum
                     LEFT JOIN '.TABLE_USERS.' as u ON (p.user_id=u.user_id)
                     LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
                     WHERE (t.id_forum IN ('.implode(',',$liste_forums).')
-                    AND t.post_depart is not null)
-                    ORDER BY date_post
-                    LIMIT 3)
-                ORDER BY date_post
+                    AND t.post_depart is not null AND t.post_fin is null))
+                ORDER BY topic_non_lu DESC,date_post DESC
                 LIMIT 3';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
 		$rows = $c->sql_fetchrowset($resultat);
