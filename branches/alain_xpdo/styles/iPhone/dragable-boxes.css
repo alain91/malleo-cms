@@ -1,0 +1,66 @@
+	#mainContainer{
+		width:100%;
+		margin:0 auto;
+		text-align:center;
+		height:100%;		
+		padding-bottom:30px;
+	}
+	
+	.dragableBox{	/* The RSS box */
+		background-color:#FFF; 
+	}
+	/* A div inside the rss box - with a blue border */
+	.dragableBoxInner{
+		border:1px solid #317082; 
+	}
+	.dragableBoxHeader{	/* Header inside RSS box */
+		background-color:#E2EBED;
+		height:10px;
+		width:100%;
+		font-weight:bold;
+		color: #317082;
+		clear:both;
+	}
+	
+	.dragableBoxHeader span{	/* Text inside header of RSS box */
+		line-height:10px;
+	}
+	.dragableBoxHeader img,.dragableBoxHeader span{	/* Text and reload image inside RSS box */
+		float:left;
+	}
+	.dragableBoxHeader input{	/* text inputs that gets visible when you click on the "edit" link at the top of a rss box */
+		 font-size:10px;	 
+	}
+	.dragableBoxContent{	/* DIV holding data inside dragable boxes */
+		padding:1px;
+		clear:both;
+	}
+	#rectangleDiv{	/* Dotted rectangle indicating where objects will be dropped */
+		border:1px dotted red;
+		margin:5px;
+	}
+	.zones{
+		background-color:#D3D3D3;
+		height:100px;
+		clear:both;
+	}
+	.closeButton{	/* Close button */
+		line-height:9px;
+		height:9px;
+		margin:2px;
+		color:#317082;
+		padding:2px;
+		padding-bottom:3px;
+	}
+	.closeButton_over{	/* Close button - mouse over */
+		line-height:9px;
+		padding:2px;
+		padding-bottom:3px;
+		margin:2px;	
+		background-color:#317082;
+		color:#FFF;
+	}
+	
+	img{
+		border:0px;
+		}

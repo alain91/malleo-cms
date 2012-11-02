@@ -1,0 +1,59 @@
+<h1 class="admin">{L_ADMIN_DATABASE}</h1>
+<p>{L_ADMIN_DATABASE_EXPLAIN}</p>
+
+<div class="bloc_admin">
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th>{L_TABLES}</th>
+		<th>{L_TYPE_TABLE}</th>
+		<th>{L_COLLATION}</th>
+		<th>{L_ENREGISTREMENTS}</th>
+		<th>{L_TAILLE_DONNEES}</th>
+		<th>{L_TAILLE_INDEX}</th>
+		<th>{L_OPTIMISER}</th>
+		<th>{L_REPARER}</th>
+	</tr>
+	<!-- BEGIN liste_tables -->
+	<tr>
+		<td class="row1 left">{liste_tables.NOM_TABLE}</td>
+		<td class="row2 center">
+		<!-- BEGIN type -->
+		<a href="{liste_tables.U_TYPE}">
+		<!-- END type -->
+		{liste_tables.TYPE}
+		<!-- BEGIN type -->
+		</a>
+		<!-- END type -->
+		</td>
+		<td class="row2 center">
+		<!-- BEGIN collation -->
+		<a href="{liste_tables.U_COLLATION}">
+		<!-- END collation -->
+		{liste_tables.COLLATION}
+		<!-- BEGIN collation -->
+		</a>
+		<!-- END collation -->
+		</td>
+		<td class="row2 right">{liste_tables.ENREGISTREMENTS}</td>
+		<td class="row2 right">{liste_tables.TAILLE_DONNEES}</td>
+		<td class="row2 right">{liste_tables.TAILLE_INDEX}</td>
+		<td class="row2 center">
+		<!-- BEGIN optimiser -->
+		<a href="{liste_tables.U_OPTIMISER}">
+		<!-- END optimiser -->
+		{L_OPTIMISER}
+		<!-- BEGIN optimiser -->
+		</a>
+		<!-- END optimiser --> 
+		</td>
+		<td class="row2 center"><a href="{liste_tables.U_REPARER}">{L_REPARER}</a></td>
+	</tr>	
+	<!-- END liste_tables -->
+	<tr>
+		<td class="row3 center">{NBRE_TABLES}</td>
+		<td class="row3 center" colspan="3">{L_TAILLE_TOTALE_BASE}</td>
+		<td class="row3 right" colspan="2">{TAILLE_TOTALE_BASE}</td>
+		<td colspan="2"></td>
+	</tr>
+	</table>
+</div>

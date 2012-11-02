@@ -1,0 +1,113 @@
+<!-- BEGIN etape1 -->
+<h1>{L_ENREGISTREMENT}</h1><br />
+<form name="etape1" action="" method="post">
+	<div class="bloc" style="width:80%;">
+		<table cellpadding="1" cellspacing="1" class="standard" width="100%" align="center">
+		<tr>
+			<th colspan="2">{L_REGISTER}</th>
+		</tr>
+		<tr>
+			<td class="row1"><div style="overflow:auto;z-index:-10;height:150px;">{REGLEMENT}</div></td>
+		</tr>
+		<tr>
+			<td class="row2">{L_CHECK} <input type="checkbox" name="validation" onClick="if(this.checked){ document.etape1.valider.disabled = false;}else if(this.checked ==false){document.etape1.valider.disabled =true;} " /></td>
+		</tr>
+		</table>		
+	</div>
+	<div class="center">
+		<input type="hidden" name="etape" value="{ETAPE}" />
+		<input type="submit" name="valider" value="{VALIDER}" disabled /></div>
+</form>
+<!-- END etape1 -->
+<!-- BEGIN etape2 -->
+<h1>{L_ENREGISTREMENT}</h1><br />
+<script language="JavaScript">
+<!--
+var image_ok = '{IMAGE_OK}';
+var image_nok = '{IMAGE_NOK}';
+
+-->
+</script>
+<script language="JavaScript" src="js/register.js">
+
+</script>
+<div class="alerte" id="alerte">{ALERTE}</div>
+<form name="etape2" action="" method="post">
+	<div class="bloc" style="width:500px;">
+		<table cellpadding="1" cellspacing="1" class="standard" width="100%" align="center">
+		<tr>
+			<th colspan="3">{L_INFOS_USER}</th>
+		</tr>
+		<tr>
+			<td class="row1" width="250">{L_PSEUDO}</td>
+			<td class="row2" width="100" align="left"><input type="text" name="pseudo" id="pseudo" value="{PSEUDO_SAISI}" size="20" maxlength="30" onKeyUp="teste_pseudo();" /></td>
+			<td class="row2" width="10" align="center"><div id="rep_pseudo"></div></td>
+		</tr>
+		<tr>
+			<td class="row1" width="250">{L_EMAIL}</td>
+			<td class="row2" width="100" align="left"><input type="text" name="email" id="email" value="{MAIL}" size="20" onBlur="if(this.value!='')teste_mail();" /></td>
+			<td class="row2" width="10" align="center"><div id="rep_mail"></div></td>
+		</tr>
+		<tr>
+			<td class="row1" width="250">{L_PASS1}</td>
+			<td class="row2" width="100" align="left"><input type="password" name="pass1" id="pass1" value="" onBlur="if(this.value!='')teste_pass1();" /></td>
+			<td class="row2" width="10"><div id="rep_pass1"></div></td>
+		</tr>
+		<tr>
+			<td class="row1" width="250">{L_PASS2}</td>
+			<td class="row2" width="100" align="left"><input type="password" name="pass2" id="pass2" value="" onBlur="if(this.value!='')teste_pass2();" /></td>
+			<td class="row2" width="10" align="center"><div id="rep_pass2"></div></td>
+		</tr>
+			<tr>
+			<th colspan="3">{L_QUESTIONS_ANTI_BOT}</th>
+		</tr>
+		<tr>
+			<td class="row1" width="250">{L_QUESTION_BOTS}</td>
+			<td class="row2" width="100" colspan="2" align="left"><input type="text" name="question" value="" /></td>
+		</tr>
+		<tr>
+			<td class="row1" align="left" colspan="3">{L_CAPTCHA}</td>
+		</tr>
+		<tr>
+			<td class="row1" align="center">{CAPTCHA}</td>
+			<td class="row2" colspan="2" align="left"><input type="text" name="code"></td>
+		</tr>
+		</table>
+	</div>
+	<div class="center">
+		<input type="hidden" name="etape" value="{ETAPE}" />
+		<input type="submit" name="valider" value="{VALIDER}" /></div>
+</form>
+<!-- END etape2 -->
+<!-- BEGIN etape3 -->
+<h1>{L_ENREGISTREMENT}</h1><br />
+<div class="bloc" style="width:500px;">
+	<div class="alerte">{ALERTE}</div>
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%" align="center">
+	<tr>
+		<th>{L_THANKS_MAIL}</th>
+	</tr>
+	<tr>
+		<td class="row1" width="40%">{L_EXPLAIN_MAIL}</td>
+	</tr>
+	</table>
+</div>
+<!-- END etape3 -->
+<!-- BEGIN etape4 -->
+<h1>{L_ENREGISTREMENT}</h1>
+<div class="alerte">{ALERTE}</div>
+
+<form name="etape3" action="{S_CONNECTER}" method="post">
+	<div class="bloc" style="width:500px;">
+		<table cellpadding="1" cellspacing="1" class="standard" width="100%" align="center">
+		<tr>
+			<th>{L_THANKS}</th>
+		</tr>
+		<tr>
+			<td class="row1" width="40%">{L_REDIRECT_REGISTER}</td>
+		</tr>
+		</table>
+	</div>
+	<div class="center"><input type="submit" name="valider" value="{CONNECTER}" /></div>
+</form>
+<!-- END etape4 -->

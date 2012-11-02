@@ -1,0 +1,43 @@
+<script type="text/javascript" src="js/affichage.js"></script>
+<form name="liste_mp" id="liste_mp" action="{FORMULAIRE}" method="post">
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th colspan="2">{L_BOITE_AUX_LETTRES_PSEUDO}</th>
+	</tr>
+	<!-- BEGIN aucun_message -->
+	<tr>
+		<td class="row1 center" colspan="2">{L_AUCUN_MESSAGE}</td>
+	</tr>
+	<!-- END aucun_message -->
+	<!-- BEGIN liste_messages -->
+	<tr>
+		<td class="row1">
+		<img src="{liste_messages.ICONE}" alt="{liste_messages.L_LU_NONLU}" title="{liste_messages.L_LU_NONLU}" align="right" />
+		{liste_messages.AUTEUR}<br />
+		{L_SUJET}: <a href="{liste_messages.S_LIRE}">{liste_messages.SUJET}</a><br />
+		{L_DATE}: {liste_messages.DATE}
+		</td>
+		<td class="row2 center" width="10">
+		<!-- BEGIN checkbox -->
+		<input type="checkbox" name="id_mp[]" value="{liste_messages.ID_MP}" />
+		<!-- END checkbox -->
+		</td>
+	</tr>
+	<!-- END liste_messages -->
+</table>
+</div>
+<!-- BEGIN options -->
+<div class="right">
+<a href="javascript:;" onclick="cocher_checkbox('liste_mp');">{L_COCHER}</a> / <a href="javascript:;" onclick="decocher_checkbox('liste_mp');">{L_DECOCHER}</a>
+	<select name="mode">
+	<option value="marquerlu">{L_MARQUER_LU}</option>
+	<option value="marquernonlu">{L_MARQUER_NONLU}</option>
+	<option value="archiver">{L_ARCHIVER}</option>
+	<option value="supprimer">{L_SUPPRIMER}</option>
+	</select>
+	<input type="hidden" name="retour" value="{RETOUR}" />
+	<input type="submit" name="enregister" value="{L_OK}" />
+</div>
+<!-- END options -->
+</form><br />

@@ -1,0 +1,61 @@
+<script type="text/javascript" src="librairies/lightbox/prototype.js"></script>
+<script type="text/javascript" src="librairies/lightbox/scriptaculous.js?load=effects,builder"></script>
+<script type="text/javascript" src="librairies/lightbox/lightbox.js"></script>
+<script type="text/javascript" src="plugins/modules/arcade/html/Arcadelightbox.js"></script>
+<link rel="stylesheet" href="plugins/modules/arcade/html/lightbox.css" type="text/css" media="screen" />
+
+<h2>{L_CATEGORIES}</h2>
+
+<table width="100%">
+<!-- BEGIN liste_cats -->
+<!-- BEGIN tr_debut -->
+<tr>
+<!-- END tr_debut -->
+<td class="abstop left">
+	<div class="bloc">
+		<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+		<tr>
+			<th>{liste_cats.titre_cat}</th>
+		</tr>
+		<tr>
+			<td class="row1 center"><a href="{URL_CAT}{liste_cats.id_cat}">{liste_cats.icone}</a><br />
+						{liste_cats.nbre_jeux_cat}</td>
+		</tr>
+		</table>
+	</div>
+</td>
+<!-- BEGIN tr_fin -->
+</tr>
+<!-- END tr_fin -->
+<!-- END liste_cats -->
+</table>
+
+<!-- BEGIN aucun_resultat -->
+<div class="bloc">
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th>{L_INFORMATION}</th>
+	</tr>
+	<tr>
+		<td class="row1 center">{L_AUCUNE_CATEGORIE}</td>
+	</tr>
+	</table>
+</div>
+<!-- END aucun_resultat -->
+
+<!-- BEGIN activer_favoris -->
+<h2>{L_FAVORIS}</h2>
+{FAVORIS}
+<!-- END activer_favoris -->
+
+<!-- BEGIN titre_impopulaires -->
+<h2>{L_IMPOPULAIRES}</h2>
+<!-- END titre_impopulaires -->
+<!-- BEGIN titre_populaires -->
+<h2>{L_POPULAIRES}</h2>
+<!-- END titre_populaires -->
+<!-- BEGIN titre_recents -->
+<h2>{L_RECENTS}</h2>
+<!-- END titre_recents -->
+{JEUX_ACCUEIL}
+<br clear="all" />

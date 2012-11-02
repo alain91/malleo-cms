@@ -1,0 +1,49 @@
+<!-- BEGIN erreur_saisie -->
+<div class="admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" width="80%" align="center">
+		<tr>
+			<td class="rowAlerte center" height="20"><b>{ALERTE_ERREUR_SAISIE}</b></td>
+		</tr>
+	</table>
+</div>
+<br />
+<!-- END erreur_saisie -->
+<form name="saisie_text" method="post" action="">
+<div class="bloc">
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th colspan="2">{L_SAISIE_MSG}</th>
+	</tr>
+	<!-- BEGIN newtopic -->
+	<tr>
+		<td class="row1">{L_TITRE}:</td>
+		<td class="row2"><input type="text" name="titre" value="{TITRE}" size="60" maxlength="150" /></td>
+	</tr>
+		<!-- BEGIN type_sujet -->
+		<tr>
+			<td class="row1">{L_TYPE_SUJET}:</td>
+			<td class="row2">
+				<select name="type_topic">
+					<option value="1" {SELECTED_TYPE_TOPIC_1}>{L_TOPIC_NORMAL}</option>
+					<option value="2" {SELECTED_TYPE_TOPIC_2}>{L_TOPIC_ANNONCE}</option>
+					<option value="3" {SELECTED_TYPE_TOPIC_3}>{L_TOPIC_POSTIT}</option>
+				</select>
+				<div id="select_date">
+				{L_DATE_FIN_ANNONCE}:  <b><select name="jour">{SELECT_JOUR}</select>/<select name="mois">{SELECT_MOIS}</select>/<select name="annee">{SELECT_ANNEE}</select></b>
+				</div>
+			</td>
+		</tr>
+		<!-- END type_sujet -->
+	<!-- END newtopic -->
+	<tr>
+		<td colspan="2" align="right">
+			{WYSIWYG}
+			<textarea id="post" name="post" rows="20" cols="80" style="width:100%">{POST}</textarea>
+			<input type="button" value="abc" onmousedown="toggleEditor('post');" />	
+		</td>
+	</tr>
+	</table>
+</div>
+<div class="center">{HIDDEN}<input type="submit" name="save" value="{L_POSTER}" /></div>
+</form>
+<br />

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<module>
+<libelle>Citations</libelle>
+<version>0.1</version>
+<auteur>alain91</auteur>
+<site_auteur>http://localhost/malleo_dev</site_auteur>
+<check_version>http://localhost/malleo_dev/versions/citations.txt</check_version>
+<install>
+	<requete>
+DROP TABLE IF EXISTS `a_mod_citations_billets`;
+	</requete>
+	<requete>
+CREATE TABLE IF NOT EXISTS `a_mod_citations_billets` (
+  `id` int(11) NOT NULL auto_increment,
+  `id_cat` int(11),
+  `contents` varchar(255) NOT NULL default '',
+  `author` varchar(63) NOT NULL default '',
+  `user_id` int(11) NOT NULL default '0',
+  `date_add` int(11) NOT NULL default '0',
+  `date_upd` int(11) NOT NULL default '0',
+  `approved` tinyint(4) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `date_add` (`date_add`),
+  KEY `date_upd` (`date_upd`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 ;
+	</requete>
+	<requete>
+DROP TABLE IF EXISTS `a_mod_citations_cats`;
+	</requete>
+	<requete>
+CREATE TABLE `a_mod_citations_cats` (
+		  `id_cat` int(11) unsigned NOT NULL auto_increment,
+		  `titre_cat` varchar(50) NOT NULL default '',
+		  `image_cat` varchar(100) NOT NULL default '',
+		  `ordre` int(11) unsigned NOT NULL default '999',
+		  PRIMARY KEY  (`id_cat`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 ;
+	</requete>
+	<requete>
+INSERT INTO `a_mod_citations_billets` (`id`, `contents`, `author`, `user_id`, `date_add`, `approved`) VALUES
+(1, 'Rien de sert de courir, il faut partir à point.\nLe lièvre et la tortue en sont un témoignage.\nGageons dit celle-ci que vous n''atteindrez pas sitôt que moi ce but.', 'Jean de la Fontaine', 1, 1234951009, 1),
+(2, 'La cigale ayant chanté tout l''été\nse trouva fort dépourvue\nquand la bise fut venue.', 'Jean de la Fontaine', 1, 1234950888, 1),
+(3, 'Un agneau se désaltérait dans le courant d''une onde pure,\nun loup survint à jeun qui cherchait aventure.', 'Jean de la Fontaine', 1, 1234951020, 1),
+(4, 'Je suis venu, j''ai vu et j''ai vaincu', 'Jules César', 1, 1227376747, 1),
+(5, 'Je vous promets du sang et des larmes', 'Winston Churchill', 1, 1227376771, 1);
+	</requete>
+	<requete>
+DELETE FROM `a_config` WHERE
+	`data` = 'citations_bpp' OR
+	`data` = 'citations_cat_cols' OR
+	`data` = 'cache_duree_citations_cat';
+	</requete>
+	<requete>
+INSERT INTO `a_config` (`data`, `valeur`) VALUES
+	('citations_bpp', '10'),
+	('citations_cat_cols', '1'),
+	('cache_duree_citations_cat','3600');
+	</requete>
+	<requete>
+DELETE FROM `a_modelisation_tables` WHERE
+	`nom_champs` = 'citations_bpp' OR
+	`nom_champs` = 'citations_cat_cols' OR
+	`nom_champs` = 'cache_duree_citations_cat' LIMIT 3;
+	</requete>
+	<requete>
+INSERT INTO `a_modelisation_tables` (`nom_champs`, `type_saisie`, `lang`, `param`, `page`) VALUES
+	('citations_bpp', 'text', 'L_BILLETS_PAR_PAGE', '10', 'Citations'),
+	('citations_cat_cols', 'text', 'L_CAT_COLS', '10', 'Citations'),
+	('cache_duree_citations_cat', 'text', 'Q_CACHE_DUREE_BLOGS_CATS', '10', 'Config_Cache');
+	</requete>
+</install>
+<delete>
+	<requete>
+DROP TABLE IF EXISTS `a_mod_citations_billets`;
+	</requete>
+	<requete>
+DROP TABLE IF EXISTS `a_mod_citations_cats`;
+	</requete>
+	<requete>
+DELETE FROM `a_config` WHERE
+	`data` = 'citations_bpp' OR
+	`data` = 'citations_cat_cols' OR
+	`data` = 'cache_duree_citations_cat' LIMIT 3;
+	</requete>
+	<requete>
+DELETE FROM `a_modelisation_tables` WHERE
+	`nom_champs` = 'citations_bpp' OR
+	`nom_champs` = 'citations_cat_cols' OR
+	`nom_champs` = 'cache_duree_citations_cat' LIMIT 3;
+	</requete>
+	<requete>
+DELETE FROM `a_plugins` WHERE `plugin` = 'citations' LIMIT 1;
+	</requete>
+</delete>
+</module>

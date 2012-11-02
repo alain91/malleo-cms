@@ -1,0 +1,31 @@
+<!-- BEGIN annonces -->
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th width="50%" colspan="2">{L_TOPIC_ANNONCE}</th>
+		<th width="10%">{L_REPONSES}</th>
+		<th width="10%">{L_LECTURES}</th>
+		<th width="30%">[L_TOPICS_RECENTS}</th>
+	</tr>
+	<!-- BEGIN items -->
+	<tr>
+		<td class="{annonces.items.CLASS} center" width="5%"><img src="{annonces.items.TOPIC_ETAT_LU_ICONE}" alt="{annonces.items.TOPIC_ETAT_LU_LIBELLE}" title="{annonces.items.TOPIC_ETAT_LU_LIBELLE}" /></td>
+		<td class="{annonces.items.CLASS} left" width="45%">
+            <a href="{annonces.items.TOPIC_LIEN}" class="link1">
+                <img src="{annonces.items.TOPIC_SUIVI_ICONE}" alt="{annonces.items.TOPIC_SUIVI_LIBELLE}" title="{annonces.items.TOPIC_SUIVI_LIBELLE}" class="absmiddle"/> {annonces.items.TOPIC_TITRE}
+            </a></td>	
+		<td class="{annonces.items.CLASS} center">{annonces.items.REPONSES}</td>
+		<td class="{annonces.items.CLASS} center">{annonces.items.LECTURES}</td>
+        <td class="{annonces.items.CLASS} left">
+        <!-- BEGIN aucun -->
+        {L_AUCUN_MESSAGE}
+        <!-- END aucun -->    
+        <!-- BEGIN recents -->        
+            <a href="{annonces.items.recents.LIEN}">{annonces.items.recents.TEXT}</a><br /><em style="font-size:10px"><a href="" class="pseudo">{annonces.items.recents.PSEUDO}</a> {L_LE} {annonces.items.recents.DATE}</em></td>
+        <!-- END recents -->
+        </td>
+	</tr>
+	<!-- END items -->
+</table>
+</div>
+<!-- END annonces -->

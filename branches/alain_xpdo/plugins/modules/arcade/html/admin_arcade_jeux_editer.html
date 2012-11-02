@@ -1,0 +1,77 @@
+<!-- BEGIN aucun_jeu_correspond -->
+<div class="bloc_admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" align="center" width="80%">
+	<tr>
+		<td class="rowAlerte" colspan="2" height="20"><b>{L_AUCUN_JEU_NE_CORRESPOND}</b></td>
+	</tr>
+	</table>
+</div>
+<br />
+<!-- END aucun_jeu_correspond -->
+<!-- BEGIN fiche_jeu -->
+<form method="post" name="arcade">
+	<div class="bloc_admin">
+		<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+		<tr>
+			<th colspan="2">{NOM_JEU}</th>
+		</tr>
+		<tr>
+			<td class="row1 abstop" colspan="2"><img src="{IMAGE_ROOT}{IMAGE_GRANDE}" />    <img src="{IMAGE_ROOT}{IMAGE_PETITE}" /></td>
+		</tr>
+		<tr>
+			<td class="row1">{L_TITRE_JEU}</td>
+			<td class="row2"><input type="text" name="nom_jeu" value="{NOM_JEU}" size="30" /></td>
+		</tr>
+		<tr>
+			<td class="row1">{L_DESCRIPTION}</td>
+			<td class="row2"><textarea name="description" style="width:98%;">{DESCRIPTION}</textarea></td>
+		</tr>
+		<tr>
+			<td class="row1">{L_VARIABLE}</td>
+			<td class="row2"><input type="text" name="variable" value="{VARIABLE}" size="30" /></td>
+		</tr>
+		<tr>
+			<td class="row1">{L_SWF}</td>
+			<td class="row2"><input type="text" name="nom_swf" value="{SWF}" size="30" /></td>
+		</tr>
+		<tr>
+			<td class="row1">{L_IMAGE_PETITE}</td>
+			<td class="row2"><input type="text" name="image_petite" value="{IMAGE_PETITE}" size="30" /></td>
+		</tr>
+		<tr>
+			<td class="row1">{L_IMAGE_GRANDE}</td>
+			<td class="row2"><input type="text" name="image_grande" value="{IMAGE_GRANDE}" size="30" /></td>
+		</tr>
+		<tr>
+			<td class="row1">{L_LARGEUR}</td>
+			<td class="row2"><input type="text" name="largeur" value="{LARGEUR}" size="30" /></td>
+		</tr>
+		<tr>
+			<td class="row1">{L_HAUTEUR}</td>
+			<td class="row2"><input type="text" name="hauteur" value="{HAUTEUR}" size="30" /></td>
+		</tr>
+		<tr>
+			<td class="row1">{L_FPS}</td>
+			<td class="row2"><input type="text" name="fps" value="{FPS}" size="30" /></td>
+		</tr>
+		<tr>
+			<td class="row1">{L_CONTROLES}</td>
+			<td class="row2"><select name="controles">{SELECT_CONTROLES}</select></td>
+		</tr>
+		<tr>
+			<td class="row1">{L_SCORE_SENS}</td>
+			<td class="row2"><select name="score_sens">{SCORE_SENS}</select></td>
+		</tr>
+		<tr>
+			<td class="row1">{L_ACTIF}</td>
+			<td class="row2">
+				<input type="radio" name="actif" value="1"{ACTIF_OUI}>{L_OUI}&nbsp;
+				<input type="radio" name="actif" value="0"{ACTIF_NON}>{L_NON}</td>
+		</tr>
+		</table>
+		<div class="center"><input type="submit" name="ajouter" value="{L_ENREGISTRER}" /></div>
+		<input type="hidden" name="id_jeu" value="{ID_JEU}" />
+		<input type="hidden" name="action" value="editer" />
+	</div>
+</form>
+<!-- END fiche_jeu -->

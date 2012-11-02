@@ -1,0 +1,178 @@
+<script type="text/javascript" src="js/affichage.js"></script>
+<h1 class="admin">{L_TITRE_ADMIN_CATEGORIES}</h1>
+<p>{L_EXPLAIN_CATEGORIES_FORUM}</p>
+
+<!-- BEGIN erreur_saisie -->
+<div class="admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" width="80%" align="center">
+		<tr>
+			<td class="rowAlerte center" height="20"><b>{ALERTE_ERREUR_SAISIE}</b></td>
+		</tr>
+	</table>
+</div>
+<br />
+<!-- END erreur_saisie -->
+
+<table width="100%">
+<tr>
+	<td class="abstop" width="50%">
+		<form method="post" name="create_cat" action="">
+		<div class="bloc_admin center">
+			<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+			<tr>
+				<th colspan="3">{L_AJOUTER_CAT}</th>
+			</tr>
+			<tr>
+				<td class="row1">{L_TITRE}</td>
+				<td class="row2"><input type="text" name="titre" value="{TITRE}" size="30" /></td>
+			</tr>
+			<tr>
+				<td class="row1">{L_MODULE}</td>
+				<td class="row2"><select name="module">{SELECT_MODULE}</select></td>
+			</tr>
+			<tr>
+				<td class="row1">{L_DESCRIPTION}</td>
+				<td class="row2"><textarea name="description" style="width:100%;height:100%;">{DESCRIPTION}</textarea></td>
+			</tr>
+			</table>
+		</div>
+		<div class="center"><input type="submit" name="ajouter" value="{L_ENREGISTRER}" /></div>
+		{HIDDEN}
+		{HIDDEN_IDCAT}
+		</form>
+		
+		</td>
+		<td class="abstop">
+		
+		<!-- BEGIN editforum -->
+		<form method="post" name="forum">
+		<div class="bloc_admin center">
+			<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+			<tr>
+				<th colspan="3">{L_EDITER_FORUM}</th>
+			</tr>
+			<tr>
+				<td class="row1">{L_TITRE}</td>
+				<td class="row2"><input type="text" name="titre_forum" value="{editforum.TITRE}" size="30"  /></td>
+			</tr>
+			<tr>
+				<td class="row1">{L_SELECT_FORUM}</td>
+				<td class="row2"><select name="parent_forum">{editforum.SELECT_FORUM}</select></td>
+			</tr>
+			<tr>
+				<td class="row1">{L_SELECT_ICONE}</td>
+				<td class="row2"><select name="icone_forum" onKeyUp="ChangeApercu(this.value,'apercuForum');" onChange="ChangeApercu(this.value,'apercuForum');">{editforum.SELECT_ICONE}</select>
+				<img src="data/icones_forum/{editforum.ICONE}" id="apercuForum" alt="" /></td>
+			</tr>
+			</table>
+		</div>
+		<div class="center"><input type="submit" name="ajouter" value="{L_ENREGISTRER}" /></div>
+		<input type="hidden" name="id_forum" value="{editforum.ID_FORUM}" />
+		<input type="hidden" name="action" value="editerforum" />		
+		</form>
+		<!-- END editforum -->		
+		
+	</td>
+</tr>
+</table>
+	
+
+<!-- BEGIN liste_modules -->
+<h1>{liste_modules.MODULE}</h1>
+
+	<!-- BEGIN cats -->
+		<h2>{liste_modules.cats.TITRE_CAT}</h2>
+		<table width="100%">
+		<tr>
+			<td>{liste_modules.cats.DESC_CAT}</td>
+			<td width="90" class="right">
+				<!-- BEGIN monter -->
+				<a href="{liste_modules.cats.S_UP}" title="{L_DEPLACER}"><img src="{I_UP}" alt="{L_UP}" /></a>
+				<!-- END monter -->
+				<!-- BEGIN descendre -->
+				<a href="{liste_modules.cats.S_DOWN}" title="{L_DEPLACER}"><img src="{I_DOWN}" alt="{L_DOWN}" /></a>
+				<!-- END descendre -->
+				<a href="{liste_modules.cats.S_EDIT}" title="{L_EDITER}"><img src="{I_EDITER}" alt="{L_EDITER}" /></a>
+				<a href="{liste_modules.cats.S_SUPP}" title="{L_SUPPRIMER}"><img src="{I_EFFACER}" alt="{L_EDITER}" /></a>
+			</td>
+		</tr>
+		</table>
+		<div class="bloc_admin">
+		<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+		<tr>
+			<th>{L_FORUMS}</th>
+			<th colspan="2">{L_GESTION}</th>
+		</tr>
+		<!-- BEGIN forums -->
+		<tr>
+			<td class="row1 absmiddle nowrap">
+				<img src="{liste_modules.cats.forums.ICONE}" alt="{liste_modules.cats.forums.TITRE}" />{liste_modules.cats.forums.PRE}&nbsp; {liste_modules.cats.forums.TITRE}
+			</td>
+			<td class="row2 nowrap" width="40">
+				<a href="{liste_modules.cats.forums.S_UP}" title="{L_DEPLACER}"><img src="{I_UP}" alt="{L_DOWN}" align="left" /></a>
+				<a href="{liste_modules.cats.forums.S_DOWN}" title="{L_DEPLACER}"><img src="{I_DOWN}" alt="{L_DOWN}" align="right" /></a>
+			</td>
+			<td class="row2 center nowrap" width="40">
+				<a href="{liste_modules.cats.forums.S_EDIT}" title="{L_EDITER}"><img src="{I_EDITER}" alt="{L_EDITER}" /></a>
+				<a href="{liste_modules.cats.forums.S_SUPP}" title="{L_SUPPRIMER}"><img src="{I_EFFACER}" alt="{L_SUPPRIMER}" /></a></td>
+		</tr>
+		<!-- END forums -->
+		<!-- BEGIN no_forums -->
+		<tr>
+			<td class="row1 center" colspan="3">{L_AUCUN_FORUM}</td>
+		</tr>
+		<!-- END no_forums -->
+		<tr>
+			<td colspan="3">
+			<a href="javascript:void(afficher_masquer('nouveau_forum_{liste_modules.cats.ID_CAT}'));"><img src="{I_NOUVEAU}" alt="{L_AJOUTER_FORUM}" title="{L_AJOUTER_FORUM}" /></a>
+			<form method="post" name="forum">
+			<div id="nouveau_forum_{liste_modules.cats.ID_CAT}" style="width:400px;display:none;">
+			<br />
+				<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+				<tr>
+					<th colspan="3">{L_AJOUTER_FORUM}</th>
+				</tr>
+				<tr>
+					<td class="row1">{L_TITRE}</td>
+					<td class="row2"><input type="text" name="titre_forum" value="{L_NOM_NEW_FORUM}" size="30" onclick="if(this.value=='{L_NOM_NEW_FORUM}')this.value='';"   /></td>
+				</tr>
+				<tr>
+					<td class="row1">{L_SELECT_FORUM}</td>
+					<td class="row2"><select name="parent_forum">{liste_modules.cats.SELECT_FORUM}</select></td>
+				</tr>
+				<tr>
+					<td class="row1">{L_SELECT_ICONE}</td>
+					<td class="row2"><select name="icone_forum" onkeyup="ChangeApercu(this.value,'apercu{liste_modules.cats.ID_CAT}');" onchange="ChangeApercu(this.value,'apercu{liste_modules.cats.ID_CAT}');">{SELECT_ICONE}</select>&nbsp;
+					<img src="data/icones_forum/{ICONE_PAR_DEFAUT}" id="apercu{liste_modules.cats.ID_CAT}" alt="" /></td>
+				</tr>
+				</table>
+				<div class="center"><input type="submit" name="ajouter" value="{L_AJOUTER_FORUM}" /></div>
+				<input type="hidden" name="id_cat" value="{liste_modules.cats.ID_CAT}" />
+				<input type="hidden" name="action" value="ajouter_forum" />	
+			</div>
+			</form>
+		
+			</td>
+		</tr>
+		</table>
+		</div>
+		<br />
+	<!-- END cats -->
+	<!-- BEGIN nocats -->
+	<br />
+	<table cellpadding="1" cellspacing="1" width="100%" class="Alerte">
+	<tr>
+		<td class="rowAlerte">{L_NOT_DEFINED}</td>
+	</tr>
+	</table>
+	<!-- END nocats -->
+
+<!-- END liste_modules -->
+
+
+<script type="text/javascript">
+function ChangeApercu(icone,div)
+{
+	document.getElementById(div).src = 'data/icones_forum/'+icone;
+}
+</script>

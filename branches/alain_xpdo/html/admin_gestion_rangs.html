@@ -1,0 +1,80 @@
+<h1 class="admin">{L_TITRE_GETION_RANGS}</h1>
+<p>{L_TITRE_GETION_RANGS_EXPLAIN}</p>
+
+<table width="100%">
+<tr>
+	<td width="300" valign="top">
+<h2>{L_AJOUTER_EDITER}</h2>
+<!-- BEGIN erreur_saisie -->
+<div class="admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" width="80%" align="center">
+		<tr>
+			<td class="rowAlerte center" height="20"><b>{ALERTE_ERREUR_SAISIE}</b></td>
+		</tr>
+	</table>
+</div>
+<br />
+<!-- END erreur_saisie -->
+<form name="ajout_rang" action="" method="post">
+<div class="bloc_admin">
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th colspan="2">{L_AJOUTER_EDITER}</th>
+	</tr>
+	<tr>
+		<td class="row1">{L_TITRE_RANG}</td>
+		<td class="row2"><input type="text" name="titre" value="{TITRE}" /></td>
+	</tr>
+	<tr>
+		<td class="row1">{L_IMAGE_RANG}</td>
+		<td class="row2"><input type="text" name="image" value="{IMAGE}" /></td>
+	</tr>
+	<tr>
+		<td class="row1">{L_MSG_RANG}</td>
+		<td class="row2"><input type="text" name="msg" id="msg" value="{MSG}" /></td>
+	</tr>
+	<tr>
+		<td class="row1" colspan="2"><input type="checkbox" name="special" {SPECIAL} onClick="if(this.checked==true){ document.getElementById('msg').disabled=true; }else{ document.getElementById('msg').disabled=false; }" /> {L_SPECIAL_RANG}</td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center"><input type="submit" name="enregistrer" value="{L_ENREGISTRER}" /></td>
+	</tr>	
+	</table>
+	{HIDDEN}
+	<input type="hidden" name="action" value="{HIDDEN_ACTION}" />
+</div>
+</form>
+
+</td><td valign="top">
+	<h2>{L_LISTE_RANGS}</h2>
+	<div class="bloc_admin">
+		<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+		<tr>
+			<th>{L_TITRE_RANG}</th>
+			<th>{L_IMAGE_RANG}</th>
+			<th>{L_MSG_RANG}</th>
+			<th>{L_GESTION_RANG}</th>
+		</tr>
+		<!-- BEGIN liste_rangs -->
+		<tr>
+			<td class="row1" align="center">{liste_rangs.TITRE}</td>
+			<td class="row1" align="center">{liste_rangs.IMAGE}</td>
+			<td class="row1" align="center">{liste_rangs.MSG}</td>
+			<td class="row2" align="center">
+					<a href="{liste_rangs.EDITER}"><img src="{I_EDIT}" /></a>
+					<a href="{liste_rangs.SUPPRIMER}"><img src="{I_SUPPR}" /></a></td>
+		</tr>
+		<!-- END liste_rangs -->
+		<!-- BEGIN no_liste_rangs -->
+		<tr>
+			<td class="row1 center" colspan="4">{L_AUCUN_RANG}</td>
+		</tr>
+		<!-- END no_liste_rangs -->
+		</table>
+	</div>
+
+</td>
+</tr>
+</table>
+
+<br clear="all">

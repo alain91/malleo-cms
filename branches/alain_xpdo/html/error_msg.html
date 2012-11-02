@@ -1,0 +1,38 @@
+<br /><br />
+<table cellpadding="1" cellspacing="1" class="Alerte" align="center" width="80%">
+<tr>
+	<td class="rowAlerte" colspan="2" height="20"><b>{ERROR_CODE} : {ERROR_MSG}</b></td>
+</tr>
+<!-- BEGIN SQL_MSG -->
+<tr>
+	<th colspan="2">{L_SQL}</th>
+</tr>
+<tr>
+	<td class="row1" width="20%" align="left">{L_SQL_CODE}</td>
+	<td class="row2" align="left">{SQL_CODE}</td>
+</tr>
+<tr>
+	<td class="row1" width="20%" align="left">{L_SQL_MSG}</td>
+	<td class="row2" align="left">{SQL_MSG}</td>
+</tr>
+<tr>
+	<td class="row1" width="20%" align="left">{L_SQL_REQUETE}</td>
+	<td class="row2" align="left">{SQL_REQUETE}</td>
+</tr>
+<!-- END SQL_MSG -->
+<!-- BEGIN emplacement -->
+<tr><th colspan="2">{L_EMPLACEMENT}</th></tr>
+<tr>
+	<td class="row1" width="20%" align="left">{L_LIGNE}</td>
+	<td class="row2" align="left">{ERROR_LINE}</td>
+</tr>
+<tr>
+	<td class="row1" width="20%" align="left">{L_FICHIER}</td>
+	<td class="row2" align="left">{ERROR_FILE}</td>
+</tr>
+<!-- END emplacement -->
+</table>
+<!-- BEGIN retour -->
+<br />
+<div class="center"><input type="button" name="retour" value="{L_RETOUR}" onClick="javascript:history.back();" /></div>
+<!-- END retour -->

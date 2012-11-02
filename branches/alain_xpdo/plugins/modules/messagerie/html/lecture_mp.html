@@ -1,0 +1,52 @@
+<script type="text/javascript" src="js/affichage.js"></script>
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th colspan="2">{TITRE}</th>
+	</tr>
+	<tr>
+		<td class="row1" width="80">{L_DE}</td>
+		<td class="row1">{DE}</td>
+	</tr>
+	<tr>
+		<td class="row1" width="80">{L_A}</td>
+		<td class="row1">{A}</td>
+	</tr>
+	<tr>
+		<td class="row1" width="80">{L_DATE}</td>
+		<td class="row1">{DATE}</td>
+	</tr>
+	<tr>
+		<td class="row1" colspan="2">
+			<a href="{S_DELETE}" title="{L_DELETE}"><img src="{I_DELETE}" alt="{L_DELETE}" align="right" /></a><br />{MESSAGE}
+		</td>
+	</tr>
+	</table>
+</div>
+<div class="left"><a href="{S_REPONDRE}" title="{L_REPONDRE}"><img src="{I_REPONDRE}" alt="{L_REPONDRE}" /></a></div>
+<br /><br />
+
+<!-- BEGIN liste_mp -->
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th colspan="2">{liste_mp.TITRE}</th>
+	</tr>
+	<tr>
+		<td class="row1" align="center" valign="top" rowspan="3" width="100">{liste_mp.DE}<br /><img src="{liste_mp.AVATAR}" border="0" alt="" /></td>
+		<td class="row1"><b>{L_A}:</b> {liste_mp.A}</td>
+	</tr>
+	<tr>
+		<td class="row1"><b>{L_DATE}:</b> {liste_mp.DATE}</td>
+	</tr>
+	<tr>
+		<td class="row1"><br />{liste_mp.MESSAGE}</td>
+	</tr>
+</table>
+</div>
+<br />
+<!-- END liste_mp -->
+
+<!-- BEGIN reponse -->
+<div class="left"><a href="{S_REPONDRE}" title="{L_REPONDRE}"><img src="{I_REPONDRE}" alt="{L_REPONDRE}" /></a></div>
+<!-- END reponse -->

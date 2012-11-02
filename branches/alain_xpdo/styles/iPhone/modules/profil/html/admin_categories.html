@@ -1,0 +1,73 @@
+<h1 class="admin">{L_ADMIN_PROFIL}</h1>
+<p>{L_ADMIN_PROFIL_EXPLAIN}</p>
+	
+<h2>{L_CATEGORIES}</h2>
+<!-- BEGIN categories_profil -->
+<div class="bloc_admin">
+<table cellpadding="1" cellspacing="1" width="100%" class="standard">
+	<tr>
+		<th colspan="3">{categories_profil.CATEGORIE}</th>
+	</tr>
+	<tr>
+		<td class="row1">{categories_profil.MODELE}</td>
+		<td class="row2 abstop" width="40">
+			<!-- BEGIN monter -->
+			<a href="{categories_profil.S_UP}"><img src="{I_UP}" alt="{L_UP}" align="left" /></a>
+			<!-- END monter -->
+			<!-- BEGIN descendre -->
+			<a href="{categories_profil.S_DOWN}"><img src="{I_DOWN}" alt="{L_DOWN}" align="right" /></a>
+			<!-- END descendre -->
+		</td>
+		<td class="row2 abstop center" width="40">
+			<a href="{categories_profil.S_EDIT}"><img src="{I_EDITER}" alt="{L_EDIT}" /></a>
+			<a href="{categories_profil.S_SUPP}"><img src="{I_EFFACER}" alt="{L_SUPP}" /></a></td>
+	</tr>
+	</table>
+</div>
+<br />
+<!-- END categories_profil -->
+<!-- BEGIN no_cat -->
+<div class="bloc_admin">
+	<table cellpadding="1" cellspacing="1" width="100%" class="Alerte">
+		<td class="rowAlerte">{L_AUCUNE_CATEGORIE_DECLAREE}</td>
+	</tr>
+	</table>
+</div>
+<!-- END no_cat -->
+<br />
+<h2>{L_AJOUTER_CATEGORIE}</h2>
+
+<!-- BEGIN erreur_saisie -->
+<div class="admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" width="80%" align="center">
+		<tr>
+			<td class="rowAlerte center" height="20"><b>{ALERTE_ERREUR_SAISIE}</b></td>
+		</tr>
+	</table>
+</div>
+<br />
+<!-- END erreur_saisie -->
+		
+<form name="ajouter_categorie" method="post" action="">
+<div class="bloc_admin">
+<table cellpadding="1" cellspacing="1" class="standard" width="400">
+	<tr>
+		<th>{L_TITRE_CAT}</th>
+	</tr>
+	<tr>
+		<td class="row2"><input type="text" name="titre_cat" value="{TITRE_CAT}" size="40" /></td>
+	</tr>
+	<tr>
+		<td class="row2">
+		{WYSIWYG}
+		<textarea name="modele">{MODELE}</textarea></td>
+	</tr>
+	<tr>
+		<td class="center"><input type="submit" name="ajouter" value="{L_AJOUTER}" /></td>
+	</tr>
+</table>
+</div>
+<input type="hidden" name="action" value="{HIDDEN_ACTION}" />
+{HIDDEN}
+</form>
+<br clear="all" />

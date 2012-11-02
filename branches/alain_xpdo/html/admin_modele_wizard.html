@@ -1,0 +1,102 @@
+ <h1 class="admin">{L_CREATE_MODEL}</h1>
+ <p>{L_EXPLAIN_CREATE_MODEL}</p>
+ 
+<!-- BEGIN etape1 -->
+<h2>{ETAPE1}</h1>
+<div class="bloc_admin">
+	<p>{L_EXPLAIN_ETAPE1}</p>
+	<form name="creation_modele_etape1" method="post" action="admin.php?module=admin/Modeles_Wizard.php">
+	<ul style="text-align:left;">
+		<li><span class="msg1"> {TITRE_MODELE}: {TITRE} </span></li>
+		<li><span class="msg1"> {L_GABARIS} </span><br />
+		 <table cellpadding="1" cellspacing="1" class="standard" width="100%" align="center">
+		 <!-- BEGIN ligne -->
+		 <tr>
+			<!-- BEGIN liste_modeles -->
+			<td align="center" width="{PCT_COL}"><center>
+				{etape1.ligne.liste_modeles.INFOS}<br />
+				<img src="{etape1.ligne.liste_modeles.IMAGE}" border="0" /><br />
+				<input type="radio" name="gabaris" value="{etape1.ligne.liste_modeles.TITRE}" onClick="document.getElementById('valider').disabled = false;" /></center>
+			</td>
+			<!-- END liste_modeles -->
+		</tr>
+		<!-- END ligne -->
+		</table></li>
+	</ul>
+	<div class="center">
+	<input type="submit" name="valider" id="valider" value="{ETAPE2} >>" disabled />
+	<input type="hidden" name="etape" value="2" />
+	<input type="hidden" name="titre_modele" value="{TITRE}" />
+	</div>
+	</form>
+</div>
+<!-- END etape1 -->
+<!-- BEGIN etape2 -->
+<link rel="stylesheet" href="{STYLE_PATH}/dragable-boxes.css" type="text/css">
+<script type="text/javascript" src="js/affichage.js"></script>
+<script type="text/javascript" src="js/dragable-boxes.js">
+/************************************************************************************************************
+(C) www.dhtmlgoodies.com, January 2006
+
+This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.	
+
+Version:	1.0	: January 16th - 2006
+
+Terms of use:
+You are free to use this script as long as the copyright message is kept intact. However, you may not
+redistribute, sell or repost it without our permission.
+
+Thank you!
+
+www.dhtmlgoodies.com
+Alf Magne Kalleland
+************************************************************************************************************
+SP : 
+Merci à Batalf pour ce code simple, puissant et libre d'utilisation, c'est rare de nos jours
+************************************************************************************************************/		
+</script>
+<h2>{L_RAPPEL} {ETAPE1}</h1>
+<ul>
+	<li><span class="msg1">{TITRE_MODELE}: {TITRE}</span><br /></li>
+	<li><span class="msg1">{L_GABARIS}: {GABARIS}</span><br /></li>
+</ul>
+
+<h2>{ETAPE2}</h2>
+<div class="bloc_admin">
+	<p>{L_AJOUTER_BLOCS} <select name="bloc" onChange="AppelBloc(this.value);">{LISTE_BLOCS}</select>
+		{L_AJOUTER_BLOCS_HTML} <select name="blochtml" onChange="AppelBloc(this.value);">{LISTE_BLOCS_HTML}</select>
+	</p>
+	<div id="mainContainer">
+		<div id="floatingBoxParentContainer">
+			{MAP}
+		</div>
+	</div>
+	<br />
+	<form name="creation_modele_etape2" method="post" action="" align="center">
+	<div class="center">
+		<input type="hidden" name="etape" value="3" />
+		<input type="hidden" name="id_modele" id="id_modele" value="{ID_MODELE}" />
+		<div id="debug"></div><br />
+		<input type="button" name="etape3" value="{L_ENREGISTRER}" onClick="SauverMAP();if(document.getElementById('save').disabled == true)document.getElementById('save').disabled = false; " /> <input type="submit" name="save" id="save" value="{ETAPE3} >>" disabled />
+	</div>
+	</form>
+	<script type="text/javascript">
+		var numberOfColumns = {NBRE_ZONES};	// Number of columns for dragable boxes	
+		
+		function createDefaultBoxes()
+		{
+			createBox('module', '', '{L_MODULE_PRINCIPAL}',1);
+			hideHeaderOptionsForStaticBoxes(id_module)
+		}
+		AddObserver(window, "load", initDragableBoxesScript);
+	</script>
+</div>
+<br clear="all">
+<!-- END etape2 -->
+<!-- BEGIN etape3 -->
+<h2>{L_APERCU} :: {ETAPE3}</h2>
+<div class="bloc_admin">
+	<p>{L_EXPLAIN_ETAPE3}</p>
+	{APERCU_MAP}
+</div>
+<!-- END etape3 -->

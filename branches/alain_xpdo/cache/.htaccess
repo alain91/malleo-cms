@@ -1,0 +1,5 @@
+
+<Limit POST PUT DELETE>
+	Order Allow,Deny
+	Deny from All
+</Limit>

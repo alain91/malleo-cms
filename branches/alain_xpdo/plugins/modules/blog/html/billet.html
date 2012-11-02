@@ -1,0 +1,109 @@
+<script type="text/javascript" src="js/affichage.js"></script>
+<a name="billet"></a>
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th>{TITRE_BILLET}</th>
+	</tr>
+	<tr>
+		<td class="row1">
+			<div class="right">
+				<!-- BEGIN editer -->
+				<a href="{EDITER}" title="{L_EDITER}"><img src="{I_EDITER}" alt="{L_EDITER}" /></a>&nbsp;&nbsp;
+				<!-- END editer -->
+				<!-- BEGIN supprimer -->
+				<a href="{SUPPRIMER}" title="{L_SUPPRIMER}" onclick="return confirmLink('{L_CONFIRM_DELETE_BILLET}',this,'');"><img src="{I_EFFACER}" alt="{L_SUPPRIMER}" /></a>&nbsp;&nbsp;
+				<!-- END supprimer -->
+			</div>
+			{BILLET}
+		</td>
+	</tr>
+	<tr>
+		<td class="row1 right">{DATE_PARUTION} {L_BY} {AUTEUR}</td>
+	</tr>
+</table>
+</div>
+
+<!-- BEGIN tags_ok -->
+<p>{L_TAGS}: 
+<!-- BEGIN liste_tags -->
+<a href="{tags_ok.liste_tags.URL_TAGS}">{tags_ok.liste_tags.TAGS}</a>
+<!-- END liste_tags -->
+</p>
+<!-- END tags_ok -->
+
+<h2>{L_LISTE_COMS}</h2>
+<a name="commentaires"></a>
+<!-- BEGIN liste_coms -->
+<div class="bloc" style="width:90%;">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<td class="row1 center abstop" width="150" rowspan="2">
+			{liste_coms.AUTEUR}<br />
+			{liste_coms.RANG}<br />
+			<img src="{liste_coms.AVATAR}" alt="" />
+			<!-- BEGIN site -->
+			<a href="{liste_coms.site.SITE}">{liste_coms.site.SITE}</a>
+			<!-- END site -->
+		</td>
+		<td class="row2" height="10">{liste_coms.DATE}</td>
+	</tr>
+	<tr>
+		<td class="row1 abstop" height="100">
+			<!-- BEGIN supprimer -->
+			<a href="{liste_coms.DELETE}"><img src="{I_EFFACER}" alt="" style="float:right;"  /></a>
+			<!-- END supprimer -->
+			{liste_coms.MSG}
+		</td>
+	</tr>
+</table>
+</div>
+<!-- END liste_coms -->
+<!-- BEGIN no_liste_coms -->
+<p>{L_NO_COMS}</p>
+<!-- END no_liste_coms -->
+
+<!-- BEGIN commentaires_ok -->
+<h2>{L_SAISIE}</h2>
+<a name="commenter"></a>
+<form name="saisie_com" action="{FORM_TARGET}" method="post">
+<div class="bloc" style="width:90%;">
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<!-- BEGIN user_non_authentifie -->
+	<tr>
+		<td class="row1" width="30%">{L_PSEUDO}</td>
+		<td class="row2"><input type="text" name="pseudo" value="" size="40" /></td>
+	</tr>
+	<tr>
+		<td class="row1">{L_MAIL}</td>
+		<td class="row2"><input type="text" name="mail" value="" size="40" /></td>
+	</tr>
+	<tr>
+		<td class="row1">{L_SITE}</td>
+		<td class="row2"><input type="text" name="site" value="" size="40" /></td>
+	</tr>
+	<!-- END user_non_authentifie -->
+	<tr>
+		<td colspan="2">
+			{WYSIWYG}<textarea id="commentaire" name="commentaire" rows="10" cols="40" style="width:100%"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" class="abstop right">
+			<input type="button" value="abc" onmousedown="toggleEditor('commentaire');" />
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2">
+		{commentaires_ok.CRYPT_CODE}<br/>
+		{L_COPY_CODE}<input type="text" name="crypt_code">
+		</td>
+	</tr>
+	</table>
+	<input type="hidden" name="id_billet" value="{ID_BILLET}" />
+	<input type="hidden" name="action" value="commenter" />
+</div>
+<div class="center"><input type="submit" name="poster" value="{L_POSTER}" /></div>
+</form>
+<!-- END commentaires_ok -->
+<br />

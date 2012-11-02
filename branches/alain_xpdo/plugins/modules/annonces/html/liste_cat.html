@@ -1,0 +1,24 @@
+<!--
+<script type="text/javascript" src="js/affichage.js"></script>
+-->
+<div class="bloc">
+	{DESCRIPTION}
+	<hr style="margin-top:15px;" />
+	
+	<!-- BEGIN item -->
+	<a href="{item.URL}">
+	<div style="border:1px solid black;float:left;width:{WIDTH};padding:5px">
+		<img src="{CHEMIN_ICONES}{item.PICTURE}"/>
+		<p><strong>{item.TITRE}</strong></p>
+		<p>{item.DESCRIPTION}</p>
+	</div>
+	</a>
+	<!-- END item -->
+	<div style="clear:both"></div>
+	
+	<!-- BEGIN liste_vide -->
+	<div>
+	{liste_vide.CONTENU}
+	</div>
+	<!-- END liste_vide -->
+</div>

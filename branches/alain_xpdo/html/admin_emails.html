@@ -1,0 +1,74 @@
+<h1 class="admin">{L_GESTION_PARAMETRES}</h1>
+<p>{L_EXPLAIN_PARAMETRES}</p>
+<h2>{L_CONFIG_GENERALE}</h2>
+<form name="admin_config" method="post" action="">
+<div class="bloc_admin">
+	<table cellpadding="1" cellspacing="1" class="standard" align="left" width="500">
+	<tr>
+		<th>{L_PARAMETRE}</th>
+		<th>{L_VALEUR}</th>
+	</tr>
+	<!-- BEGIN liste_choix_config_emails -->
+	<tr>
+		<td class="row1" align="right">{liste_choix_config_emails.QUESTION}</td>
+		<td class="row2" align="left">{liste_choix_config_emails.REPONSE}</td>
+	</tr>
+	<!-- END liste_choix_config_emails -->
+	<tr>
+		<td colspan="2" align="center">
+			<input type="submit" name="enregistrer" value="{L_ENREGISTRER}" />
+			<input type="hidden" name="action" value="enregistrer" />	
+		</td>
+	</tr>
+	</table>
+</div>
+</form>
+<br clear="all">
+<h2>{L_AIDE}</h2>
+<div class="bloc_admin">
+
+	<table cellpadding="1" cellspacing="1" class="standard" align="center" width="100%">
+	<tr>
+		<th></th>
+		<th>mail()</th>
+		<th>smtp</th>
+		<th>google</th>
+	</tr>
+	<tr>
+		<td class="row1" align="left">{L_MAIL_SMTP} </td>
+		<td class="row2" align="left">{L_NON}</td>
+		<td class="row2" align="left">{L_OUI}</td>
+		<td class="row2" align="left">{L_OUI}</td>
+	</tr>
+	<tr>
+		<td class="row1" align="left">{L_MAIL_SECURE}</td>
+		<td class="row2" align="left">/</td>
+		<td class="row2" align="left">{L_NON}</td>
+		<td class="row2" align="left">{L_OUI}</td>
+	</tr>	
+	<tr>
+		<td class="row1" align="left">{L_MAIL_URL_SERVEUR} </td>
+		<td class="row2" align="left">/</td>
+		<td class="row2" align="left">smtp.domain.com</td>
+		<td class="row2" align="left">smtp.gmail.com</td>
+	</tr>	
+	<tr>
+		<td class="row1" align="left">{L_MAIL_PORT_SERVEUR}</td>
+		<td class="row2" align="left">/</td>
+		<td class="row2" align="left">25</td>
+		<td class="row2" align="left">465</td>
+	</tr>	
+	<tr>
+		<td class="row1" align="left">{L_MAIL_USERNAME}</td>
+		<td class="row2" align="left">/</td>
+		<td class="row2" align="left">Pseudo</td>
+		<td class="row2" align="left">yourname@gmail.com</td>
+	</tr>	
+	<tr>
+		<td class="row1" align="left">{L_MAIL_PASSWORD}</td>
+		<td class="row2" align="left">/</td>
+		<td class="row2" align="left">Password</td>
+		<td class="row2" align="left">Password</td>
+	</tr>		
+	</table>	
+</div>

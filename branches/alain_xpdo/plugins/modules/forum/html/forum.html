@@ -1,0 +1,53 @@
+<!-- BEGIN sous_forum -->
+<div class="bloc">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th width="50%" colspan="2">{L_SOUS_FORUMS}</th>
+		<th width="10%">{L_TOPICS}</th>
+		<th width="10%">{L_POSTS}</th>
+		<th width="30%">{L_TOPICS_RECENTS}</th>
+	</tr>
+    <!-- BEGIN forum -->
+	<tr>
+		<td class="{sous_forum.forum.CLASS} center" width="5%"><img src="{sous_forum.forum.ETAT_LU_ICONE}" alt="{sous_forum.forum.ETAT_LU_LIBELLE}" title="{sous_forum.forum.ETAT_LU_LIBELLE}" /></td>
+        <td class="{sous_forum.forum.CLASS} left" width="45%">
+            <a href="{sous_forum.forum.LIEN}" class="link1">
+                <img src="{sous_forum.forum.ICONE}" alt="{sous_forum.forum.TITRE}" class="absmiddle"/> {sous_forum.forum.TITRE} {sous_forum.forum.STATUS}
+            </a></td>
+        <td class="{sous_forum.forum.CLASS} center">{sous_forum.forum.NBRE_TOPICS}</td>
+        <td class="{sous_forum.forum.CLASS} center">{sous_forum.forum.NBRE_POSTS}</td>
+        <td class="{sous_forum.forum.CLASS} left">
+        <!-- BEGIN aucun -->
+        {L_AUCUN_MESSAGE}
+        <!-- END aucun -->    
+        <!-- BEGIN recents -->        
+            <a href="{sous_forum.forum.recents.LIEN}">&bull;&nbsp;{sous_forum.forum.recents.ETAT_LU}{sous_forum.forum.recents.TEXT}</a><br /><em style="font-size:10px"><a href="" class="pseudo">{sous_forum.forum.recents.PSEUDO}</a> {L_LE} {sous_forum.forum.recents.DATE}</em><br />
+        <!-- END recents -->
+            </td>
+        </td>
+    </tr>
+    <!-- END forum -->        
+</table>
+</div>
+<!-- END sous_forum -->
+{LISTE_ANNONCES}
+{LISTE_POSTITS}
+<!-- BEGIN nouveau -->
+<a href="{S_NOUVEAU}" title="{L_NOUVEAU}"><img src="{I_NOUVEAU}" alt="{L_NOUVEAU}" /></a>
+<!-- END nouveau -->
+<div class="pagination">{PAGINATION}</div>
+{LISTE_TOPICS}
+<div class="pagination">{PAGINATION}</div>
+<!-- BEGIN nouveau -->
+<a href="{S_NOUVEAU}" title="{L_NOUVEAU}"><img src="{I_NOUVEAU}" alt="{L_NOUVEAU}" /></a>
+<!-- END nouveau -->
+<!-- BEGIN fusionner -->
+<a href="{S_FUSIONNER}" title="{L_FUSIONNER}"><img src="{I_FUSIONNER}" alt="{L_FUSIONNER}" /></a>
+<!-- END fusionner -->
+<!-- BEGIN verrouiller -->
+<a href="{S_VERROUILLER}" title="{L_VERROUILLER}"><img src="{I_VERROUILLER}" alt="{L_VERROUILLER}" /></a>
+<!-- END verrouiller -->
+<!-- BEGIN deverrouiller -->
+<a href="{S_DEVERROUILLER}" title="{L_DEVERROUILLER}"><img src="{I_DEVERROUILLER}" alt="{L_DEVERROUILLER}" /></a>
+<!-- END deverrouiller -->
+<br />

@@ -1,0 +1,18 @@
+<div class="bloc">
+<form name="edition_categorie" method="post" action="">
+<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th >{TITRE_CAT}</th>
+	</tr>
+	<tr>
+		<td class="row1">{WYSIWYG}<textarea name="texte" style="width:100%; height:150px;">{TEXTE}</textarea></td>
+	</tr>
+	<tr>
+		<td class="center"><input type="submit" name="enregistrer" value="{L_ENREGISTRER}" /></td>
+	</tr>	
+</table>
+<input type="hidden" name="user_id" value="{USER_ID}" />
+<input type="hidden" name="id_cat" value="{CATEGORIE}" />
+<input type="hidden" name="mode" value="categorie" />
+</form>
+</div>

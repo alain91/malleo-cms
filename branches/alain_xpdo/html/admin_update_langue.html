@@ -1,0 +1,39 @@
+<h1 class="admin">{L_MANAGE_LANGUES}</h1>
+<p>{L_EXPLAIN_UPDATE_LANG}</p>
+
+<form name="convertir_fichiers" action="" method="post">
+<div class="bloc_admin">
+<table cellpadding="1" cellspacing="1" class="standard" width="500" align="center">
+<tr>
+	<th colspan="2">{L_CONVERTIR}</th>
+</tr>
+<tr>
+	<td class="row1">{L_ZONES_SCANNEES}</td>
+	<td class="row2">{ZONES_SCANNEES}</td>
+</tr>
+<tr>
+	<td class="row1">{L_LANGUES}</td>
+	<td class="row1"><select name="lang">{LANGUE}</select></td>
+</tr>
+	<td class="row1" colspan="2" align="center">
+		<input type="submit" name="html" value="{L_ACCENT} -> {L_HTML}" />&nbsp;
+		<input type="submit" name="accents" value="{L_HTML} -> {L_ACCENT}" /></td>
+</tr>
+</table>
+</div>
+</form>
+
+<div class="bloc_admin">
+<!-- BEGIN liste_langues -->
+<table class="{liste_langues.CLASS}" width="500" align="center">
+<tr>
+	<td class="row1">{liste_langues.FICHIER}</td>
+	<td class="row2" width="20"><img src="{liste_langues.ETAT}" border="0" alt="" /></td>
+</tr>
+</table>
+<!-- END liste_langues -->
+<!-- BEGIN vide -->
+<h2>{vide.FICHIER}</h2>
+{L_VIDE}
+<!-- END vide -->
+</div>

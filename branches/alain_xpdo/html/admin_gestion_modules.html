@@ -1,0 +1,111 @@
+<h1 class="admin">{L_GESTION_MODULES}</h1>
+<p>{L_GESTION_MODULES_EXPLAIN}<br />
+<a href="{REALOAD_LINK}">{L_VERSION_RELOAD}</a></p>
+<form name="admin_gestion_modules" method="post" action="">
+<div class="bloc_admin">
+	<table cellpadding="1" cellspacing="1" class="standard" width="300">
+	<tr>
+		<th colspan="2" align="center">{L_LISTE_MODULES_DISPOS}</th>
+	</tr>
+	<tr>
+		<!-- BEGIN module_ajout -->
+		<td class="row1" align="left">{L_MODULES}</td>
+		<td class="row2" align="left"><select name="module">{LISTE_MODULES}</select></td>
+		<!-- END module_ajout -->
+		<!-- BEGIN module_edition -->
+		<td class="row1" align="left">{L_MODULE}</td>
+		<td class="row2" align="left">{MODULE}</td>
+		<!-- END module_edition -->
+		<!-- BEGIN virtuel_ajout -->
+		<td class="row1" align="left">{L_MODULE}</td>
+		<td class="row2" align="left"><input type="text" name="module" value="" size="20" /></td>
+	</tr>
+	<tr>
+		<td class="row1" align="left">{L_VIRTUEL}</td>
+		<td class="row2" align="left">{VIRTUEL}</td>
+		<!-- END virtuel_ajout -->
+		<!-- BEGIN virtuel_edition -->
+		<td class="row1" align="left">{L_MODULE}</td>
+		<td class="row2" align="left">{MODULE}</td>
+	</tr>
+	<tr>
+		<td class="row1" align="left">{L_VIRTUEL}</td>
+		<td class="row2" align="left">{VIRTUEL}</td>
+		<!-- END virtuel_edition -->
+	</tr>
+	<tr>
+		<td class="row1" align="left">{L_MODELES}</td>
+		<td class="row2" align="left"><select name="modele">{LISTE_MODELES}</select></td>
+	</tr>
+	<tr>
+		<td class="row1" align="left">{L_STYLES}</td>
+		<td class="row2" align="left"><select name="style">{LISTE_STYLES}</select></td>
+	</tr>
+	<tr>
+		<td colspan="2" align="center"><input type="submit" name="enregistrer" value="{L_ENREGISTRER}" /></td>
+	</tr>
+	</table>
+</div>
+{HIDDEN}
+</form>
+<!-- BEGIN fsockopen -->
+<br />
+<table cellpadding="1" cellspacing="1" class="Alerte" align="center" width="80%">
+<tr>
+	<td class="rowAlerte"><b>{L_FSOCKOPEN}</b></td>
+</tr>
+</table>
+<!-- END fsockopen -->
+
+<h2>{L_LISTE_MODULES}</h2>
+<div class="bloc_admin">
+	<!-- BEGIN liste_modules -->
+
+	<table cellpadding="1" cellspacing="1" class="standard" width="100%">
+	<tr>
+		<th colspan="5" class="left">{liste_modules.TITRE_MODULE}</th>
+	</tr>
+	<tr>
+		<td class="row1" colspan="3" align="left">
+			{L_AUTEUR}: {liste_modules.AUTEUR}<br />
+			{L_SITE}: {liste_modules.SITE}
+		</td>
+		<td class="row1" colspan="2" align="left">
+			{L_VERSION_ACTUELLE}: {liste_modules.VERSION_ACTUELLE}
+			<!-- BEGIN update_not_supported -->
+			<br /><b style="color: #CE0000;"><i>{L_VERSION_NOT_SUPPORTED}<br />{L_VERSION_NOT_SUPPORTED_CONSIGNES}</i></b>
+			<!-- END update_not_supported -->
+			<!-- BEGIN update -->
+			<a href="{liste_modules.U_LIEN_UPGRADE}"><img src="{I_REFRESH}" alt="update" /> {liste_modules.update.VERSION_DISPONIBLE}</a>
+			<!-- END update -->
+			<br />
+			{L_VERSION_OFFICIELLE}: {liste_modules.VERSION_OFFICIELLE}
+		</td>
+	</tr>
+	<tr>
+		<th>{L_MODULE}</th>
+		<th width="120">{L_MODELE}</th>
+		<th width="150">{L_STYLE}</th>
+		<th width="60">{L_DUPLIQUER}</th>
+		<th width="50">{L_MANAGE}</th>
+	</tr>
+	<!-- BEGIN liste_modules_detail -->
+	<tr>
+		<td class="{liste_modules.liste_modules_detail.CSS}" align="left"><a href="{liste_modules.liste_modules_detail.S_MODULE}" target="_blank"><b>{liste_modules.liste_modules_detail.MODULE}</b></a></td>
+		<td class="{liste_modules.liste_modules_detail.CSS}" align="center">{liste_modules.liste_modules_detail.MODELE}</td>
+		<td class="{liste_modules.liste_modules_detail.CSS}" align="center">{liste_modules.liste_modules_detail.STYLE}</td>
+		<td class="{liste_modules.liste_modules_detail.CSS}" align="center">
+			<!-- BEGIN original -->
+			<a href="{liste_modules.liste_modules_detail.original.S_DUPLIQUER}"><img src="{I_DUPLIQUER}" border="0" align="center" /></a>
+			<!-- END original -->
+		</td>
+		<td class="row2" align="center" width="60">
+			<a href="{liste_modules.liste_modules_detail.S_DROITS}"><img src="{I_CADENAS}" border="0" /></a>
+			<a href="{liste_modules.liste_modules_detail.S_EDIT}"><img src="{I_EDIT}" border="0" /></a>
+			<a href="{liste_modules.liste_modules_detail.S_SUPP}"><img src="{I_SUPP}" border="0" /></a>
+		</td>
+	</tr>
+	<!-- END liste_modules_detail -->
+	</table><br />
+	<!-- END liste_modules -->
+</div>

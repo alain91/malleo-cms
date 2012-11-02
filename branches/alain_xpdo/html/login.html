@@ -1,0 +1,92 @@
+<script type="text/javascript" src="js/affichage.js"></script>
+<h1>{LOGIN_TITRE}</h1>
+<!-- BEGIN formulaire_renvoi -->
+<p>{L_SEND_MAIL_DESCRIPTION}</p>
+<br />
+<form name="identite" method="post" action="" />
+	<!-- BEGIN essais -->
+	<div class="admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" width="80%" align="center">
+		<tr>
+			<td class="rowAlerte" height="20"><b>{ALERTE}</b></td>
+		</tr>
+	</table>
+	</div><br />
+	<!-- END essais -->	
+	<div class="bloc" style="width:400px;">
+		<table cellpadding="1" cellspacing="1" class="standard" align="center" width="100%">
+		<tr>
+			<th colspan="2">{L_SEND_MAIL}</th>
+		</tr>
+		<tr>
+			<td class="row1" align="right">{LOGIN_LOGIN}</td>
+			<td class="row2" align="left" width="25"><input type="text" value="" name="login" /></td>
+		</tr>
+		<tr>
+			<td class="row1" align="left" colspan="3">{L_CAPTCHA}</td>
+		</tr>
+		<tr>
+			<td class="row1" align="center">{CAPTCHA}</td>
+			<td class="row2" align="left"><input type="text" name="code"></td>
+		</tr>
+		</table>
+	</div>
+	<div class="center"><input type="submit" value="{L_ENVOYER}" name="mail_mdp" /></div>
+</form>
+<!-- END formulaire_renvoi -->
+<!-- BEGIN champs_saisie -->
+<p>{LOGIN_DESCRIPTION}</p>
+<br />
+<form name="identite" method="post" action="" />
+	<!-- BEGIN alerte_tentative -->
+	<p><span class="alerte">{LOGIN_ALERTE_TENTATIVE}</span></p>
+	<!-- END alerte_tentative -->
+	<!-- BEGIN alerte -->
+	<div class="admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" width="80%" align="center">
+	<tr>
+		<td class="rowAlerte" height="20"><b>{LOGIN_ALERTE}</b></td>
+	</tr>
+	</table>
+	</div><br />
+	<!-- END alerte -->
+	<div class="bloc" style="width:300px;">
+		<table cellpadding="1" cellspacing="1" class="standard" align="center" width="100%">
+		<tr>
+			<th colspan="2">{LOGIN_TITRE_BLOC}</th>
+		</tr>
+		<tr>
+			<td class="row1" align="left">{LOGIN_LOGIN}</td>
+			<td class="row2" align="left" width="25"><input type="text" value="" name="login" size="25" /></td>
+		</tr>
+		<tr>
+			<td class="row1" align="left">{LOGIN_MDP}</td>
+			<td class="row2" align="left" width="25"><input type="password" value="" name="pass" size="25" /></td>
+		</tr>
+		</table>
+	</div>
+	<div class="center">
+		<input type="checkbox" value="ok" name="cookie" checked="checked" /> {LOGIN_COOKIE}<br />
+		<input type="submit" value="{LOGIN_AUTHENTIFIER}" name="authentifier" /></div>
+</form>
+<!-- END champs_saisie -->
+<!-- BEGIN connecte -->
+<meta http-equiv="refresh" content="2 url=index.php" />
+<script type="text/javascript">pause_before_redirect(3,"index.php");</script>
+<p>{LOGIN_CONNECTE}</p>
+<!-- END connecte -->
+<!-- BEGIN deconnecte -->
+<meta http-equiv="refresh" content="2 url=index.php" />
+<script type="text/javascript">pause_before_redirect(3,"index.php");</script>
+<p>{LOGIN_DECONNECTE}</p>
+<!-- END deconnecte -->
+<!-- BEGIN connecte_ok -->
+<meta http-equiv="refresh" content="2 url=index.php" />
+<script type="text/javascript">pause_before_redirect(3,"index.php");</script>
+<p>{LOGIN_CONNECTE_OK}</p>
+<!-- END connecte_ok -->
+<!-- BEGIN mail_envoye -->
+<meta http-equiv="refresh" content="2 url=index.php" />
+<script type="text/javascript">pause_before_redirect(3,"index.php");</script>
+<p>{L_MAIL_ENVOYE}</p>
+<!-- END mail_envoye -->
