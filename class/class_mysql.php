@@ -234,6 +234,7 @@ class sql_db
 			unset($this->rowset[$query_id]);
 			unset($this->row[$query_id]);
 
+            $result=array();
 			while($this->rowset[$query_id] = mysql_fetch_array($query_id, MYSQL_ASSOC))
 			{
 				$result[] = $this->rowset[$query_id];
