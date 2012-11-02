@@ -6,13 +6,15 @@
 | Support: http://www.malleo-cms.com?module=forum
 |  Documentation : Support: http://www.malleo-cms.com?module=wiki
 |------------------------------------------------------------------------------------------------------------
+|  Author: Alain GANDON
+|  Copyright (c) 2012, Alain GANDON All Rights Reserved
 |  Author: Stephane RAJALU
 |  Copyright (c) 2008-2009, Stephane RAJALU All Rights Reserved
 |------------------------------------------------------------------------------------------------------------
 |  License: Distributed under the CECILL V2 License
-|  This program is distributed in the hope that it will be useful - WITHOUT 
-|  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or 
-|  FITNESS FOR A PARTICULAR PURPOSE. 
+|  This program is distributed in the hope that it will be useful - WITHOUT
+|  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+|  FITNESS FOR A PARTICULAR PURPOSE.
 |
 | Please read Licence_CeCILL_V2-en.txt
 | SVP lisez Licence_CeCILL_V2-fr.txt
@@ -32,45 +34,54 @@ function clean_amp($chaine){
 //
 // Protection des quotes si la propriete magic_quotes n'est pas activee
 // Nettoyage des clefs si des &amp; apparaissent
+
+function __stripslashes_deep($value)
+{
+    $value = is_array($value)
+                ? array_map('stripslashes_deep', $value)
+                : stripslashes($value);
+    return $value;
+}
+
+
 function protection_variables()
 {
-	foreach ($_GET as $key=>$val){
-		$key = clean_amp($key);
-		if (!is_array($val)) $_GET[$key] = (!get_magic_quotes_gpc())? addslashes($val):$val;
-	}
-	foreach ($_POST as $key=>$val){
-		$key = clean_amp($key);
-		if (!is_array($val)) $_POST[$key] = (!get_magic_quotes_gpc())? addslashes($val):$val;
-	}
+    if((function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
+    || (ini_get('magic_quotes_sybase') && (strtolower(ini_get('magic_quotes_sybase'))!='off')) )
+    {
+        __stripslashes_deep($_GET);
+        __stripslashes_deep($_POST);
+        __stripslashes_deep($_COOKIE);
+    }
 }
 
 //
-// Fonction nettoyant les saisies de tous les caracteres non imprimables et des codes pouvant 
+// Fonction nettoyant les saisies de tous les caracteres non imprimables et des codes pouvant
 // Porter atteinte à l'intégrité du code.
 // SOURCE de la fonction : http://ha.ckers.org/xss.html
 function RemoveXSS($val) {
 
 	return $val;
 	/*return htmlspecialchars($val);
-   // remove all non-printable characters. CR(0a) and LF(0b) and TAB(9) are allowed 
-   // this prevents some character re-spacing such as <java\0script> 
-   // note that you have to handle splits with \n, \r, and \t later since they *are* allowed in some inputs 
+   // remove all non-printable characters. CR(0a) and LF(0b) and TAB(9) are allowed
+   // this prevents some character re-spacing such as <java\0script>
+   // note that you have to handle splits with \n, \r, and \t later since they *are* allowed in some inputs
 
-  // $val = preg_replace('/([\x00-\x08,\x0b-\x0c,\x0e-\x19])/', '', $val); 
-  
-   // straight replacements, the user should never need these since they're normal characters 
-   // this prevents like <IMG SRC=&#X40&#X61&#X76&#X61&#X73&#X63&#X72&#X69&#X70&#X74&#X3A&#X61&#X6C&#X65&#X72&#X74&#X28&#X27&#X58&#X53&#X53&#X27&#X29> 
-   $search = 'abcdefghijklmnopqrstuvwxyz'; 
-   $search .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
-   $search .= '1234567890!@#$%^&*()'; 
-   $search .= '~`";:,?+/={}[]-_|\'\\'; 
+  // $val = preg_replace('/([\x00-\x08,\x0b-\x0c,\x0e-\x19])/', '', $val);
+
+   // straight replacements, the user should never need these since they're normal characters
+   // this prevents like <IMG SRC=&#X40&#X61&#X76&#X61&#X73&#X63&#X72&#X69&#X70&#X74&#X3A&#X61&#X6C&#X65&#X72&#X74&#X28&#X27&#X58&#X53&#X53&#X27&#X29>
+   $search = 'abcdefghijklmnopqrstuvwxyz';
+   $search .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+   $search .= '1234567890!@#$%^&*()';
+   $search .= '~`";:,?+/={}[]-_|\'\\';
    for ($i = 0; $i < strlen($search); $i++){
-      // ;? matches the ;, which is optional 
-      // 0{0,7} matches any padded zeros, which are optional and go up to 8 chars 
-      // &#x0040 @ search for the hex values 
-      $val = preg_replace('/(&#[xX]0{0,8}'.dechex(ord($search[$i])).';?)/i', $search[$i], $val); // with a ; 
-      // &#00064 @ 0{0,7} matches '0' zero to seven times 
-      $val = preg_replace('/(&#0{0,8}'.ord($search[$i]).';?)/', $search[$i], $val); // with a ; 
+      // ;? matches the ;, which is optional
+      // 0{0,7} matches any padded zeros, which are optional and go up to 8 chars
+      // &#x0040 @ search for the hex values
+      $val = preg_replace('/(&#[xX]0{0,8}'.dechex(ord($search[$i])).';?)/i', $search[$i], $val); // with a ;
+      // &#00064 @ 0{0,7} matches '0' zero to seven times
+      $val = preg_replace('/(&#0{0,8}'.ord($search[$i]).';?)/', $search[$i], $val); // with a ;
    }
     return $val;*/
 }
