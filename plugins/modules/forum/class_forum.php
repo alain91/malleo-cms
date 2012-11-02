@@ -394,7 +394,7 @@ class forum
                     LEFT JOIN '.TABLE_USERS.' as u ON (p.user_id=u.user_id)
                     LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
                     WHERE (t.id_forum IN ('.implode(',',$liste_forums).')
-                    AND t.post_depart is not null AND t.post_fin is null) TOTO)
+                    AND t.post_depart is not null AND t.post_fin is null))
                 ORDER BY topic_non_lu DESC,date_post DESC
                 LIMIT 3';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
