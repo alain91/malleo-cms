@@ -227,4 +227,5 @@ $erreur[724] = 'Vous n\'&ecirc;tes pas autoris&eacute; &agrave; lire ce sujet';
 $erreur[725] = 'Vous n\'&ecirc;tes pas autoris&eacute; &agrave; voir ce forum';
 $erreur[726] = 'Vous ne pouvez pas voir le forum, plusieurs raisons sont possibles:<ul><li>La cat&eacute;gorie n\'existe pas</li><li>Aucun forum n\'a &eacute;t&eacute; cr&eacute;&eacute; dans ce module</li><li>Vous n\'avez pas les autorisations d\'acc&eacute;der &agrave; cette cat&eacute;gorie.</li></ul>';
 $erreur[727] = 'Impossible de modifier le statut de ce forum';
+$erreur[728] = 'Impossible de lister les tags';
 ?>

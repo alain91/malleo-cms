@@ -364,11 +364,11 @@ class forum
                     WHERE (t.id_forum = '.$id_forum.')
                     AND t.type_topic '.$clause.'
                     AND t.post_depart is not null AND t.post_fin is null)
-                ORDER BY date_topic';
+                ORDER BY date_topic DESC';
         if ($type==1){
             $sql.=' LIMIT '.$start.','.$limit;
         }
-		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
+		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		$rows = $c->sql_fetchrowset($resultat);
         return $rows;
 	}
@@ -396,8 +396,8 @@ class forum
                     WHERE (t.id_forum IN ('.implode(',',$liste_forums).')
                     AND t.post_depart is not null AND t.post_fin is null))
                 ORDER BY topic_non_lu DESC,date_post DESC
-                LIMIT 3';
-		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
+                LIMIT 1';
+		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
 		$rows = $c->sql_fetchrowset($resultat);
         return $rows;
 	}
@@ -418,7 +418,7 @@ class forum
 		$sql = 'SELECT f.id_forum
 				FROM '.TABLE_FORUM_FORUMS.' as f
 				WHERE f.parent_forum '.$clause;
-		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,704,__FILE__,__LINE__,$sql);
+		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
 		if ($c->sql_numrows($resultat)>0){
             $rows = $c->sql_fetchrowset($resultat);
             $items=array();
@@ -439,7 +439,7 @@ class forum
 		$sql = 'SELECT count(t.id_topic) as nbre_topics,sum(t.reponses_topic) as nbre_reponses
 				FROM '.TABLE_FORUM_TOPICS.' as t
 				WHERE t.id_forum IN ('.implode(',',$liste_forums).')';
-		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,704,__FILE__,__LINE__,$sql);
+		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
         $row = $c->sql_fetchrow($resultat);
         return $row;
 	}
@@ -456,7 +456,7 @@ class forum
                 LEFT JOIN '.TABLE_FORUM_TOPICS_NONLUS.' as tnl ON (t.id_topic=tnl.id_topic AND tnl.user_id='.$user['user_id'].')
 				WHERE t.id_forum IN ('.implode(',',$liste_forums).')
                 AND tnl.id_topic IS NOT NULL';
-		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,704,__FILE__,__LINE__,$sql);
+		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,702,__FILE__,__LINE__,$sql);
         $row = $c->sql_fetchrow($resultat);
         $count=intval($row['COUNT']);
         return $count;
@@ -485,7 +485,7 @@ class forum
 		global $c;
 		$sql = 'SELECT id_stick,mot,type,image,couleur,alternatif
 				FROM '.TABLE_FORUM_TAG;
-		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,706,__FILE__,__LINE__,$sql);
+		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,728,__FILE__,__LINE__,$sql);
 		$liste_tags = array();
 		while ($row = $c->sql_fetchrow($resultat)){
 			$liste_tags[$row['mot']] = $row;
@@ -612,7 +612,7 @@ class forum
 		global $c;
 		$sql = 'UPDATE '.TABLE_FORUM_TOPICS.' SET id_forum='.$this->id_forum.'
                 WHERE id_topic='.$this->id_topic;
-		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
+		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,703,__FILE__,__LINE__,$sql);
 		$this->maj_forums();
 		// On affiche une fenetre de confirmation
 		affiche_message('forum','L_TOPIC_DEPLACE',formate_url('mode=topic&id_topic='.$this->id_topic,true));
@@ -628,7 +628,7 @@ class forum
 		global $c;
 		$sql = 'UPDATE '.TABLE_FORUM_POSTS.' SET id_topic='.$this->id_topic.'
                 WHERE id_post IN ('.$liste_posts.')';
-		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
+		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,703,__FILE__,__LINE__,$sql);
 	}
 
 	/**
@@ -641,7 +641,7 @@ class forum
 		global $c;
 		$sql = 'UPDATE '.TABLE_FORUM_POSTS.' SET id_topic='.$this->id_topic.'
                 WHERE id_topic IN ('.$liste_topics.')';
-		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
+		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,703,__FILE__,__LINE__,$sql);
 	}
 
 	/**
@@ -659,7 +659,7 @@ class forum
 					WHERE id_post='.$id_post.'
 					LIMIT 1)
 				AND id_post>='.$id_post;
-		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,700,__FILE__,__LINE__,$sql);
+		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,703,__FILE__,__LINE__,$sql);
 		$liste_topics = array();
 		while($row = $c->sql_fetchrow($resultat)){
 			$liste_topics[] = $row['id_post'];
@@ -806,7 +806,7 @@ class forum
 	{
 		global $c;
 		$sql = 'UPDATE '.TABLE_FORUM_FORUMS.' SET status_forum=0 WHERE id_forum='.$this->id_forum;
-		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,727,__FILE__,__LINE__,$sql);
+		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,717,__FILE__,__LINE__,$sql);
 		// On affiche une fenetre de confirmation
 		affiche_message('forum','L_FORUM_VERROUILLE',formate_url('mode=forum&id_forum='.$this->id_forum,true));
 	}
@@ -857,7 +857,7 @@ class forum
 		global $c,$user;
 		$sql = 'INSERT INTO '.TABLE_FORUM_TOPICS_FAVORIS.' (user_id, id_topic)
                 VALUES ('.$user['user_id'].','.$id_topic.')';
-		$c->sql_query($sql);
+		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,712,__FILE__,__LINE__,$sql);
 		// On affiche une fenetre de confirmation
 		affiche_message('forum','L_TOPIC_AJOUTE_FAVORIS',formate_url('mode=topic&id_topic='.$id_topic,true));
 	}
@@ -939,7 +939,7 @@ class forum
         if ($sql_insert != ''){
             $sql_insert = 'INSERT INTO '.TABLE_FORUM_TOPICS_NONLUS.' (id_topic,user_id,date)
                 VALUES '.$sql_insert;
-            if (!$resultat = $c->sql_query($sql_insert))message_die(E_ERROR,712,__FILE__,__LINE__,$sql_insert);
+            if (!$resultat = $c->sql_query($sql_insert))message_die(E_ERROR,712,__FILE__,__LINE__,$sql);
         }
 		return true;
 	}
@@ -1003,7 +1003,7 @@ class forum
 			// securite : droit d'ecrire et forum verrouille ?
 			$this->get_forum();
 			if ((!$droits->check($module,$this->id_forum,'ecrire') || $this->forum['status_forum'] == 0 )
-				&& $user['level']<10)	error404(720);
+				&& $user['level']<10) error404(720);
 			$this->creer_topic();
 			$titre = $this->saisie['titre'];
 			$mode = 'topic';
@@ -1013,7 +1013,7 @@ class forum
 			// On doit savoir dans quel forum est ce post pour verifier les droit de l'utilisateur
 			$this->get_topic();
 			if ((!$droits->check($module,$this->topic['id_forum'],'repondre') || $this->topic['status_topic'] == 0 )
-				&& $user['level']<10)	error404(721);
+				&& $user['level']<10) error404(721);
 			$titre = $this->topic['titre_topic'];
 			$mode = 'post';
 		}else{
@@ -1056,7 +1056,7 @@ class forum
 		global $c,$root,$module,$user,$droits;
 		// MAJ du post
 		if (!isset($this->saisie['titre']) && !empty($this->saisie['post'])){
-			if (empty($this->saisie['post'])) message_die(E_WARNING,716,'','');
+			if (empty($this->saisie['post']))message_die(E_ERROR,716,__FILE__,__LINE__,$sql);
 			$sql = 'UPDATE '.TABLE_FORUM_POSTS.' SET
 						text_post=\''.$this->_escape($this->saisie['post']).'\'
 					WHERE id_post='.$this->saisie['id_post'];
@@ -1130,7 +1130,7 @@ class forum
 		}
 		if (sizeof($liste_user_id) >0){
  			if(!$email->send()){
-                message_die(E_WARNING,35,__FILE__,__LINE__);
+                message_die(E_WARNING,35,'','');
 			}
 			// Mise a jour du champs "Prevenu" a true pour eviter qu'ils se fassent spammer a chaque nouveau message
 			$liste_user_id = implode(',',$liste_user_id);
@@ -1150,7 +1150,7 @@ class forum
 		global $c;
 		$premier_post = $dernier_post = 'null';
 		$sql = 'SELECT id_post FROM '.TABLE_FORUM_POSTS.' WHERE id_topic='.$this->id_topic.' ORDER BY date_post ASC';
-		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,712,__FILE__,__LINE__,$sql);
+		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,703,__FILE__,__LINE__,$sql);
 		$nbre_resultats = $c->sql_numrows();
 		if ($nbre_resultats > 0){
 			$i=0;
@@ -1194,7 +1194,7 @@ class forum
 		while($row = $c->sql_fetchrow($resultat)){
 			$sql_update = 'UPDATE '.TABLE_FORUM_FORUMS.' SET nbre_topics='.intval($row['cpt']).'
 						WHERE id_forum='.$row['id_forum'];
-			if (!$c->sql_query($sql_update))message_die(E_ERROR,712,__FILE__,__LINE__,$sql_update);
+			if (!$c->sql_query($sql_update))message_die(E_ERROR,712,__FILE__,__LINE__,$sql);
 		}
 		// On met a jour le cache
 		$this->liste_forums = $cache->appel_cache('listing_forums',true);
