@@ -292,7 +292,7 @@ class session
 			foreach ($droits->liste_bannis[2] as $pattern=>$val){
 				if (preg_match('/'.$pattern.'/',$this->ip)){
 					load_lang('bannis');
-					$fin_ban = ($val['fin_ban']==0)? $lang['L_DEFINITIF']:date('d/m/Y h\h s\m\i\n',$val['fin_ban']);
+					$fin_ban = ($val['fin_ban']==0)? $lang['L_DEFINITIF']:date('d/m/Y H:i:s',$val['fin_ban']);
 					die(sprintf($lang['L_ALERTE_BAN_IP'],$fin_ban,$val['raison_ban']));
 				}
 			}

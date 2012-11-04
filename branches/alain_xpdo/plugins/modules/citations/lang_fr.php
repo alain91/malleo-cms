@@ -20,5 +20,6 @@ $lang['FORM_CATEGORIE'] = 'Catégorie';
 $lang['FORM_BILLET'] = 'Billet';
 $lang['FORM_SUBMIT'] = 'Envoyer';
 
-$erreur[2100] = 'Exemple Exemple';
+// 1400 a 1499
+$erreur[1400] = 'Erreur Exemple Exemple';
 ?>

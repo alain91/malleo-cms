@@ -35,7 +35,7 @@ $lang['PAGE_NOT_FOUND'] = 'La page demand&eacute;e n\'existe pas OU vous n\'&eci
 //            LISTE DES MESSAGES D'ERREUR
 // ----------------------------------------------------------------------------------------
 // 1 a 500 reservees au CMS
-$erreur[1]  = 'Le module a &eacute;t&eacute; supprim&eacute;, le mod&egrave;le doit &ecirc;tre rafra&icirc;chi';
+$erreur[1]  = 'Erreur inconnue';
 $erreur[2]  = 'La page n\'existe pas OU vous n\'&ecirc;tes pas autoris&eacute; &agrave; la consulter.<br /> Contactez le fondateur du site pour plus de d&eacute;tails.';
 $erreur[3]  = 'La table config ne r&eacute;pond pas, v&eacute;rifier son nom et sa d&eacute;claration dans la base';
 $erreur[4]  = 'Impossible de supprimer la session p&eacute;rim&eacute;e';
@@ -104,11 +104,12 @@ $erreur[66] = 'Impossible d\'ajouter ce bot';
 $erreur[67] = 'Activation/D&eacute;sactivation du Bot impossible';
 $erreur[68] = 'Impossible de supprimer ce robot';
 $erreur[69] = 'Impossible de trouver des traces';
+$erreur[70] = 'Le module a &eacute;t&eacute; supprim&eacute;, le mod&egrave;le doit &ecirc;tre rafra&icirc;chi';
 
 // Mod Blog
 // 500 a 599
 
-//Mod Statique
+// Mod Statique
 // 600 a 699
 
 // Mod Forum
@@ -124,14 +125,13 @@ $erreur[69] = 'Impossible de trouver des traces';
 // 1000
 
 // Bloc Liens
-//1010
+// 1010
 
-// BLOC HTML
+// Bloc HTML
 // 1020
 
-
 // Module Membres
-// 1030
+// 1030 a 1099
 
 // Module Profile
 // 1100 a 1199
@@ -141,4 +141,14 @@ $erreur[69] = 'Impossible de trouver des traces';
 
 // Module Arcade
 // 1300 a 1399
+
+// Module Citations
+// 1400 a 1499
+
+// Module Petites Annonces
+// 1500 a 1599
+
+// Module Upload
+// 1600 a 1699
+
 ?>
