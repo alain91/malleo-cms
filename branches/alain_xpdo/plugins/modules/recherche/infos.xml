@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<module>
+<libelle>Recherche</libelle>
+<version>0.1</version>
+<auteur>alain91</auteur>
+<site_auteur>http://localhost/malleoBase</site_auteur>
+<check_version>http://localhost/malleoBase/versions/annonces.txt</check_version>
+<install>
+</install>
+<delete>
+</delete>
+</module>
