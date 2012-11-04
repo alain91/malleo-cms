@@ -931,7 +931,7 @@ class forum
 		$sql = 'SELECT user_id FROM '.TABLE_USERS.' WHERE actif=1';
 		if (!$resultat = $c->sql_query($sql))message_die(E_ERROR,712,__FILE__,__LINE__,$sql);
         while ($row = $c->sql_fetchrow($resultat)){
-            if (!in_array($row['user_id'],$liste_user_id_nonlu_topic)){
+            if (!in_array($row['user_id'],$liste_user_id_nonlu_topic) AND $row['user_id']!=$user['user_id']){
                 if ($sql_insert!='') $sql_insert .= ', ';
                 $sql_insert .= '('.$id_topic.','.$row['user_id'].','.$session->time.')';
             }
@@ -939,7 +939,7 @@ class forum
         if ($sql_insert != ''){
             $sql_insert = 'INSERT INTO '.TABLE_FORUM_TOPICS_NONLUS.' (id_topic,user_id,date)
                 VALUES '.$sql_insert;
-            if (!$resultat = $c->sql_query($sql_insert))message_die(E_ERROR,712,__FILE__,__LINE__,$sql);
+            if (!$resultat = $c->sql_query($sql_insert))message_die(E_ERROR,712,__FILE__,__LINE__,$sql_insert);
         }
 		return true;
 	}
@@ -1056,7 +1056,7 @@ class forum
 		global $c,$root,$module,$user,$droits;
 		// MAJ du post
 		if (!isset($this->saisie['titre']) && !empty($this->saisie['post'])){
-			if (empty($this->saisie['post']))message_die(E_ERROR,716,__FILE__,__LINE__,$sql);
+			if (empty($this->saisie['post'])) message_die(E_ERROR,716,__FILE__,__LINE__,$sql);
 			$sql = 'UPDATE '.TABLE_FORUM_POSTS.' SET
 						text_post=\''.$this->_escape($this->saisie['post']).'\'
 					WHERE id_post='.$this->saisie['id_post'];
@@ -1130,7 +1130,7 @@ class forum
 		}
 		if (sizeof($liste_user_id) >0){
  			if(!$email->send()){
-                message_die(E_WARNING,35,'','');
+                message_die(E_WARNING,35,__FILE__,__LINE__);
 			}
 			// Mise a jour du champs "Prevenu" a true pour eviter qu'ils se fassent spammer a chaque nouveau message
 			$liste_user_id = implode(',',$liste_user_id);
@@ -1194,7 +1194,7 @@ class forum
 		while($row = $c->sql_fetchrow($resultat)){
 			$sql_update = 'UPDATE '.TABLE_FORUM_FORUMS.' SET nbre_topics='.intval($row['cpt']).'
 						WHERE id_forum='.$row['id_forum'];
-			if (!$c->sql_query($sql_update))message_die(E_ERROR,712,__FILE__,__LINE__,$sql);
+			if (!$c->sql_query($sql_update))message_die(E_ERROR,712,__FILE__,__LINE__,$sql_update);
 		}
 		// On met a jour le cache
 		$this->liste_forums = $cache->appel_cache('listing_forums',true);
