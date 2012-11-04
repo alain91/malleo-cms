@@ -12,6 +12,6 @@ $lang['FORM_PAGE_TITRE'] = 'Liste des fichiers upload&eacute;s';
 $lang['FORM_MTIME'] = 'Date modification';
 $lang['FORM_SUBMIT'] = 'Envoyer';
 
-$erreur[2200] = 'le repertoire [%s] n\'existe pas &agrave; la racine';
-//etc   vous pouvez en  rajouter
+// 1600 a 1699
+$erreur[1600] = 'le repertoire [%s] n\'existe pas &agrave; la racine';
 ?>

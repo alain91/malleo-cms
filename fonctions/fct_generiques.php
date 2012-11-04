@@ -6,6 +6,8 @@
 | Support: http://www.malleo-cms.com?module=forum
 |  Documentation : Support: http://www.malleo-cms.com?module=wiki
 |------------------------------------------------------------------------------------------------------------
+|  Author: Alain GANDON
+|  Copyright (c) 2012, Alain GANDON All Rights Reserved
 |  Author: Stephane RAJALU
 |  Copyright (c) 2008-2009, Stephane RAJALU All Rights Reserved
 |------------------------------------------------------------------------------------------------------------
@@ -331,25 +333,36 @@ function __backtrace($trace)
 
 //
 //  FONCTION de DEBUGUAGE PRINCIPALE
-
-function message_die($CodeErreur,$NumErreur, $err_file, $err_line, $sql = '')
+function message_die($level, $message, $file, $line, $sql='')
 {
-	if (!(error_reporting() & $CodeErreur))
-	{
+    if (!empty($sql)){
+        $msg = -1;
+        if (is_numeric($message)){
+            $msg = -1*(int)$message;
+        }
+        malleo_error_handler($level, $msg, $file, $line, '');
+    }
+    else
+        malleo_error_handler($level, $message, $file, $line, '');
+}
+
+function malleo_error_handler($level=E_USER_ERROR, $message=1, $file='', $line='', $context='')
+{
+	if (!(error_reporting() & $level)){
 		 return false;
 	}
 	// On masque les erreur E_STRICT non graves
-	if (defined('E_STRICT') && $CodeErreur == E_STRICT) return false;
+	if (defined('E_STRICT') && $level == E_STRICT) return false;
 	
 	global $c,$root,$user,$cf,$session,$tpl,$lang,$erreur,$code_erreur,$style_path,$style_name;
-	$error_msg = $sql_code = $sql_msg = $sql;
+	$error_msg = $sql_code = $sql_msg = '';
 	
 	// On charge le fichier de langue FR
 	if(file_exists($root.'lang/fr/lang_error.php')){ 
-			include_once($root.'lang/fr/lang_error.php');
+        include_once($root.'lang/fr/lang_error.php');
 	}
 	if (is_array($user) && array_key_exists('langue',$user) && ($user['langue']!='fr') && file_exists($root.'lang/'.$user['langue'].'/lang_error.php')){
-		include_once($root.'lang/'.$user['langue'].'/lang_error.php');
+        include_once($root.'lang/'.$user['langue'].'/lang_error.php');
 	}
 	if (!is_array($user)){
 		global $cf;
@@ -365,37 +378,52 @@ function message_die($CodeErreur,$NumErreur, $err_file, $err_line, $sql = '')
 	$tpl->set_filenames(array('body' => $root.'html/error_msg.html'));
 	
 	// FORMATAGE du message
-	$error_msg = (is_array($erreur) && array_key_exists($NumErreur, $erreur))? $erreur[$NumErreur]:$NumErreur;
-	if ($sql != '' && !is_array($sql))
-	{
-		$tpl->assign_block_vars('SQL_MSG', array());
-		$sql_error = $c->sql_error();
-		$sql_code = $sql_error['code'];
-		$sql_msg = $sql_error['message'];
-		require_once($root.'librairies/geshi/geshi.php');
-		$geshi = new GeSHi($sql, 'SQL');
-		$sql = $geshi->parse_code();
-	}
-	if ($err_file != '' || $err_line!= '') $tpl->assign_block_vars('emplacement', array());
+    if (is_numeric($message)){
+        $num=intval($message);
+        if ($num>=0) {
+            $error_msg = (is_array($erreur) && array_key_exists($num, $erreur))?$erreur[$num]:$num;
+        }else{
+            $sql_error = $c->sql_error();
+            $sql_code = $sql_error['code'];
+            $sql_msg = $sql_error['message'];
+            $sql_query = $sql_error['query'];
+            require_once($root.'librairies/geshi/geshi.php');
+            $geshi = new GeSHi($sql_query, 'SQL');
+            $sql = $geshi->parse_code();
+            $num2=-$num;
+            $error_msg = (is_array($erreur) && array_key_exists($num2, $erreur))?$erreur[$num2]:$num2;
+        }
+    }else{
+        $errmsg=$message;
+    }
+
+	if ($file != '' || $line!= '') $tpl->assign_block_vars('emplacement', array());
 	if($session!=null)$session->make_navlinks($error_msg,formate_url('#',true)); 
 	
 	$tpl->assign_vars(array(
 		'L_EMPLACEMENT'	=> $lang['L_EMPLACEMENT'],
 		'L_LIGNE'		=> $lang['LIGNE'],
 		'L_FICHIER'		=> $lang['FICHIER'],
-		'L_SQL'			=> $lang['L_SQL'],
-		'L_SQL_CODE'	=> $lang['SQL_CODE'],
-		'L_SQL_MSG'		=> $lang['SQL_MESSAGE'],
-		'L_SQL_REQUETE'	=> $lang['SQL_REQUETE'],
-		'L_RETOUR'		=> $lang['L_RETOUR'],
-		'SQL_CODE'		=> $sql_code,
-		'SQL_MSG'		=> $sql_msg,
-		'SQL_REQUETE'	=> $sql,
-		'ERROR_LINE'	=> $err_line,
-		'ERROR_FILE'	=> $err_file,
-		'ERROR_CODE'	=> $code_erreur[$CodeErreur],
+		'ERROR_LINE'	=> $line,
+		'ERROR_FILE'	=> $file,
+		'ERROR_CODE'	=> $code_erreur[$level],
 		'ERROR_MSG'		=> $error_msg,
 	));
+    
+    if(!empty($sql_error)){
+        $tpl->assign_vars(array(
+            'L_SQL'			=> $lang['L_SQL'],
+            'L_SQL_CODE'	=> $lang['SQL_CODE'],
+            'L_SQL_MSG'		=> $lang['SQL_MESSAGE'],
+            'L_SQL_REQUETE'	=> $lang['SQL_REQUETE'],
+            'L_RETOUR'		=> $lang['L_RETOUR'],
+        ));
+        $tpl->assign_block_vars('SQL', array(
+            'SQL_CODE'		=> $sql_code,
+            'SQL_MSG'		=> $sql_msg,
+            'SQL_REQUETE'	=> $sql,
+        ));
+    }
 	$tpl->assign_block_vars('backtrace', array(
         'BACKTRACE'     => __backtrace(debug_backtrace()),    
     ));
@@ -407,10 +435,7 @@ function message_die($CodeErreur,$NumErreur, $err_file, $err_line, $sql = '')
 	$tpl->afficher_page();
 	exit;
 }
-$old_error_handler = @set_error_handler('message_die');
-
-
-
+$old_error_handler = @set_error_handler('malleo_error_handler');
 
 //
 // CREE une liste d'utilisateurs afin de les colorer sans avoir a effectuer des jointures dans chaque extension

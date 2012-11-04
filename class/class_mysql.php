@@ -33,6 +33,7 @@ class sql_db
 {
 
 	var $db_connect_id;
+    var $query;
 	var $query_result;
 	var $row = array();
 	var $rowset = array();
@@ -96,66 +97,59 @@ class sql_db
 		}
 	}
 
+    /* Transactions functions */
+
+    function begin(){
+      $null = mysql_query("START TRANSACTION", $this->db_connect_id);
+      return mysql_query("BEGIN", $this->db_connect_id);
+    }
+
+    function commit(){
+      return mysql_query("COMMIT", $this->db_connect_id);
+    }
+
+    function rollback(){
+      return mysql_query("ROLLBACK", $this->db_connect_id);
+    }
+
+    function transaction($q_array){
+         $retval = 1;
+
+      $this->begin();
+
+         foreach($q_array as $qa){
+            $result = mysql_query($qa['query'], $this->db_connect_id);
+            if(mysql_affected_rows() == 0){ $retval = 0; }
+         }
+
+      if($retval == 0){
+         $this->rollback();
+         return false;
+      }else{
+         $this->commit();
+         return true;
+      }
+    }
+    
 	//
 	// Base query method
 	//
-	function sql_query($query = "", $transaction = FALSE)
+	function sql_query($query = "", $erreur=0)
 	{
 		//
 		// Remove any pre-existing queries
 		//
 		unset($this->query_result);
-
+		$this->query_result=false;
+        
 		if( $query != "" )
 		{
 			$this->num_queries++;
-			//echo $query.'<br />';
-			if( $transaction == BEGIN_TRANSACTION && !$this->in_transaction )
-			{
-				$result = mysql_query("BEGIN", $this->db_connect_id);
-				if(!$result)
-				{
-					return false;
-				}
-				$this->in_transaction = TRUE;
-			}
-			$this->query_result = mysql_query($query, $this->db_connect_id);
+            $this->query=$query;
+			$this->query_result = mysql_query($this->query, $this->db_connect_id);
 		}
-		else
-		{
-			if( $transaction == END_TRANSACTION && $this->in_transaction )
-			{
-				$result = mysql_query("COMMIT", $this->db_connect_id);
-			}
-		}
-
-		if( $this->query_result )
-		{
-			unset($this->row[$this->query_result]);
-			unset($this->rowset[$this->query_result]);
-
-			if( $transaction == END_TRANSACTION && $this->in_transaction )
-			{
-				$this->in_transaction = FALSE;
-
-				if ( !mysql_query("COMMIT", $this->db_connect_id) )
-				{
-					mysql_query("ROLLBACK", $this->db_connect_id);
-					return false;
-				}
-			}
-			
-			return $this->query_result;
-		}
-		else
-		{
-			if( $this->in_transaction )
-			{
-				mysql_query("ROLLBACK", $this->db_connect_id);
-				$this->in_transaction = FALSE;
-			}
-			return false;
-		}
+        if (!$this->query_result AND $erreur!=0) trigger_error($erreur,E_USER_ERROR);
+        return $this->query_result;
 	}
 
 	//
@@ -334,7 +328,7 @@ class sql_db
 	{
 		$result['message'] = mysql_error($this->db_connect_id);
 		$result['code'] = mysql_errno($this->db_connect_id);
-
+        $result['query'] = $this->query;
 		return $result;
 	}
 

@@ -73,6 +73,7 @@ $lang['sa_sort_price']	= 'Prix';
 $lang['sa_mode_asc']	= 'Croissant';
 $lang['sa_mode_desc']	= 'Décroissant';
 
+// 1500 a 1599
 $erreur[2100] = 'Le contenu des cgu est vide';
 $erreur[2105] = 'Problème d\'accès au fichier des conditions générales';
 $erreur[2110] = 'Vous n\'avez pas accepté les conditions générales';

@@ -39,7 +39,7 @@ class controller_upload extends Controller
 		$this->setPath(UPLOAD_PATH);
 		if (!file_exists($root.UPLOAD_ROOTDIR))
 		{
-			$msg = sprintf($erreur[2200],UPLOAD_ROOTDIR);
+			$msg = sprintf($erreur[1600],UPLOAD_ROOTDIR);
 			error404($msg);
 			exit;
 		}
