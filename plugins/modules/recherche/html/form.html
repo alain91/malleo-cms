@@ -1,0 +1,17 @@
+<!-- BEGIN erreur_saisie -->
+<div class="admin">
+	<table cellpadding="1" cellspacing="1" class="Alerte" width="80%" align="center">
+		<tr><td class="rowAlerte center" height="20"><b>{ALERTE_ERREUR_SAISIE}</b></td></tr>
+	</table>
+</div>
+<br />
+<!-- END erreur_saisie -->
+<form name="saisie_text" method="post" action="">
+<div class="bloc">
+<label for="title">{L_TITRE}:</label>&nbsp;<input type="text" id="title" name="title" value="{TITRE}" size="80" />
+</div>
+<div class="center">
+<input type="submit" name="save" value="{L_SAVE}" />
+</div>
+<input type="hidden" name="jeton" value="{JETON}" />
+</form>

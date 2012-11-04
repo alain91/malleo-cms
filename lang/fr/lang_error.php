@@ -151,4 +151,6 @@ $erreur[70] = 'Le module a &eacute;t&eacute; supprim&eacute;, le mod&egrave;le d
 // Module Upload
 // 1600 a 1699
 
+// Module Recherche
+// 1700 a 1799
 ?>
