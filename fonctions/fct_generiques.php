@@ -257,7 +257,19 @@ function error404($msg=false)
 	$tpl->afficher_page(); 
 	exit;
 }
-
+/**
+ * Provides Kohana-specific helper functions. This is where the magic happens!
+ *
+ * $Id: Kohana.php 1899 2008-02-02 00:29:35Z Shadowhand $
+ *
+ * @package    Core
+ * @author     Kohana Team
+ * @copyright  (c) 2007-2008 Kohana Team
+ * @license    http://kohanaphp.com/license.html
+ *
+ * adaptation a malleo par alain91 (c) 2012
+ */
+ 
 /**
 * Displays nice backtrace information from Kohana
 * @see http://php.net/debug_backtrace
@@ -337,7 +349,7 @@ function message_die($level, $message, $file, $line, $sql='')
 {
     if (!empty($sql)){
         $msg = -1;
-        if (is_numeric($message)){
+        if (is_numeric($message) AND $message>0){
             $msg = -1*(int)$message;
         }
         malleo_error_handler($level, $msg, $file, $line, '');
