@@ -2,7 +2,7 @@
 
 // Niveau d'erreur
 global $code_erreur;
-$code_erreur = array();
+is_array($code_erreur) or $code_erreur = array();
 $code_erreur[E_ERROR]='Erreur';
 $code_erreur[E_WARNING]='Alerte';
 $code_erreur[E_PARSE]='Erreur d\'analyse';
@@ -16,10 +16,11 @@ $code_erreur[E_USER_WARNING]='Alerte sp&eacute;cifique';
 $code_erreur[E_USER_NOTICE]='Note sp&eacute;cifique';
 $code_erreur[E_ALL]='Erreur sans incidence';
 // Constante Globale ajoutee depuis PHP5
-if (!defined('E_STRICT')) define('E_STRICT',2048);
+defined('E_STRICT') OR define('E_STRICT',2048);
 $code_erreur[E_STRICT]='Suggestion d\'am&eacute;lioration';
 
-
+global $lang;
+is_array($lang) or $lang = array();
 $lang['L_SQL'] = 'D&eacute;tails SQL';
 $lang['SQL_CODE'] = 'Code erreur';
 $lang['SQL_MESSAGE'] = 'Message d\'erreur';
@@ -30,10 +31,11 @@ $lang['FICHIER'] = 'Fichier';
 $lang['L_RETOUR'] = 'Retour &agrave; la page pr&eacute;c&eacute;dente';
 $lang['PAGE_NOT_FOUND'] = 'La page demand&eacute;e n\'existe pas OU vous n\'&ecirc;tes pas autoris&eacute; &agrave; la consulter.<br /> Contactez le fondateur du site pour plus de d&eacute;tails.';
 
-
 // ----------------------------------------------------------------------------------------
 //            LISTE DES MESSAGES D'ERREUR
 // ----------------------------------------------------------------------------------------
+global $erreur;
+is_array($erreur) or $erreur = array();
 // 1 a 500 reservees au CMS
 $erreur[1]  = 'Erreur inconnue';
 $erreur[2]  = 'La page n\'existe pas OU vous n\'&ecirc;tes pas autoris&eacute; &agrave; la consulter.<br /> Contactez le fondateur du site pour plus de d&eacute;tails.';
