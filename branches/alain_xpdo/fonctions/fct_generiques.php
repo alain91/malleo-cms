@@ -27,13 +27,15 @@ if ( !defined('PROTECT') )
 
 //
 // Fonction de debuguage
-function _p($array){
+function _p($array)
+{
 	echo '<pre>';
 	die(print_r($array).'</pre>');
 }
 //
 // Charge le fichier de configuration d'un style
-function load_style($style=null){
+function load_style($style=null)
+{
 	global $user,$root,$style_path,$style_name,$cf,$img;
 	$style_name = '';
 	
@@ -44,9 +46,11 @@ function load_style($style=null){
 	}
 	
 	// Theme par defaut si il existe
-	if (file_exists($root.$style_path.$cf->config['default_style'].'/cfg.php')){
-		$style_name = $cf->config['default_style'];
-		include_once($root.$style_path.$cf->config['default_style'].'/cfg.php');
+    $cf_style = $cf->config['default_style'];
+    $file_style = $root.$style_path.$cf_style.'/cfg.php';
+	if (file_exists($file_style)){
+		$style_name = $cf_style;
+		include_once($file_style);
 	}
 	
 	// Theme impose
@@ -54,7 +58,8 @@ function load_style($style=null){
 		$style_name = $style;
 	}
 	// Theme utilisateur
-	elseif ($user['level']>1 && file_exists($root.'styles/'.$user['style'])
+	elseif ($user['level']>1
+        && file_exists($root.'styles/'.$user['style'])
 		&& file_exists($root.$style_path.$user['style'].'/cfg.php')){
 		$style_name = $user['style'];
 	}
@@ -83,7 +88,8 @@ function load_style($style=null){
 
 //
 // FONCTION secondaide permettant juste une meilleure lecture
-function include_once_file($file,$else_file=false){
+function include_once_file($file,$else_file=false)
+{
 	global $root,$lang;
 	$file = $root.$file;
 	if (file_exists($file)){
@@ -98,7 +104,8 @@ function include_once_file($file,$else_file=false){
 //
 // Fonction permettant de charger automatiquement le fichier de langue d'un module
 // Si celui-ci n'existe pas dans la langue du user, la langue francaise sera chargee par defaut
-function select_langue(){
+function select_langue()
+{
 	global $user,$cf,$root;
 	if (is_array($user) && array_key_exists('langue',$user) && is_dir($root.'lang/'.$user['langue'])){
 		return $user['langue'];
@@ -112,27 +119,28 @@ function select_langue(){
 function load_lang_mod($mod)
 {
 	include_once_file('plugins/modules/'.$mod.'/lang_'.select_langue().'.php',
-					   'plugins/modules/'.$mod.'/lang_fr.php');
+        'plugins/modules/'.$mod.'/lang_fr.php');
 	return true;
 }
 
 function load_lang_bloc($bloc)
 {
 	include_once_file('plugins/blocs/'.$bloc.'/lang_'.select_langue().'.php',
-					   'plugins/blocs/'.$bloc.'/lang_fr.php');
+        'plugins/blocs/'.$bloc.'/lang_fr.php');
 	return true;
 }
 
 function load_lang($fichier)
 {
 	include_once_file('lang/'.select_langue().'/lang_'.$fichier.'.php',
-					   'lang/fr/lang_'.$fichier.'.php');
+        'lang/fr/lang_'.$fichier.'.php');
 	return true;
 }
 
 //
 // Fusionne les images
-function load_images_mod($module=false){
+function load_images_mod($module=false)
+{
 	if ($module == false) return;
 	
 	global $root,$style_path,$style_name,$img;
@@ -145,7 +153,9 @@ function load_images_mod($module=false){
 		$img = array_merge($img,$images);
 	}
 }
-function load_images_bloc($bloc=false){
+
+function load_images_bloc($bloc=false)
+{
 	if ($bloc == false) return;
 	global $root,$style_path,$style_name,$img;
 	$file = $root.'plugins/blocs/'.$bloc.'/images.php';
@@ -159,7 +169,8 @@ function load_images_bloc($bloc=false){
 
 //
 // Lit le contenu d'un fichier distant via fsockopen
-function fsockopen_file_get_contents($url){
+function fsockopen_file_get_contents($url)
+{
 	//Vérification fsockopen
 	$disable_functions = (ini_get("disable_functions")!="" AND ini_get("disable_functions")!=false) ? array_map('trim', preg_split( "/[\s,]+/", ini_get("disable_functions"))) : array();
 	if(!function_exists("fsockopen") OR in_array('fsockopen', $disable_functions))return false;
@@ -194,7 +205,8 @@ function fsockopen_file_get_contents($url){
 //
 // Affiche un message
 
-function affiche_message($handle,$message,$redirect){
+function affiche_message($handle,$message,$redirect)
+{
 	global $root,$tpl,$lang;
 	$tpl->set_filenames(array(
 			$handle => $root.'html/box.html'
@@ -210,7 +222,8 @@ function affiche_message($handle,$message,$redirect){
 //
 // Fonction permettant d'afficher une erreur de saisie 
 
-function erreur_saisie($noeud,$message,$parametres=false){
+function erreur_saisie($noeud,$message,$parametres=false)
+{
 	global $tpl;
 	$tpl->assign_block_vars($noeud, array());
    	$tpl->assign_var('ALERTE_ERREUR_SAISIE',$message);
@@ -257,6 +270,20 @@ function error404($msg=false)
 	$tpl->afficher_page(); 
 	exit;
 }
+
+//
+//  FONCTION de DEBUGUAGE PRINCIPALE
+//
+function message_die($level, $message, $file, $line, $sql='')
+{
+    if (!empty($sql)) {
+        $msg = -1;
+        if (is_numeric($message) AND $message>0) $msg = -1*intval($message);
+        malleo_display_error($level, $msg, $file, $line);
+    } else {
+        malleo_display_error($level, $message, $file, $line);
+    }
+}
     /**
      * Provides Kohana-specific helper functions. This is where the magic happens!
      *
@@ -290,8 +317,6 @@ function error404($msg=false)
 
         // Final output
         $output = array();
-        
-        array_shift($trace);// on supprime la première fonction qui est déjà affichée
 
         foreach($trace as $entry)
         {
@@ -302,9 +327,9 @@ function error404($msg=false)
                 // Add file (without docroot)
                 $temp .= '<strong>'.preg_replace('!^'.preg_quote($root).'!', '', $entry['file']);
                 // Add line
-                $temp .= ' ['.$entry['line'].']:</strong>';
+                $temp .= ' ['.$entry['line'].']</strong>';
             }
-
+/*
             $temp .= '<pre>';
 
             if (isset($entry['class']))
@@ -313,32 +338,34 @@ function error404($msg=false)
                 $temp .= $entry['class'].$entry['type'];
             }
 
-            // Add function
-            $temp .= $entry['function'].'( ';
+            if (FALSE AND !empty($entry['function'])) {
+                // Add function
+                $temp .= $entry['function'].'( ';
 
-            // Add function args
-            if (isset($entry['args']) AND is_array($entry['args']))
-            {
-                // Separator starts as nothing
-                $sep = '';
-                /*
-                while ($arg = array_shift($entry['args']))
+                // Add function args
+                if (isset($entry['args']) AND is_array($entry['args']))
                 {
-                    if (is_string($arg) AND is_file($arg))
+                    // Separator starts as nothing
+                    $sep = '';
+
+                    while ($arg = array_shift($entry['args']))
                     {
-                        // Remove docroot from filename
-                        $arg = preg_replace('!^'.preg_quote($root).'!', '', $arg);
+                        if (is_string($arg) AND is_file($arg))
+                        {
+                            // Remove docroot from filename
+                            $arg = preg_replace('!^'.preg_quote($root).'!', '', $arg);
+                        }
+
+                        $temp .= $sep.print_r($arg, TRUE);
+
+                        // Change separator to a comma
+                        $sep = ', ';
                     }
-
-                    $temp .= $sep.print_r($arg, TRUE);
-
-                    // Change separator to a comma
-                    $sep = ', ';
                 }
-                */
             }
-
-            $temp .= ' )</pre></li>';
+            $temp .= ' )</pre>';
+*/            
+            $temp .= '</li>';
 
             $output[] = $temp;
         }
@@ -413,7 +440,8 @@ function error404($msg=false)
 		// Test if display_errors is on
 		if (true)
 		{
-            malleo_display_error($code, $message, $file, $line, $context);
+        	$trace = $PHP_ERROR ? NULL : $exception->getTrace();
+            malleo_display_error($code, $message, $file, $line, $context, $trace);
 		}
 		else
 		{
@@ -426,37 +454,30 @@ function error404($msg=false)
 	}
     
 //
-//  FONCTION de DEBUGUAGE PRINCIPALE
-//
-function message_die($level, $message, $file, $line, $sql='')
-{
-    if (!empty($sql)) {
-        $msg = -1;
-        if (is_numeric($message) AND $message>0) $msg = -1*intval($message);
-        malleo_display_error($level, $msg, $file, $line);
-    } else {
-        malleo_display_error($level, $message, $file, $line);
-    }
-}
-
 //
 //
-//
-function malleo_display_error($code=E_USER_ERROR, $message=1, $file='', $line='', $context='')
+function malleo_display_error($code=E_USER_ERROR, $message=NULL, $file=NULL, $line=NULL, $context=NULL, $trace=NULL)
 {
 	global $c,$root,$user,$cf,$session,$tpl,$lang,$erreur,$code_erreur,$style_path,$style_name;
+    if (!is_object($cf) OR !is_object($tpl)) {
+        echo '<html><head></head><body>';
+        echo 'Error : '.$message.' file : '.$file.' line : '.$line.'<br />';
+        echo malleo_ko_backtrace($trace);
+        echo '</body></html>';
+        exit;
+    }
     
 	$error_msg = $sql_code = $sql_msg = '';
 	
 	// On charge le fichier de langue FR
 	if(file_exists($root.'lang/fr/lang_error.php')){ 
-        include_once($root.'lang/fr/lang_error.php');
+        @include_once($root.'lang/fr/lang_error.php');
 	}
 	if (is_array($user) && array_key_exists('langue',$user) && ($user['langue']!='fr') && file_exists($root.'lang/'.$user['langue'].'/lang_error.php')){
-        include_once($root.'lang/'.$user['langue'].'/lang_error.php');
+        @include_once($root.'lang/'.$user['langue'].'/lang_error.php');
 	}
 	if (!is_array($user)){
-		$user['langue'] = $cf->config['default_langue'];
+		$user['langue'] = is_object($cf) ? $cf->config['default_langue'] : 'french';
 	}
 	
 	// Si le moteur de template n'est par charge on le charge
@@ -510,14 +531,20 @@ function malleo_display_error($code=E_USER_ERROR, $message=1, $file='', $line=''
         ));
         $tpl->assign_block_vars('SQL', array(
             'SQL_CODE'      => $sql_code,
-            'SQL_MSG'       => $sql_msg,
+            'SQL_MSG'       => htmlentities($sql_msg),
             'SQL_REQUETE'   => $sql_geshi,
         ));
     }
+
+    if (empty($trace)) {
+        $trace = debug_backtrace();
+        $trace = array_slice($trace,1);
+    }
+    //var_dump($trace); exit;  
 	$tpl->assign_block_vars('backtrace', array(
-        'BACKTRACE' => malleo_ko_backtrace(debug_backtrace()),    
+        'BACKTRACE' => malleo_ko_backtrace($trace),    
     ));
-	define('MESSAGE_DIE',true);
+	defined('MESSAGE_DIE') OR define('MESSAGE_DIE',true);
 	$tpl->assign_block_vars('retour', array());
 	include_once($root.'page_haut.php');
 	$tpl->pparse('body');
@@ -528,8 +555,6 @@ function malleo_display_error($code=E_USER_ERROR, $message=1, $file='', $line=''
 
 $old_error_handler = @set_error_handler('malleo_ko_error_handler');
 $old_error_handler = @set_exception_handler('malleo_ko_error_handler');
-
-throw new Exception('Division par zéro.');
 
 //
 // CREE une liste d'utilisateurs afin de les colorer sans avoir a effectuer des jointures dans chaque extension
@@ -557,7 +582,8 @@ function cache_liste_users()
 
 //
 // Mets en cache la liste des rangs
-function cache_liste_rangs(){
+function cache_liste_rangs()
+{
 	global $c;
 	$sql = 'SELECT id_rang, titre, image, msg 
 			FROM '.TABLE_RANGS.' 
@@ -573,7 +599,8 @@ function cache_liste_rangs(){
 
 //
 // Mets en cache la liste des plugins installes
-function cache_liste_plugins(){
+function cache_liste_plugins()
+{
 	global $c;
 	$sql = 'SELECT plugin, type, version 
 			FROM '.TABLE_PLUGINS;
@@ -588,7 +615,8 @@ function cache_liste_plugins(){
 
 //
 // Mets en cache la liste des smileys installes
-function cache_liste_smileys(){
+function cache_liste_smileys()
+{
 	global $c;
 	$sql = 'SELECT titre_smiley, url_smiley, tag_smiley  FROM '.TABLE_SMILEYS.' ORDER BY ordre ASC';
 	if (!$resultat = $c->sql_query($sql)) message_die(E_ERROR,1101,__FILE__,__LINE__,$sql); 
@@ -627,7 +655,8 @@ function formate_url($args,$base=false)
 
 //
 // TRANSFORME un pseudo en lien cliquable coloré renvoyant vers le profile de l'utilisateur
-function formate_pseudo($user_id,$pseudo){
+function formate_pseudo($user_id,$pseudo)
+{
 	global $users,$root,$cache,$bots;
 	if($user_id==null||$pseudo==null) return;
 	if ($user_id==1 && $pseudo!='invit&eacute;'){
@@ -644,7 +673,8 @@ function formate_pseudo($user_id,$pseudo){
 //
 // TRANSFORME le nom d'un groupe en lien cliquable renvoyant vers la liste des membres du groupe
 
-function formate_groupe($nom_groupe, $id_groupe, $couleur_groupe=''){
+function formate_groupe($nom_groupe, $id_groupe, $couleur_groupe='')
+{
 	$style = ($couleur_groupe!='')? ' style="color:'.$couleur_groupe.'"':'';
 	return '<a href="'.formate_url('index.php?module=membres&action=groupe&groupe='.$id_groupe).'" class="groupe"'.$style.'>'.$nom_groupe.'</a>';
 }
@@ -674,7 +704,8 @@ function formate_date($time,$format,$langue,$fuseau)
 
 //
 // Protection contre les failles XCRF /images n'en etant pas vraiment
-function verifie_existance_image($url){
+function verifie_existance_image($url)
+{
 	return true;
 	$errno = 0;
 	$sortie = $errstr = '';
