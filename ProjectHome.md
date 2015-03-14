@@ -1,0 +1,5 @@
+Malleo est un système de gestion de contenu destiné aux particuliers désirant créer un site web complet : pages web, espace membres, blog, forum, wiki, Arcade de jeux flash.
+
+Malleo est un site près à l’emploi, ayant pour but de proposer des outils complets pour les particuliers. L’accent a été mis sur le paramétrage simplifié. S’appuyant sur un système de plugins, des modules (pages web, profil, membres, blog, forum, wiki, Arcade de jeux, Geolocalisation ) peuvent être ajoutés pour enrichir les moyens de communication. Contrairement à ses concurrents, tous ses outils ont été conçus pour Malleo et s’intègrent parfaitement dans son moteur. Il n’est pas utile de faire appel à des bridges complexes à mettre en œuvre. Malleo est multi-thèmes, et multi-langues. Il est donc possible de créer une communauté internationale autour de son système.
+
+CeCILL FREE SOFTWARE LICENSE
